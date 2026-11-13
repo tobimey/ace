@@ -1,0 +1,112 @@
+# Ticket tracker
+
+Tickets live in GitHub Issues. Every ace skill that reads, searches, opens, or updates a ticket follows this file. `OWNER/REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
+
+## Defaults
+
+- Label: `agent-created` only. Do not add `agent-action-needed`.
+- Assignee: `<ASSIGNEE>`.
+- Project: `<PROJECT_OWNER>` project `<PROJECT_NUMBER>`.
+- Priority field id `<PRIORITY_FIELD_ID>`. Size field id `<SIZE_FIELD_ID>`. Both are org issue fields of `<ORG>`.
+
+## Constraints
+
+- Open tickets here only. Do not open a ticket in any other tracker.
+- Do not write a ticket body to a file in the repo. Pass it with `--body` and a heredoc.
+- Do not put Priority or Size in the body or in a label.
+- Do not delete a ticket if a later step fails.
+- Set type with the API after create.
+
+## Read a ticket
+
+```bash
+gh issue view NUMBER --comments
+```
+
+## Search tickets
+
+```bash
+gh search issues --repo "OWNER/REPO" --match body --limit 30 --json number,title,body,state -- "TEXT"
+```
+
+## Open a ticket
+
+The caller supplies title, body, type, Priority, and Size.
+
+1. Once per run, ensure the label. If this prints nothing, run `gh label create agent-created`.
+
+   ```bash
+   gh label list --limit 200 --json name --jq '.[] | select(.name=="agent-created") | .name'
+   ```
+
+2. Create the ticket. The command prints the URL. Read the number from it.
+
+   ```bash
+   gh issue create --title "TITLE" --label agent-created --assignee <ASSIGNEE> --body "$(cat <<'EOF'
+   BODY
+   EOF
+   )"
+   ```
+
+3. Confirm the label. The output must be `agent-created` and nothing else. If it is missing, run `gh issue edit NUMBER --add-label agent-created` and view again.
+
+   ```bash
+   gh issue view NUMBER --json labels --jq '.labels[].name'
+   ```
+
+4. Set type, Priority, and Size.
+5. Add to the project.
+
+The ticket URL is the result. For another ticket in the same run, repeat from step 2.
+
+## Update a ticket
+
+```bash
+gh issue edit NUMBER --title "TITLE" --add-label agent-created --add-assignee <ASSIGNEE> --body "$(cat <<'EOF'
+BODY
+EOF
+)"
+```
+
+Do not remove other labels. Then set type, Priority, and Size, and add to the project.
+
+## Set type, Priority, and Size
+
+```bash
+gh api --method PATCH "/repos/OWNER/REPO/issues/NUMBER" -f type=TYPE
+
+gh api --method POST "/repos/OWNER/REPO/issues/NUMBER/issue-field-values" \
+  --input - <<'EOF'
+{"issue_field_values":[{"field_id":<PRIORITY_FIELD_ID>,"value":"High"},{"field_id":<SIZE_FIELD_ID>,"value":"M"}]}
+EOF
+```
+
+Replace `TYPE` and both `value` strings. Do not clear other fields with PUT.
+
+If the field post returns 422, load the ids and post once more. Keep the ticket either way.
+
+```bash
+gh api "/orgs/<ORG>/issue-fields" \
+  -H "X-GitHub-Api-Version: 2026-03-10" \
+  --jq '.[] | select(.name=="Priority" or .name=="Size") | {id, name}'
+```
+
+## Add to the project
+
+```bash
+gh project item-add <PROJECT_NUMBER> --owner <PROJECT_OWNER> --url TICKET_URL
+```
+
+If this fails, keep the ticket.
+
+## Sub-tickets and blocking
+
+The APIs take the ticket id, not its number.
+
+```bash
+CHILD_ID=$(gh api "/repos/OWNER/REPO/issues/CHILD" --jq .id)
+gh api --method POST "/repos/OWNER/REPO/issues/PARENT/sub_issues" -F sub_issue_id="$CHILD_ID"
+
+BLOCKER_ID=$(gh api "/repos/OWNER/REPO/issues/BLOCKER" --jq .id)
+gh api --method POST "/repos/OWNER/REPO/issues/NUMBER/dependencies/blocked_by" -F issue_id="$BLOCKER_ID"
+```
