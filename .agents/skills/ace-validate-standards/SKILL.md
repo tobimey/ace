@@ -35,11 +35,11 @@ Stop if there is no diff. Stop if the working tree has changes you did not just 
 
 ## 2. Read the standards and the diff
 
-Read `ace/CODING_STANDARDS.md` in full and `ace/AGENTS.md`. Match the diff against those rules. Ignore generated and vendored code, and any path the coding standards mark as out of scope.
+Read `ace/CODING_STANDARDS.md` in full, plus each package file its "Packages" section lists for the changed paths. Match the diff against those rules. Ignore generated and vendored code, and any path the coding standards mark as out of scope.
 
 ## 3. Apply safe fixes, or write that none were safe
 
-When you change files, run the repo's checks (lint, typecheck, tests, build, and any other check its CI runs) and fix failures until they pass. Find the commands in `ace/AGENTS.md`, the build config, or the CI workflow.
+When you change files, run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file its "Packages" section lists for the changed paths. Fix failures until they pass.
 
 Commit with a conventional title, `refactor:` and a short reason. Write what changed and why.
 

@@ -35,7 +35,7 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-cycle/stage-2-implement/ace-implement/SKILL.md",
-      "computedHash": "9d1974d1205018fc6037b6d15b42fddc1848cea96e913b3941f36eb8372e5cb4"
+      "computedHash": "26057b01a882eb5fcf7984a2233c0092a694850d3dcf0407cfbe8f79b20146b5"
     },
     "ace-mode": {
       "source": "tobimey/ace",
@@ -53,19 +53,19 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-cycle/stage-4-optimize/ace-retro/SKILL.md",
-      "computedHash": "e20f57ebd69795e2f427bdf296764a50e2d90988a20f88d3db6145d996295739"
+      "computedHash": "159936c2329892cded0382e02a19bb4323c46c4f6d09a984defaf9120727b2b9"
     },
     "ace-review": {
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-cycle/stage-3-review/ace-review/SKILL.md",
-      "computedHash": "fa684a18bf81820ec224fe1a1e5cb0c0b83b7eb80680baad7977eacf2ef951f7"
+      "computedHash": "5559b99370953ec6d08cd8097b95bbc78e990147c22ac0f23d3a699d2a13ddac"
     },
     "ace-setup": {
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-setup/SKILL.md",
-      "computedHash": "8655cf21a4727691d861a8a9278effbb4480b56ed94c95f882081e3eabfb2cc4"
+      "computedHash": "b4636240cc5a7636f7f2828814bd125e6e1e6893deb0a44dac873e5b113a8aa9"
     },
     "ace-skill-optimizer": {
       "source": "tobimey/ace",
@@ -89,7 +89,7 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-cycle/stage-3-review/ace-validate-standards/SKILL.md",
-      "computedHash": "28faa8ddf8dff5bb68c93a2f926ed8eb2710239ba1741e483d1273bb937e55cb"
+      "computedHash": "847828cbec6e13dee024cea2c3e64ab7b886d9b9d8e57f0ade5394041d919cd3"
     }
   }
 }
