@@ -6,7 +6,7 @@
 - Body
 - Structure
 - Freedom and scripts
-- Cursor
+- Frontmatter
 - Do not
 
 ## Discovery
@@ -24,8 +24,9 @@
 - State the goal and what done looks like, near the start. If the opening already says that, leave it.
 - One section for constraints and forbidden actions. A heading such as "Constraints" or "Do not" counts. If that section exists, leave it.
 - Call-site agnostic: a job skill's body does not name a slash command, UI, parent skill, or route as the place it runs. When `disable-model-invocation` is omitted, discovery `when` lives in `description`
-- Follow the prefix rules in this skill. That list is the only prefix list. A job skill does not name the runner. An `ace-run-*` skill names Cursor Cloud Agent, follows `ace-env-cursor-cloud-agent`, names the job, and says a local chat does not load it. After the job returns, that starter posts, pushes, and moves labels. A pull request comment, review, or inline comment follows `ace/CODE_HOSTING.md`.
-- Name another skill by its `name`, not by a path under `.agents/skills/`. Name a document by its role unless that path is the work.
+- Follow the prefix rules in `ace-skill-optimizer`. That list is the only prefix list.
+- Generic: no project, stack, framework, database, command, path, or trust boundary of one project. Those live in `ace/` files.
+- Name another skill by its `name`, not by a file path. Name a document by its role unless that path is the work.
 - Shortest text that still works. Say each rule once. 500 lines is a ceiling, not a target
 - Most rules have no example. Add one only when the instruction is easy to get wrong without it. Do not flag a missing example on every rule. Skip trivia a capable model already knows
 - One term per concept. Do not mix "endpoint" / "route" / "path" for the same thing
@@ -61,24 +62,18 @@ Scripts:
 
 Offer **one default** tool or path, plus one alternative for the exception. A menu of four libraries freezes the agent.
 
-## Cursor
+## Frontmatter
 
 - `disable-model-invocation: true` when the skill should run only via `/name`
 - Omit that field when the agent should self-trigger from the description
-- `paths` (not legacy `globs`) when guidance applies only while matching files are in play
 - `name` must match the parent folder
 
 ## Do not
 
 - Bind a job skill to one caller (slash command, UI, parent skill, page)
-- Bind a job skill to one runner. Cloud facts belong in `ace-env-cursor-cloud-agent`
-- Copy cloud facts into an `ace-run-*` skill. It follows `ace-env-cursor-cloud-agent`. Only its fallback without the trigger block stays in the starter
-- Copy the pull request comment rules from `ace/CODE_HOSTING.md` into an `ace-run-*` skill
-- Use `gh` or the PAT for a pull request comment, review, or inline comment
-- Point a skill at `docs/software-factory`
-- Strip the Cursor Cloud Agent sentence from an `ace-run-*` skill. That sentence is the kind.
-- An `ace-subject-*` skill
-- Name another skill as `.agents/skills/<name>/SKILL.md`
+- Bind a job skill to one runner (local, cloud, a specific agent product)
+- Copy rules from an `ace/` file into a skill. Point to the file
+- Name another skill by its file path
 - Teach what a PDF, git, or a standard library is
 - Dump a ChatGPT prompt with no steps
 - One mega-skill that is several verbs (review + deploy + docs)

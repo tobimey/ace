@@ -4,7 +4,7 @@ Tickets live in GitHub Issues. Every ace skill that reads, searches, opens, or u
 
 ## Defaults
 
-- Label: `agent-created` only. Do not add `agent-action-needed`.
+- Label: `agent-created` only.
 - Assignee: `<ASSIGNEE>`.
 - Project: `<PROJECT_OWNER>` project `<PROJECT_NUMBER>`.
 - Priority field id `<PRIORITY_FIELD_ID>`. Size field id `<SIZE_FIELD_ID>`. Both are org issue fields of `<ORG>`.

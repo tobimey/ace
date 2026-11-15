@@ -11,9 +11,9 @@ Review the diff for logic bugs, security holes, performance costs, and architect
 ## Constraints
 
 - Edit only files this change touches.
-- Do not flag coding standards, naming, code smells, or spec match. An uncached `*Collection.get` that skips `get*Cached` is performance, not coding standards.
-- Do not flag missing or weak authorization between coworkers in one workspace. Coworkers in the same workspace are trusted.
-- Ignore `/utility` routes. They are not production.
+- Do not flag coding standards, naming, code smells, or spec match. Bypassing an existing cached helper is performance, not coding standards.
+- Respect the trust boundaries the project's `ace/` files state. Do not flag missing authorization between parties the project trusts.
+- Ignore generated and vendored code, and any path the project's `ace/` files mark as out of scope.
 - A finding needs a concrete failure mode or cost on a plausible path in this diff, or a simpler or deeper design this diff could have used. Skip hypotheticals, pre-existing issues the diff does not make worse, and unverified dependency advisories.
 - Never flag an accepted risk.
 
@@ -54,40 +54,38 @@ Wrong behavior on a plausible input.
 - Impossible or unreachable branches
 - Inverted conditions
 - Incorrect async/await, or missing error handling that loses failures
-- Wrong Firestore or API assumptions
+- Wrong database or API assumptions
 - Type or logic contradictions
-- Stale cache, wrong `cacheTag`, or invalidation that serves the wrong data
+- Stale cache, a wrong cache key, or invalidation that serves the wrong data
 - User-visible or data-affecting incorrect behavior
 
-Drop concurrency, races, and missing locks or transactions unless the impact is severe. Severe means money charged twice, a message sent to the wrong workspace, or stored data permanently wrong. Two tasks touching the same document is not a finding.
+Drop concurrency, races, and missing locks or transactions unless the impact is severe. Severe means money charged twice, data or messages reaching the wrong user or tenant, or stored data permanently wrong. Two tasks touching the same record is not a finding.
 
 ### Security
 
-A concrete exposure to an outsider or another workspace.
+A concrete exposure to an outsider, or to another user or tenant.
 
 - Exposed secrets
-- XSS in React components
-- Insecure API routes
-- Server actions with missing or weak auth against outsiders or other workspaces
+- XSS or other unescaped output
+- Insecure API endpoints
+- Server-side handlers with missing or weak auth
 - Injection
 - Path traversal
-- SSRF or unsafe URL handling in server-side `fetch` and server actions
-
-Auth findings are only unauthenticated access, or one workspace reaching another workspace's data or actions.
+- SSRF or unsafe URL handling in server-side requests
 
 ### Performance
 
 New runtime cost this diff adds on a real path.
 
-- Extra Firestore reads or writes on a request or task path
-- Uncached `*Collection.get` or `getById` when that feature already exports `get*Cached` or `get*ByIdCached`. Call the cached helper. `templatesCollection.get` instead of `getTemplatesCached` is the usual miss. This is a billed Firestore read, not a read required for correctness. The `get*-cached.ts` file itself is the allowed Collection call.
+- Extra database reads or writes on a request or background-job path
+- A direct read that bypasses a cached helper the codebase already has for that data. Call the cached helper.
 - N+1 queries, or per-item network
 - Sequential awaits that can run in parallel
 - Extra data sent to the client
-- Work on a hot path that can be `after()` or a task
+- Work on a hot path that can run in the background
 - Scanning more data than the path needs
 
-Skip micro-optimizations with no hot path. Skip a read that is required for correctness. Skip `useMemo` / `memo` / `useCallback` (React Compiler; a standards issue).
+Skip micro-optimizations with no hot path. Skip a read that is required for correctness. Skip what the framework or compiler already optimizes.
 
 ### Architecture
 
@@ -95,7 +93,7 @@ The same change, simpler or as a deep module. Flag the concrete better shape.
 
 - Same job in fewer layers, files, or types (about a quarter the size)
 - Shallow module: the surface is as complex as the implementation, or callers reach internals
-- New logic in the wrong module (another feature, `shared/`, or a package already in play)
+- New logic in the wrong module (another feature, a shared module, or a package already in play)
 - Speculative layer, or a second pattern beside one that already works
 
 Skip a redesign of files this diff does not change.
@@ -110,19 +108,11 @@ Keep a logic bug whose fix uses data already in memory. If the only fix is extra
 
 Fix a logic, security, or performance finding when one edit is the correct one and a teammate would not have to choose. Leave architecture findings. Leave a finding when two fixes are reasonable, or when the edit would change a product decision, a public contract, or a stored data shape.
 
-**Example (fix).** An inverted condition sends the message to the other workspace. Swap the condition.
+**Example (fix).** An inverted condition sends the message to the wrong user. Swap the condition.
 
-**Example (leave).** The same read could move to `after()` or stay on the request. Write it as a finding.
+**Example (leave).** The same read could move to a background job or stay on the request. Write it as a finding.
 
-One commit for every fix in this pass. When you change files, run these from the repo root and fix failures until they pass:
-
-```bash
-pnpm lint
-pnpm test
-pnpm typecheck
-pnpm knip
-pnpm build
-```
+One commit for every fix in this pass. When you change files, run the repo's checks (lint, typecheck, tests, build, and any other check its CI runs) and fix failures until they pass. Find the commands in `ace/AGENTS.md`, the build config, or the CI workflow.
 
 If a fix still fails those checks, drop that fix and write it as a finding. When nothing qualifies, do not commit.
 
@@ -134,7 +124,7 @@ A committed fix is not a finding. Write a finding for what you left.
 
 Each finding is an emoji, then **severity** and category, then one or two sentences, then **Best fix.** and the concrete change. Use that emoji for that severity. Do not pick another. Do not wrap the finding in a GitHub alert (`[!CAUTION]`, `[!WARNING]`, `[!NOTE]`) or a `>` blockquote.
 
-- `blocker` is 🔴. You would block the merge. A secret is exposed, an outsider or another workspace can reach data or send messages, money is charged twice, a message goes to the wrong workspace, stored data is permanently wrong, or a hot-path cost will hurt in production.
+- `blocker` is 🔴. You would block the merge. A secret is exposed, an outsider or another user or tenant can reach data or act, money is charged twice, data or messages reach the wrong user or tenant, stored data is permanently wrong, or a hot-path cost will hurt in production.
 - `should-fix` is 🟡. You would ask a teammate to change it. Wrong behavior on a narrower path, a real hole that needs an extra condition, extra cost on a real path, or a simpler or deeper design this change should have used.
 - `nit` is 🔵. Concrete and worth the author's time. Optional.
 

@@ -16,7 +16,7 @@ Checkout a branch (if on the default branch), commit if needed, push, open a pul
 - Do not invent scope. Read the diff and say what changed.
 - No force push. No skipped hooks.
 - If already on a non-default branch, stay on it. If on `<DEFAULT_BRANCH>`, create a short kebab-case branch from it first.
-- Add `agent-created` only when the caller asks. Do not add a `pr-review-*` label. The caller adds `pr-review-1` when this pull request should enter the pipeline.
+- Add `agent-created` only when the caller asks. Add no other label unless the caller asks.
 
 ### Steps
 
@@ -35,21 +35,16 @@ Branch: <https://github.com/<owner>/<repo>/tree/<branch>>
 
 ## Comment on a pull request
 
-Post the caller's text on the pull request with this run's comment tools. Done means that text is on the pull request as `cursor`, the Cursor GitHub App.
+Post the caller's text on the pull request. Done means that text is on the pull request.
 
-Use `post_review_comment_on_pr` from the Cursor Automation Tools namespace. It posts a review. Pass `message` with the caller's text and `pr_url` with the pull request URL, `https://github.com/<REPO>/pull/N`. Do not rely on its default, which is the triggering pull request.
+```bash
+gh pr comment NUMBER --repo <REPO> --body "$(cat <<'EOF'
+TEXT
+EOF
+)"
+```
 
-### Constraints
-
-- Do not use `gh`, `GH_TOKEN`, or `GITHUB_TOKEN` to comment, to open a review, or to leave an inline comment. The PAT is the human who started this run.
-- Do not fall back to `gh` when comment tools fail. Retry the comment tools, or stop.
-- Use the PAT with `gh` for reads, label moves, and pull request body edits. Those are not comments.
-
-### Example
-
-Wrong: `gh pr comment 12 --body "Docs: no updates needed."` while `GH_TOKEN` is set. That posts as the human.
-
-Right: this run's comment tools, same body. That posts as `cursor`.
+For an inline comment on a line, use `gh api repos/<REPO>/pulls/NUMBER/comments` with `body`, `commit_id`, `path`, `line`, and `side`.
 
 ## Linked tickets
 

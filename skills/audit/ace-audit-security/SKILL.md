@@ -11,7 +11,7 @@ Audit the repository for security vulnerabilities. File a ticket for each findin
 ## Constraints
 
 - Do not edit the repository. Do not apply a fix. Do not open a pull request. Do not write a file in the repo.
-- File security vulnerabilities only. A logic bug with no unauthenticated or cross-workspace exposure is out of scope.
+- File security vulnerabilities only. A logic bug with no exposure to an outsider or another user or tenant is out of scope.
 - File only High or Critical. Do not file Low or Medium. Do not stretch a weaker finding to High so you have something to file.
 - If nothing is High or Critical, stop. Open no tickets.
 
@@ -31,20 +31,20 @@ Audit the repository for security vulnerabilities. File a ticket for each findin
 Read the code. Find:
 
 - Exposed secrets
-- XSS in React components
-- Insecure API routes and Route Handlers
-- Server actions with missing or weak auth against outsiders or other workspaces
+- XSS or other unescaped output
+- Insecure API endpoints
+- Server-side handlers with missing or weak auth
 - Injection
 - Path traversal
-- SSRF or unsafe URL handling in server-side `fetch` and server actions
+- SSRF or unsafe URL handling in server-side requests
 
-Skip inner-workspace protection. Coworkers in the same workspace are trusted. Do not file missing or weak authorization between members of one workspace, including role checks on server actions and a screen that shows every coworker the same action. File an auth finding only for unauthenticated access, or for one workspace reaching another workspace's data or actions.
+Respect the trust boundaries the project's `ace/` files state. Do not file missing authorization between parties the project trusts.
 
 A finding needs a concrete exposure. Do not file a hypothetical with no plausible impact, or an unverified dependency issue.
 
 ## 2. Drop ignored and known-risk findings
 
-Ignore `/utility` API routes. They are not production.
+Ignore generated and vendored code, and any path the project's `ace/` files mark as out of scope.
 
 If a High or Critical hole has no zero-cost fix, file it and write the cheapest correct fix. Do not file a weaker finding whose only fix adds runtime cost.
 
@@ -68,9 +68,9 @@ If more than three are, file the three most severe. Leave the rest unfiled.
 
 Severity, highest first:
 
-- **Critical.** A secret is exposed, or an outsider or another workspace can read or change data or send messages for more than one workspace.
-- **High.** An outsider or another workspace can read or change data or send messages through one route or action.
-- **Medium.** A real hole that needs an extra condition, and it does not expose a secret or another workspace by itself. Do not file.
+- **Critical.** A secret is exposed, or an outsider can read or change data of many users or tenants.
+- **High.** An outsider, or another user or tenant, can read or change data or act through one endpoint or handler.
+- **Medium.** A real hole that needs an extra condition, and it does not expose a secret or another user's data by itself. Do not file.
 - **Low.** A real hole with little the attacker can do. Do not file.
 
 On a tie, keep the wider exposure.

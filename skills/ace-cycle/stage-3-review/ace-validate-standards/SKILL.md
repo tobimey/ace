@@ -13,10 +13,10 @@ Bring the diff in line with the coding standards. Done means any safe edits are 
 - Refactor only. Same control flow, same return values, same queries, same cache keys, same auth, same visible data.
 - Edit only files this change touches.
 - Do not flag logic bugs, security holes, performance, spec match, or architecture. Architecture findings belong to `ace-review`.
-- Skip anything `pnpm lint` or `pnpm typecheck` already enforces.
+- Skip anything the repo's linter or type checker already enforces.
 - A smell in the coding standards is a judgement call. Fix it only when the better shape is obvious and the edit keeps the same behavior. An earlier rule in that file wins.
-- A tautological test in this diff is a Tests violation. Delete that `it`, or drop only the incidental asserts, as the Tests section of the coding standards says. Production behavior stays the same. Do not load `ace-gardening-tautological-tests`.
-- You may follow one `ace-gardening-*` skill when that skill is the behavior-identical fix for a violation in this diff. Do not run `ace-gardening-deps`, `ace-gardening-catalog-deps`, or `ace-gardening-docs-check`. Do not run a report-only gardening skill as a commit. Do not garden the rest of the repo.
+- A tautological test in this diff (one that cannot fail) is a standards violation. Delete that test case, or drop only the incidental asserts. Production behavior stays the same.
+- Do not clean up the rest of the repo.
 - One commit for the whole standards pass.
 
 ## Workflow
@@ -41,19 +41,11 @@ Stop if there is no diff. Stop if the working tree has changes you did not just 
 
 ## 2. Read the standards and the diff
 
-Read the coding standards in full, including Tests and Smells. Read the Code section of `AGENTS.md`. Match the diff against those rules. Ignore `/utility` routes and generated shadcn files under `packages/ui/src/components/shadcn/`.
+Read `ace/CODING_STANDARDS.md` in full and `ace/AGENTS.md`. Match the diff against those rules. Ignore generated and vendored code, and any path the project's `ace/` files mark as out of scope.
 
 ## 3. Apply safe fixes, or write that none were safe
 
-When you change files, run these from the repo root and fix failures until they pass:
-
-```bash
-pnpm lint
-pnpm test
-pnpm typecheck
-pnpm knip
-pnpm build
-```
+When you change files, run the repo's checks (lint, typecheck, tests, build, and any other check its CI runs) and fix failures until they pass. Find the commands in `ace/AGENTS.md`, the build config, or the CI workflow.
 
 Commit with a conventional title, `refactor:` and a short reason. Write what changed and why.
 

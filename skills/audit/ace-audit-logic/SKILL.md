@@ -12,7 +12,6 @@ Audit the repository for logic and correctness bugs. File a ticket for each find
 
 - Do not edit the repository. Do not apply a fix. Do not open a pull request. Do not write a file in the repo.
 - File logic and correctness bugs only. A security vulnerability is out of scope.
-- Do not file missing keyboard accessibility. A control that works with a pointer and not with a keyboard is not a finding yet.
 - File only High or Critical. Do not file Low or Medium. Do not stretch a weaker finding to High so you have something to file.
 - If nothing is High or Critical, stop. Open no tickets.
 
@@ -35,23 +34,23 @@ Read the code. Find:
 - Impossible or unreachable branches
 - Inverted conditions
 - Incorrect async/await, or missing error handling that loses failures
-- Wrong Firestore or API assumptions
+- Wrong database or API assumptions
 - Type or logic contradictions
 - User-visible or data-affecting incorrect behavior on plausible inputs
 
 A finding needs a concrete failure mode on a plausible input. Do not file a hypothetical with no plausible impact, a style-only nit, or an unverified dependency issue.
 
-Skip inner-workspace protection. Coworkers in the same workspace are trusted. Do not file missing or weak authorization between members of one workspace.
+Respect the trust boundaries the project's `ace/` files state. Authorization holes belong to the security auditor.
 
 ## 2. Drop ignored, known-risk, and low-value findings
 
-Ignore `/utility` API routes. They are not production.
+Ignore generated and vendored code, and any path the project's `ace/` files mark as out of scope.
 
-Drop concurrency, races, and missing locks or transactions, unless the impact is severe. Severe means money charged twice, a message sent to the wrong workspace, or stored data permanently wrong. Two tasks touching the same document is not a finding. A theoretical race is not enough.
+Drop concurrency, races, and missing locks or transactions, unless the impact is severe. Severe means money charged twice, data or messages reaching the wrong user or tenant, or stored data permanently wrong. Two tasks touching the same record is not a finding. A theoretical race is not enough.
 
-Drop any other finding whose only concrete fix adds runtime cost: extra Firestore reads or writes, extra network, extra CPU on a request or task path, an N+1 query, or scanning more data. Keep a High or Critical finding when the fix uses data already in memory. A severe race is the exception and may use a transaction.
+Drop any other finding whose only concrete fix adds runtime cost: extra database reads or writes, extra network, extra CPU on a request or task path, an N+1 query, or scanning more data. Keep a High or Critical finding when the fix uses data already in memory. A severe race is the exception and may use a transaction.
 
-Example: drop re-fetching the contact on every webhook to work around a stale cache. That is an extra read on the hot path.
+Example: drop re-fetching a record on every incoming request to work around a stale cache. That is an extra read on the hot path.
 
 Never file an accepted risk.
 
@@ -73,7 +72,7 @@ If more than three are, file the three most severe. Leave the rest unfiled.
 
 Severity, highest first:
 
-- **Critical.** Money charged twice, a message sent to the wrong workspace, or stored data permanently wrong.
+- **Critical.** Money charged twice, data or messages reaching the wrong user or tenant, or stored data permanently wrong.
 - **High.** Wrong user-visible behavior on a common path, with stored data still correctable.
 - **Medium.** Wrong behavior on a narrow path. Do not file.
 - **Low.** A real bug with a small, recoverable effect. Do not file.

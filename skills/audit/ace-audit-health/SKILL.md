@@ -12,12 +12,11 @@ Audit the repository for breaks of the coding standards. File a ticket for each 
 
 - Do not edit the repository. Do not apply a fix. Do not open a pull request. Do not write a file in the repo.
 - Do not file logic bugs, security holes, or performance costs. Those belong to the other auditors.
-- Do not file UI or UX judgement, including missing keyboard accessibility. Those tickets use `human-action-needed`, and this auditor does not file them.
+- Do not file UI or UX judgement. That needs a person.
 - File only a break later editors are likely to copy. Do not file a one-off nit. Do not stretch a nit so you have something to file.
 - If nothing is a copy-path break, stop. Open no tickets.
-- Ignore `/utility` API routes. They are not production.
-- Ignore generated shadcn files under `packages/ui/src/components/shadcn/`.
-- Do not file something `pnpm lint` or `pnpm typecheck` already fails.
+- Ignore generated and vendored code, and any path the project's `ace/` files mark as out of scope.
+- Do not file something the repo's linter or type checker already fails.
 
 ## Workflow
 

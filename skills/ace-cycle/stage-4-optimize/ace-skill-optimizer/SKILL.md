@@ -16,20 +16,15 @@ User-requested behaviour wins over a pure checklist pass. If they say X is faili
 
 This skill is the only prefix list.
 
-- `ace-audit-` is an auditor job. Repo-wide. It files tickets. It does not edit the repo or open a pull request. It is not a Cursor Cloud Agent run, so it has no `ace-run-*` skill.
-- `ace-gardening-` is a gardening job. One scope, asked for by a person or by another skill.
-- `ace-review` is a review job for the current change. The skills are `ace-review`, `ace-check-spec`, and `ace-validate-standards`.
-- `ace-run-` is a Cursor Cloud Agent starter. It follows `ace-env-cursor-cloud-agent` and names the job. A local chat does not load it.
-- `ace-env-` states the facts of one runner: who answers, tokens, secrets, branch rules. It does not name a job. A starter loads it. The only one is `ace-env-cursor-cloud-agent`.
-- `ace-` plus a verb is a dev or shared job. A person is in the loop, or another skill calls it.
-- `verify-hedwig` is inactive. It has no `ace-` prefix, on purpose. Do not load it and do not run it.
-- Vendored skills have no `ace-` prefix. They teach a library or a tool. They are pinned in `skills-lock.json`. Leave pipeline, labels, and runner facts out of them. Change them by updating the lock.
+- `ace-audit-` is an auditor job. Repo-wide. It files tickets. It does not edit the repo or open a pull request.
+- `ace-review`, `ace-check-spec`, and `ace-validate-standards` are review jobs for the current change.
+- `ace-` plus a verb is a cycle or shared job. A person is in the loop, or another skill calls it.
+- Skills without the `ace-` prefix are project or vendored skills. They teach a library or a tool. Leave ace pipeline facts out of them.
 
-- Do not bake in where a job skill is invoked (slash command, UI, parent skill, route). The body must work in any context that loads it. When `disable-model-invocation` is omitted, discovery `when` belongs in `description`.
-- A job skill does not name the runner. The caller passes a pull request, a diff, a base ref, or a ticket.
-- An `ace-run-*` skill names Cursor Cloud Agent, says a local chat does not load it, follows `ace-env-cursor-cloud-agent`, and names the job. Do not delete those lines. Do not restate the job or the cloud facts. After the job skill returns, the starter posts, pushes, and moves labels for that run.
-- When an `ace-run-*` skill posts a pull request comment, review, or inline comment, it follows `ace/CODE_HOSTING.md`. Do not copy those identity rules into the starter. Do not use `gh` or the PAT for comments.
-- Name another skill by its `name`. Do not write a path under `.agents/skills/`. Name a document by its role (coding standards, accepted risks, glossary). `AGENTS.md` is the path index. Name a filesystem path only when that path is the work. Do not point a skill at `docs/software-factory`. That folder documents the setup. It may point at skills.
+- An ace skill is generic. It names no project, stack, framework, database, command, path, or trust boundary of one project. Those facts live in the project's `ace/` files, and the skill points there.
+- Do not bake in where a job skill is invoked (slash command, UI, parent skill, route) or which machine runs it. The body must work in any context that loads it. When `disable-model-invocation` is omitted, discovery `when` belongs in `description`.
+- A job skill takes its input from the caller: a pull request, a diff, a base ref, or a ticket.
+- Name another skill by its `name`, not by a file path. Name a document by its role (coding standards, glossary) or its `ace/` path. Name another filesystem path only when that path is the work.
 - When `disable-model-invocation` is `true`, the description is one line and does not say when to invoke the skill.
 - Shortest text that still makes the agent do the job. Say each rule once.
 - Most rules need no example. Add one only when a capable model keeps applying the rule wrong without it. A skill with many rules should have few examples, not one per rule.
@@ -59,7 +54,7 @@ This skill is the only prefix list.
 
 ### 1. Locate
 
-Use the skill the user named, attached, or has open. Search `.agents/skills/` and the user Agent Store if needed. Folder name must match frontmatter `name`. If several match, ask which one.
+Use the skill the user named, attached, or has open. Search the project's and the user's skill folders if needed. Folder name must match frontmatter `name`. If several match, ask which one.
 
 ### 2. Read
 
@@ -75,7 +70,7 @@ Before any edit, state:
 
 If any of those is unclear, **stop and ask**. Do not guess and then rewrite.
 
-Ask with the AskQuestion tool when available. Otherwise ask in chat. Number the questions. Offer a recommended answer when you have one.
+Ask with the harness's question tool when it has one. Otherwise ask in chat. Number the questions. Offer a recommended answer when you have one.
 
 Look up filesystem facts yourself. Ask only for decisions: purpose, key functionality, what "working" means for the complaint, trigger phrases, slash-only vs auto-load (`disable-model-invocation: true`).
 
