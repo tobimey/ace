@@ -10,7 +10,7 @@ Suggest improvements to the coding agent's **environment** so future runs go bet
 
 ## Constraints
 
-- Do not edit anything before the user picks a candidate.
+- Read only until the user picks a candidate.
 - Improve the environment, not the product code the session produced.
 - If there are no candidates, say so and stop.
 
@@ -32,7 +32,7 @@ Suggest improvements to the coding agent's **environment** so future runs go bet
 
 3. Present the candidates to the user, most severe first. For each, name the category, what went wrong in the session, and the smallest change that would prevent it. Number them so the user can pick.
 
-4. For each candidate the user picks, follow `ace-optimize-factory` with that problem.
+4. For each candidate the user picks, follow [ace-optimize-factory](../ace-optimize-factory/SKILL.md) with that problem.
 
 ## Reference
 
@@ -52,4 +52,4 @@ The agent working in the repo reads these files:
 - `ace/CODING_STANDARDS.md`: read during review. Add **navigation pointers** to docs folders if it gets more than 1,000 lines long.
 - `ace/GLOSSARY.md`: the shared language between the user and the agent.
 - Docs: reference files, pointed to by other files. Look for existing docs before writing new ones.
-- Skills: use skills for procedures (their description goes into the agent's context window), or for user-invoked commands. Edit them with `ace-skill-optimizer`.
+- Skills: use skills for procedures (their description goes into the agent's context window), or for user-invoked commands. Edit them with [ace-skill-optimizer](../ace-skill-optimizer/SKILL.md).

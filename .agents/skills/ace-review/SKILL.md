@@ -11,11 +11,10 @@ Review the diff for logic bugs, security holes, performance costs, and architect
 ## Constraints
 
 - Edit only files this change touches.
-- Do not flag coding standards, naming, code smells, or spec match. Bypassing an existing cached helper is performance, not coding standards.
-- Respect the trust boundaries the coding standards state. Do not flag missing authorization between parties the project trusts.
+- Flag only logic, security, performance, and architecture. Coding standards, naming, and code smells belong to `ace-validate-standards`. Spec match belongs to `ace-check-spec`. Bypassing an existing cached helper is performance.
+- Respect the trust boundaries the coding standards state. Flag missing authorization only between parties the project does not trust.
 - Ignore generated and vendored code, and any path the coding standards mark as out of scope.
-- A finding needs a concrete failure mode or cost on a plausible path in this diff, or a simpler or deeper design this diff could have used. Skip hypotheticals, pre-existing issues the diff does not make worse, and unverified dependency advisories.
-- Never flag an accepted risk.
+- A finding needs a concrete failure mode or cost on a plausible path in this diff, or a simpler or deeper design this diff could have used. Leave out hypotheticals, pre-existing issues the diff does not make worse, unverified dependency advisories, and accepted risks.
 
 ## Workflow
 
@@ -75,7 +74,7 @@ New runtime cost this diff adds on a real path.
 - Work on a hot path that can run in the background
 - Scanning more data than the path needs
 
-Skip micro-optimizations with no hot path. Skip a read that is required for correctness. Skip what the framework or compiler already optimizes.
+Leave out micro-optimizations with no hot path, reads required for correctness, and what the framework or compiler already optimizes.
 
 ### Architecture
 
@@ -86,7 +85,7 @@ The same change, simpler or as a deep module. Flag the concrete better shape.
 - New logic in the wrong module (another feature, a shared module, or a package already in play)
 - Speculative layer, or a second pattern beside one that already works
 
-Skip a redesign of files this diff does not change.
+Propose a redesign only for files this diff changes.
 
 ## 3. Drop out of scope
 
@@ -104,7 +103,7 @@ Fix a logic, security, or performance finding when one edit is the correct one a
 
 One commit for every fix in this pass. When you change files, run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file its "Packages" section lists for the changed paths. Fix failures until they pass.
 
-If a fix still fails those checks, drop that fix and write it as a finding. When nothing qualifies, do not commit.
+If a fix still fails those checks, drop that fix and write it as a finding. Commit only when at least one fix qualifies.
 
 Commit with a conventional title, `fix:` or `perf:`, and a short reason.
 
@@ -112,7 +111,7 @@ Commit with a conventional title, `fix:` or `perf:`, and a short reason.
 
 A committed fix is not a finding. Write a finding for what you left.
 
-Each finding is an emoji, then **severity** and category, then one or two sentences, then **Best fix.** and the concrete change. Use that emoji for that severity. Do not pick another. Do not wrap the finding in a GitHub alert (`[!CAUTION]`, `[!WARNING]`, `[!NOTE]`) or a `>` blockquote.
+Each finding is an emoji, then **severity** and category, then one or two sentences, then **Best fix.** and the concrete change. Use exactly the emoji listed for that severity. Write each finding as plain top-level paragraphs in the shape below, outside any GitHub alert or `>` blockquote.
 
 - `blocker` is 🔴. You would block the merge. A secret is exposed, an outsider or another user or tenant can reach data or act, money is charged twice, data or messages reach the wrong user or tenant, stored data is permanently wrong, or a hot-path cost will hurt in production.
 - `should-fix` is 🟡. You would ask a teammate to change it. Wrong behavior on a narrower path, a real hole that needs an extra condition, extra cost on a real path, or a simpler or deeper design this change should have used.
@@ -130,7 +129,7 @@ Each finding is an emoji, then **severity** and category, then one or two senten
 
 Prefer fewer findings.
 
-When you committed, start the output with the fixed list and nothing around it. One bullet per fix. One clause. No severity and no emoji.
+When you committed, start the output with the fixed list and nothing around it. One bullet per fix. One clause with the path and the change only.
 
 ```
 Fixed:
@@ -142,11 +141,11 @@ Then the remaining findings, if any. When you committed and nothing remains, tha
 
 When you did not commit and nothing remains, write `No findings.` before Merge Danger.
 
-Do not summarize the remaining findings.
+Go straight from the last finding to Merge Danger.
 
 ## 6. Write Merge Danger
 
-Always write this block last. It is not a finding. Do not post it.
+Always write this block last. It is not a finding. Return it to the caller only.
 
 ```
 ## Merge Danger
@@ -156,8 +155,8 @@ Always write this block last. It is not a finding. Do not post it.
 **Blast Radius:** one word
 ```
 
-Door is `two-way` when going back is easy and possible: a revert restores the previous behavior, and leftover stored data, sent messages, or a public contract change do not remain. Otherwise write `one-way`. Do not pick a third value.
+Door is `two-way` when going back is easy and possible: a revert restores the previous behavior, and leftover stored data, sent messages, or a public contract change do not remain. Otherwise write `one-way`. Door takes only these two values.
 
 Blast Radius is one word for the largest area this merge can affect.
 
-A sentence may follow Door or Blast Radius when it adds information those labels do not already say. Omit it otherwise.
+Add a sentence after Door or Blast Radius only when it adds information those labels do not already say.

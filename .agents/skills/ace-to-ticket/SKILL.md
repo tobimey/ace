@@ -8,12 +8,12 @@ disable-model-invocation: true
 
 Turn an existing spec into **ticket(s)**. **One ticket** fills the spec ticket itself. **Multiple tickets** are tracer-bullet vertical slices as **sub-tickets** of that parent, each declaring what blocks it.
 
-Read `ace-open-ticket` before any draft. Open every new ticket with it. Follow `ace/TICKET_TRACKER.md` to read and update tickets, and to link sub-tickets and blockers. Do not write ticket files in the repo.
+Read `ace-open-ticket` before any draft. Open every new ticket with it. Follow `ace/TICKET_TRACKER.md` to read and update tickets, and to link sub-tickets and blockers.
 
 ## Constraints (always)
 
-- Do not close the parent or spec ticket.
-- Do not write ticket bodies as files in the repo.
+- Leave the parent or spec ticket open.
+- Keep ticket bodies in the ticket tracker only.
 
 Mode-specific constraints are under each mode below.
 
@@ -23,11 +23,11 @@ Mode-specific constraints are under each mode below.
 
 If the user passed a ticket number or URL, or the conversation already names one, read it with its comments and treat it as the **spec ticket** (single-ticket target or parent for children).
 
-If none is present, **stop and ask** for the ticket number or URL. Do not draft. Do not create.
+If none is present, **stop and ask** for the ticket number or URL. Wait for it before you draft or create anything.
 
 **Single-ticket mode only:** if they confirm there is no ticket, you may create one at publish.
 
-**Multiple-ticket mode:** if they confirm there is no parent, stop. A spec ticket must exist first. Do not create tickets.
+**Multiple-ticket mode:** if they confirm there is no parent, stop and say a spec ticket must exist first. Create tickets only once it does.
 
 Work from that ticket plus whatever is already in the conversation. Use the project's domain glossary vocabulary.
 
@@ -47,11 +47,11 @@ After you understand the spec, pick a mode. State the choice and one sentence wh
 - The spec names multiple behaviours, phases, or milestones that should land as separate vertical slices.
 - Honest **Size** is `L` or `XL`, or the work clearly will not fit one context window.
 - Dependencies between chunks mean some work must finish before other work can start (blocking edges).
-- A **wide refactor** applies: one mechanical change with blast radius across the codebase (rename column, retype shared symbol, etc.). Sequence expand → migrate batches → contract; do not force into one tracer bullet.
+- A **wide refactor** applies: one mechanical change with blast radius across the codebase (rename column, retype shared symbol, etc.). Sequence expand → migrate batches → contract, each as its own ticket.
 
 If the call is borderline, recommend a mode and ask whether to proceed single, split, or adjust. Respect an explicit user preference over the default recommendation.
 
-### 3a. Single ticket — draft
+### 3a. Single ticket: draft
 
 Show the user:
 
@@ -60,15 +60,15 @@ Show the user:
 - **Priority**: `Urgent`, `High`, `Medium`, or `Low`
 - **Size**: `S`, `M`, `L`, or `XL`
 
-If **Size** would be `L` or `XL` or the work still will not fit one context window, **stop**. Do not publish. Say so and offer to switch to multiple-ticket mode.
+If **Size** would be `L` or `XL` or the work still will not fit one context window, **stop** before publishing. Say so and offer to switch to multiple-ticket mode.
 
 Wait for approval.
 
-### 3b. Multiple tickets — explore (optional)
+### 3b. Multiple tickets: explore (optional)
 
 If you have not already explored the codebase, do so to understand current state. Look for prefactors that make implementation easier: make the change easy, then make the easy change.
 
-### 3c. Multiple tickets — draft vertical slices
+### 3c. Multiple tickets: draft vertical slices
 
 Break the work into **tracer bullet** tickets.
 
@@ -101,20 +101,18 @@ Ask the user:
 
 Iterate until the user approves the breakdown.
 
-### 4a. Single ticket — publish
+### 4a. Single ticket: publish
 
-- Do not create a second ticket when a ticket was named or already in the conversation.
-- Do not split the work across multiple tickets in this mode.
+- Publish exactly one ticket.
 
-If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, including type, Priority, Size, and project. Write its body in the shape `ace-open-ticket` defines. Do not create another.
+If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, including type, Priority, Size, and project. Write its body in the shape `ace-open-ticket` defines.
 
 If they confirmed none exists in step 1, open a new ticket with `ace-open-ticket`.
 
-### 4b. Multiple tickets — publish
+### 4b. Multiple tickets: publish
 
-- Do not create a parent ticket.
-- After create, attach each ticket as a **sub-ticket** of the parent from step 1. Do not leave tickets as top-level tickets.
-- Do not edit the parent ticket body.
+- Use the parent from step 1 as the only parent, and leave its body as it is.
+- After create, attach each ticket as a **sub-ticket** of that parent.
 
 Open one ticket per approved ticket with `ace-open-ticket`, **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.
 
@@ -134,4 +132,4 @@ Done when is the acceptance checks, one `- [ ]` per check.
 
 Blocked by is None in single-ticket mode (can start immediately), or names each blocking ticket in multiple-ticket mode.
 
-In the ticket body, avoid specific file paths or code snippets. They go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
+In the ticket body, describe behaviour in prose, without file paths or code snippets. They go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.

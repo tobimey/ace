@@ -18,11 +18,11 @@ In a monorepo, each package the user picked also has `PACKAGE/ace/VERIFY.md`, an
 
 ## Constraints
 
-- An `ace` folder holds only adapters. Never move `AGENTS.md` or `CLAUDE.md` into it. Harnesses load them only from the repo root.
-- Glossary, ticket tracker, and code hosting exist only at the root. A package never gets its own.
+- An `ace` folder holds only adapters. Keep `AGENTS.md` and `CLAUDE.md` at the repo root. Harnesses load them only from there.
+- Glossary, ticket tracker, and code hosting exist only at the root. Every package uses the root ones.
 - If an adapter from the list above exists outside `ace`, such as a root `GLOSSARY.md`, move it there.
-- Do not overwrite an existing file. Fill only what is missing.
-- Do not guess a value. Look it up, or ask.
+- Keep existing files as they are. Fill only what is missing.
+- Take every value from the repo or from the user. Look it up, or ask.
 - Keep the section headings of the templates. Ace skills look them up by heading.
 
 ## 0. Detect the layout
@@ -124,7 +124,7 @@ For another host, write the same sections with that host's CLI or API.
 
 ## 5. Point the root agents file at them
 
-Add this section to the root agents file from step 1, if missing. Do not change anything else in that file.
+Add this section to the root agents file from step 1. If it is there already, add the lines it lacks. Leave the rest of that file as it is.
 
 ```markdown
 <!-- added by ace -->
@@ -134,6 +134,7 @@ Add this section to the root agents file from step 1, if missing. Do not change 
 - To verify a change, follow `ace/VERIFY.md`.
 - To read, search, open, or update a ticket, follow `ace/TICKET_TRACKER.md`.
 - To open or comment on a pull request, follow `ace/CODE_HOSTING.md`.
+- Answer a question, a report, or an idea with an answer or a proposal, and leave the files as they are. Change files only when the message asks for it, such as "do it", "implement", "fix", or "add". When unsure, propose the change and ask.
 ```
 
 In a monorepo, add this line to that section:

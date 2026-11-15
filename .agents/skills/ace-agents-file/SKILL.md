@@ -10,14 +10,16 @@ Check the repo's `AGENTS.md` and `CLAUDE.md` against the rules below and propose
 
 ## Constraints
 
-- Do not edit before the user approves. Show the edits first.
+- Show the edits first. Edit only after the user approves.
 - Change only what a rule below asks for.
 - Mark every section ace adds with `<!-- added by ace -->` on the line above it.
 
 ## Rules
 
 - Say nothing the agent can read from the code or already knows.
+- Write each instruction as the action to take. A ban ("do not X", "never X") becomes the allowed scope or the replacement action. A negation that states a fact or a condition stays.
 - Say in a few sentences what the project is and who it is for.
+- Say when to change files: only when the message asks for a change. A question, a report, or an idea gets an answer or a proposal.
 - Say how to verify a change: the exact commands to run (lint, typecheck, tests, build) and how to check the behavior works.
 - Have a short glossary of who is who:
   - "you" is always the agent.
