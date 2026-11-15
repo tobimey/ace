@@ -119,7 +119,7 @@ Agents went wrong, or the user wants to change how agents are steered.
 
 ### Single job
 
-A message that names one job runs that skill alone: open a ticket with `ace-open-ticket`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, post an explainer on a pull request with `ace-explain-change`, say the last reply plainly with `ace-bro`.
+A message that names one job runs that skill alone: work the next ready ticket with `ace-work-ticket`, open a ticket with `ace-open-ticket`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, post an explainer on a pull request with `ace-explain-change`, say the last reply plainly with `ace-bro`.
 
 ### Continue
 
@@ -132,6 +132,7 @@ A message that names one job runs that skill alone: open a ticket with `ace-open
    |---|---|
    | An idea with open decisions, and no spec ticket | Plan |
    | A spec ticket too big for one change, with no sub-tickets | Plan, from `ace-to-ticket` |
+   | A ticket in the needs-dev state | A person reads it and its comments, then sets it ready or closes it |
    | A ticket with no branch and no pull request | Build |
    | Local changes, or a branch with no pull request | Review on the local diff, then `ace-open-pr` |
    | An open pull request with no `<!-- ace-review -->` comment, or commits newer than that comment | Review |

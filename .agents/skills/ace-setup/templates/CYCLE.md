@@ -6,7 +6,7 @@ How work moves from one stage of the Ace cycle to the next in this project. `ace
 
 ### After Plan
 
-Tell the user the tickets are ready, and that `Implement TICKET` starts the first one with no blockers.
+Tell the user the tickets are open in the needs-dev state. `Implement TICKET` starts the first one with no blockers. Setting a ticket ready lets `ace-work-ticket` pick it up instead.
 
 ### After Build
 
@@ -18,7 +18,7 @@ Tell the user the Merge Danger, and that a person merges the pull request.
 
 ### After Audit
 
-Tell the user the tickets that were opened, and that `Implement TICKET` starts one.
+Tell the user the tickets that were opened. Each is in the needs-dev state: a person reads it and sets it ready, or closes it. `Implement TICKET` starts one by hand.
 
 ## Runs
 

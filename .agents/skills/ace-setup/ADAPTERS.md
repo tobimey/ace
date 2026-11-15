@@ -2,7 +2,7 @@
 
 The adapters in `ace/` belong to the project. Change them freely. Ace skills depend only on the sections below. Each section must exist and do the job named here. Its heading may differ, since skills find a section by its job. Everything else in an adapter is free.
 
-When a skill misses a section, it names the section and says what it must hold. A skill that edits files offers to add it. A read-only skill stops, or skips that source and says so.
+When a skill misses a section, it names the section and says what it must hold. A skill that edits files offers to add it. A read-only skill stops, or skips that source and says so. Running `ace-setup` again adds every missing section.
 
 ## `ace/GLOSSARY.md`
 
@@ -23,8 +23,8 @@ Rules, tests, and smells are free content.
 | Section | What it holds | Used by |
 |---|---|---|
 | Checks | The commands that must pass: lint, typecheck, tests, build | `ace-verify`, `ace-implement`, `ace-review`, `ace-validate-standards` |
-| Run the app | How to start the app, or that nothing runs | `ace-verify` |
-| Check behavior | How to try each kind of change | `ace-verify` |
+| Run the app | How to start the app, or that nothing runs | `ace-verify`, which fixes a wrong step |
+| Check behavior | How to try each kind of change | `ace-verify`, which adds missing lines and fixes wrong ones |
 | Packages (monorepo only) | The package verify files, by path | the same skills as Checks |
 
 ## `ace/TICKET_TRACKER.md`
@@ -34,9 +34,19 @@ Rules, tests, and smells are free content.
 | Ticket references | How a ticket is written in a commit, branch name, or pull request body, such as `#123` or `ENG-123` | `ace-check-spec`, `ace/CODE_HOSTING.md` |
 | Read a ticket | How to read a ticket with its comments | `ace-check-spec`, `ace-to-ticket`, `ace-why` |
 | Search tickets | How to search tickets by text | `ace-audit`, `ace-why` |
-| Open a ticket | How to open a ticket with title, body, type, Priority, Size, and Risk | `ace-open-ticket` |
+| Open a ticket | How to open a ticket with title, body, type, Priority, Size, and Risk, in the needs-dev state | `ace-open-ticket` |
 | Update a ticket | How to change a ticket's title, body, type, Priority, Size, and Risk | `ace-to-ticket` |
 | Sub-tickets and blocking | How to attach a sub-ticket to a parent and mark a blocker | `ace-to-ticket` |
+| Ticket states | How the tracker shows each ticket state: needs-dev, ready, and working | `ace-work-ticket`, the user |
+| Find ready tickets | How to list open tickets in the ready state that no open ticket blocks, in the order to work them | `ace-work-ticket` |
+| Set a ticket state | How to move a ticket from one state to another, and read its state back | `ace-work-ticket` |
+| Comment on a ticket | How to post a comment on a ticket | `ace-work-ticket` |
+
+The ticket states:
+
+- **needs-dev**: a person must look at the ticket. Every ticket an agent opens starts here, and `ace-work-ticket` moves a ticket here when it stops for a person.
+- **ready**: an agent may work the ticket. Only a person sets it.
+- **working**: `ace-work-ticket` claimed the ticket. It stays until the pull request merges and closes it.
 
 ## `ace/CODE_HOSTING.md`
 
