@@ -124,8 +124,6 @@ If the spec is a plan from the conversation, open a new ticket with `ace-open-ti
 
 Open one ticket per approved ticket with `ace-open-ticket`, **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.
 
-Work the frontier: any ticket whose blockers are all done. For a chain that is strictly one-after-another, that means top to bottom.
-
 ### Ticket body (both modes)
 
 Pass these facts to `ace-open-ticket`.
