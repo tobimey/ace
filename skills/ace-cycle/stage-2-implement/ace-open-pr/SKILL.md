@@ -9,7 +9,7 @@ Open a pull request for the current work. Done means the pull request exists and
 
 ## Constraints
 
-- Open the pull request only as the "Open a pull request" section of `ace/CODE_HOSTING.md` says. If that file or that section is missing, stop and say which one is missing. Do not open the pull request another way.
+- Open the pull request only as the "Open a pull request" section of `ace/CODE_HOSTING.md` says. If that file or that section is missing, stop and say which one is missing. That section is the only way to open it.
 
 ## Workflow
 

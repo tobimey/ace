@@ -7,7 +7,7 @@
 - Structure
 - Freedom and scripts
 - Frontmatter
-- Do not
+- Fix on sight
 
 ## Discovery
 
@@ -15,21 +15,22 @@
 
 - `name`: lowercase, digits, hyphens; max 64 chars; matches the folder that contains `SKILL.md`
 - `description`: third person; max 1024 chars; no XML tags
-- When `disable-model-invocation` is `true`, the description is one line and does not say when to invoke the skill. The skill loads only when named.
-- When `disable-model-invocation` is omitted, the description answers **what** and **when**, never **how**. A how-summary in the description trains the agent to skip the body. Include the words people actually say (slash name, "optimize this skill", domain nouns).
+- When `disable-model-invocation` is `true`, the description is one line that says what the skill does, and only what. The skill loads only when named.
+- When `disable-model-invocation` is omitted, the description answers **what** and **when**, and leaves the **how** to the body. A how-summary in the description trains the agent to skip the body. Include the words people actually say (slash name, "optimize this skill", domain nouns).
 - Vague descriptions fail when the skill must self-trigger: "helps with documents", "processes data"
 
 ## Body
 
 - State the goal and what done looks like, near the start. If the opening already says that, leave it.
-- One section for constraints and forbidden actions. A heading such as "Constraints" or "Do not" counts. If that section exists, leave it.
-- Call-site agnostic: a job skill's body does not name a slash command, UI, parent skill, or route as the place it runs. When `disable-model-invocation` is omitted, discovery `when` lives in `description`
+- One section for constraints: the scope and boundaries of the job. A heading such as "Constraints" or "Scope" counts. If that section exists, keep it.
+- Every instruction names the action to take. "Do not X", "never X", "avoid X", and "should not X" become the allowed scope, the replacement action, or a stop condition. A negation that states a fact or a condition stays. `scripts/check-wording.sh` lists the candidates
+- Call-site agnostic: a job skill's body works from any slash command, UI, parent skill, or route that loads it. When `disable-model-invocation` is omitted, discovery `when` lives in `description`
 - Follow the prefix rules in `ace-skill-optimizer`. That list is the only prefix list.
 - Generic: no project, stack, framework, database, command, path, or trust boundary of one project. Those live in `ace/` files.
 - Name another skill by its `name`, not by a file path. Name a document by its role unless that path is the work.
 - Shortest text that still works. Say each rule once. 500 lines is a ceiling, not a target
-- Most rules have no example. Add one only when the instruction is easy to get wrong without it. Do not flag a missing example on every rule. Skip trivia a capable model already knows
-- One term per concept. Do not mix "endpoint" / "route" / "path" for the same thing
+- Most rules have no example. Add one only when the instruction is easy to get wrong without it. Flag a missing example only on such a rule. Skip trivia a capable model already knows
+- One term per concept. Pick one of "endpoint" / "route" / "path" for the same thing and use it everywhere
 - No dated "before August 2025 use v1" rules. Put retired steps under a legacy heading
 - Workflows are numbered steps. Quality-critical work has a validate → fix → repeat loop
 - Verbatim user wording stays verbatim
@@ -39,7 +40,7 @@
 Progressive disclosure: metadata always; `SKILL.md` when triggered; sibling files and script **output** only when needed.
 
 - `SKILL.md` is the map. Details live in sibling files it names
-- Links are **one level deep** from `SKILL.md`. Never `SKILL.md` → `advanced.md` → `details.md`
+- Links are **one level deep** from `SKILL.md`. Every linked file is linked from `SKILL.md` itself
 - Reference files over ~100 lines start with a table of contents
 - No nested "skill inside a skill" folders that need a second `SKILL.md` unless they are truly separate skills
 
@@ -55,9 +56,9 @@ Prefer a script over a prose procedure when the step is deterministic, repetitiv
 
 Scripts:
 
-- Say **Run** `scripts/foo.py` or **Read** `scripts/foo.py` for the algorithm. Never leave it ambiguous
+- Say **Run** `scripts/foo.py` or **Read** `scripts/foo.py` for the algorithm, every time
 - Forward slashes in paths
-- Solve the job; do not print "ask the model to decide"
+- Solve the job in the script and print the result
 - Inputs via flags, env, or stdin. No interactive prompts
 
 Offer **one default** tool or path, plus one alternative for the exception. A menu of four libraries freezes the agent.
@@ -65,23 +66,27 @@ Offer **one default** tool or path, plus one alternative for the exception. A me
 ## Frontmatter
 
 - `disable-model-invocation: true` when the skill should run only via `/name`
+- With `disable-model-invocation: true`, add `agents/openai.yaml` next to `SKILL.md` containing `policy:` / `allow_implicit_invocation: false`, so Codex keeps it manual too. Remove that file when the field is removed
+- Link a skill that has `disable-model-invocation: true` by relative path, e.g. `[ace-how](../ace-how/SKILL.md)`. The agent cannot load it by name
 - Omit that field when the agent should self-trigger from the description
 - `name` must match the parent folder
 
-## Do not
+## Fix on sight
 
-- Bind a job skill to one caller (slash command, UI, parent skill, page)
-- Bind a job skill to one runner (local, cloud, a specific agent product)
-- Copy rules from an `ace/` file into a skill. Point to the file
-- Name another skill by its file path
-- Teach what a PDF, git, or a standard library is
-- Dump a ChatGPT prompt with no steps
-- One mega-skill that is several verbs (review + deploy + docs)
-- Bundle library source; depend on the package instead
-- Human onboarding files (`README.md`, `CHANGELOG.md`) in the skill folder
-- Windows paths (`scripts\foo.py`)
-- Speculative sections for cases the skill does not have
-- Change the skill's purpose to make the checklist greener
-- Treat a user complaint as a lint issue only. If X is failing, add or change behaviour until X is the mandated path
-- Optional wording for a required behaviour ("consider", "you may", "if useful")
-- Em dashes (`—`) in any file under the skill folder. Use a period or a comma. An en dash or a hyphen used as a dash is not a fix
+Each line is a defect, then the fix.
+
+- Job skill bound to one caller (slash command, UI, parent skill, page) or one runner (local, cloud, an agent product): make the body work wherever it loads
+- Rules copied from an `ace/` file: point to the file
+- Another skill named by its file path: name it by its `name`
+- Text teaching what a PDF, git, or a standard library is: cut it
+- A bare prompt with no steps: turn it into numbered steps
+- One skill doing several verbs (review + deploy + docs): one skill per verb
+- Bundled library source: depend on the package
+- Human onboarding files (`README.md`, `CHANGELOG.md`) in the skill folder: remove them
+- Backslash paths (`scripts\foo.py`): use forward slashes
+- Sections for cases the skill does not have: cut them
+- Purpose changed to make the checklist greener: restore the purpose
+- A user complaint treated as a lint issue only: change behaviour until X is the mandated path
+- Optional wording for a required behaviour ("consider", "you may", "if useful"): state it as an order
+- An order phrased as a ban ("do not", "never", "avoid", "should not"): state the action to take
+- Em dashes (U+2014) in any file under the skill folder: use a period or a comma. An en dash or a hyphen used as a dash is not a fix

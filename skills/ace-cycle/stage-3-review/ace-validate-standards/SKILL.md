@@ -12,11 +12,10 @@ Bring the diff in line with the coding standards. Done means any safe edits are 
 
 - Refactor only. Same control flow, same return values, same queries, same cache keys, same auth, same visible data.
 - Edit only files this change touches.
-- Do not flag logic bugs, security holes, performance, spec match, or architecture. Architecture findings belong to `ace-review`.
-- Skip anything the repo's linter or type checker already enforces.
+- Fix only coding-standards breaks. Logic bugs, security holes, performance, and architecture belong to `ace-review`. Spec match belongs to `ace-check-spec`.
+- Leave to the repo's linter and type checker whatever they already enforce.
 - A smell in the coding standards is a judgement call. Fix it only when the better shape is obvious and the edit keeps the same behavior. An earlier rule in that file wins.
 - A tautological test in this diff (one that cannot fail) is a standards violation. Delete that test case, or drop only the incidental asserts. Production behavior stays the same.
-- Do not clean up the rest of the repo.
 - One commit for the whole standards pass.
 
 ## Workflow
@@ -43,4 +42,4 @@ When you change files, run every command in the "Checks" section of `ace/VERIFY.
 
 Commit with a conventional title, `refactor:` and a short reason. Write what changed and why.
 
-When nothing is safe to edit, do not commit. Write only `No standards edit was safe.` No notes about files this change does not touch.
+Commit only when an edit is safe. When none is, write only `No standards edit was safe.`

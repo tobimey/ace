@@ -11,10 +11,10 @@ Tickets live in GitHub Issues. Every ace skill that reads, searches, opens, or u
 
 ## Constraints
 
-- Open tickets here only. Do not open a ticket in any other tracker.
-- Do not write a ticket body to a file in the repo. Pass it with `--body` and a heredoc.
-- Do not put Priority or Size in the body or in a label.
-- Do not delete a ticket if a later step fails.
+- Open tickets in this tracker only.
+- Pass a ticket body with `--body` and a heredoc. Keep it out of files in the repo.
+- Set Priority and Size only as fields.
+- Keep a ticket once it is created, even when a later step fails.
 - Set type with the API after create.
 
 ## Read a ticket
@@ -68,7 +68,7 @@ EOF
 )"
 ```
 
-Do not remove other labels. Then set type, Priority, and Size, and add to the project.
+Keep the other labels. Then set type, Priority, and Size, and add to the project.
 
 ## Set type, Priority, and Size
 
@@ -81,7 +81,7 @@ gh api --method POST "/repos/OWNER/REPO/issues/NUMBER/issue-field-values" \
 EOF
 ```
 
-Replace `TYPE` and both `value` strings. Do not clear other fields with PUT.
+Replace `TYPE` and both `value` strings. Use POST, which keeps the other fields.
 
 If the field post returns 422, load the ids and post once more. Keep the ticket either way.
 

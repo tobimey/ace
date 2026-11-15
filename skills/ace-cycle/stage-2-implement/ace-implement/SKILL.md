@@ -14,18 +14,18 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
 
 - Measure twice, cut once. Understand the real constraint before writing code.
 - Find the smallest model that makes the correct behavior unsurprising, then build that.
-- Do not keep complexity just because it already exists. Before you remove it, find out why it is there.
+- Question existing complexity. Find out why it is there, then remove it when the reason no longer holds.
 - Make the change easy, then make the easy change. When the code makes the change awkward, refactor first with the tests green, then add the behavior. Keep the two steps apart.
 - When the change spans several layers, get one thin path working end to end first, then fill in the rest.
-- Do not add machinery because it looks architecturally impressive. Build only what this request needs now.
+- Build only what this request needs now, at the plainest shape that does it.
 - Honor the developer's intent in a minimal and realistic way.
 
 ## Constraints
 
-- Do not build what the plan does not ask for. Name it in the report instead.
+- Build only what the plan asks for. Name anything else you noticed in the report.
 - Look up facts in the code yourself. Ask only for decisions the plan leaves open.
-- The plan sets the tests. Write one test per behavior or edge case it names. Do not add tests the plan does not need.
-- Test through the public interface. Do not test private functions or implementation details, so a refactor does not break a test.
+- The plan sets the tests. Write exactly one test per behavior or edge case it names.
+- Test only through the public interface, so a refactor keeps tests green.
 
 ## Workflow
 

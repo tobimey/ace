@@ -24,15 +24,15 @@ Checkout a branch (if on the default branch), commit if needed, push, open a pul
 
 ### Constraints
 
-- Never edit, format, or "fix" files. Ship what is already in the tree.
+- Ship exactly what is already in the tree.
 - Draft unless the user says otherwise (ready, publish, not draft).
 - Pull request title and commit title use conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `perf:`, `test:`.
-- Commit message is the title only. No body.
-- Pull request body is `<PR_TEMPLATE_PATH>`. Read that file and fill it. Do not invent extra sections. <PR_TEMPLATE_RULES>
-- Do not invent scope. Read the diff and say what changed.
-- No force push. No skipped hooks.
+- Commit message is the title line only.
+- Pull request body is `<PR_TEMPLATE_PATH>`. Read that file and fill exactly its sections. <PR_TEMPLATE_RULES>
+- Read the diff and describe only what changed.
+- Push with a plain push and let every hook run.
 - If already on a non-default branch, stay on it. If on `<DEFAULT_BRANCH>`, create a short kebab-case branch from it first.
-- Add `agent-created` only when the caller asks. Add no other label unless the caller asks.
+- Add labels, including `agent-created`, only when the caller asks.
 
 ### Steps
 

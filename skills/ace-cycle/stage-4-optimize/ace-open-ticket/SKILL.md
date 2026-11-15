@@ -9,9 +9,9 @@ Write one ticket body and open the ticket. Done means the ticket exists, its bod
 
 ## Constraints
 
-- Open the ticket only as the "Open a ticket" section of `ace/TICKET_TRACKER.md` says. If that file or that section is missing, stop before writing anything and say which one is missing. Do not open the ticket another way.
-- Do not put Priority or Size in the body.
-- Do not invent a `###` heading.
+- Open the ticket only as the "Open a ticket" section of `ace/TICKET_TRACKER.md` says. If that file or that section is missing, stop before writing anything and say which one is missing. That section is the only way to open it.
+- Send Priority and Size to the ticket tracker fields, outside the body.
+- Use only the `###` headings below.
 - Omit Rules when there are none.
 - Omit Parent and Blocked by unless the caller supplied them. Leave the caller's text in those two sections.
 

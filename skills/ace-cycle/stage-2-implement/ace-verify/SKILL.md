@@ -10,9 +10,9 @@ Prove the current change works. Done means every command in the "Checks" section
 ## Constraints
 
 - Verify only as `ace/VERIFY.md` says, plus the package file its "Packages" section names for each path the change touches. If a file or one of its sections is missing, stop and say which one is missing.
-- A passing check proves the check, not the behavior. Do not report behavior as working until you have tried it.
-- Do not weaken, skip, or delete a check or a test to make it pass. Do not skip hooks.
-- A failure that also happens without this change is pre-existing. Report it. Do not fix it.
+- A passing check proves the check, not the behavior. Report behavior as working only after you have tried it.
+- Make a failing check or test pass by fixing the code. Keep every check, test, and hook as strict as you found it, and let hooks run.
+- A failure that also happens without this change is pre-existing. Report it and leave it as it is.
 - Stop every process you started.
 
 ## Workflow
@@ -37,7 +37,7 @@ Run every command in the "Checks" section of each verify file from the constrain
 
 Start the app as the "Run the app" section says. For each behavior from step 1, try it as the matching line of the "Check behavior" section says, and look at the result.
 
-When the change has no runtime behavior (docs, comments, types only), write that and skip this step. When a behavior cannot be tried here, write exactly what is missing, such as a login or a service. Do not count it as verified.
+When the change has no runtime behavior (docs, comments, types only), write that and skip this step. When a behavior cannot be tried here, write exactly what is missing, such as a login or a service, and list it under Not verified.
 
 ## 4. Fix and repeat
 

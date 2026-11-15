@@ -12,11 +12,11 @@ What done looks like: a concrete edit in a skill, `AGENTS.md`, a lint or CI chec
 
 ## Constraints
 
-- Do not change product code unless that is the only way to steer the next agent.
-- Do not invent extra factory features.
-- Do not write ADRs.
+- Change files that steer agents. Touch product code only when that is the only way to steer the next agent.
+- Build only the fix the problem needs. Record the decision in the edited file itself, with no ADR.
 - Prefer a check over a prose rule. Prefer a small edit over a new skill. Prefer a new skill over a new architecture.
-- When you edit a skill, read `ace-skill-optimizer` and pass the checklist it links.
+- Write each fix as the behaviour you want next time. "The agent edits generated files" becomes "Change skills in the source folder; reinstall to update the copies." Use the wording rule in [ace-skill-optimizer](../ace-skill-optimizer/SKILL.md) for every steering file you write, and run its [check-wording.sh](../ace-skill-optimizer/scripts/check-wording.sh) on each one.
+- When you edit a skill, read [ace-skill-optimizer](../ace-skill-optimizer/SKILL.md) and pass the checklist it links.
 - Look up facts yourself. Ask the user only for decisions.
 
 ## Workflow
