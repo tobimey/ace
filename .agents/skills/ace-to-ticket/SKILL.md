@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Turn an existing spec into **ticket(s)**. **One ticket** fills the spec ticket itself. **Multiple tickets** are tracer-bullet vertical slices as **sub-tickets** of that parent, each declaring what blocks it.
 
-Read `ace-write-ticket` before any draft. Follow `ace/TICKET_TRACKER.md` to read, open, and update tickets, and to link sub-tickets and blockers. Do not write ticket files in the repo.
+Read `ace-open-ticket` before any draft. Open every new ticket with it. Follow `ace/TICKET_TRACKER.md` to read and update tickets, and to link sub-tickets and blockers. Do not write ticket files in the repo.
 
 ## Constraints (always)
 
@@ -106,9 +106,9 @@ Iterate until the user approves the breakdown.
 - Do not create a second ticket when a ticket was named or already in the conversation.
 - Do not split the work across multiple tickets in this mode.
 
-If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, including type, Priority, Size, and project. Do not create another.
+If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, including type, Priority, Size, and project. Write its body in the shape `ace-open-ticket` defines. Do not create another.
 
-If they confirmed none exists in step 1, open a new ticket as the ticket tracker says.
+If they confirmed none exists in step 1, open a new ticket with `ace-open-ticket`.
 
 ### 4b. Multiple tickets — publish
 
@@ -116,13 +116,13 @@ If they confirmed none exists in step 1, open a new ticket as the ticket tracker
 - After create, attach each ticket as a **sub-ticket** of the parent from step 1. Do not leave tickets as top-level tickets.
 - Do not edit the parent ticket body.
 
-Open one ticket per approved ticket as the ticket tracker says, **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.
+Open one ticket per approved ticket with `ace-open-ticket`, **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.
 
 Work the frontier: any ticket whose blockers are all done. For a chain that is strictly one-after-another, that means top to bottom.
 
 ### Ticket body (both modes)
 
-Write the body with `ace-write-ticket`.
+Pass these facts to `ace-open-ticket`.
 
 Who this is from is Ticket.
 

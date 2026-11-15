@@ -102,7 +102,7 @@ Fix a logic, security, or performance finding when one edit is the correct one a
 
 **Example (leave).** The same read could move to a background job or stay on the request. Write it as a finding.
 
-One commit for every fix in this pass. When you change files, run the repo's checks (lint, typecheck, tests, build, and any other check its CI runs) and fix failures until they pass. Find the commands in `ace/AGENTS.md`, the build config, or the CI workflow.
+One commit for every fix in this pass. When you change files, run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file its "Packages" section lists for the changed paths. Fix failures until they pass.
 
 If a fix still fails those checks, drop that fix and write it as a finding. When nothing qualifies, do not commit.
 

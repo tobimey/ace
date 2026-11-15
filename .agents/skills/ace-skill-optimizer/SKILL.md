@@ -16,7 +16,7 @@ User-requested behaviour wins over a pure checklist pass. If they say X is faili
 
 This skill is the only prefix list.
 
-- `ace-audit-` is an auditor job. Repo-wide. It files tickets. It does not edit the repo or open a pull request.
+- `ace-audit` is the auditor job. Repo-wide, one domain per run. It files tickets. It does not edit the repo or open a pull request.
 - `ace-review`, `ace-check-spec`, and `ace-validate-standards` are review jobs for the current change.
 - `ace-` plus a verb is a cycle or shared job. A person is in the loop, or another skill calls it.
 - Skills without the `ace-` prefix are project or vendored skills. They teach a library or a tool. Leave ace pipeline facts out of them.
@@ -70,7 +70,7 @@ Before any edit, state:
 
 If any of those is unclear, **stop and ask**. Do not guess and then rewrite.
 
-Ask with the harness's question tool when it has one. Otherwise ask in chat. Number the questions. Offer a recommended answer when you have one.
+Ask with the harness's question tool when it has one. Otherwise ask in chat, in the question format of `ace-unslop`.
 
 Look up filesystem facts yourself. Ask only for decisions: purpose, key functionality, what "working" means for the complaint, trigger phrases, slash-only vs auto-load (`disable-model-invocation: true`).
 

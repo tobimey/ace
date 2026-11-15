@@ -31,14 +31,4 @@ What done looks like: a concrete edit in a skill, `AGENTS.md`, a lint or CI chec
 
 Number each question. Give your recommended answer. Then wait. If a later question depends on this round, ask it next round.
 
-Write the questions as plain text in the chat. Do not put them inside a markdown fence. Do not use bold, headings, or other markdown on the question lines.
-
-Each question is two plain lines:
-
-❓ Q1 - <question title>: <question body>
-
-➡️ <your recommended answer>
-
-When you write the questions, read and follow `ace-unslop`. Keep the ❓ and ➡️ markers. Unslop rule 18 does not apply to them.
-
-The question is a few sentences. If there are choices, put each on its own line as plain text, not a markdown list. The recommended answer is one sentence. Use plain words. If you need a specialist term, define it in the same sentence.
+Write the questions in the question format of `ace-unslop`.

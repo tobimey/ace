@@ -46,10 +46,14 @@ Ace is generic. It's suitable for all sorts of software projects in whatever lan
 The skills are built in a way that they listen to your needs. These adapters live in `ace/` in your project, and `ace-setup` creates them:
 
 - `GLOSSARY.md` holds a shared language between the human and the agent, so that nothing drifts.
-- `AGENTS.md` gets injected into every agent session. Tell the agent what your app is, how it works and how your code is structured, so it finds things more efficiently.
 - `CODING_STANDARDS.md` gets used in stage 2 and 3. To check that the code is written in a way that is consistent with your coding standards.
+- `VERIFY.md` says how to prove a change works: the checks CI runs, how to start the app, and how to try each kind of change. `ace-verify` follows it in stage 2, and the review jobs run its checks in stage 3.
 - `TICKET_TRACKER.md` says how to read, search, open, and update tickets, e.g. in GitHub Issues, Linear, Jira, etc.
 - `CODE_HOSTING.md` says how to open a pull request, comment on it, and find the tickets it closes, e.g. on Github, Gitlab, Bitbucket, etc.
+
+In a monorepo, `ace-setup` detects the workspace and gives each package with its own checks or app a small `ace/` folder with its own `VERIFY.md`, plus a `CODING_STANDARDS.md` if the package has its own rules. The root files list those package files, and the package files add to the root ones. The glossary, ticket tracker and code hosting files exist only once, at the root.
+
+Your root `AGENTS.md` (or `CLAUDE.md`) stays where it is, because harnesses load it from there into every agent session. `ace-setup` adds a short section to it that points at the adapters. If the file doesn't exist yet, `ace-setup` writes a small draft for you to iterate on. If you have an `AGENTS.md` but no `CLAUDE.md`, it also creates a `CLAUDE.md` containing only `@AGENTS.md`, so Claude Code loads the same instructions.
 
 ## Credits
 

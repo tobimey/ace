@@ -157,7 +157,7 @@ Ticket: title starts with `Perf: `. Type is `Chore`. Critical is Priority `Urgen
 
 ## Health
 
-Read the coding standards in full first, including Smells.
+Read the coding standards in full first, including Smells and every package file their "Packages" section lists. A package file applies only to its path.
 
 Find behavior-identical breaks of those rules, each with a file path and the rule it breaks. A smell is a judgement call. Count it only when the better shape is obvious and the fix keeps the same behavior. An earlier rule in the coding standards wins.
 

@@ -18,20 +18,14 @@ Check whether this change does what the linked ticket asked. Done means pass, sk
 ## Workflow
 
 ```
-- [ ] 1. Resolve the diff
+- [ ] 1. Get the diff
 - [ ] 2. Find the linked ticket
 - [ ] 3. Pass, skip, or fail
 ```
 
-## 1. Resolve the diff
+## 1. Get the diff
 
-When the caller passed a diff, use it. When the caller passed a pull request and no diff, use `gh pr diff`. When the caller passed a base ref and no diff and no pull request, diff against that ref. In those cases, do not diff the checkout this run woke up on against the default branch.
-
-When the caller passed none of those, diff the current branch against the default branch (`origin/main`, then `main`):
-
-```bash
-git diff "$(git merge-base HEAD origin/main 2>/dev/null || git merge-base HEAD main)"
-```
+Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says. If that file or that section is missing, stop and say which one is missing.
 
 Stop if there is no diff.
 
