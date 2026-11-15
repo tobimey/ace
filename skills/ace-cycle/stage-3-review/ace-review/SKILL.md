@@ -1,12 +1,12 @@
 ---
 name: ace-review
-description: Reviews the current change, commits a fix when one edit is the correct one, writes the rest as findings, and writes Merge Danger.
+description: Reviews the current change, fixes what has one correct edit, writes the rest as findings, and writes Merge Danger.
 disable-model-invocation: true
 ---
 
 # Review
 
-Review the diff for logic bugs, security holes, performance costs, and architecture. Done means a fix is committed when one edit is the correct one, every finding that needs a person is written with a severity and a best fix, and Merge Danger is written.
+Review the diff for logic bugs, security holes, performance costs, and architecture. Done means each fix that needs no decision is made, and committed when the caller passed a pull request, every finding that needs a person is written with a severity and a best fix, and Merge Danger is written.
 
 ## Requires
 
@@ -17,6 +17,7 @@ Before you start, check that each skill above is installed: its folder sits next
 ## Constraints
 
 - Edit only files this change touches.
+- On a pull request, commit your fixes. On a local diff, leave them uncommitted. The user commits.
 - Flag only logic, security, performance, and architecture. Coding standards, naming, and code smells belong to `ace-validate-standards`. Spec match belongs to `ace-check-spec`.
 - Ignore generated and vendored code, and any path the coding standards mark as out of scope.
 - A finding needs a concrete failure mode or cost on a plausible path in this diff, or a simpler or deeper design this diff could have used. Leave out hypotheticals, pre-existing issues the diff does not make worse, unverified dependency advisories, and accepted risks.
@@ -41,18 +42,9 @@ Stop if the diff is empty and there is no untracked work. Also read call sites t
 
 ## 2. Scan
 
-Load `ace-checks` and read its Logic, Security, and Performance files. In the diff and the call sites it affects, find what each file's Find section lists. Follow the Framework behavior section of the Performance file. File a finding under the domain its Belongs elsewhere section names.
+Load `ace-checks` and read its Logic, Security, Performance, and Architecture files. In the diff and the call sites it affects, find what each file's Find section lists. Follow the Framework behavior section of the Performance file. File a finding under the domain its Belongs elsewhere section names.
 
-### Architecture
-
-The same change, simpler or as a deep module. Flag the concrete better shape.
-
-- Same job in fewer layers, files, or types (about a quarter the size)
-- Shallow module: the surface is as complex as the implementation, or callers reach internals
-- New logic in the wrong module (another feature, a shared module, or a package already in play)
-- Speculative layer, or a second pattern beside one that already works
-
-Propose a redesign only for files this diff changes.
+For architecture, flag the concrete better shape, and propose a redesign only for files this diff changes.
 
 ## 3. Drop out of scope
 
@@ -68,23 +60,23 @@ Fix a logic, security, or performance finding when one edit is the correct one a
 
 **Example (leave).** The same read could move to a background job or stay on the request. Write it as a finding.
 
-One commit for every fix in this pass. When you change files, run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file its "Packages" section lists for the changed paths. Fix failures until they pass.
+When you change files, run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file its "Packages" section lists for the changed paths. Fix failures until they pass.
 
-If a fix still fails those checks, drop that fix and write it as a finding. Commit only when at least one fix qualifies.
+If a fix still fails those checks, drop that fix and write it as a finding.
 
-Commit with a conventional title, `fix:` or `perf:`, and a short reason.
+On a pull request, put every fix from this pass in one commit, with a conventional title, `fix:` or `perf:`, and a short reason.
 
 ## 5. Write what remains
 
-A committed fix is not a finding. Write a finding for what you left.
+A fix you made is not a finding. Write a finding for what you left.
 
 Each finding is an emoji, then **severity** and category, then one or two sentences, then **Best fix.** and the concrete change. Use exactly the emoji listed for that severity. Write each finding as plain top-level paragraphs in the shape below, outside any alert box or `>` blockquote.
 
-Rate logic, security, and performance findings by the Severity section of their `ace-checks` file, then write that level as:
+Rate each finding by the Severity section of its `ace-checks` file, then write that level as:
 
-- `blocker` is 🔴. Critical or High. You would block the merge.
-- `should-fix` is 🟡. Medium, or a simpler or deeper design this change should have used. You would ask a teammate to change it.
-- `nit` is 🔵. Low, or an optional architecture finding. Concrete and worth the author's time.
+- `blocker` is 🔴. Critical, or High outside architecture. You would block the merge.
+- `should-fix` is 🟡. Medium, or High architecture. You would ask a teammate to change it.
+- `nit` is 🔵. Low. Concrete and worth the author's time.
 
 ```
 🔴 **blocker** logic. One or two sentences.
@@ -94,11 +86,11 @@ Rate logic, security, and performance findings by the Severity section of their 
 `path/to/file.ts:42`
 ```
 
-`path` is the repo-relative path. `line` is the line in the new file after this pass's commit. The category is `logic`, `security`, `performance`, or `architecture`. `should-fix` uses 🟡. `nit` uses 🔵.
+`path` is the repo-relative path. `line` is the line in the new file after this pass's fixes. The category is `logic`, `security`, `performance`, or `architecture`. `should-fix` uses 🟡. `nit` uses 🔵.
 
 Prefer fewer findings.
 
-When you committed, start the output with the fixed list and nothing around it. One bullet per fix. One clause with the path and the change only.
+When you fixed something, start the output with the fixed list and nothing around it. One bullet per fix. One clause with the path and the change only.
 
 ```
 Fixed:
@@ -106,9 +98,9 @@ Fixed:
 - `path/to/file.ts`: what changed
 ```
 
-Then the remaining findings, if any. When you committed and nothing remains, that list is the output before Merge Danger.
+Then the remaining findings, if any. When you fixed something and nothing remains, that list is the output before Merge Danger.
 
-When you did not commit and nothing remains, write `No findings.` before Merge Danger.
+When you fixed nothing and nothing remains, write `No findings.` before Merge Danger.
 
 Go straight from the last finding to Merge Danger.
 
@@ -121,11 +113,17 @@ Always write this block last. It is not a finding. Return it to the caller only.
 
 **Door:** one-way or two-way
 
-**Blast Radius:** one word
+**Blast Radius:** module, feature, or product
 ```
 
 Door is `two-way` when going back is easy and possible: a revert restores the previous behavior, and leftover stored data, sent messages, or a public contract change do not remain. Otherwise write `one-way`. Door takes only these two values.
 
-Blast Radius is one word for the largest area this merge can affect.
+Blast Radius is the largest area this merge can break. It takes only these three values:
+
+- `module`: one function, module, or call path, and the callers in this diff
+- `feature`: one feature and the people who use it
+- `product`: the whole product, every user, or a shared module many features depend on
+
+Count stored data, external services, and shared contracts as part of every feature that reads them.
 
 Add a sentence after Door or Blast Radius only when it adds information those labels do not already say.

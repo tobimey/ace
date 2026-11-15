@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Implement
 
-Implement the plan, spec, or ticket the caller gives. Done means each behavior the plan names works and has a test that failed before the change, nothing outside the request was built, and `ace-verify` passes.
+Implement the plan, spec, or ticket the caller gives. Done means each behavior the plan names works and has a test, one that failed before the change for a new behavior and passed before it for a kept one, nothing outside the request was built, and `ace-verify` passes.
 
 ## Requires
 
@@ -29,17 +29,18 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
 ## Constraints
 
 - Build only what the plan asks for. Name anything else you noticed in the report.
+- Leave every change uncommitted. The user commits, or `ace-open-pr` does when the user asks for a pull request.
 - Look up facts in the code yourself. Ask only for decisions the plan leaves open.
-- The plan sets the tests. Write exactly one test per behavior or edge case it names.
+- The plan sets the tests. Give each behavior and edge case it names its own test, and test only those.
 - Test only through the public interface, so a refactor keeps tests green.
 - Past decisions in docs, comments, or ADRs explain the current state. When the plan contradicts one, follow the plan and update or delete the old note in the same change.
 
 ## Workflow
 
-1. Read the plan and the code it touches. List each behavior the plan names.
+1. Read the plan and the code it touches. List each behavior the plan names. When the plan keeps behavior the same, such as a refactor or a speedup, those are the behaviors the touched code has now.
 2. Pick the smallest shape that does the job.
 3. Build it in slices. For each behavior:
-   1. Write a test for it. Run it and see it fail.
+   1. Write a test for it and run it. A new or changed behavior fails. A kept behavior passes, and when it already has a test, use that test as it is.
    2. Write the least code that makes it pass.
    3. Clean up while the tests stay green.
 

@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Standards
 
-Bring the diff in line with the coding standards. Done means any safe edits are committed.
+Bring the diff in line with the coding standards. Done means every safe edit is made: committed when the caller passed a pull request, left uncommitted on a local diff.
 
 ## Constraints
 
@@ -16,7 +16,7 @@ Bring the diff in line with the coding standards. Done means any safe edits are 
 - Leave to the repo's linter and type checker whatever they already enforce.
 - A smell in the coding standards is a judgement call. Fix it only when the better shape is obvious and the edit keeps the same behavior. An earlier rule in that file wins.
 - A tautological test in this diff (one that cannot fail) is a standards violation. Delete that test case, or drop only the incidental asserts. Production behavior stays the same.
-- One commit for the whole standards pass.
+- On a pull request, commit the whole standards pass as one commit. On a local diff, leave your edits uncommitted. The user commits.
 - Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
 
 ## Workflow
@@ -31,7 +31,7 @@ Bring the diff in line with the coding standards. Done means any safe edits are 
 
 Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says.
 
-Stop if there is no diff. Stop if the working tree has changes you did not just make for this pass.
+Stop if there is no diff. On a pull request, also stop if the working tree has uncommitted changes.
 
 ## 2. Read the standards and the diff
 
@@ -41,6 +41,6 @@ Read `ace/CODING_STANDARDS.md` in full, plus each package file its "Packages" se
 
 When you change files, run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file its "Packages" section lists for the changed paths. Fix failures until they pass.
 
-Commit with a conventional title, `refactor:` and a short reason. Write what changed and why.
+On a pull request, commit with a conventional title, `refactor:` and a short reason. Write what changed and why.
 
-Commit only when an edit is safe. When none is, write only `No standards edit was safe.`
+When no edit is safe, change nothing and write only `No standards edit was safe.`

@@ -41,23 +41,48 @@ A question about the code, with no change asked: "how does X work", "why is Y bu
 1. How it works now: `ace-how`. Why it is this way: `ace-why`. Both, or an explanation of a change: `ace-teach`. Lasting skill over several sessions: `ace-learn`.
 2. Answer. Change nothing.
 
+### Prototype
+
+A question a quick sketch answers by running it: "prototype X", "try both layouts", "which is faster, A or B".
+
+1. Write the question and the result that settles it, in two lines.
+2. Build the smallest sketch that shows that result, on a throwaway branch or in a scratch folder. It needs no tests, review, or coding standards.
+3. Run it and look at the result. Try each option the same way.
+4. Answer with what you saw and the choice it points to. Delete the sketch, unless the user wants to keep it.
+
 ### Plan
 
 An idea or a feature whose shape is not settled.
 
-1. `ace-grill` until the design tree has no open branch.
-2. When no spec ticket exists, open one with `ace-open-ticket` from the settled plan.
-3. `ace-to-ticket` on the spec ticket.
+1. `ace-grill` until the design tree has no open branch. When a decision turns on something only running code shows, such as speed or how a layout feels, run the Prototype playbook for it and bring its result to that question.
+2. Ask one question in the question format of `ace-unslop`: write the plan as tickets, or implement it here? Recommend tickets when the work is size `L` or `XL`, needs more than one context window, or should wait. Otherwise recommend implementing here. Wait for the answer.
+3. Tickets: `ace-to-ticket` with the spec ticket, or with the settled plan when no spec ticket exists. It opens the tickets. Here: run the Build playbook with the settled plan, and hand off as Build. Neither: stop.
+
+### Perf
+
+Something works but is too slow: a page, a query, a build, a job.
+
+1. Measure it the way the user hits it, three runs or more. Write down the command, each number, and the spread. When it is not slow, report the numbers and stop.
+2. Find what the time goes to, with a profiler or a timer around each step, and trace it to its source.
+3. `ace-implement`, with the fix for that source as the plan. Behavior stays the same.
+4. Measure again the same way. When the gain is inside the spread, revert the fix and stop. Report the numbers before and after, with the command.
+5. Finish the change.
 
 ### Fix
 
 A bug report: something behaves wrong.
 
-1. Reproduce it as the "Check behavior" section of `ace/VERIFY.md` says, and see it fail. When it does not reproduce, report what you tried and stop.
-2. Trace the failure to the first place the code goes wrong.
-3. `ace-implement`, with the bug as the plan. The first test reproduces the bug.
-4. Run the Review playbook on the local diff. Skip it when the user asked to open a pull request and `ace/CYCLE.md` starts a review run once one opens.
-5. `ace-open-pr` when the user asked to ship or open a pull request. Otherwise offer it.
+1. `ace-diagnose`. When no loop goes red on the bug, report what it tried and stop.
+2. `ace-implement`, with the diagnosis as the plan. The first test reproduces the bug at the seam the diagnosis names. When it names no seam, skip that test and say why.
+3. Finish the change.
+
+### Refactor
+
+A change to the shape of the code that keeps what it does: rename, extract, move, merge, simplify.
+
+1. When the message names a ticket, read it with its comments as `ace/TICKET_TRACKER.md` says.
+2. `ace-implement`, with the refactor as the plan. Behavior stays the same.
+3. Finish the change.
 
 ### Build
 
@@ -66,26 +91,25 @@ A ticket, spec, or plan to implement, or a feature the conversation has settled.
 1. When the message names a ticket, read it with its comments as `ace/TICKET_TRACKER.md` says.
 2. When the plan leaves a decision open, `ace-grill` on the open decisions only.
 3. `ace-implement`.
-4. Run the Review playbook on the local diff. Skip it when the user asked to open a pull request and `ace/CYCLE.md` starts a review run once one opens.
-5. `ace-open-pr` when the user asked to ship or open a pull request. Otherwise offer it.
+4. Finish the change.
 
 ### Review
 
 A diff, a branch, or a pull request to review.
 
-Run the three jobs one after another on the same input. Two of them commit, so a parallel run conflicts.
+Run the three jobs one after another on the same input. Two of them edit files, so a parallel run conflicts. On a pull request they commit their edits. On a local diff they leave them uncommitted for the user.
 
 1. `ace-check-spec`.
 2. `ace-validate-standards`.
 3. `ace-review`.
-4. Reply with the spec result, the standards commit, the review findings, and Merge Danger last.
+4. Reply with the spec result, the standards edits, the review fixes and findings, and Merge Danger last.
 5. When the user asked to comment on the pull request, first push the commits from steps 2 and 3 to its branch with a plain push. Then post the reply as one comment that starts with `<!-- ace-review -->`, replacing an earlier comment with that marker, as `ace/CODE_HOSTING.md` says.
 
 ### Audit
 
-"Audit", or a search for bugs, security holes, performance costs, or standards breaks across the repo.
+"Audit", or a search for bugs, security holes, performance costs, standards breaks, or shallow modules across the repo.
 
-1. The `ace-audit-` skill for the domain: `ace-audit-logic`, `ace-audit-security`, `ace-audit-performance`, or `ace-audit-health`. A full audit runs each in turn.
+1. The `ace-audit-` skill for the domain: `ace-audit-logic`, `ace-audit-security`, `ace-audit-performance`, `ace-audit-health`, or `ace-audit-architecture`. A full audit runs each in turn.
 
 ### Improve the factory
 
@@ -95,7 +119,7 @@ Agents went wrong, or the user wants to change how agents are steered.
 
 ### Single job
 
-A message that names one job runs that skill alone: open a ticket with `ace-open-ticket`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, say the last reply plainly with `ace-bro`.
+A message that names one job runs that skill alone: open a ticket with `ace-open-ticket`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, post an explainer on a pull request with `ace-explain-change`, say the last reply plainly with `ace-bro`.
 
 ### Continue
 
@@ -116,10 +140,17 @@ A message that names one job runs that skill alone: open a ticket with `ace-open
 
 3. Say the state and the next playbook in two lines. Run that playbook once the user agrees.
 
+## Finish a change
+
+Perf, Fix, Refactor, and Build end with these steps. Copy them into the todo list in place of "Finish the change".
+
+1. Run the Review playbook on the local diff. Skip it when the user asked to open a pull request and `ace/CYCLE.md` starts a review run once one opens.
+2. `ace-open-pr` when the user asked to ship or open a pull request. Otherwise offer it.
+
 ## Hand off
 
-When Plan, Build, Fix, Review, or Audit ends, read `ace/CYCLE.md` and do what its section for that playbook says. Fix uses the Build section. The section can tell the user the next step, set a label, move a ticket, or say that nothing follows.
+When Plan, Perf, Fix, Refactor, Build, Review, or Audit ends, read `ace/CYCLE.md` and do what its section for that playbook says. Perf, Fix, and Refactor use the Build section. The section can tell the user the next step, set a label, move a ticket, or say that nothing follows.
 
 When the file or the section is missing, end the reply with the next step from the Continue table, as one line the user can send, such as `Next: review pull request #12`.
 
-Understand, Improve the factory, Continue, and Single job hand off nothing. A playbook run as a step of another hands off nothing. The outer playbook hands off.
+Understand, Prototype, Improve the factory, Continue, and Single job hand off nothing. A playbook run as a step of another hands off nothing. The outer playbook hands off.

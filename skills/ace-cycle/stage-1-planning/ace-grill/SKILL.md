@@ -6,20 +6,18 @@ disable-model-invocation: true
 
 # Ace grill
 
-Interview the user until you reach a shared understanding. Record resolved terms while you go. Done means the plan is settled and the user has chosen what happens to it: a ticket, an implementation here, or neither.
-
-## Constraints
-
-- Write only to `ace/GLOSSARY.md` until the user answers the closing question.
-- Hand the plan on only as the user chooses in the closing question.
+Interview the user until you reach a shared understanding. Record resolved terms while you go. Done means the frontier is empty and the settled plan is summarized. The caller decides what happens to the plan next.
 
 ## Requires
 
 - `ace-unslop`
-- `ace-to-ticket`
-- `ace-implement`
 
 Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+
+## Constraints
+
+- Write only to `ace/GLOSSARY.md`.
+- End with the settled plan. Opening tickets and implementing belong to the caller.
 
 ## Interview
 
@@ -37,13 +35,7 @@ The session is done when the frontier is empty: every branch of the design tree 
 
 ## Close
 
-When the frontier is empty, summarize the settled plan. Then ask one question in the question format of `ace-unslop`: write the plan as a ticket, or implement it here? Recommend a ticket when the work is size `L` or `XL`, needs more than one context window, or should wait. Otherwise recommend implementing here.
-
-Wait for the answer, then follow it:
-
-- Ticket: follow `ace-to-ticket` with the settled plan as the spec.
-- Here: follow `ace-implement` with the settled plan.
-- Neither: stop.
+When the frontier is empty, summarize the settled plan: each decision and its answer, and the terms you added to the glossary. Then stop.
 
 ## Docs
 

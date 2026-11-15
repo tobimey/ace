@@ -2,13 +2,19 @@
 
 # Ace
 
-Ace is an adaptable, agentic skills framework. Use the `ace-setup` skill to get started.
+Ace is an adaptable, agentic skills framework.
 
 The new age of programming isn't … programming. It's probably not even engineering. Writing code is not just cheap; for many workflows it is largely delegated to agents. With Ace, the role shifts: less direct code authorship, more engineering of the factory and the inputs that the factory receives.
 
+## Get started
+
+1. Install the skills into your project: `npx skills add tobimey/ace`. To add a single skill later, use `npx skills add tobimey/ace --skill NAME`.
+2. Run `/ace-setup`. It writes the adapters in `ace/` and turns on `ace-mode` in your `AGENTS.md`.
+3. Read the drafts it wrote, fix what is wrong, and start working. Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills.
+
 ## What models to use?
 
-Make sure you use a model that scores > 40 on the current [Artificial Analysis Intelligence Index](https://artificialanalysis.ai/models#intelligence).
+Use a model near the top of the [Artificial Analysis Intelligence Index](https://artificialanalysis.ai/models#intelligence). Ace skills are long, multi-step instructions that call each other, and weaker models skip steps or drop rules.
 
 ## Agnostic by default 
 
@@ -16,19 +22,21 @@ Ace is fully harness agnostic. You can use it with any harness. Ace is also agno
 
 ## Skill categories
 
-Ace groups its skills into these categories: 
+Ace groups its skills into these categories. Each one is a folder in `skills/`.
 
-- Stage 1: plan: skills that define a plan, create tickets, etc. 
-- Stage 2: implement: skills that implement the plan.
-- Stage 3: review: skills that review the codebase, usually invoked by PR events.
-- Stage 4: optimize: skills that optimize the current agentic system so it works better for the next iteration.
+- Stage 1, plan (`skills/ace-cycle/stage-1-planning`): `ace-grill` interviews you until a plan is settled, `ace-to-ticket` turns the plan into one ticket or several sub-tickets, and `ace-open-ticket` opens a ticket in the shared Ace shape.
+- Stage 2, implement (`skills/ace-cycle/stage-2-implement`): `ace-diagnose` finds and proves the root cause of a bug, `ace-implement` builds the plan test-first, `ace-verify` proves it works, and `ace-open-pr` opens the pull request.
+- Stage 3, review (`skills/ace-cycle/stage-3-review`): `ace-check-spec` checks the change against its ticket, `ace-validate-standards` fixes coding-standards breaks, and `ace-review` fixes or reports logic, security, performance, and architecture problems and rates the Merge Danger. On a pull request these jobs commit their fixes. On a local diff they leave them uncommitted, and you commit.
+- Stage 4, optimize (`skills/ace-cycle/stage-4-optimize`): skills that improve the agentic system so it works better next time. `ace-retro` looks back on a session, `ace-optimize-factory` fixes one misbehaviour, `ace-agents-file` edits the agents file, and `ace-skill-optimizer` and `ace-create-skill` edit and create skills.
 
-That is called the `ace cycle`. It's the core software cycle that drives the software development process. On top of these, Ace provides a few more skills: 
+That is called the `ace cycle`. It's the core software cycle that drives the software development process. On top of these, Ace provides a few more skills:
 
-- audit: skills that audit the codebase, usually on a CRON. They usually lead to new tickets that then feed into stage 2.
-- understand: skills that help the developer understand the codebase, its architecture, its dependencies, its code style, its best practices, etc. `ace-explain-change` writes an explainer for a change and posts it on the pull request. It is opt-in: add it to your CI next to the review skills.
-- shared: skills that other skills load, never run on their own. `ace-checks` holds the logic, security and performance rules that both `ace-review` and the auditors use.
-- tone: skills that add quality of life improvements when writing with an agent like `/ace-bro` when the agent uses too much jargon, or `/ace-unslop` to keep the agent's output clean and easy to follow.
+- router (`skills/ace-mode`): `ace-mode` picks the playbook for each message and runs its skills in order.
+- setup (`skills/ace-setup`): `ace-setup` writes the adapters.
+- audit (`skills/audit`): `ace-audit-logic`, `ace-audit-security`, `ace-audit-performance`, `ace-audit-health`, and `ace-audit-architecture` audit the whole codebase, usually on a schedule. Each files at most three tickets, which feed into stage 2.
+- understand (`skills/understand`): `ace-how` explains how code works, `ace-why` explains why it is that way, `ace-teach` does both for a change, and `ace-learn` teaches a topic over several sessions. `ace-explain-change` writes an explainer for a pull request, with a code walkthrough and a quiz, and posts it there. Run it by name, or add it to the CI step that runs your reviews.
+- shared (`skills/shared`, plus `ace-audit` in `skills/audit`): skills that other skills load, never run on their own. `ace-checks` holds the logic, security, performance, and architecture rules that both `ace-review` and the auditors use. `ace-codebase-design` holds the deep-module vocabulary those rules and any design work use. `ace-audit` holds the workflow all auditors share.
+- tone (`skills/tone`): `/ace-bro` restates the last reply without jargon, and `ace-unslop` keeps the agent's writing clean and easy to follow.
 
 ## Local vs Cloud 
 
@@ -63,6 +71,6 @@ Your root `AGENTS.md` (or `CLAUDE.md`) stays where it is, because harnesses load
 
 Ace builds on ideas and skills from these projects:
 
-- [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT). `ace-retro` is adapted from his `retro` skill, `ace-learn` from his `teach` skill, and `ace-grill` and `ace-to-ticket` follow his grilling and ticket-slicing workflows.
+- [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT). `ace-retro` is adapted from his `retro` skill, `ace-learn` from his `teach` skill, `ace-diagnose` from his `diagnosing-bugs` skill, `ace-codebase-design` from his `codebase-design` skill, `ace-audit-architecture` follows his `improve-codebase-architecture` survey, and `ace-grill` and `ace-to-ticket` follow his grilling and ticket-slicing workflows.
 - [pstack](https://cursor.com/marketplace/cursor/pstack) by Lauren Tan (MIT, [mirror](https://github.com/backnotprop/pstack)). `ace-mode` and the playbook-style skills take after its approach. `ace-how`, `ace-why`, and `ace-teach` are adapted from its `how`, `why`, and `teach` skills.
 - [explain-diff](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524) by Geoffrey Litt. `ace-explain-change` follows its idea of explaining a change with background, intuition, a code walkthrough, and a quiz.

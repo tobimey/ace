@@ -22,7 +22,7 @@ Read the coding standards in full first, including Smells and every package file
 
 Behavior-identical breaks of those rules, each with a file path and the rule it breaks. A smell is a judgement call. Count it only when the better shape is obvious and the fix keeps the same behavior. An earlier rule in the coding standards wins.
 
-Logic, security, and performance findings belong to `ace-audit-logic`, `ace-audit-security`, and `ace-audit-performance`.
+Logic, security, performance, and architecture findings belong to `ace-audit-logic`, `ace-audit-security`, `ace-audit-performance`, and `ace-audit-architecture`.
 
 ## Drop
 

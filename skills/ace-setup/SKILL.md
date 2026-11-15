@@ -17,6 +17,8 @@ Set up ace in this project. Done means the root agents file turns on `ace-mode` 
 
 In a monorepo, each package the user picked also has `PACKAGE/ace/VERIFY.md`, and `PACKAGE/ace/CODING_STANDARDS.md` if it has its own rules. The root `ace/VERIFY.md` and `ace/CODING_STANDARDS.md` list them.
 
+Each verify file was also followed once end to end: its checks ran, the app started, and one behavior was tried and seen working. A step that could not run is named in the last reply.
+
 ## Constraints
 
 - An `ace` folder holds only adapters. Keep `AGENTS.md` and `CLAUDE.md` at the repo root. Harnesses load them only from there.
@@ -95,6 +97,17 @@ For a change that touches one of these paths, also follow its file: run its chec
 
 - `apps/web/`: `apps/web/ace/VERIFY.md`
 ```
+
+### Prove it
+
+Follow each verify file once, as an agent will, before you go on. In a monorepo, that is the root file and each package file.
+
+1. Run every command in its "Checks" section.
+2. Start the app as its "Run the app" section says, and wait until it is usable. Skip this and step 3 when the section says `None.`
+3. Pick one line of its "Check behavior" section and one feature that exists today. Try that feature on the running app as the line says, and look at the result.
+4. Stop every process you started.
+
+When a step fails because the file is wrong, such as a wrong command, port, or start order, fix the file and run the steps again. When the same step fails after three fixes, ask the user. When a check fails because the code fails, keep the command, tell the user, and go on. Change no product code. When a step needs something only the user has, such as a login or a secret, ask for it. When they cannot give it, go on and name the step in your last reply.
 
 ## 3. Ticket tracker
 
