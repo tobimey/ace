@@ -9,19 +9,20 @@ Write one ticket body and open the ticket. Done means the ticket exists, its bod
 
 ## Constraints
 
-- Open the ticket only as the "Open a ticket" section of `ace/TICKET_TRACKER.md` says. If that file or that section is missing, stop before writing anything and say which one is missing. That section is the only way to open it.
-- Send Priority and Size to the ticket tracker fields, outside the body.
+- Open the ticket only as the "Open a ticket" section of `ace/TICKET_TRACKER.md` says. That section is the only way to open it.
+- Find each adapter section by its job. Its heading may differ from the one named here. If the file or the section is missing, name it and say what it must hold, before you write the body. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
+- Send type, Priority, Size, and Risk to the ticket tracker as its "Open a ticket" section says, outside the body.
 - Use only the `###` headings below.
 - Omit Rules when there are none.
 - Omit Parent and Blocked by unless the caller supplied them. Leave the caller's text in those two sections.
 
 ## Inputs
 
-The caller supplies the title, type, Priority, Size, the role for Who this is from, and the facts for Goal, Task, and Done when. It may also supply Rules, Parent, and Blocked by. When a required input is missing, take it from the conversation. Ask only for what the conversation does not settle.
+The caller supplies the title, type, Priority, Size, Risk, the role for Who this is from, and the facts for Goal, Task, and Done when. It may also supply Rules, Parent, and Blocked by. When a required input is missing, take it from the conversation. Ask only for what the conversation does not settle.
 
 A caller may add a rule for what goes inside a section. Follow that rule. The headings stay the ones below.
 
-## Type, Priority, and Size
+## Type, Priority, Size, and Risk
 
 The caller chooses these. They go to the ticket tracker, not the body.
 
@@ -29,12 +30,17 @@ Type is `Bug` for a fix, `Feature` for new behavior, `Chore` when nothing a pers
 
 Priority is `Urgent`, `High`, `Medium`, or `Low`.
 
-Size is the concrete work:
+Size is how much work it is:
 
 - `S`: a few lines in one file
-- `M`: inside one feature
-- `L`: crosses features
-- `XL`: auth, tenant isolation, webhooks, or stored data
+- `M`: inside one feature, and fits one agent session
+- `L`: crosses features, or needs more than one session
+- `XL`: too big for one ticket. Split it into sub-tickets with `ace-to-ticket`
+
+Risk is what breaks if the change is wrong, whatever its size:
+
+- `High`: it touches auth, permissions, tenant isolation, payments, webhooks, secrets, or stored data and its migrations
+- `Low`: everything else
 
 ## Workflow
 
@@ -46,7 +52,7 @@ Size is the concrete work:
 
 ## 1. Read the ticket tracker
 
-Read `ace/TICKET_TRACKER.md` and find its "Open a ticket" section. If either is missing, stop and say so.
+Read `ace/TICKET_TRACKER.md` and find the section on opening a ticket.
 
 ## 2. Write the body
 
@@ -84,4 +90,4 @@ Fold any other top-level heading into Task or Rules.
 
 ## 3. Open the ticket
 
-Open it as the "Open a ticket" section says, with the caller's title, type, Priority, and Size. Hand back the ticket URL.
+Open it as the "Open a ticket" section says, with the caller's title, type, Priority, Size, and Risk. Hand back the ticket URL.

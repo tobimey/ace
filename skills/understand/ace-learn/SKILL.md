@@ -1,7 +1,6 @@
 ---
 name: ace-learn
 description: Runs a course over several sessions so the user builds lasting skill in a topic tied to their project, such as a subsystem, a library the project depends on, or a technique. Keeps a learning workspace with a mission, learning records, lessons, and reference sheets. Use for "I want to learn X", "get me fluent in this codebase", or to continue a course.
-disable-model-invocation: true
 argument-hint: "What do you want to learn?"
 ---
 
@@ -10,6 +9,14 @@ argument-hint: "What do you want to learn?"
 Teach the user a topic over several sessions, so they can do something new without the agent. Done for one session means the user finished one lesson and the workspace records what they now know.
 
 `ace-teach` explains one thing once. `ace-learn` is for when the user wants the knowledge to stay.
+
+## Requires
+
+- `ace-how`
+- `ace-why`
+- `ace-teach`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
 
 ## Constraints
 

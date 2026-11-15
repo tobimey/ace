@@ -8,30 +8,28 @@ disable-model-invocation: true
 
 Load `ace-audit` and follow it. This skill sets the domain: security holes.
 
+## Requires
+
+- `ace-audit`
+- `ace-checks`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+
+## Before scanning
+
+Load `ace-checks` and read its Security file.
+
 ## Find
 
-- Exposed secrets
-- XSS or other unescaped output
-- Insecure API endpoints
-- Server-side handlers with missing or weak auth
-- Injection
-- Path traversal
-- SSRF or unsafe URL handling in server-side requests
-
-A logic bug with no exposure to an outsider, or to another user or tenant, belongs to `ace-audit-logic`.
+What the Find section of that file lists. What its Belongs elsewhere section names is out of scope.
 
 ## Drop
 
-A weaker finding whose only fix adds runtime cost. When a Critical or High hole has no zero-cost fix, file it with the cheapest correct fix.
+Apply the Drop section of that file.
 
 ## Bar
 
-Highest first. File only Critical and High. Ties go to the wider exposure.
-
-- **Critical.** A secret is exposed, or an outsider can read or change data of many users or tenants.
-- **High.** An outsider, or another user or tenant, can read or change data or act through one endpoint or handler.
-- **Medium.** A real hole that needs an extra condition, and does not expose a secret or another user's data by itself.
-- **Low.** A real hole with little the attacker can do.
+Highest first. File only Critical and High, rated by the Severity section of that file. Break ties as that section says.
 
 ## Ticket
 

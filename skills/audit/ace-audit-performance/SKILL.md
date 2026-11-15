@@ -8,38 +8,28 @@ disable-model-invocation: true
 
 Load `ace-audit` and follow it. This skill sets the domain: performance costs.
 
+## Requires
+
+- `ace-audit`
+- `ace-checks`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+
 ## Before scanning
 
-Find the main framework and its installed version. If the installed package ships docs, read the pages on caching, data loading, and rendering. Otherwise use the docs for that version. Read a further page only when a candidate finding needs it. Judge framework behavior from those docs, not from memory.
+Load `ace-checks` and read its Performance file. Follow its Framework behavior section.
 
 ## Find
 
-- Waterfalls: independent awaits or requests that run one after the other on a request path
-- N+1 queries, or one network call per item in a loop
-- A shared, expensive read with no cache, or a read that bypasses an existing cached helper
-- Per-user or per-request data stored in a shared cache, bloating memory
-- Data loaded on the client that the server could load, or more data sent to the client than the path uses
-- Work on a hot path that could run in the background
-- Scanning or loading more data than the path needs
-- A slow part that blocks the whole page or response when it could load on its own
-
-Wrong data from a bad cache key belongs to `ace-audit-logic` or `ace-audit-security`.
+What the Find section of that file lists. What its Belongs elsewhere section names is out of scope.
 
 ## Drop
 
-- Micro-optimizations, and one-off costs on a rare path with no plausible wait.
-- What the framework or compiler already optimizes.
-- A change that splits a shared cache into many smaller ones.
-- Dependent awaits. Two awaits where the second needs the first's id are not a waterfall.
+Apply the Drop section of that file.
 
 ## Bar
 
-Highest first. File only Critical and High. Ties go to the longer user wait.
-
-- **Critical.** A common path shows nothing until a chain of independent reads finishes, or a shared cache stores per-user data at scale.
-- **High.** A waterfall, N+1, or blocked response on a common path.
-- **Medium.** Wrong cache lifetime or invalidation, or a waterfall on a narrower path.
-- **Low.** A real cost with a small local fix.
+Highest first. File only Critical and High, rated by the Severity section of that file. Break ties as that section says.
 
 ## Ticket
 

@@ -9,7 +9,8 @@ Prove the current change works. Done means every command in the "Checks" section
 
 ## Constraints
 
-- Verify only as `ace/VERIFY.md` says, plus the package file its "Packages" section names for each path the change touches. If a file or one of its sections is missing, stop and say which one is missing.
+- Verify only as `ace/VERIFY.md` says, plus the package file its "Packages" section names for each path the change touches.
+- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
 - A passing check proves the check, not the behavior. Report behavior as working only after you have tried it.
 - Make a failing check or test pass by fixing the code. Keep every check, test, and hook as strict as you found it, and let hooks run.
 - A failure that also happens without this change is pre-existing. Report it and leave it as it is.

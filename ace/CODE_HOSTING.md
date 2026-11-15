@@ -2,6 +2,8 @@
 
 Code lives on GitHub. Every ace skill that reads a diff, opens a pull request, comments on one, or reads the tickets a pull request closes follows this file.
 
+**Pull request review is not in use for now.** Do not review a pull request, comment on one, or read its linked tickets. Review jobs read the local diff (step 3 or 4 under "Get the diff"). Open a pull request only when I ask for one.
+
 ## Get the diff
 
 The diff a review job reads. Use the first that applies:

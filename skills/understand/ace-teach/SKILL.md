@@ -1,7 +1,6 @@
 ---
 name: ace-teach
-description: Explains a change, a subsystem, or your own work so the user understands it, in one plain conversation. Runs ace-how and ace-why and weaves their findings together. Use for "teach me this", "help me understand X", "explain this PR to me", "why did you build it this way".
-disable-model-invocation: true
+description: Explains a change, a subsystem, or the agent's own work so the user understands what it is, how it works, and why it is built that way. Use for "teach me this", "help me understand X", "explain this PR to me", or "why did you build it this way".
 ---
 
 # Teach
@@ -9,6 +8,14 @@ disable-model-invocation: true
 Explain what a thing is, how it works, and why it is built that way, at the user's pace. Done means the user understands it. You change nothing.
 
 Agents write most of the code in an Ace project. The user still has to review it, debug it, and decide where it goes next. This skill closes the gap between what the agent built and what the user understands.
+
+## Requires
+
+- `ace-how`
+- `ace-why`
+- `ace-unslop`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
 
 ## Constraints
 

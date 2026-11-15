@@ -13,6 +13,7 @@ Check whether this change does what the linked ticket asked. Done means pass, sk
 - Read only. Leave the repository, its commits, and the pull request as they are.
 - Judge spec match only. Logic bugs, security holes, and performance costs belong to `ace-review`. Coding standards belong to `ace-validate-standards`.
 - A missing ticket is not a failure. Write `No linked ticket. Spec check skipped.`
+- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it, say what it must hold, and stop.
 
 ## Workflow
 
@@ -24,15 +25,15 @@ Check whether this change does what the linked ticket asked. Done means pass, sk
 
 ## 1. Get the diff
 
-Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says. If that file or that section is missing, stop and say which one is missing.
+Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says.
 
 Stop if there is no diff.
 
-Read the diff. Fetch only the diff, leaving out `--json commits`.
+Read the diff.
 
 ## 2. Find the linked ticket
 
-If the caller named a ticket, use that. When the caller passed a pull request, find its linked tickets as `ace/CODE_HOSTING.md` says. Then search `git log` or the commit list for a ticket reference such as `Closes #N`, `Fixes #N`, or a bare `#N`. Read each candidate as `ace/TICKET_TRACKER.md` says. A number that is the pull request itself does not count. Use the first real ticket.
+If the caller named a ticket, use that. When the caller passed a pull request, find its linked tickets as the "Linked tickets" section of `ace/CODE_HOSTING.md` says. Otherwise search the branch name and `git log` for a ticket reference, in the form the "Ticket references" section of `ace/TICKET_TRACKER.md` names. Read each candidate as `ace/TICKET_TRACKER.md` says. A reference to the pull request itself does not count. Use the first real ticket.
 
 Skip when none of those sources names a ticket.
 

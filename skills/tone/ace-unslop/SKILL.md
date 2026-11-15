@@ -1,6 +1,6 @@
 ---
 name: ace-unslop
-description: Invoke that skill whenever you write text that a person will read, including chat replies, pull requests, docs, and tickets.
+description: Removes AI writing patterns from text and sets the format for questions to the user. Use whenever you write text a person will read, including chat replies, pull requests, docs, and tickets.
 ---
 
 # Unslop

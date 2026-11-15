@@ -24,6 +24,7 @@ Rules:
 - The files in `ace/` configure this repo only. They are not Ace templates; the templates live in `skills/ace-setup/templates/`.
 - I mean the installed Ace only when I say so explicitly, e.g. "our ace setup", "the installed skills", or a path under `.agents/` or `ace/`.
 - If the installed skills and the source disagree, the source is the truth. The installed copy is just out of date.
+- This repo uses Ace only in part. For now there is no ticket tracker and no pull request review. Skip any skill step that reads, opens, or updates a ticket, or that reviews or comments on a pull request, and say that you skipped it. Review the local diff instead.
 
 ### Glossary 
 

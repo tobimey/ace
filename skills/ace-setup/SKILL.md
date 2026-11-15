@@ -1,18 +1,19 @@
 ---
 name: ace-setup
-description: Setup ace.
+description: Sets up Ace in a project by creating its adapter files.
 disable-model-invocation: true
 ---
 
 # Ace Setup
 
-Set up ace in this project. Done means the root agents file points at the adapters, and these adapters exist in the directory `ace` with no `<PLACEHOLDER>` left:
+Set up ace in this project. Done means the root agents file turns on `ace-mode` and points at the adapters, and these adapters exist in the directory `ace` with no `<PLACEHOLDER>` left:
 
 - `ace/GLOSSARY.md`: the project's shared terms
 - `ace/CODING_STANDARDS.md`: what is out of scope, the trust boundaries, and the rules review and audit jobs check
 - `ace/VERIFY.md`: the checks to run, how to run the app, and how to try a change
 - `ace/TICKET_TRACKER.md`: how to read, search, open, and update a ticket, and how to link sub-tickets and blockers
-- `ace/CODE_HOSTING.md`: how to get the diff to review, open a pull request, comment on one, and find the tickets a pull request closes
+- `ace/CODE_HOSTING.md`: how to get the diff to review, open a pull request, find or comment on one, and find the tickets a pull request closes
+- `ace/CYCLE.md`: what happens when a stage ends, and what starts a run without a person
 
 In a monorepo, each package the user picked also has `PACKAGE/ace/VERIFY.md`, and `PACKAGE/ace/CODING_STANDARDS.md` if it has its own rules. The root `ace/VERIFY.md` and `ace/CODING_STANDARDS.md` list them.
 
@@ -23,7 +24,7 @@ In a monorepo, each package the user picked also has `PACKAGE/ace/VERIFY.md`, an
 - If an adapter from the list above exists outside `ace`, such as a root `GLOSSARY.md`, move it there.
 - Keep existing files as they are. Fill only what is missing.
 - Take every value from the repo or from the user. Look it up, or ask.
-- Keep the section headings of the templates. Ace skills look them up by heading.
+- Fill every section [ADAPTERS.md](ADAPTERS.md) lists. Ace skills depend on those sections and find each by its job. Keep the template headings so the user can match them to that list.
 
 ## 0. Detect the layout
 
@@ -107,7 +108,7 @@ For GitHub Issues, start from [templates/TICKET_TRACKER.md](templates/TICKET_TRA
 
 If the repo has no project, or no Priority or Size field, ask whether to drop that part.
 
-For another tracker, write the same sections with that tracker's CLI or API.
+For another tracker, write every section [ADAPTERS.md](ADAPTERS.md) lists for the ticket tracker. Use the tracker's MCP server when the harness has one, otherwise its CLI or API. Use the GitHub template as the model.
 
 ## 4. Code hosting
 
@@ -120,9 +121,26 @@ For GitHub, start from [templates/CODE_HOSTING.md](templates/CODE_HOSTING.md). F
 - `<PR_TEMPLATE_PATH>`: the pull request template under `.github/`. If there is none, ask for the sections.
 - `<PR_TEMPLATE_RULES>`: ask how each template section is filled. Remove the placeholder if there are no rules.
 
-For another host, write the same sections with that host's CLI or API.
+For another host, write every section [ADAPTERS.md](ADAPTERS.md) lists for code hosting. Use the host's MCP server when the harness has one, otherwise its CLI or API. Use the GitHub template as the model.
 
-## 5. Point the root agents file at them
+## 5. Cycle
+
+Create `ace/CYCLE.md` if it is missing. Ask how work should move from one stage to the next:
+
+- **Manual** (recommend this to start): a person starts every run, and `ace-mode` names the next step. Copy [templates/CYCLE.md](templates/CYCLE.md).
+- **GitHub labels**: adding the label `ace:review` to a pull request starts a review in GitHub Actions. Offer this only when the code is on GitHub.
+- **Another runner**, such as a CI service or a cloud agent with a schedule: start from the manual template, then write each hand-off and each run with that runner's trigger. Ask the user for each one.
+
+For GitHub labels:
+
+1. Copy [templates/CYCLE_GITHUB_LABELS.md](templates/CYCLE_GITHUB_LABELS.md) with `<REPO>` from step 4.
+2. Copy [templates/ace-review.yml](templates/ace-review.yml) to `.github/workflows/ace-review.yml`. Ask which harness runs in CI. Replace `<AGENT_STEP>` with the step that runs that harness without a person, from the harness's own CI docs. It installs the Ace skills, sets `GH_TOKEN: ${{ github.token }}` so the agent can push and comment, and sends this message: `Review pull request #${{ github.event.pull_request.number }}, fix what needs no decision, and comment on it.`
+3. Name the secret the harness needs, such as an API key, and tell the user to add it to the repository.
+4. Create both labels: `gh label create ace:review --repo REPO` and `gh label create ace:reviewed --repo REPO`.
+
+Then ask whether audits run on a schedule. For each one the user wants, add the trigger to the Runs section, with the message the run gets, such as `Run ace-audit-security.`, and set it up on the user's runner.
+
+## 6. Point the root agents file at them
 
 Add this section to the root agents file from step 1. If it is there already, add the lines it lacks. Leave the rest of that file as it is.
 
@@ -130,6 +148,7 @@ Add this section to the root agents file from step 1. If it is there already, ad
 <!-- added by ace -->
 ## Ace
 
+- For every task, follow the `ace-mode` skill. It picks the Ace skills for the task and their order.
 - Use the terms in `ace/GLOSSARY.md`.
 - To verify a change, follow `ace/VERIFY.md`.
 - To read, search, open, or update a ticket, follow `ace/TICKET_TRACKER.md`.

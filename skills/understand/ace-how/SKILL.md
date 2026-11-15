@@ -1,7 +1,6 @@
 ---
 name: ace-how
 description: Explains how a part of the codebase works now, from the code. Use for "how does X work", walkthroughs before a change, and "where should this live" or "which layer owns this" questions. Use ace-why for the reasons behind it.
-disable-model-invocation: true
 ---
 
 # How

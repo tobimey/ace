@@ -8,6 +8,12 @@ disable-model-invocation: true
 
 Suggest improvements to the coding agent's **environment** so future runs go better. Done means the candidates are presented to the user, most severe first, and the ones the user picks are handed to `ace-optimize-factory`.
 
+## Requires
+
+- `ace-optimize-factory`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+
 ## Constraints
 
 - Read only until the user picks a candidate.

@@ -8,6 +8,12 @@ disable-model-invocation: true
 
 Load `ace-audit` and follow it. This skill sets the domain: coding-standards breaks.
 
+## Requires
+
+- `ace-audit`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+
 ## Before scanning
 
 Read the coding standards in full first, including Smells and every package file their "Packages" section lists. A package file applies only to its path.

@@ -2,6 +2,8 @@
 
 Tickets live in GitHub Issues. Every ace skill that reads, searches, opens, or updates a ticket follows this file. `OWNER/REPO` is `tobimey/ace`.
 
+**Not in use for now.** This repo does not track work in tickets. Do not read, search, open, or update a ticket. When a skill asks for one, skip that step and say so. The rest of this file stays for when tickets come back.
+
 ## Defaults
 
 - Label: `agent-created` only.

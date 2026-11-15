@@ -8,13 +8,19 @@ disable-model-invocation: true
 
 Review the diff for logic bugs, security holes, performance costs, and architecture. Done means a fix is committed when one edit is the correct one, every finding that needs a person is written with a severity and a best fix, and Merge Danger is written.
 
+## Requires
+
+- `ace-checks`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+
 ## Constraints
 
 - Edit only files this change touches.
-- Flag only logic, security, performance, and architecture. Coding standards, naming, and code smells belong to `ace-validate-standards`. Spec match belongs to `ace-check-spec`. Bypassing an existing cached helper is performance.
-- Respect the trust boundaries the coding standards state. Flag missing authorization only between parties the project does not trust.
+- Flag only logic, security, performance, and architecture. Coding standards, naming, and code smells belong to `ace-validate-standards`. Spec match belongs to `ace-check-spec`.
 - Ignore generated and vendored code, and any path the coding standards mark as out of scope.
 - A finding needs a concrete failure mode or cost on a plausible path in this diff, or a simpler or deeper design this diff could have used. Leave out hypotheticals, pre-existing issues the diff does not make worse, unverified dependency advisories, and accepted risks.
+- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
 
 ## Workflow
 
@@ -29,52 +35,13 @@ Review the diff for logic bugs, security holes, performance costs, and architect
 
 ## 1. Get the diff
 
-Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says. If that file or that section is missing, stop and say which one is missing.
+Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says.
 
 Stop if the diff is empty and there is no untracked work. Also read call sites the change affects, not only the moved lines.
 
 ## 2. Scan
 
-### Logic
-
-Wrong behavior on a plausible input.
-
-- Off-by-one or wrong bounds
-- Impossible or unreachable branches
-- Inverted conditions
-- Incorrect async/await, or missing error handling that loses failures
-- Wrong database or API assumptions
-- Type or logic contradictions
-- Stale cache, a wrong cache key, or invalidation that serves the wrong data
-- User-visible or data-affecting incorrect behavior
-
-Drop concurrency, races, and missing locks or transactions unless the impact is severe. Severe means money charged twice, data or messages reaching the wrong user or tenant, or stored data permanently wrong. Two tasks touching the same record is not a finding.
-
-### Security
-
-A concrete exposure to an outsider, or to another user or tenant.
-
-- Exposed secrets
-- XSS or other unescaped output
-- Insecure API endpoints
-- Server-side handlers with missing or weak auth
-- Injection
-- Path traversal
-- SSRF or unsafe URL handling in server-side requests
-
-### Performance
-
-New runtime cost this diff adds on a real path.
-
-- Extra database reads or writes on a request or background-job path
-- A direct read that bypasses a cached helper the codebase already has for that data. Call the cached helper.
-- N+1 queries, or per-item network
-- Sequential awaits that can run in parallel
-- Extra data sent to the client
-- Work on a hot path that can run in the background
-- Scanning more data than the path needs
-
-Leave out micro-optimizations with no hot path, reads required for correctness, and what the framework or compiler already optimizes.
+Load `ace-checks` and read its Logic, Security, and Performance files. In the diff and the call sites it affects, find what each file's Find section lists. Follow the Framework behavior section of the Performance file. File a finding under the domain its Belongs elsewhere section names.
 
 ### Architecture
 
@@ -89,9 +56,9 @@ Propose a redesign only for files this diff changes.
 
 ## 3. Drop out of scope
 
-Drop anything that is only style, naming, folder placement, or "the spec didn't ask for this".
+Apply the Drop section of each `ace-checks` file. Drop anything that is only style, naming, folder placement, or "the spec didn't ask for this".
 
-Keep a logic bug whose fix uses data already in memory. If the only fix is extra runtime cost, that is a performance finding when this diff introduced the cost, not a logic finding.
+If a logic bug's only fix is extra runtime cost, write it as a performance finding when this diff introduced the cost, and drop it otherwise.
 
 ## 4. Fix what needs no decision
 
@@ -111,11 +78,13 @@ Commit with a conventional title, `fix:` or `perf:`, and a short reason.
 
 A committed fix is not a finding. Write a finding for what you left.
 
-Each finding is an emoji, then **severity** and category, then one or two sentences, then **Best fix.** and the concrete change. Use exactly the emoji listed for that severity. Write each finding as plain top-level paragraphs in the shape below, outside any GitHub alert or `>` blockquote.
+Each finding is an emoji, then **severity** and category, then one or two sentences, then **Best fix.** and the concrete change. Use exactly the emoji listed for that severity. Write each finding as plain top-level paragraphs in the shape below, outside any alert box or `>` blockquote.
 
-- `blocker` is 🔴. You would block the merge. A secret is exposed, an outsider or another user or tenant can reach data or act, money is charged twice, data or messages reach the wrong user or tenant, stored data is permanently wrong, or a hot-path cost will hurt in production.
-- `should-fix` is 🟡. You would ask a teammate to change it. Wrong behavior on a narrower path, a real hole that needs an extra condition, extra cost on a real path, or a simpler or deeper design this change should have used.
-- `nit` is 🔵. Concrete and worth the author's time. Optional.
+Rate logic, security, and performance findings by the Severity section of their `ace-checks` file, then write that level as:
+
+- `blocker` is 🔴. Critical or High. You would block the merge.
+- `should-fix` is 🟡. Medium, or a simpler or deeper design this change should have used. You would ask a teammate to change it.
+- `nit` is 🔵. Low, or an optional architecture finding. Concrete and worth the author's time.
 
 ```
 🔴 **blocker** logic. One or two sentences.

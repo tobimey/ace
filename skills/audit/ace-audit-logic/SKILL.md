@@ -8,31 +8,28 @@ disable-model-invocation: true
 
 Load `ace-audit` and follow it. This skill sets the domain: logic bugs.
 
+## Requires
+
+- `ace-audit`
+- `ace-checks`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+
+## Before scanning
+
+Load `ace-checks` and read its Logic file.
+
 ## Find
 
-- Off-by-one or wrong bounds
-- Impossible or unreachable branches
-- Inverted conditions
-- Incorrect async/await, or missing error handling that loses failures
-- Wrong database or API assumptions
-- Type or logic contradictions
-- User-visible or data-affecting incorrect behavior on plausible inputs
-
-Authorization holes belong to `ace-audit-security`.
+What the Find section of that file lists. What its Belongs elsewhere section names is out of scope.
 
 ## Drop
 
-- Concurrency, races, and missing locks or transactions, unless the impact is severe. Severe means money charged twice, data or messages reaching the wrong user or tenant, or stored data permanently wrong. Two tasks touching the same record is not a finding.
-- Any other finding whose only fix adds runtime cost: extra database reads or writes, extra network, extra CPU on a request or task path, an N+1 query, or scanning more data. Keep a finding whose fix uses data already in memory. A severe race may use a transaction. For example, drop re-fetching a record on every request to work around a stale cache.
+Apply the Drop section of that file.
 
 ## Bar
 
-Highest first. File only Critical and High. Ties go to the worse user impact.
-
-- **Critical.** Money charged twice, data or messages reaching the wrong user or tenant, or stored data permanently wrong.
-- **High.** Wrong user-visible behavior on a common path, with stored data still correctable.
-- **Medium.** Wrong behavior on a narrow path.
-- **Low.** A real bug with a small, recoverable effect.
+Highest first. File only Critical and High, rated by the Severity section of that file. Break ties as that section says.
 
 ## Ticket
 
