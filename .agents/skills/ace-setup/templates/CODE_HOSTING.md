@@ -49,6 +49,17 @@ PR: <pr-url>
 Branch: <https://github.com/<owner>/<repo>/tree/<branch>>
 ```
 
+## Find a pull request
+
+The pull request for a number or a branch, with its state, labels, and comments. With no number, use the current branch.
+
+```bash
+gh pr view NUMBER_OR_BRANCH --repo <REPO> \
+  --json number,url,state,isDraft,labels,headRefName,comments,commits
+```
+
+No pull request for the branch means the work has none yet.
+
 ## Comment on a pull request
 
 Post the caller's text on the pull request. Done means that text is on the pull request.
@@ -62,12 +73,23 @@ EOF
 
 For an inline comment on a line, use `gh api repos/<REPO>/pulls/NUMBER/comments` with `body`, `commit_id`, `path`, `line`, and `side`.
 
+To replace an earlier comment, find it by the marker the caller names, then edit it. If no comment holds the marker, post a new one as above.
+
+```bash
+gh api repos/<REPO>/issues/NUMBER/comments --paginate \
+  --jq '.[] | select(.body | contains("MARKER")) | .id' | head -n 1
+gh api -X PATCH repos/<REPO>/issues/comments/ID -f body="$(cat <<'EOF'
+TEXT
+EOF
+)"
+```
+
 ## Linked tickets
 
 The tickets a pull request closes:
 
 ```bash
-gh pr view NUMBER --json closingIssuesReferences,body
+gh pr view NUMBER --repo <REPO> --json closingIssuesReferences,body,headRefName,commits
 ```
 
-Use `closingIssuesReferences` first, then `Closes #N`, `Fixes #N`, or a bare `#N` in the body.
+Use `closingIssuesReferences` first. Then look for ticket references in the body, the branch name, and the commit messages, in the form the "Ticket references" section of `ace/TICKET_TRACKER.md` names. A reference to this pull request itself is not a ticket.

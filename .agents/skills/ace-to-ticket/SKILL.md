@@ -1,6 +1,6 @@
 ---
 name: ace-to-ticket
-description: Turns a spec into one ticket or multiple sub-tickets, based on spec size. Asks which ticket first when none is given.
+description: Turns a spec into one ticket or several sub-tickets, based on the spec's size.
 disable-model-invocation: true
 ---
 
@@ -10,10 +10,17 @@ Turn an existing spec into **ticket(s)**. **One ticket** fills the spec ticket i
 
 Read `ace-open-ticket` before any draft. Open every new ticket with it. Follow `ace/TICKET_TRACKER.md` to read and update tickets, and to link sub-tickets and blockers.
 
+## Requires
+
+- `ace-open-ticket`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+
 ## Constraints (always)
 
 - Leave the parent or spec ticket open.
 - Keep ticket bodies in the ticket tracker only.
+- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. When the user declines, stop.
 
 Mode-specific constraints are under each mode below.
 
@@ -23,13 +30,11 @@ Mode-specific constraints are under each mode below.
 
 If the user passed a ticket number or URL, or the conversation already names one, read it with its comments and treat it as the **spec ticket** (single-ticket target or parent for children).
 
-If none is present, **stop and ask** for the ticket number or URL. Wait for it before you draft or create anything.
+If none is present and the conversation holds a settled plan, such as one from `ace-grill`, use that plan as the spec. It gets its ticket at publish.
 
-**Single-ticket mode only:** if they confirm there is no ticket, you may create one at publish.
+Otherwise **stop and ask** for the ticket number or URL. Wait for it before you draft or create anything. If they confirm there is no ticket, suggest `ace-grill` to settle a plan first.
 
-**Multiple-ticket mode:** if they confirm there is no parent, stop and say a spec ticket must exist first. Create tickets only once it does.
-
-Work from that ticket plus whatever is already in the conversation. Use the project's domain glossary vocabulary.
+Work from that ticket or plan plus whatever is already in the conversation. Use the project's domain glossary vocabulary.
 
 ### 2. Choose single vs multiple
 
@@ -59,6 +64,7 @@ Show the user:
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 - **Priority**: `Urgent`, `High`, `Medium`, or `Low`
 - **Size**: `S`, `M`, `L`, or `XL`
+- **Risk**: `High` or `Low`
 
 If **Size** would be `L` or `XL` or the work still will not fit one context window, **stop** before publishing. Say so and offer to switch to multiple-ticket mode.
 
@@ -92,6 +98,7 @@ Present the breakdown as a numbered list. For each ticket, show:
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 - **Priority**: `Urgent`, `High`, `Medium`, or `Low`
 - **Size**: `S`, `M`, `L`, or `XL`
+- **Risk**: `High` or `Low`
 
 Ask the user:
 
@@ -105,13 +112,14 @@ Iterate until the user approves the breakdown.
 
 - Publish exactly one ticket.
 
-If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, including type, Priority, Size, and project. Write its body in the shape `ace-open-ticket` defines.
+If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, including type, Priority, Size, Risk, and project. Write its body in the shape `ace-open-ticket` defines.
 
-If they confirmed none exists in step 1, open a new ticket with `ace-open-ticket`.
+If the spec is a plan from the conversation, open a new ticket with `ace-open-ticket`.
 
 ### 4b. Multiple tickets: publish
 
-- Use the parent from step 1 as the only parent, and leave its body as it is.
+- If the spec is a plan from the conversation, first open the parent with `ace-open-ticket`. Its Goal and Task come from the plan, and its Done when is the plan's overall acceptance checks.
+- Use the parent from step 1, or the one you just opened, as the only parent, and leave its body as it is.
 - After create, attach each ticket as a **sub-ticket** of that parent.
 
 Open one ticket per approved ticket with `ace-open-ticket`, **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.

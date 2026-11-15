@@ -1,6 +1,6 @@
 ---
 name: ace-skill-optimizer
-description: Edit an existing Agent Skill.
+description: Edits an existing Agent Skill so it does what the user needs in as little context as possible.
 disable-model-invocation: true
 ---
 
@@ -11,6 +11,12 @@ Edit an existing skill so it does what the user needs, an agent can find it, and
 What done looks like: the requested behaviour is an instruction the agent must follow, the skill passes [CHECKLIST.md](CHECKLIST.md), and the report is filled in.
 
 User-requested behaviour wins over a pure checklist pass. If they say X is failing or missing, the job is to make X work, then still pass [CHECKLIST.md](CHECKLIST.md).
+
+## Requires
+
+- `ace-unslop`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
 
 ## Authoring
 
@@ -25,6 +31,7 @@ This skill is the only prefix list.
 - Write the body so it works in any context that loads it: any caller (slash command, UI, parent skill, route) and any machine. When `disable-model-invocation` is omitted, discovery `when` belongs in `description`.
 - A job skill takes its input from the caller: a pull request, a diff, a base ref, or a ticket.
 - Name another skill by its `name`. Name a document by its role (coding standards, glossary) or its `ace/` path. Name another filesystem path only when that path is the work.
+- When the skill follows, loads, or runs another skill, list that skill in a `## Requires` section before the first other section, ending with this line: "Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`." A skill named only to mark scope, such as "belongs to `ace-review`", needs no entry.
 - When `disable-model-invocation` is `true`, the description is one line that says what the skill does, and only what.
 - Write every instruction as the action to take. Turn "do not X", "never X", "avoid X", and "should not X" into what the agent does instead: the allowed scope ("Read only.", "Change only the files in the diff."), the replacement action, or the stop condition ("If the section is missing, stop and say so."). A negation that states a fact or a condition ("if the file does not exist") stays. Naming the unwanted action plants it; naming the wanted one steers.
 - Shortest text that still makes the agent do the job. Say each rule once.

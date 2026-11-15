@@ -4,7 +4,7 @@ Tickets live in GitHub Issues. Every ace skill that reads, searches, opens, or u
 
 ## Defaults
 
-- Label: `agent-created` only.
+- Label: `agent-created`, plus `risk:high` when Risk is `High`.
 - Assignee: `<ASSIGNEE>`.
 - Project: `<PROJECT_OWNER>` project `<PROJECT_NUMBER>`.
 - Priority field id `<PRIORITY_FIELD_ID>`. Size field id `<SIZE_FIELD_ID>`. Both are org issue fields of `<ORG>`.
@@ -13,9 +13,13 @@ Tickets live in GitHub Issues. Every ace skill that reads, searches, opens, or u
 
 - Open tickets in this tracker only.
 - Pass a ticket body with `--body` and a heredoc. Keep it out of files in the repo.
-- Set Priority and Size only as fields.
+- Set Priority and Size only as fields. Set Risk only as the `risk:high` label.
 - Keep a ticket once it is created, even when a later step fails.
 - Set type with the API after create.
+
+## Ticket references
+
+A ticket is `#NUMBER`. A commit or pull request names the ticket it closes as `Closes #NUMBER` or `Fixes #NUMBER`. A bare `#NUMBER` may also be a pull request, so read it before you count it as a ticket.
 
 ## Read a ticket
 
@@ -31,15 +35,16 @@ gh search issues --repo "OWNER/REPO" --match body --limit 30 --json number,title
 
 ## Open a ticket
 
-The caller supplies title, body, type, Priority, and Size.
+The caller supplies title, body, type, Priority, Size, and Risk.
 
-1. Once per run, ensure the label. If this prints nothing, run `gh label create agent-created`.
+1. Once per run, ensure the labels. Create each one this prints as missing with `gh label create NAME`.
 
    ```bash
-   gh label list --limit 200 --json name --jq '.[] | select(.name=="agent-created") | .name'
+   have=$(gh label list --limit 200 --json name --jq '.[].name')
+   for l in agent-created risk:high; do echo "$have" | grep -qx "$l" || echo "missing: $l"; done
    ```
 
-2. Create the ticket. The command prints the URL. Read the number from it.
+2. Create the ticket. Add `--label risk:high` when Risk is `High`. The command prints the URL. Read the number from it.
 
    ```bash
    gh issue create --title "TITLE" --label agent-created --assignee <ASSIGNEE> --body "$(cat <<'EOF'
@@ -48,7 +53,7 @@ The caller supplies title, body, type, Priority, and Size.
    )"
    ```
 
-3. Confirm the label. The output must be `agent-created` and nothing else. If it is missing, run `gh issue edit NUMBER --add-label agent-created` and view again.
+3. Confirm the labels. The output must be `agent-created`, plus `risk:high` when Risk is `High`, and nothing else. Add a missing one with `gh issue edit NUMBER --add-label NAME` and view again.
 
    ```bash
    gh issue view NUMBER --json labels --jq '.labels[].name'
@@ -68,7 +73,7 @@ EOF
 )"
 ```
 
-Keep the other labels. Then set type, Priority, and Size, and add to the project.
+Keep the other labels. Add `--add-label risk:high` when Risk is `High`, and `--remove-label risk:high` when it is `Low`. Then set type, Priority, and Size, and add to the project.
 
 ## Set type, Priority, and Size
 

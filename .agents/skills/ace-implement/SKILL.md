@@ -8,6 +8,12 @@ disable-model-invocation: true
 
 Implement the plan, spec, or ticket the caller gives. Done means each behavior the plan names works and has a test that failed before the change, nothing outside the request was built, and `ace-verify` passes.
 
+## Requires
+
+- `ace-verify`
+
+Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+
 ## Approach
 
 Aim for ambitious ideas, simple systems, and software that feels obvious.
@@ -26,6 +32,7 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
 - Look up facts in the code yourself. Ask only for decisions the plan leaves open.
 - The plan sets the tests. Write exactly one test per behavior or edge case it names.
 - Test only through the public interface, so a refactor keeps tests green.
+- Past decisions in docs, comments, or ADRs explain the current state. When the plan contradicts one, follow the plan and update or delete the old note in the same change.
 
 ## Workflow
 

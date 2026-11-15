@@ -1,0 +1,29 @@
+# Runs the Ace Review playbook when the label `ace:review` is added to a pull request.
+# Written by ace-setup. See ace/CYCLE.md.
+name: ace-review
+
+on:
+  pull_request:
+    types: [labeled]
+
+concurrency:
+  group: ace-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  review:
+    # Pull requests from forks get no secrets and no write access, so the review runs only for branches in this repository.
+    if: github.event.label.name == 'ace:review' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      <AGENT_STEP>

@@ -28,6 +28,7 @@
 - Follow the prefix rules in `ace-skill-optimizer`. That list is the only prefix list.
 - Generic: no project, stack, framework, database, command, path, or trust boundary of one project. Those live in `ace/` files.
 - Name another skill by its `name`, not by a file path. Name a document by its role unless that path is the work.
+- Every skill the body follows, loads, or runs is listed in a `## Requires` section with the install check from `ace-skill-optimizer`
 - Shortest text that still works. Say each rule once. 500 lines is a ceiling, not a target
 - Most rules have no example. Add one only when the instruction is easy to get wrong without it. Flag a missing example only on such a rule. Skip trivia a capable model already knows
 - One term per concept. Pick one of "endpoint" / "route" / "path" for the same thing and use it everywhere
