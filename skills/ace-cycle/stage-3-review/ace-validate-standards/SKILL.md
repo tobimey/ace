@@ -22,26 +22,20 @@ Bring the diff in line with the coding standards. Done means any safe edits are 
 ## Workflow
 
 ```
-- [ ] 1. Resolve the diff
+- [ ] 1. Get the diff
 - [ ] 2. Read the standards and the diff
 - [ ] 3. Apply safe fixes, or write that none were safe
 ```
 
-## 1. Resolve the diff
+## 1. Get the diff
 
-When the caller passed a diff, use it. When the caller passed a pull request and no diff, use `gh pr diff`. When the caller passed a base ref and no diff and no pull request, diff against that ref. In those cases, do not diff the checkout this run woke up on against the default branch.
-
-When the caller passed none of those, diff the current branch against the default branch (`origin/main`, then `main`):
-
-```bash
-git diff "$(git merge-base HEAD origin/main 2>/dev/null || git merge-base HEAD main)"
-```
+Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says. If that file or that section is missing, stop and say which one is missing.
 
 Stop if there is no diff. Stop if the working tree has changes you did not just make for this pass.
 
 ## 2. Read the standards and the diff
 
-Read `ace/CODING_STANDARDS.md` in full and `ace/AGENTS.md`. Match the diff against those rules. Ignore generated and vendored code, and any path the project's `ace/` files mark as out of scope.
+Read `ace/CODING_STANDARDS.md` in full and `ace/AGENTS.md`. Match the diff against those rules. Ignore generated and vendored code, and any path the coding standards mark as out of scope.
 
 ## 3. Apply safe fixes, or write that none were safe
 

@@ -1,6 +1,22 @@
 # Code hosting
 
-Code lives on GitHub. Every ace skill that opens a pull request, comments on one, or reads the tickets a pull request closes follows this file.
+Code lives on GitHub. Every ace skill that reads a diff, opens a pull request, comments on one, or reads the tickets a pull request closes follows this file.
+
+## Get the diff
+
+The diff a review job reads. Use the first that applies:
+
+1. The caller passed a diff. Use it.
+2. The caller passed a pull request. Run `gh pr diff NUMBER --repo <REPO>`.
+3. The caller passed a base ref. Run `git diff REF`.
+4. Otherwise, the current branch and uncommitted work against the default branch:
+
+   ```bash
+   git status --short
+   git diff "$(git merge-base HEAD origin/<DEFAULT_BRANCH> 2>/dev/null || git merge-base HEAD <DEFAULT_BRANCH>)"
+   ```
+
+   Read untracked files that `git status --short` lists.
 
 ## Open a pull request
 

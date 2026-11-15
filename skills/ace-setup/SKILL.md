@@ -6,13 +6,13 @@ disable-model-invocation: true
 
 # Ace Setup
 
-Set up ace in this project. Done means these files exist in the directory `ace`, and the ticket tracker and code hosting files have no `<PLACEHOLDER>` left:
+Set up ace in this project. Done means these files exist in the directory `ace`, and the coding standards, ticket tracker, and code hosting files have no `<PLACEHOLDER>` left:
 
 - `ace/GLOSSARY.md`
 - `ace/AGENTS.md`
-- `ace/CODING_STANDARDS.md`
+- `ace/CODING_STANDARDS.md`: what is out of scope, the trust boundaries, and the rules review and audit jobs check
 - `ace/TICKET_TRACKER.md`: how to read, search, open, and update a ticket, and how to link sub-tickets and blockers
-- `ace/CODE_HOSTING.md`: how to open a pull request, how to comment on one, and how to find the tickets a pull request closes
+- `ace/CODE_HOSTING.md`: how to get the diff to review, open a pull request, comment on one, and find the tickets a pull request closes
 
 ## Constraints
 
@@ -22,7 +22,13 @@ Set up ace in this project. Done means these files exist in the directory `ace`,
 
 ## 1. Create the base files
 
-Create `ace/GLOSSARY.md`, `ace/AGENTS.md`, and `ace/CODING_STANDARDS.md` if they are missing.
+Create `ace/GLOSSARY.md` and `ace/AGENTS.md` if they are missing.
+
+Create `ace/CODING_STANDARDS.md` from [templates/CODING_STANDARDS.md](templates/CODING_STANDARDS.md) if it is missing. Then:
+
+- `<TRUST_BOUNDARIES>`: ask which parties the project trusts, such as admins and the backend, or services inside the same network. Write `None.` if there are none.
+- Ask which paths besides the defaults are out of scope, and add them.
+- Show the default rules, tests, and smells. Remove the ones the user rejects.
 
 ## 2. Ticket tracker
 

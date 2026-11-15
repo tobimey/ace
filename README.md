@@ -1,3 +1,5 @@
+`This project is in active development and not ready to use. Pre-Alpha expected by 18.11.2026.`
+
 # Ace
 
 Ace is an adaptable, agentic skills framework. Use the `ace-setup` skill to get started.

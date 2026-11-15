@@ -7,3 +7,5 @@ I'm a software engineer and content creator (Tobi Mey). With this project I want
 The core idea is to combine the best of multiple skill systems like pstack, matt pocock... and also add things like auditors and review skills on top of it. 
 
 Currently many things are not clear. Read the `./README.md` file for more information.
+
+This project uses ace itself. Don't get confused by that.

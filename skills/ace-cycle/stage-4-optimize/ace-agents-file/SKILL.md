@@ -18,6 +18,7 @@ Check the repo's `AGENTS.md` and `CLAUDE.md` against the rules below and propose
 
 - Say nothing the agent can read from the code or already knows.
 - Say in a few sentences what the project is and who it is for.
+- Say how to verify a change: the exact commands to run (lint, typecheck, tests, build) and how to check the behavior works.
 - Have a short glossary of who is who:
   - "you" is always the agent.
   - "I", "me" is the person who wrote the file.

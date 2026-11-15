@@ -12,6 +12,16 @@ Edit text to remove AI patterns.
 1. Scan for the patterns below.
 2. Rewrite. Preserve meaning, match intended tone.
 
+## Questions
+
+When asking the user to decide, number each question and give a recommended answer. Write each question as two plain lines in the chat, with no markdown fence, bold, heading, or list:
+
+❓ Q1 - <question title>: <question body>
+
+➡️ <recommended answer>
+
+The question is a few sentences. Put each choice on its own plain line. The recommended answer is one sentence. Define a specialist term in the same sentence that uses it. The ❓ and ➡️ markers are not decorative, so rule 18 does not apply to them.
+
 ## Patterns to detect and fix
 
 Rule numbers are stable ids that other skills cite. A removed rule leaves a gap.

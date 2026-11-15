@@ -14,17 +14,7 @@ Map the plan as a design tree. Every decision branches into the decisions that h
 
 Work the tree in rounds. The frontier is every decision whose prerequisites are already settled: the questions you can ask now without guessing at answers you have not heard yet. Ask the whole frontier in one round. Number each question and give your recommended answer. Then wait for the user's answers before the next round.
 
-Each question should be formatted like so:
-
-```
-❓ **Q1** - **<question title>**: <question body>
-
-➡️ <your recommended answer>
-```
-
-When you write the questions, read and follow `ace-unslop`. Keep the ❓ and ➡️ markers. Unslop rule 18 does not apply to them.
-
-The question is a few sentences. If there are choices, list them in a few short lines. The recommended answer is one sentence. Use plain words. If you need a specialist term, define it in the same sentence.
+Write the questions in the question format of `ace-unslop`.
 
 Each round the user answers reshapes the tree. Settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a later round.
 
@@ -34,6 +24,4 @@ The session is done when the frontier is empty: every branch of the design tree 
 
 ## Docs
 
-During the interview, read and follow `ace-domain-modeling`.
-
-When a term is resolved, update the glossary then. Do not batch glossary edits until the end. Do not write ADRs.
+When a term is resolved, update `ace/GLOSSARY.md` then. Do not batch glossary edits until the end. Do not write ADRs.

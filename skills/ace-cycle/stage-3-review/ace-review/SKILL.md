@@ -12,15 +12,15 @@ Review the diff for logic bugs, security holes, performance costs, and architect
 
 - Edit only files this change touches.
 - Do not flag coding standards, naming, code smells, or spec match. Bypassing an existing cached helper is performance, not coding standards.
-- Respect the trust boundaries the project's `ace/` files state. Do not flag missing authorization between parties the project trusts.
-- Ignore generated and vendored code, and any path the project's `ace/` files mark as out of scope.
+- Respect the trust boundaries the coding standards state. Do not flag missing authorization between parties the project trusts.
+- Ignore generated and vendored code, and any path the coding standards mark as out of scope.
 - A finding needs a concrete failure mode or cost on a plausible path in this diff, or a simpler or deeper design this diff could have used. Skip hypotheticals, pre-existing issues the diff does not make worse, and unverified dependency advisories.
 - Never flag an accepted risk.
 
 ## Workflow
 
 ```
-- [ ] 1. Resolve the diff
+- [ ] 1. Get the diff
 - [ ] 2. Scan logic, security, performance, architecture
 - [ ] 3. Drop out of scope
 - [ ] 4. Fix what needs no decision
@@ -28,21 +28,11 @@ Review the diff for logic bugs, security holes, performance costs, and architect
 - [ ] 6. Write Merge Danger
 ```
 
-## 1. Resolve the diff
+## 1. Get the diff
 
-When the caller passed a diff, use it. When the caller passed a pull request and no diff, use `gh pr diff`. When the caller passed a base ref and no diff and no pull request, diff against that ref. In those cases, do not diff the checkout this run woke up on against the default branch.
+Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says. If that file or that section is missing, stop and say which one is missing.
 
-When the caller passed none of those, diff the current branch against the default branch (`origin/main`, then `main`):
-
-```bash
-git status --short
-BASE=$(git merge-base HEAD origin/main 2>/dev/null || git merge-base HEAD main)
-git diff "$BASE"
-```
-
-Stop if the diff is empty and `git status --short` lists nothing.
-
-Read untracked files that belong to this work. Also read call sites the change affects, not only the moved lines.
+Stop if the diff is empty and there is no untracked work. Also read call sites the change affects, not only the moved lines.
 
 ## 2. Scan
 
