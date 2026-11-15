@@ -1,10 +1,10 @@
 ---
-name: ace-write-ticket
-description: Writes one ticket body in the shared shape.
+name: ace-create-ticket
+description: Creates one ticket body in the shared shape.
 disable-model-invocation: true
 ---
 
-# Write ticket
+# Create ticket
 
 Write one ticket body. Done means the body uses the headings below, in this order, and no other `###` heading.
 

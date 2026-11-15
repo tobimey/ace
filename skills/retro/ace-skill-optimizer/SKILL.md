@@ -28,7 +28,7 @@ This skill is the only prefix list.
 - Do not bake in where a job skill is invoked (slash command, UI, parent skill, route). The body must work in any context that loads it. When `disable-model-invocation` is omitted, discovery `when` belongs in `description`.
 - A job skill does not name the runner. The caller passes a pull request, a diff, a base ref, or a ticket.
 - An `ace-run-*` skill names Cursor Cloud Agent, says a local chat does not load it, follows `ace-env-cursor-cloud-agent`, and names the job. Do not delete those lines. Do not restate the job or the cloud facts. After the job skill returns, the starter posts, pushes, and moves labels for that run.
-- When an `ace-run-*` skill posts a pull request comment, review, or inline comment, it follows `ace-pr-comment`. Do not copy those identity rules into the starter. Do not use `gh` or the PAT for comments.
+- When an `ace-run-*` skill posts a pull request comment, review, or inline comment, it follows `ace/CODE_HOSTING.md`. Do not copy those identity rules into the starter. Do not use `gh` or the PAT for comments.
 - Name another skill by its `name`. Do not write a path under `.agents/skills/`. Name a document by its role (coding standards, accepted risks, glossary). `AGENTS.md` is the path index. Name a filesystem path only when that path is the work. Do not point a skill at `docs/software-factory`. That folder documents the setup. It may point at skills.
 - When `disable-model-invocation` is `true`, the description is one line and does not say when to invoke the skill.
 - Shortest text that still makes the agent do the job. Say each rule once.

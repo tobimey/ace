@@ -24,7 +24,7 @@
 - State the goal and what done looks like, near the start. If the opening already says that, leave it.
 - One section for constraints and forbidden actions. A heading such as "Constraints" or "Do not" counts. If that section exists, leave it.
 - Call-site agnostic: a job skill's body does not name a slash command, UI, parent skill, or route as the place it runs. When `disable-model-invocation` is omitted, discovery `when` lives in `description`
-- Follow the prefix rules in this skill. That list is the only prefix list. A job skill does not name the runner. An `ace-run-*` skill names Cursor Cloud Agent, follows `ace-env-cursor-cloud-agent`, names the job, and says a local chat does not load it. After the job returns, that starter posts, pushes, and moves labels. A pull request comment, review, or inline comment follows `ace-pr-comment`.
+- Follow the prefix rules in this skill. That list is the only prefix list. A job skill does not name the runner. An `ace-run-*` skill names Cursor Cloud Agent, follows `ace-env-cursor-cloud-agent`, names the job, and says a local chat does not load it. After the job returns, that starter posts, pushes, and moves labels. A pull request comment, review, or inline comment follows `ace/CODE_HOSTING.md`.
 - Name another skill by its `name`, not by a path under `.agents/skills/`. Name a document by its role unless that path is the work.
 - Shortest text that still works. Say each rule once. 500 lines is a ceiling, not a target
 - Most rules have no example. Add one only when the instruction is easy to get wrong without it. Do not flag a missing example on every rule. Skip trivia a capable model already knows
@@ -73,7 +73,7 @@ Offer **one default** tool or path, plus one alternative for the exception. A me
 - Bind a job skill to one caller (slash command, UI, parent skill, page)
 - Bind a job skill to one runner. Cloud facts belong in `ace-env-cursor-cloud-agent`
 - Copy cloud facts into an `ace-run-*` skill. It follows `ace-env-cursor-cloud-agent`. Only its fallback without the trigger block stays in the starter
-- Copy `ace-pr-comment` identity rules into an `ace-run-*` skill
+- Copy the pull request comment rules from `ace/CODE_HOSTING.md` into an `ace-run-*` skill
 - Use `gh` or the PAT for a pull request comment, review, or inline comment
 - Point a skill at `docs/software-factory`
 - Strip the Cursor Cloud Agent sentence from an `ace-run-*` skill. That sentence is the kind.

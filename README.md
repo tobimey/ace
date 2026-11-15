@@ -71,7 +71,7 @@ The skills are built in a way that they listen to your needs. These customizers 
 - `AGENTS.md` gets injected into every agent session. Tell the agent what your app is, how it works and how your code is structured, so it finds things more efficiently.
 - `CODING_STANDARDS.md` gets used in stage 2 and 3. To check that the code is written in a way that is consistent with your coding standards.
 - `TICKET_TRACKER.md` says how to read, search, open, and update tickets, e.g. in GitHub Issues, Linear, Jira, etc.
-- `CODE_HOSTING.md` says how to open a pull request and find the tickets it closes, e.g. on Github, Gitlab, Bitbucket, etc.
+- `CODE_HOSTING.md` says how to open a pull request, comment on it, and find the tickets it closes, e.g. on Github, Gitlab, Bitbucket, etc.
 
 # TODO
 

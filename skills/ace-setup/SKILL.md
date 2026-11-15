@@ -12,7 +12,7 @@ Set up ace in this project. Done means these files exist in the directory `ace`,
 - `ace/AGENTS.md`
 - `ace/CODING_STANDARDS.md`
 - `ace/TICKET_TRACKER.md`: how to read, search, open, and update a ticket, and how to link sub-tickets and blockers
-- `ace/CODE_HOSTING.md`: how to open a pull request, and how to find the tickets a pull request closes
+- `ace/CODE_HOSTING.md`: how to open a pull request, how to comment on one, and how to find the tickets a pull request closes
 
 ## Constraints
 
@@ -45,6 +45,7 @@ Ask which host holds the code (GitHub, GitLab, Bitbucket, ...).
 For GitHub, start from [templates/CODE_HOSTING.md](templates/CODE_HOSTING.md). Fill each placeholder:
 
 - `<DEFAULT_BRANCH>`: `gh repo view --json defaultBranchRef --jq .defaultBranchRef.name`.
+- `<REPO>`: `gh repo view --json nameWithOwner --jq .nameWithOwner`.
 - `<PR_TEMPLATE_PATH>`: the pull request template under `.github/`. If there is none, ask for the sections.
 - `<PR_TEMPLATE_RULES>`: ask how each template section is filled. Remove the placeholder if there are no rules.
 
@@ -56,5 +57,5 @@ Add to `ace/AGENTS.md`, if missing:
 
 ```markdown
 - To read, search, open, or update a ticket, follow `ace/TICKET_TRACKER.md`.
-- To open a pull request, follow `ace/CODE_HOSTING.md`.
+- To open or comment on a pull request, follow `ace/CODE_HOSTING.md`.
 ```
