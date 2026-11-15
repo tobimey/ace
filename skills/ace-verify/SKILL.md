@@ -5,11 +5,12 @@ description: Proves the current change works by running the project's checks and
 
 # Verify
 
-Prove the current change works. Done means every command in the "Checks" section passes, each behavior the change adds or alters was tried and seen working, and the report says what ran and what was seen.
+Prove the current change works. Done means every command in the "Checks" section passes, each behavior the change adds or alters was tried and seen working, the verify file holds each way to try a behavior that worked, and the report says what ran and what was seen.
 
 ## Constraints
 
-- Verify only as `ace/VERIFY.md` says, plus the package file its "Packages" section names for each path the change touches.
+- Verify as `ace/VERIFY.md` says, plus the package file its "Packages" section names for each path the change touches. When those files have no way to try a behavior, or a way they give is wrong, find one that works and write it back in step 5.
+- In the verify files, change only the lines of the "Run the app" and "Check behavior" sections that step 5 names.
 - Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
 - A passing check proves the check, not the behavior. Report behavior as working only after you have tried it.
 - Make a failing check or test pass by fixing the code. Keep every check, test, and hook as strict as you found it, and let hooks run.
@@ -23,7 +24,8 @@ Prove the current change works. Done means every command in the "Checks" section
 - [ ] 2. Run the checks
 - [ ] 3. Try the behavior
 - [ ] 4. Fix and repeat
-- [ ] 5. Report
+- [ ] 5. Update the verify file
+- [ ] 6. Report
 ```
 
 ## 1. Get the change
@@ -38,13 +40,19 @@ Run every command in the "Checks" section of each verify file from the constrain
 
 Start the app as the "Run the app" section says. For each behavior from step 1, try it as the matching line of the "Check behavior" section says, and look at the result.
 
-When the change has no runtime behavior (docs, comments, types only), write that and skip this step. When a behavior cannot be tried here, write exactly what is missing, such as a login or a service, and list it under Not verified.
+When no line of the "Check behavior" section matches a behavior, or a step of the "Run the app" or "Check behavior" section fails because the file is wrong, such as a wrong port or start order, find a way that works with the tools this environment has, such as browser automation, `curl`, or the CLI. Try the behavior that way and note the way for step 5.
+
+When the change has no runtime behavior (docs, comments, types only), write that and skip this step. When a behavior cannot be tried here, write exactly what is missing, such as a login or a service, and the line the verify file needs once it is there. List it under Not verified.
 
 ## 4. Fix and repeat
 
 On any failure, fix it and go back to step 2. When the same failure survives three fixes, stop and report it.
 
-## 5. Report
+## 5. Update the verify file
+
+For each way you noted in step 3, add or fix one line in the file that covers the touched path: the package verify file for a path in a package, otherwise `ace/VERIFY.md`. Write it like the lines around it: the kind of change, the tool, where to start, such as a URL, an endpoint, or a command, and what to look at. When you noted nothing, skip this step.
+
+## 6. Report
 
 ```
 Checks:
@@ -52,6 +60,9 @@ Checks:
 
 Behavior:
 - What you did, and what you saw.
+
+Verify file:
+- `path`: the line added or fixed, or "none"
 
 Not verified: what and why, or "none"
 ```

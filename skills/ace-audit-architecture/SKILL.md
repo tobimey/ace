@@ -19,8 +19,8 @@ Before you start, check that each skill above is installed: its folder sits next
 ## Before scanning
 
 1. Load `ace-codebase-design` and read it with its deepening file. Load `ace-checks` and read its Architecture file.
-2. Read `ace/GLOSSARY.md` and the decisions the repo records, such as ADRs.
-3. Find the hot spots: read the commit history of the last few months and list the files and folders that change most. Scan those first. When the changes spread with no hot spot, scan wider.
+2. Read `ace/GLOSSARY.md`.
+3. Find the hot spots: read the commit history of the last few months and list the files and folders that change most. Scan those first. When the changes spread with no hot spot, scan wider. For each hot spot, search tickets by its path, as `ace/TICKET_TRACKER.md` says, and note the decisions they record.
 
 ## Find
 

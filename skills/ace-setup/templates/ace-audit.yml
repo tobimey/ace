@@ -1,0 +1,32 @@
+# Runs the Ace auditors. Each auditor opens at most three tickets, labelled ace:needs-dev.
+# Starts on a schedule for every domain in the list, or by hand for one domain.
+# Written by ace-setup. See ace/CYCLE.md.
+name: ace-audit
+
+on:
+  schedule:
+    - cron: "<CRON>"
+  workflow_dispatch:
+    inputs:
+      domain:
+        description: The auditor to run
+        type: choice
+        options: [logic, security, performance, health, architecture]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    strategy:
+      fail-fast: false
+      # One auditor at a time, so each one sees the tickets the one before it opened.
+      max-parallel: 1
+      matrix:
+        domain: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.domain) || '<DOMAINS>') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      <AGENT_STEP>

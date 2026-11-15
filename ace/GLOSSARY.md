@@ -9,4 +9,6 @@ The shared language of this project. Use these terms in code, tickets, and conve
 - **Ace cycle**: the loop of plan, implement, review, and optimize
 - **Ace source**: the Ace product this repository builds: `skills/` and `README.md`. "Ace" alone means this.
 - **installed Ace**: the copies and adapters this repository runs on: `.agents/skills/`, `.claude/skills/`, `skills-lock.json`, `ace/`
+- **Ace plugin**: the one plugin that ships every Ace skill. Claude Code and Codex install it from this repo's own marketplace. It also has a Cursor manifest for Cursor's marketplace. Until Ace is listed there, Cursor and every other harness install the skills with `npx skills add`, and each harness uses only one install method.
 - **explainer**: the Markdown explanation of a change that `ace-explain-change` writes, with Background, Intuition, Code, Quiz, and a glossary. It goes into a PR comment, or into the chat when there is no PR.
+- **ticket states**: the states a ticket moves through in the Ace cycle: `needs-dev` (a person must look at it), `ready` (an agent may work it, set only by a person), `working` (`ace-work-ticket` claimed it). The ticket tracker adapter says how the tracker shows each one.

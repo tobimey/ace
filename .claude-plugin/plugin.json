@@ -1,0 +1,20 @@
+{
+  "name": "ace",
+  "description": "An adaptable, agentic skills framework: plan, implement, review, and optimize, with audits and a router that picks the skills for each task.",
+  "icon": "./assets/icon.jpg",
+  "author": {
+    "name": "Tobi Mey",
+    "url": "https://github.com/tobimey"
+  },
+  "homepage": "https://github.com/tobimey/ace",
+  "repository": "https://github.com/tobimey/ace",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "workflow",
+    "planning",
+    "tdd",
+    "code-review",
+    "audit"
+  ]
+}

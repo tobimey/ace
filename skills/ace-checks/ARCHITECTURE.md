@@ -20,7 +20,7 @@ A module shape that makes change costly. Use the terms of `ace-codebase-design`.
 
 ## Drop
 
-- A shape a recorded decision asks for, such as an ADR or a coding standard, unless its reason no longer holds.
+- A shape a recorded decision asks for, such as a coding standard or a ticket, unless its reason no longer holds.
 - Folder placement, naming, or style alone.
 - A redesign that makes no named change, bug fix, or test easier.
 - Code the commit history shows unchanged for a long time, unless a bug traces to it.

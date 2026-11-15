@@ -1,0 +1,34 @@
+# Runs ace-work-ticket: it takes the next ticket labelled ace:ready and opens a pull request for it.
+# Starts on a schedule, when a ticket gets ace:ready, or by hand.
+# Written by ace-setup. See ace/CYCLE.md.
+name: ace-work-ticket
+
+on:
+  schedule:
+    - cron: "<CRON>"
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+
+# One worker at a time, so two runs never claim the same ticket.
+concurrency:
+  group: ace-work-ticket
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  work:
+    if: github.event_name != 'issues' || github.event.label.name == 'ace:ready'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # A token other than GITHUB_TOKEN, so the pushed branch, the pull request, and its ace:review label start the other workflows.
+          token: ${{ secrets.ACE_GH_TOKEN }}
+
+      <AGENT_STEP>

@@ -11,7 +11,7 @@ Design deep modules: a lot of behavior behind a small interface, placed at a cle
 
 - Use the terms below exactly. Say module, not component, service, or unit. Say interface, not API or signature. Say seam, not boundary.
 - Name modules with the domain terms in `ace/GLOSSARY.md`.
-- Treat decisions the repo records, such as ADRs and coding standards, as settled. Propose a shape against one only when its reason no longer holds, and name the decision.
+- Treat decisions the coding standards or tickets record as settled. Propose a shape against one only when its reason no longer holds, and name the decision.
 
 ## Terms
 
