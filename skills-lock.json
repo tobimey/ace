@@ -5,7 +5,7 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-agents-file/SKILL.md",
-      "computedHash": "af89dc65d9ca20d6496d038bfb709c54b58e3253cce8342f21e27d79246481e8"
+      "computedHash": "dbde2b5cba7a41b268d3787b5688ee9272a3bbae80a0d7bdc319eb352fe9f1b7"
     },
     "ace-bro": {
       "source": "tobimey/ace",
@@ -29,7 +29,7 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-grill/SKILL.md",
-      "computedHash": "8e367694e706fc446bac9f475bc66bb1074515042fa2dd628b2afffb90197d40"
+      "computedHash": "abd09b0e3885227df108373fd804ccfdc5bedb8f55c107dff5b711a243e97873"
     },
     "ace-implement": {
       "source": "tobimey/ace",
@@ -41,7 +41,7 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-mode/SKILL.md",
-      "computedHash": "aa4fbb25e0fdbb8bb9528006a2933492a02690ee6faae4a527f0c357aad35962"
+      "computedHash": "1605a4eb457dd344746a012a7970fa137a27820f8e745a35897232ecac0b5010"
     },
     "ace-optimize-factory": {
       "source": "tobimey/ace",
@@ -53,7 +53,7 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-retro/SKILL.md",
-      "computedHash": "0601c33821a19fbebd805d0030122e9d864271f6471b109d13e27ea850b04465"
+      "computedHash": "b7f5b8ed931e3a811310e6c8067d7141a3b0aa6d7b49d5f70ce64e2e7f6a0914"
     },
     "ace-review": {
       "source": "tobimey/ace",
@@ -65,7 +65,7 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-setup/SKILL.md",
-      "computedHash": "73d6c8f012641a21d6217fb2d2e3c9c09bdecf3ce8351792af768f044f75856b"
+      "computedHash": "f11d9c0707bc816337288758172d9a2ecef3462592cd3b667b5ea2742b38d090"
     },
     "ace-skill-optimizer": {
       "source": "tobimey/ace",
@@ -77,7 +77,7 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-to-ticket/SKILL.md",
-      "computedHash": "6cd0a2481a2f6906a7dd4fcc28346ad26acaa93bf93e0836e151e0adeaae3f44"
+      "computedHash": "590f648ab47c5668264598464752f401a0ecec95f757569a90dbf3fa1a4830a8"
     },
     "ace-unslop": {
       "source": "tobimey/ace",

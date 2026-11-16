@@ -6,9 +6,8 @@ disable-model-invocation: true
 
 # Ace Setup
 
-Set up ace in this project. Done means the root agents file turns on `ace-mode` and points at the adapters, and these adapters exist in the directory `ace` with no `<PLACEHOLDER>` left:
+Set up ace in this project. Done means the root agents file turns on `ace-mode`, points at the adapters, and has a Glossary section with the project's shared terms, and these adapters exist in the directory `ace` with no `<PLACEHOLDER>` left:
 
-- `ace/GLOSSARY.md`: the project's shared terms
 - `ace/CODING_STANDARDS.md`: what is out of scope, the trust boundaries, and the rules review and audit jobs check
 - `ace/VERIFY.md`: the checks to run, how to run the app, and how to try a change
 - `ace/TICKET_TRACKER.md`: how to read, search, open, update, and comment on a ticket, how to link sub-tickets and blockers, and how the ticket states needs-dev, ready, and working show
@@ -23,7 +22,7 @@ Each verify file was also followed once end to end: its checks ran, the app star
 
 - An `ace` folder holds only adapters. Keep `AGENTS.md` and `CLAUDE.md` at the repo root. Harnesses load them only from there.
 - Glossary, ticket tracker, and code hosting exist only at the root. Every package uses the root ones.
-- If an adapter from the list above exists outside `ace`, such as a root `GLOSSARY.md`, move it there.
+- If an adapter from the list above exists outside `ace`, such as a root `VERIFY.md`, move it there.
 - Keep what existing files say. Add only what is missing: a whole adapter, or a section [ADAPTERS.md](ADAPTERS.md) lists that an existing adapter lacks.
 - Take every value from the repo or from the user. Look it up, or ask.
 - Fill every section [ADAPTERS.md](ADAPTERS.md) lists. Ace skills depend on those sections and find each by its job. Keep the template headings so the user can match them to that list.
@@ -36,7 +35,7 @@ When the `ace` folder already holds adapters, this run brings them up to date af
 2. For each section the file lacks, copy it from the adapter's template, or from the step for that adapter when the template lacks it, such as Packages. Fill its placeholders as that step says. For a ticket tracker or code host other than GitHub, write the section with that tool, as steps 3 and 4 say.
 3. When you added a section to a verify file, follow "Prove it" for that file.
 
-Run step 6 in every run. In the last reply, name each file and section you added, or say that nothing was missing.
+Run "Glossary" in step 1 and step 6 in every run. In the last reply, name each file and section you added, or say that nothing was missing.
 
 ## 0. Detect the layout
 
@@ -62,11 +61,23 @@ If `AGENTS.md` exists at the repo root and `CLAUDE.md` does not, create `CLAUDE.
 @AGENTS.md
 ```
 
-If `ace/GLOSSARY.md` is missing, create it from [templates/GLOSSARY.md](templates/GLOSSARY.md):
+### Glossary
 
-- `<TERMS>`: up to five domain terms the README or docs define, one line each as `- **Term**: definition.` If none are defined, write `No terms yet.`
+The glossary lives in the root agents file, so every session loads it. [ADAPTERS.md](ADAPTERS.md) describes its two tiers.
 
-Both are drafts. Tell the user to read them and iterate.
+If the root agents file has no Glossary section, add the one from [templates/ROOT_AGENTS_FILE.md](templates/ROOT_AGENTS_FILE.md), marked `<!-- added by ace -->` on the line above it. If it has a glossary already, such as a list of who is who, add the lines it lacks there. Fill the placeholders:
+
+- `<USER>`: as above.
+- `<TERMS>`: up to five domain terms the README or docs define, one line each as `- **term**: definition. Not: other words for it.` Leave out `Not:` when no other word is in use. If no terms are defined, delete the line.
+
+If a glossary file exists, such as `ace/GLOSSARY.md` from an earlier Ace, a root `GLOSSARY.md`, or `CONTEXT.md`, show the user this plan and wait for a yes:
+
+1. Move each term's one-line definition into the Glossary section.
+2. If the file has 40 terms or fewer, one meaning per word, and nothing beyond the one-line definitions, delete it.
+3. Otherwise keep the rest as `ace/GLOSSARY.md`, without the one-line definitions, and end the Glossary section with ``More on these terms: `ace/GLOSSARY.md`.``
+4. Remove the line ``Use the terms in `ace/GLOSSARY.md`.`` from the Ace section of the root agents file.
+
+These are drafts. Tell the user to read them and iterate.
 
 Create `ace/CODING_STANDARDS.md` from [templates/CODING_STANDARDS.md](templates/CODING_STANDARDS.md) if it is missing. Then:
 
@@ -182,7 +193,6 @@ Add this section to the root agents file from step 1. If it is there already, ad
 ## Ace
 
 - For every task, follow the `ace-mode` skill. It picks the Ace skills for the task and their order.
-- Use the terms in `ace/GLOSSARY.md`.
 - To verify a change, follow `ace/VERIFY.md`.
 - To read, search, open, or update a ticket, follow `ace/TICKET_TRACKER.md`.
 - To open or comment on a pull request, follow `ace/CODE_HOSTING.md`.

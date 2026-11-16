@@ -32,7 +32,7 @@ If the user passed a ticket number or URL, or the conversation already names one
 
 If none is present and the conversation holds a settled plan, such as one from `ace-grill`, use that plan as the spec. It gets its ticket at publish.
 
-Otherwise **stop and ask** for the ticket number or URL. Wait for it before you draft or create anything. If they confirm there is no ticket, suggest `ace-grill` to settle a plan first.
+Otherwise **stop and ask** for the ticket number or URL. Wait for it before you draft or create anything. If they confirm there is no ticket, suggest `ace-grill`. It settles a plan and runs this skill on it.
 
 Work from that ticket or plan plus whatever is already in the conversation. Use the project's domain glossary vocabulary.
 
