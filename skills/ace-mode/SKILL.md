@@ -20,6 +20,7 @@ Before you run a step, check that its skill is installed: its folder sits next t
 - Load a skill by its name. When the harness cannot, read `../<name>/SKILL.md` from this file.
 - A step that does not apply stays in the list as `skip: <reason>`.
 - A small edit the user fully specified, such as a typo or a line they dictated, needs no playbook. Make it and say what changed.
+- Playbooks are internal. Never name a playbook in a reply, and never print `Playbook: X` or a list of its steps. Say what you are doing in plain words, such as "I'll fix the bug, then review the diff."
 - When the project has no `ace` folder, say so once and offer `ace-setup`. Then work without the adapters.
 - Leave every merge to a person. Ace stops at a reviewed pull request.
 - This file says what comes next. How the next run starts, by a person, a label, or a schedule, lives in `ace/CYCLE.md`.
@@ -27,10 +28,9 @@ Before you run a step, check that its skill is installed: its folder sits next t
 ## Route
 
 1. Match the message to one playbook. When two match, take the one listed first. When none matches, work without a playbook and use skills as their own descriptions say.
-2. Name the playbook in one line, such as `Playbook: Build`. The user can redirect.
-3. Copy its steps into the todo list, or into the reply when the harness has no todo list.
-4. Run the steps. When a later message changes the task, route again.
-5. Hand off as the "Hand off" section below says.
+2. Copy its steps into the todo list. When the harness has no todo list, track them yourself and keep them out of the reply.
+3. Run the steps. When a later message changes the task, route again.
+4. Hand off as the "Hand off" section below says.
 
 ## Playbooks
 
@@ -55,8 +55,9 @@ A question a quick sketch answers by running it: "prototype X", "try both layout
 An idea or a feature whose shape is not settled.
 
 1. `ace-grill` until the design tree has no open branch. When a decision turns on something only running code shows, such as speed or how a layout feels, run the Prototype playbook for it and bring its result to that question.
-2. Ask one question in the question format of `ace-unslop`: write the plan as tickets, or implement it here? Recommend tickets when the work is size `L` or `XL`, needs more than one context window, or should wait. Otherwise recommend implementing here. Wait for the answer.
-3. Tickets: `ace-to-ticket` with the spec ticket, or with the settled plan when no spec ticket exists. It opens the tickets. Here: run the Build playbook with the settled plan, and hand off as Build. Neither: stop.
+   `ace-grill` writes the settled plan into a ticket, unless the user chose no ticket.
+2. Ask one question in the question format of `ace-unslop`: implement it here now, or stop? Recommend stopping when grill opened sub-tickets, or when the work should wait. Otherwise recommend implementing here. Wait for the answer.
+3. Here: run the Build playbook with the settled plan, or with its ticket, and hand off as Build. Stop: stop.
 
 ### Perf
 
@@ -89,7 +90,7 @@ A change to the shape of the code that keeps what it does: rename, extract, move
 A ticket, spec, or plan to implement, or a feature the conversation has settled.
 
 1. When the message names a ticket, read it with its comments as `ace/TICKET_TRACKER.md` says.
-2. When the plan leaves a decision open, `ace-grill` on the open decisions only.
+2. When the plan leaves a decision open, `ace-grill` on the open decisions only. When a ticket is named, tell grill to keep it as one ticket, so its body stays the spec for what you build.
 3. `ace-implement`.
 4. Finish the change.
 
@@ -131,7 +132,7 @@ A message that names one job runs that skill alone: work the next ready ticket w
    | State | Next |
    |---|---|
    | An idea with open decisions, and no spec ticket | Plan |
-   | A spec ticket too big for one change, with no sub-tickets | Plan, from `ace-to-ticket` |
+   | A spec ticket too big for one change, with no sub-tickets | `ace-to-ticket` with that ticket |
    | A ticket in the needs-dev state | A person reads it and its comments, then sets it ready or closes it |
    | A ticket with no branch and no pull request | Build |
    | Local changes, or a branch with no pull request | Review on the local diff, then `ace-open-pr` |
@@ -139,7 +140,7 @@ A message that names one job runs that skill alone: work the next ready ticket w
    | An open pull request with a current review | A person merges. Name its Merge Danger. |
    | A merged pull request | Done. Offer `ace-retro` when the work went badly. |
 
-3. Say the state and the next playbook in two lines. Run that playbook once the user agrees.
+3. Say the state and the next step in two lines, in plain words. Run the matching playbook once the user agrees.
 
 ## Finish a change
 

@@ -15,7 +15,7 @@ Find why the bug happens, and prove it. Done means one command goes red on this 
 - Find facts yourself. Ask the user only for access, a captured artifact, or a decision.
 - Redact every secret in commands, output, and artifacts you show: write `<REDACTED>` in its place. Pass credentials through environment variables.
 - Take the test command from the "Checks" section of `ace/VERIFY.md`, how to start the app from "Run the app", and how to try a behavior from "Check behavior". Find each section by its job. When one is missing, build the loop without it and name the gap in the report.
-- Slowness with correct results is out of scope. It belongs to the Perf playbook of `ace-mode`. Say so and stop.
+- Slowness with correct results is out of scope. It belongs to the Perf playbook of `ace-mode`. Tell the user it is a performance problem, not a bug, and stop.
 
 ## Workflow
 

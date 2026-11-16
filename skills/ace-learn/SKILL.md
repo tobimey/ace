@@ -35,7 +35,7 @@ Learning state is personal, so it lives outside the project. Default to `~/.ace/
 - `lessons/NNNN-<slug>.html`: one lesson per file.
 - `reference/*.html`: short cheat sheets distilled from the lessons. The user comes back to these, rarely to lessons.
 - `assets/`: a shared stylesheet and reusable widgets every lesson links to.
-- `GLOSSARY.md`: topic terms the user can already use correctly. Terms the project defines stay only in the project's `ace/GLOSSARY.md`.
+- `GLOSSARY.md`: topic terms the user can already use correctly. Terms the project defines stay only in the project glossary.
 - `NOTES.md`: how the user likes to be taught.
 
 ## Sources

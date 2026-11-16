@@ -19,7 +19,7 @@ Parties the project trusts. Treat calls between them as authorized.
 ## Rules
 
 - Follow the patterns the codebase already uses. A second way to do the same job needs a reason.
-- Use the terms in `ace/GLOSSARY.md` for names. One name per concept.
+- Use the glossary terms from the root agents file for names. One name per concept.
 - Validate input where it enters the system: requests, files, environment, third-party responses. Trust it after that.
 - Handle an error where something can be done about it. Log or surface every error you catch.
 - Delete dead code, commented-out code, and unused exports. Version control keeps the history.

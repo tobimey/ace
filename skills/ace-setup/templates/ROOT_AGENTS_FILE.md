@@ -4,8 +4,9 @@
 
 ## Glossary
 
-- you: the agent working in this repo
-- I, me: the person who wrote this file
-- user: <USER>
+Use these terms in code, tickets, and conversation. One name per concept.
 
-Project terms live in `ace/GLOSSARY.md`.
+- **you**: the agent working in this repo
+- **I, me**: the person who wrote this file
+- **user**: <USER>
+<TERMS>

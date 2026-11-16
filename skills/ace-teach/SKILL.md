@@ -20,7 +20,7 @@ Before you start, check that each skill above is installed: its folder sits next
 ## Constraints
 
 - Read only.
-- Write through `ace-unslop` and use the terms in `ace/GLOSSARY.md`.
+- Write through `ace-unslop` and use the glossary terms.
 - Keep the hedges from `ace-why` intact. They are findings, not style.
 - Explain, then stop and let them answer. Leave out quizzes, "pause" markers, requests to repeat it back, and "the tricky part" flags.
 - Start with the point itself. Leave out framing labels such as "key insight", "TL;DR", or "at its core".
@@ -33,6 +33,6 @@ Before you start, check that each skill above is installed: its folder sits next
 4. **Give the smallest complete answer first.** One or two sentences, then stop. Add depth when they ask.
 5. **Show it.** Open the diff or the code when that is the fastest way to land a point. For anything with three or more moving parts, draw a series of diagrams, each one redrawing the last and adding one part, so the user watches the system assemble. A single all-at-once diagram is reference, not teaching. A simple point needs no diagram.
 6. **Follow their lead.** Offer to go deeper or move on. With no live user, deliver it in one pass and put the offer to go deeper at the end.
-7. **Close the loop.** If the user and you settled on a term that `ace/GLOSSARY.md` lacks or defines differently, propose the glossary change. If the user wants to keep learning this area over several sessions, point them to `ace-learn`.
+7. **Close the loop.** If the user and you settled on a term that the glossary lacks or defines differently, propose the change to the Glossary section of the root agents file. If the user wants to keep learning this area over several sessions, point them to `ace-learn`.
 
 **Reply:** the explanation itself. Lead with the main point, then the plain account of what, how, and why, then the threads worth following with `ace-how` or `ace-why`.

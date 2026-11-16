@@ -10,7 +10,7 @@ Answer "how does X work?" from the code as it is now. Done means the user holds 
 ## Constraints
 
 - Read only.
-- Use the terms in `ace/GLOSSARY.md`.
+- Use the glossary terms.
 - Back each claim with a `path:line` reference. Mark what you could not confirm in the code as a guess.
 - Answer how it works. Leave "why is it built this way" to `ace-why`, and name the open why-questions at the end.
 

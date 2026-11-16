@@ -1,12 +1,17 @@
 # Adapter contract
 
-The adapters in `ace/` belong to the project. Change them freely. Ace skills depend only on the sections below. Each section must exist and do the job named here. Its heading may differ, since skills find a section by its job. Everything else in an adapter is free.
+The adapters in `ace/`, and the glossary in the root agents file, belong to the project. Change them freely. Ace skills depend only on the sections below. Each section must exist and do the job named here. Its heading may differ, since skills find a section by its job. Everything else in an adapter is free.
 
 When a skill misses a section, it names the section and says what it must hold. A skill that edits files offers to add it. A read-only skill stops, or skips that source and says so. Running `ace-setup` again adds every missing section.
 
-## `ace/GLOSSARY.md`
+## Glossary
 
-Free form. Skills read it for the project's terms, and `ace-grill` adds terms to it.
+The project's terms, in two tiers. Only the root has a glossary, also in a monorepo.
+
+- **Glossary section of the root agents file.** Harnesses load that file into every session, so every agent has the terms without looking them up. It holds one line per term: `- **term**: what it means here. Not: other words for it.` It leaves out words a senior engineer already knows. A term's one-line definition lives only here.
+- **`ace/GLOSSARY.md`, optional.** It is free form and holds what does not fit on one line: how terms relate, examples, open questions, a section per bounded context. It exists once the section passes about 40 terms, or once one word means different things in different parts of the project. The section then keeps every one-line entry and adds a line that points at this file.
+
+Skills use the terms from the root agents file, and read `ace/GLOSSARY.md` when it exists and they need the detail. `ace-grill` and `ace-teach` add terms. A skill that pushes the section past about 40 terms proposes creating `ace/GLOSSARY.md`.
 
 ## `ace/CODING_STANDARDS.md`
 
@@ -32,7 +37,7 @@ Rules, tests, and smells are free content.
 | Section | What it holds | Used by |
 |---|---|---|
 | Ticket references | How a ticket is written in a commit, branch name, or pull request body, such as `#123` or `ENG-123` | `ace-check-spec`, `ace/CODE_HOSTING.md` |
-| Read a ticket | How to read a ticket with its comments | `ace-check-spec`, `ace-to-ticket`, `ace-why` |
+| Read a ticket | How to read a ticket with its comments | `ace-check-spec`, `ace-grill`, `ace-to-ticket`, `ace-why` |
 | Search tickets | How to search tickets by text | `ace-audit`, `ace-why` |
 | Open a ticket | How to open a ticket with title, body, type, Priority, Size, and Risk, in the needs-dev state | `ace-open-ticket` |
 | Update a ticket | How to change a ticket's title, body, type, Priority, Size, and Risk | `ace-to-ticket` |

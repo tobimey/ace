@@ -26,6 +26,7 @@ Check the repo's `AGENTS.md` and `CLAUDE.md` against the rules below and propose
   - "I", "me" is the person who wrote the file.
   - "we", "us", "maintainers" are the people who own the project.
   - "user" is the person using the product, not the agent's operator. Say so if it differs.
+  - The project's own terms follow in the same section, one line each. Keep them there, since every session needs them. `ace-grill` adds them.
 
 ## Workflow
 
