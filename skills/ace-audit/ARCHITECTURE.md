@@ -1,30 +1,14 @@
----
-name: ace-audit-architecture
-description: Audits the repository for shallow modules and leaking seams that make change costly, and files at most three tickets, or none.
-disable-model-invocation: true
----
-
-# Architecture auditor
-
-Load `ace-audit` and follow it. This skill sets the domain: architecture.
-
-## Requires
-
-- `ace-audit`
-- `ace-checks`
-- `ace-codebase-design`
-
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+# Architecture
 
 ## Before scanning
 
-1. Load `ace-codebase-design` and read it with its deepening file. Load `ace-checks` and read its Architecture file.
+1. Load [ace-codebase-design](../ace-codebase-design/SKILL.md) and read it with its deepening file. Load [ace-checks](../ace-checks/SKILL.md) and read its Architecture file.
 2. Read the glossary in the root agents file, and `ace/GLOSSARY.md` when it exists.
 3. Find the hot spots: read the commit history of the last few months and list the files and folders that change most. Scan those first. When the changes spread with no hot spot, scan wider. For each hot spot, search tickets by its path, as `ace/TICKET_TRACKER.md` says, and note the decisions they record.
 
 ## Find
 
-What the Find section of the Architecture file lists. The cost `ace-audit` asks for is the change cost: name the recent changes or the bug this shape made harder.
+What the Find section of the Architecture file lists. The cost a finding needs is the change cost: name the recent changes or the bug this shape made harder.
 
 ## Drop
 

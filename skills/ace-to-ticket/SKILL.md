@@ -8,19 +8,16 @@ disable-model-invocation: true
 
 Turn an existing spec into **ticket(s)**. **One ticket** fills the spec ticket itself. **Multiple tickets** are tracer-bullet vertical slices as **sub-tickets** of that parent, each declaring what blocks it.
 
-Read `ace-open-ticket` before any draft. Open every new ticket with it. Follow `ace/TICKET_TRACKER.md` to read and update tickets, and to link sub-tickets and blockers.
+Read [ace-open-ticket](../ace-open-ticket/SKILL.md) before any draft. Open every new ticket with it. Follow `ace/TICKET_TRACKER.md` to read and update tickets, and to link sub-tickets and blockers.
 
 ## Requires
 
 - `ace-open-ticket`
 
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
-
 ## Constraints (always)
 
 - Leave the parent or spec ticket open.
 - Keep ticket bodies in the ticket tracker only.
-- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. When the user declines, stop.
 
 Mode-specific constraints are under each mode below.
 
@@ -112,7 +109,7 @@ Iterate until the user approves the breakdown.
 
 - Publish exactly one ticket.
 
-If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, including type, Priority, Size, Risk, and project. Write its body in the shape `ace-open-ticket` defines.
+If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, with each of type, Priority, Size, and Risk the tracker records. Write its body in the shape `ace-open-ticket` defines.
 
 If the spec is a plan from the conversation, open a new ticket with `ace-open-ticket`.
 

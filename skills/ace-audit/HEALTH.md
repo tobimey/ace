@@ -1,18 +1,4 @@
----
-name: ace-audit-health
-description: Audits the repository for coding-standards breaks later editors are likely to copy and files at most three tickets, or none.
-disable-model-invocation: true
----
-
-# Health auditor
-
-Load `ace-audit` and follow it. This skill sets the domain: coding-standards breaks.
-
-## Requires
-
-- `ace-audit`
-
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+# Health
 
 ## Before scanning
 
@@ -22,7 +8,7 @@ Read the coding standards in full first, including Smells and every package file
 
 Behavior-identical breaks of those rules, each with a file path and the rule it breaks. A smell is a judgement call. Count it only when the better shape is obvious and the fix keeps the same behavior. An earlier rule in the coding standards wins.
 
-Logic, security, performance, and architecture findings belong to `ace-audit-logic`, `ace-audit-security`, `ace-audit-performance`, and `ace-audit-architecture`.
+Logic, security, performance, and architecture findings belong to their own domains.
 
 ## Drop
 

@@ -17,7 +17,6 @@ Bring the diff in line with the coding standards. Done means every safe edit is 
 - A smell in the coding standards is a judgement call. Fix it only when the better shape is obvious and the edit keeps the same behavior. An earlier rule in that file wins.
 - A tautological test in this diff (one that cannot fail) is a standards violation. Delete that test case, or drop only the incidental asserts. Production behavior stays the same.
 - On a pull request, commit the whole standards pass as one commit. On a local diff, leave your edits uncommitted. The user commits.
-- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
 
 ## Workflow
 

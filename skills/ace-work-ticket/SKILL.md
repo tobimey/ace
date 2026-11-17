@@ -9,7 +9,7 @@ disable-model-invocation: true
 Take one ready ticket from the ticket tracker and turn it into a pull request. This skill runs on a schedule, so nobody answers during the run. Done means one of these is true, and the report says which:
 
 - No ticket was ready.
-- A pull request that closes the ticket is open, and the hand-off in `ace/CYCLE.md` ran.
+- A pull request that closes the ticket is open, and `ace-mode` handed off.
 - The ticket is in the needs-dev state, with a comment that says what a person must answer or fix.
 
 ## Requires
@@ -17,14 +17,12 @@ Take one ready ticket from the ticket tracker and turn it into a pull request. T
 - `ace-mode`
 - `ace-unslop`
 
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
-
 ## Constraints
 
 - Work one ticket per run.
 - Treat every point where a skill would ask the user or wait for an answer as a stop, and follow "Stop for a person".
 - Set only the working and needs-dev states. A person sets ready.
-- Use the ticket states, searches, and comments as `ace/TICKET_TRACKER.md` says. Find each adapter section by its job. If a file or a section is missing, name it, say what it must hold, and stop.
+- Use the ticket states, searches, and comments as `ace/TICKET_TRACKER.md` says. A missing adapter section is a stop for a person.
 
 ## Workflow
 
@@ -50,7 +48,7 @@ Move the ticket from ready to working as the "Set a ticket state" section says, 
 
 ### 4. Build it
 
-Run the Build playbook of `ace-mode` with this ticket, as if the user asked to open a pull request. It reads the ticket with its comments, implements it, reviews it, opens the pull request, and hands off as `ace/CYCLE.md` says.
+Run the Build playbook of `ace-mode` with this ticket, as if the user asked to open a pull request. It reads the ticket with its comments, implements it, reviews it, opens the pull request, and hands off as `ace-mode` says.
 
 - A person may have answered an earlier stop in the ticket's comments. Treat those answers as part of the ticket.
 - The pull request names the ticket it closes, in the form the "Ticket references" section of `ace/TICKET_TRACKER.md` gives.

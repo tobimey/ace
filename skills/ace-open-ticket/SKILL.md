@@ -1,6 +1,7 @@
 ---
 name: ace-open-ticket
-description: Opens one ticket in the project's ticket tracker, with a body in the shared ace shape. Use when the user or another skill asks to open, create, or file a ticket or issue.
+description: Opens one ticket in the project's ticket tracker, with a body in the shared Ace shape.
+disable-model-invocation: true
 ---
 
 # Open ticket
@@ -10,8 +11,8 @@ Write one ticket body and open the ticket. Done means the ticket exists, its bod
 ## Constraints
 
 - Open the ticket only as the "Open a ticket" section of `ace/TICKET_TRACKER.md` says. That section is the only way to open it.
-- Find each adapter section by its job. Its heading may differ from the one named here. If the file or the section is missing, name it and say what it must hold, before you write the body. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
-- Send type, Priority, Size, and Risk to the ticket tracker as its "Open a ticket" section says, outside the body.
+- Check the adapter sections before you write the body.
+- Send type, Priority, Size, and Risk to the ticket tracker as its "Open a ticket" section says, outside the body. When that section records no Priority or Size, leave them out. The body never holds them.
 - Use only the `###` headings below.
 - Omit Rules when there are none.
 - Omit Parent and Blocked by unless the caller supplied them. Leave the caller's text in those two sections.

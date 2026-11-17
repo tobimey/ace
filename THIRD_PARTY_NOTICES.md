@@ -12,7 +12,7 @@ Ace skills adapted from it:
 - `ace-learn` from `teach`
 - `ace-diagnose` from `diagnosing-bugs`
 - `ace-codebase-design` from `codebase-design`
-- `ace-audit-architecture` from `improve-codebase-architecture`
+- the architecture domain of `ace-audit` from `improve-codebase-architecture`
 - `ace-grill` from `grilling`
 - `ace-to-ticket` from `to-tickets`
 

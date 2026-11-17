@@ -11,19 +11,19 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 
 - Every skill a playbook below names.
 
-Before you run a step, check that its skill is installed: its folder sits next to this skill's folder. If one is missing, mark the step `skip: not installed`, tell the user to install it with `npx skills add tobimey/ace --skill NAME`, and go on with the next step.
+Before you run a step, check that its skill is installed: its folder sits next to this skill's folder. If one is missing, mark the step `skip: not installed`, tell the user to install it the way they installed Ace, and go on with the next step.
 
 ## Constraints
 
 - The agents file decides when to change files. A playbook step that changes files waits until the message asks for a change. Until then, run the read-only steps and propose the rest.
 - This file picks the skills and their order. Follow each skill as written. Its steps, rules, and report live in the skill.
-- Load a skill by its name. When the harness cannot, read `../<name>/SKILL.md` from this file.
+- Load each skill by reading `../<name>/SKILL.md` from this file's folder. Ace hides its skills from the model, so a skill loads only by path.
 - A step that does not apply stays in the list as `skip: <reason>`.
 - A small edit the user fully specified, such as a typo or a line they dictated, needs no playbook. Make it and say what changed.
 - Playbooks are internal. Never name a playbook in a reply, and never print `Playbook: X` or a list of its steps. Say what you are doing in plain words, such as "I'll fix the bug, then review the diff."
 - When the project has no `ace` folder, say so once and offer `ace-setup`. Then work without the adapters.
 - Leave every merge to a person. Ace stops at a reviewed pull request.
-- This file says what comes next. How the next run starts, by a person, a label, or a schedule, lives in `ace/CYCLE.md`.
+- This file says what comes next. A person starts the next run, unless `ace/CYCLE.md` says a label or a schedule does.
 
 ## Route
 
@@ -38,7 +38,7 @@ Before you run a step, check that its skill is installed: its folder sits next t
 
 A question about the code, with no change asked: "how does X work", "why is Y built this way", "explain this PR", "teach me Z".
 
-1. How it works now: `ace-how`. Why it is this way: `ace-why`. Both, or an explanation of a change: `ace-teach`. Lasting skill over several sessions: `ace-learn`.
+1. How it works now, why it is this way, or an explanation of a change: `ace-explain`. Lasting skill over several sessions: `ace-learn`.
 2. Answer. Change nothing.
 
 ### Prototype
@@ -110,7 +110,7 @@ Run the three jobs one after another on the same input. Two of them edit files, 
 
 "Audit", or a search for bugs, security holes, performance costs, standards breaks, or shallow modules across the repo.
 
-1. The `ace-audit-` skill for the domain: `ace-audit-logic`, `ace-audit-security`, `ace-audit-performance`, `ace-audit-health`, or `ace-audit-architecture`. A full audit runs each in turn.
+1. `ace-audit` with the domains the message names: `security`, `logic`, `performance`, `architecture`, or `health`. A full audit names all five. With no domain named, `ace-audit` asks.
 
 ### Improve the factory
 
@@ -151,8 +151,8 @@ Perf, Fix, Refactor, and Build end with these steps. Copy them into the todo lis
 
 ## Hand off
 
-When Plan, Perf, Fix, Refactor, Build, Review, or Audit ends, read `ace/CYCLE.md` and do what its section for that playbook says. Perf, Fix, and Refactor use the Build section. The section can tell the user the next step, set a label, move a ticket, or say that nothing follows.
+When Plan, Perf, Fix, Refactor, Build, Review, or Audit ends, and `ace/CYCLE.md` has a section for that playbook, do what it says. Perf, Fix, and Refactor use the Build section. The section can set a label, move a ticket, or tell the user what a run does next.
 
-When the file or the section is missing, end the reply with the next step from the Continue table, as one line the user can send, such as `Next: review pull request #12`.
+Otherwise end the reply with the next step from the Continue table, as one line the user can send, such as `Next: review pull request #12`. After Plan or Audit, also say that the new tickets are in the needs-dev state, and that a person sets one ready or starts it with `Implement TICKET`.
 
 Understand, Prototype, Improve the factory, Continue, and Single job hand off nothing. A playbook run as a step of another hands off nothing. The outer playbook hands off.

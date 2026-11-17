@@ -1,22 +1,19 @@
 ---
 name: ace-learn
-description: Runs a course over several sessions so the user builds lasting skill in a topic tied to their project, such as a subsystem, a library the project depends on, or a technique. Keeps a learning workspace with a mission, learning records, lessons, and reference sheets. Use for "I want to learn X", "get me fluent in this codebase", or to continue a course.
+description: Runs a course over several sessions so the user builds lasting skill in a topic tied to their project.
 argument-hint: "What do you want to learn?"
+disable-model-invocation: true
 ---
 
 # Learn
 
 Teach the user a topic over several sessions, so they can do something new without the agent. Done for one session means the user finished one lesson and the workspace records what they now know.
 
-`ace-teach` explains one thing once. `ace-learn` is for when the user wants the knowledge to stay.
+`ace-explain` explains one thing once. `ace-learn` is for when the user wants the knowledge to stay.
 
 ## Requires
 
-- `ace-how`
-- `ace-why`
-- `ace-teach`
-
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
+- `ace-explain`
 
 ## Constraints
 
@@ -40,7 +37,7 @@ Learning state is personal, so it lives outside the project. Default to `~/.ace/
 
 ## Sources
 
-- **The project.** For anything about the codebase, the code is the primary source. Follow [ace-how](../ace-how/SKILL.md) for how it works and [ace-why](../ace-why/SKILL.md) for why. Cite `path:line`, commits, and pull requests.
+- **The project.** For anything about the codebase, the code is the primary source. Follow the How file of [ace-explain](../ace-explain/SKILL.md) for how it works and its Why file for why. Cite `path:line`, commits, and pull requests.
 - **Outside the project.** Use official docs, specs, and source code of the library or tool. Prefer the version the project actually depends on. Record each one in `RESOURCES.md`.
 
 ## Steps
@@ -49,7 +46,7 @@ Learning state is personal, so it lives outside the project. Default to `~/.ace/
 2. **Warm up with retrieval.** From the second session on, start with two or three short questions on earlier learning records. Recall from memory is what makes knowledge last. Pick older records first, so practice spreads over time.
 3. **Pick the next lesson.** Read the learning records and the mission. Choose the most useful next step that the user is ready for: hard enough to stretch them, close enough to what they know to land. If the user names a topic, teach that.
 4. **Write the lesson.** One self-contained HTML file that links the shared stylesheet. Short enough to finish in one sitting, with one concrete win. Teach only the knowledge the win needs, with plain language and citations. Then make the user practice with feedback, ideally against the real project: trace a request, predict what a change breaks and run the tests to check, find where a rule lives. For quizzes, make every answer the same length and vary the position of the right one. End with one primary source to read next and a reminder to ask you questions.
-5. **Open the lesson** with a CLI command if you can. Answer questions as [ace-teach](../ace-teach/SKILL.md) would.
+5. **Open the lesson** with a CLI command if you can. Answer questions as [ace-explain](../ace-explain/SKILL.md) does.
 6. **Record what was learned.** Write a learning record only on evidence: the user used the idea correctly, stated prior knowledge, or corrected a misconception. Covering a topic is not learning. Add terms to the workspace glossary once the user uses them correctly. Update or add a reference sheet. Note teaching preferences in `NOTES.md`.
 
 **Reply:** what this lesson teaches and why it is next, the path to the lesson, and the one thing to try first.

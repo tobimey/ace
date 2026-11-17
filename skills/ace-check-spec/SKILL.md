@@ -13,7 +13,6 @@ Check whether this change does what the linked ticket asked. Done means pass, sk
 - Read only. Leave the repository, its commits, and the pull request as they are.
 - Judge spec match only. Logic bugs, security holes, and performance costs belong to `ace-review`. Coding standards belong to `ace-validate-standards`.
 - A missing ticket is not a failure. Write `No linked ticket. Spec check skipped.`
-- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it, say what it must hold, and stop.
 
 ## Workflow
 

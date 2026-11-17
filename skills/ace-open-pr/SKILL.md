@@ -1,6 +1,7 @@
 ---
 name: ace-open-pr
-description: Opens a pull request for the current work through the project's code hosting setup. Use when the user or another skill asks to open, create, or ship a pull request or PR.
+description: Opens a pull request for the current work through the project's code hosting setup.
+disable-model-invocation: true
 ---
 
 # Open pull request
@@ -10,7 +11,6 @@ Open a pull request for the current work. Done means the pull request exists and
 ## Constraints
 
 - Open the pull request only as the "Open a pull request" section of `ace/CODE_HOSTING.md` says. That section is the only way to open it.
-- Find each adapter section by its job. Its heading may differ from the one named here. If the file or the section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
 
 ## Workflow
 

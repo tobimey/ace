@@ -1,6 +1,7 @@
 ---
 name: ace-codebase-design
-description: Shared vocabulary and principles for module design, built on deep modules. Use when designing or changing a module's interface, deciding where a seam goes, making code easier to test, or when another skill loads it.
+description: Shared vocabulary and principles for module design, built on deep modules, that other Ace skills load.
+disable-model-invocation: true
 ---
 
 # Codebase design

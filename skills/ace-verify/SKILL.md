@@ -1,6 +1,7 @@
 ---
 name: ace-verify
-description: Proves the current change works by running the project's checks and trying the changed behavior. Use when the user or another skill asks to verify, test, or check that a change works.
+description: Proves the current change works by running the project's checks and trying the changed behavior.
+disable-model-invocation: true
 ---
 
 # Verify
@@ -11,7 +12,6 @@ Prove the current change works. Done means every command in the "Checks" section
 
 - Verify as `ace/VERIFY.md` says, plus the package file its "Packages" section names for each path the change touches. When those files have no way to try a behavior, or a way they give is wrong, find one that works and write it back in step 5.
 - In the verify files, change only the lines of the "Run the app" and "Check behavior" sections that step 5 names.
-- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
 - A passing check proves the check, not the behavior. Report behavior as working only after you have tried it.
 - Make a failing check or test pass by fixing the code. Keep every check, test, and hook as strict as you found it, and let hooks run.
 - A failure that also happens without this change is pre-existing. Report it and leave it as it is.

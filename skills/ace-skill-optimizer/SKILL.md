@@ -16,13 +16,11 @@ User-requested behaviour wins over a pure checklist pass. If they say X is faili
 
 - `ace-unslop`
 
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
-
 ## Authoring
 
 This skill is the only prefix list.
 
-- `ace-audit-` plus a domain is an auditor job. Repo-wide, one domain per skill. It files tickets. It leaves the repo unchanged and opens no pull request.
+- `ace-audit` is the auditor job. Repo-wide, one domain file per domain, one pass per domain. It files tickets. It leaves the repo unchanged and opens no pull request.
 - `ace-review`, `ace-check-spec`, and `ace-validate-standards` are review jobs for the current change.
 - `ace-` plus a verb is a cycle or shared job. A person is in the loop, or another skill calls it.
 - Skills without the `ace-` prefix are project or vendored skills. They teach a library or a tool. Keep ace pipeline facts out of them.
@@ -31,7 +29,8 @@ This skill is the only prefix list.
 - Write the body so it works in any context that loads it: any caller (slash command, UI, parent skill, route) and any machine. When `disable-model-invocation` is omitted, discovery `when` belongs in `description`.
 - A job skill takes its input from the caller: a pull request, a diff, a base ref, or a ticket.
 - Name another skill by its `name`. Name a document by its role (coding standards, glossary) or its `ace/` path. Name another filesystem path only when that path is the work.
-- When the skill follows, loads, or runs another skill, list that skill in a `## Requires` section before the first other section, ending with this line: "Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`." A skill named only to mark scope, such as "belongs to `ace-review`", needs no entry.
+- When the skill follows, loads, or runs another skill, list that skill in a `## Requires` section before the first other section, as a list of names and nothing else. The Ace section of the root agents file says what happens when one is missing. A skill named only to mark scope, such as "belongs to `ace-review`", needs no entry.
+- Leave out how to find an adapter section and what to do when one is missing. The Ace section of the root agents file says it. Write a line only when the skill does something else, such as answering in the reply instead of posting.
 - When `disable-model-invocation` is `true`, the description is one line that says what the skill does, and only what.
 - Write every instruction as the action to take. Turn "do not X", "never X", "avoid X", and "should not X" into what the agent does instead: the allowed scope ("Read only.", "Change only the files in the diff."), the replacement action, or the stop condition ("If the section is missing, stop and say so."). A negation that states a fact or a condition ("if the file does not exist") stays. Naming the unwanted action plants it; naming the wanted one steers.
 - Shortest text that still makes the agent do the job. Say each rule once.
@@ -80,7 +79,7 @@ If any of those is unclear, **stop and ask**, and edit only after the answers.
 
 Ask with the harness's question tool when it has one. Otherwise ask in chat, in the question format of `ace-unslop`.
 
-Look up filesystem facts yourself. Ask only for decisions: purpose, key functionality, what "working" means for the complaint, trigger phrases, slash-only vs auto-load (`disable-model-invocation: true`).
+Look up filesystem facts yourself. Ask only for decisions: purpose, key functionality, what "working" means for the complaint, trigger phrases.
 
 Wait for answers before editing.
 
@@ -93,7 +92,7 @@ Find why the current skill fails at X. Typical causes:
 - Instruction missing, buried in a sibling file, or contradicted
 - Too much freedom on a fragile step (needs an exact command or script)
 - Description differs from how the user asks, so the skill never loads
-- `disable-model-invocation: true` when they expect auto-load, or the reverse
+- `ace-mode` has no route to the skill, and no other skill links it by path, so it never loads
 - The failing rule is easy to misread and has no example. Other rules need none just because this one does
 - Agent is told to audit or report, but not to change behaviour
 - The rule names the unwanted action ("do not X") instead of the wanted one

@@ -44,7 +44,7 @@ Write a record when the user shows real understanding of something non-trivial, 
 # {Topic} resources
 
 ## Project
-- `src/payments/` and `ace-why` on the retry logic. Use for: how payments run here.
+- `src/payments/` and the Why file of `ace-explain` on the retry logic. Use for: how payments run here.
 
 ## Docs
 - [Library docs, version the project uses](https://example.com). Use for: API details.

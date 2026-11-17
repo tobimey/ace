@@ -8,13 +8,13 @@ The new age of programming isn't … programming. It's probably not even enginee
 
 ## Get started
 
-1. Install Ace with one method per harness. A skill installed both ways shows up twice.
-   - Claude Code: `/plugin marketplace add tobimey/ace`, then `/plugin install ace@tobimey`.
-   - Codex: `codex plugin marketplace add tobimey/ace`, then install `ace` from `/plugins`.
-   - Cursor and every other harness: `npx skills add tobimey/ace`. To add a single skill later, use `npx skills add tobimey/ace --skill NAME`.
-2. Run `/ace-setup`, or `/ace:ace-setup` when you installed the plugin. It writes the adapters in `ace/` and turns on `ace-mode` in your `AGENTS.md`.
-3. Read the drafts it wrote, fix what is wrong, and start working. Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills.
-4. After each Ace update, run `/ace-setup` again. It keeps what your adapters say and adds the sections that new skills need.
+1. Install Ace into your project with `npx skills add tobimey/ace`. This works the same in every harness. To add a single skill later, use `npx skills add tobimey/ace --skill NAME`.
+2. Commit what it installed: `.agents/skills/`, `.claude/skills/`, and `skills-lock.json`. Then every teammate and every CI run uses the same Ace version, and CI needs no install step.
+3. Run `/ace-setup`. It writes the adapters in `ace/` and turns on `ace-mode` in your `AGENTS.md`.
+4. Read the drafts it wrote, fix what is wrong, and start working. Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills.
+5. To update Ace, run `npx skills add tobimey/ace` again, then `/ace-setup`, and commit both. `ace-setup` keeps what your adapters say and adds the sections that new skills need.
+
+This README writes skill commands as `/ace-setup`. In Codex, type `$ace-setup` instead.
 
 ## What models to use?
 
@@ -22,9 +22,13 @@ Use a model that scores above 40 on the [Artificial Analysis Intelligence Index]
 
 Review with a different model than the one that implemented the change. A model tends to miss the same mistakes in review that it made while writing the code.
 
-## Agnostic by default 
+## Supported harnesses
 
-Ace is fully harness agnostic. You can use it with any harness. Ace is also agnostic to the model you use if it is good enough. It also doesn't matter what type of project you are working on. 
+Ace supports Claude Code, Cursor, and Codex. The skills are plain Markdown and follow the Agent Skills format, so other harnesses may work too, but they are not tested yet and support is not guaranteed.
+
+Ace ships no harness plugins yet. Plugins for Claude Code, Cursor, and Codex will come later, once Ace ships more than skills, such as hooks or agents. Until then, `npx skills add` installs the skills into the project, and the project commits them.
+
+Ace is also agnostic to the model you use if it is good enough. It also doesn't matter what type of project you are working on.
 
 ## Skill categories
 
@@ -37,11 +41,11 @@ Ace groups its skills into these categories. Every skill has its own folder in `
 
 That is called the `ace cycle`. It's the core software cycle that drives the software development process. On top of these, Ace provides a few more skills:
 
-- router: `ace-mode` picks the playbook for each message and runs its skills in order.
+- router: `ace-mode` picks the playbook for each message and runs its skills in order. It and `ace-unslop` are the only skills the agent sees on its own. Every other skill is hidden from the agent: `ace-mode` and other skills load it by path, and you run it as a slash command.
 - setup: `ace-setup` writes the adapters.
-- audit: `ace-audit-logic`, `ace-audit-security`, `ace-audit-performance`, `ace-audit-health`, and `ace-audit-architecture` audit the whole codebase, usually on a schedule. Each files at most three tickets, which feed into stage 2.
-- understand: `ace-how` explains how code works, `ace-why` explains why it is that way, `ace-teach` does both for a change, and `ace-learn` teaches a topic over several sessions. `ace-explain-change` writes an explainer for a pull request, with a code walkthrough and a quiz, and posts it there. Run it by name, or add it to the CI step that runs your reviews.
-- shared: skills that other skills load, never run on their own. `ace-checks` holds the logic, security, performance, and architecture rules that both `ace-review` and the auditors use. `ace-codebase-design` holds the deep-module vocabulary those rules and any design work use. `ace-audit` holds the workflow all auditors share.
+- audit: `ace-audit` audits the whole codebase for the domains you pick: security, logic, performance, architecture, and health. `/ace-audit security` runs one domain, `/ace-audit` asks which and recommends all five. Each domain runs as its own pass and files at most three tickets, which feed into stage 2. It usually runs on a schedule.
+- understand: `ace-explain` explains how code works, why it is built that way, or both for a change, and `ace-learn` teaches a topic over several sessions. `ace-explain-change` writes an explainer for a pull request, with a code walkthrough and a quiz, and posts it there. Run it by name, or add it to the CI step that runs your reviews.
+- shared: skills that other skills load, never run on their own. `ace-checks` holds the logic, security, performance, and architecture rules that both `ace-review` and `ace-audit` use. `ace-codebase-design` holds the deep-module vocabulary those rules and any design work use.
 - tone: `/ace-bro` restates the last reply without jargon, and `ace-unslop` keeps the agent's writing clean and easy to follow.
 
 ## Local vs Cloud 
@@ -64,7 +68,7 @@ The skills are built in a way that they listen to your needs. These adapters liv
 - `VERIFY.md` says how to prove a change works: the checks CI runs, how to start the app, and how to try each kind of change. `ace-verify` follows it in stage 2, and the review jobs run its checks in stage 3.
 - `TICKET_TRACKER.md` says how to read, search, open, and update tickets, e.g. in GitHub Issues, Linear, Jira, etc. It also says how the tracker shows the three ticket states. Every ticket an agent opens starts in `needs-dev`. A person reads it and sets it `ready`. `ace-work-ticket` claims a ready ticket and sets it `working`, or sends it back to `needs-dev` with a question when it gets stuck. In GitHub these are the labels `ace:needs-dev`, `ace:ready`, and `ace:working`. `ace-setup` ships a template for GitHub Issues. For another tracker it writes the same sections with that tracker's MCP server, CLI, or API.
 - `CODE_HOSTING.md` says how to open a pull request, comment on it, and find the tickets it closes, e.g. on GitHub, GitLab, Bitbucket, etc.
-- `CYCLE.md` says how work moves from one stage to the next, and what starts a run without a person. Ace skills say what comes next; this file says how it happens in your setup. By default a person starts every run and `ace-mode` names the next step. `ace-setup` also ships a GitHub recipe, where the label `ace:review` starts a review in GitHub Actions, a schedule runs `ace-work-ticket`, and another schedule runs the auditors. For another runner, such as a cloud agent with a schedule, you write the triggers here and the skills stay the same.
+- `CYCLE.md` is optional. By default a person starts every run and `ace-mode` names the next step, so there is no file. You add it when something else starts runs. `ace-setup` ships a GitHub recipe, where the label `ace:review` starts a review in GitHub Actions, a schedule runs `ace-work-ticket`, and another schedule runs `ace-audit`. For another runner, such as a cloud agent with a schedule, you write the triggers here and the skills stay the same.
 
 The adapters are yours. `ace-setup` writes a first draft, and from then on you change them as the project needs. Ace skills depend only on a few sections, listed in [skills/ace-setup/ADAPTERS.md](skills/ace-setup/ADAPTERS.md). Keep those, under any heading, and the rest of each file is free. When a skill misses one, it says which, and a skill that edits files offers to add it. Running `ace-setup` again adds every missing section at once.
 
@@ -78,8 +82,8 @@ Your root `AGENTS.md` (or `CLAUDE.md`) stays where it is, because harnesses load
 
 Ace builds on ideas and skills from these projects:
 
-- [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT). `ace-retro` is adapted from his `retro` skill, `ace-learn` from his `teach` skill, `ace-diagnose` from his `diagnosing-bugs` skill, `ace-codebase-design` from his `codebase-design` skill, `ace-audit-architecture` follows his `improve-codebase-architecture` survey, and `ace-grill` and `ace-to-ticket` follow his grilling and ticket-slicing workflows.
-- [pstack](https://cursor.com/marketplace/cursor/pstack) by Lauren Tan (MIT, [mirror](https://github.com/backnotprop/pstack)). `ace-mode` and the playbook-style skills take after its approach. `ace-how`, `ace-why`, `ace-teach`, `ace-unslop`, and `ace-bro` are adapted from its `how`, `why`, `teach`, `unslop`, and `bro` skills.
+- [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT). `ace-retro` is adapted from his `retro` skill, `ace-learn` from his `teach` skill, `ace-diagnose` from his `diagnosing-bugs` skill, `ace-codebase-design` from his `codebase-design` skill, the architecture domain of `ace-audit` follows his `improve-codebase-architecture` survey, and `ace-grill` and `ace-to-ticket` follow his grilling and ticket-slicing workflows.
+- [pstack](https://cursor.com/marketplace/cursor/pstack) by Lauren Tan (MIT, [mirror](https://github.com/backnotprop/pstack)). `ace-mode` and the playbook-style skills take after its approach. `ace-explain` is adapted from its `how`, `why`, and `teach` skills, and `ace-unslop` and `ace-bro` are adapted from its `unslop` and `bro` skills.
 - [explain-diff](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524) by Geoffrey Litt. `ace-explain-change` follows its idea of explaining a change with background, intuition, a code walkthrough, and a quiz.
 
 The license notices of these projects are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

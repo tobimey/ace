@@ -1,11 +1,6 @@
----
-name: ace-why
-description: Explains why the code is the way it is, from the record of commits, pull requests, and tickets. Use for "why does X work this way", "why did we pick Y", "does this reason still hold", regressions, and thresholds. Use ace-how for how it runs.
----
-
 # Why
 
-Answer from the record, not from the code. The code shows what was built. The record shows what the authors meant. Done means the user knows the reasons that were written down, which parts are your inference, and what nobody wrote down.
+Find out why the code is the way it is, from the record, not from the code. The code shows what was built. The record shows what the authors meant. Done means the user knows the reasons that were written down, which parts are your inference, and what nobody wrote down.
 
 ## Constraints
 
@@ -13,7 +8,7 @@ Answer from the record, not from the code. The code shows what was built. The re
 - Cite each reason: commit hash, pull request, ticket, or doc, and quote the author where you can.
 - Mark every inference of your own as an inference. Present only what the record says as a stated reason.
 - "The record does not say" is a valid answer. Say it instead of filling the gap.
-- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, skip that source and name it in the reply.
+- When an adapter section is missing, skip that source and name it in the output.
 
 ## Steps
 
@@ -26,4 +21,4 @@ Answer from the record, not from the code. The code shows what was built. The re
 4. If the trail is thin, look wider: code comments, tests named after a bug, the changelog.
 5. If the user asks whether the reason still holds, check the reason against the code and its callers now.
 
-**Reply:** the answer first. Then the evidence, oldest first, with citations. Then your inferences, marked as such. Then what the record does not answer.
+**Output:** the answer first. Then the evidence, oldest first, with citations. Then your inferences, marked as such. Then what the record does not answer.
