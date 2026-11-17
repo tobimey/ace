@@ -1,16 +1,6 @@
----
-name: ace-retro
-description: Conducts a retrospective on one or more coding sessions.
-disable-model-invocation: true
----
-
 # Retro
 
-Suggest improvements to the coding agent's **environment** so future runs go better. Done means the candidates are presented to the user, most severe first, and the ones the user picks are handed to `ace-optimize-factory`.
-
-## Requires
-
-- `ace-optimize-factory`
+Suggest improvements to the coding agent's **environment** so future runs go better. Done means the candidates are presented to the user, most severe first, and the ones the user picks are fixed with the workflow in [SKILL.md](SKILL.md).
 
 ## Constraints
 
@@ -39,7 +29,7 @@ Suggest improvements to the coding agent's **environment** so future runs go bet
 
 4. Present the candidates to the user, most severe first. For each, name the category, what went wrong in the session, and the smallest change that would prevent it. Over several sessions, also give the number of sessions each candidate showed up in, and rank a candidate that recurs above one that happened once. Number them so the user can pick.
 
-5. For each candidate the user picks, follow [ace-optimize-factory](../ace-optimize-factory/SKILL.md) with that problem.
+5. For each candidate the user picks, follow the workflow in [SKILL.md](SKILL.md) with that problem.
 
 ## Reference
 

@@ -1,18 +1,18 @@
-# Ticket tracker
+# Ticket tracker: GitHub Issues
 
-Tickets live in GitHub Issues. Every ace skill that reads, searches, opens, or updates a ticket follows this file. `OWNER/REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
+The built-in ticket tracker for GitHub Issues. Ace uses it when `ticket_tracker` in `ace/config.json` is `github-issues`. A section in the project's `ace/TICKET_TRACKER.md` replaces the section here with the same job, so a project overrides only what it does differently. `OWNER/REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
 
 ## Defaults
 
-- Labels: `agent-created` and `ace:needs-dev`, plus `risk:high` when Risk is `High`.
-- Assignee: `<ASSIGNEE>`.
-- Priority and Size: not recorded, unless the "Project and fields" section below exists.
+- Labels: `ace:needs-dev`, plus `risk:high` when Risk is `High`.
+- Assignee: none, unless `ace/TICKET_TRACKER.md` names one.
+- Priority and Size: not recorded, unless `ace/TICKET_TRACKER.md` has a "Project and fields" section.
 
 ## Constraints
 
 - Open tickets in this tracker only.
 - Pass a ticket body with `--body` and a heredoc. Keep it out of files in the repo.
-- Set Risk only as the `risk:high` label. Set Priority and Size only as the "Project and fields" section says, and leave them out when it does not exist.
+- Set Risk only as the `risk:high` label. Set Priority and Size only as the "Project and fields" section of `ace/TICKET_TRACKER.md` says, and leave them out when it does not exist.
 - Keep at most one ticket state label on a ticket.
 - Keep a ticket once it is created, even when a later step fails.
 - Set type with the API after create.
@@ -41,39 +41,39 @@ The caller supplies title, body, type, and Risk, and may supply Priority and Siz
 
    ```bash
    have=$(gh label list --limit 200 --json name --jq '.[].name')
-   for l in agent-created ace:needs-dev risk:high; do echo "$have" | grep -qx "$l" || echo "missing: $l"; done
+   for l in ace:needs-dev risk:high; do echo "$have" | grep -qx "$l" || echo "missing: $l"; done
    ```
 
 2. Create the ticket. Add `--label risk:high` when Risk is `High`. The command prints the URL. Read the number from it.
 
    ```bash
-   gh issue create --title "TITLE" --label agent-created --label ace:needs-dev --assignee <ASSIGNEE> --body "$(cat <<'EOF'
+   gh issue create --title "TITLE" --label ace:needs-dev --body "$(cat <<'EOF'
    BODY
    EOF
    )"
    ```
 
-3. Confirm the labels. The output must be `agent-created` and `ace:needs-dev`, plus `risk:high` when Risk is `High`, and nothing else. Add a missing one with `gh issue edit NUMBER --add-label NAME` and view again.
+3. Confirm the labels. The output must be `ace:needs-dev`, plus `risk:high` when Risk is `High`, and nothing else. Add a missing one with `gh issue edit NUMBER --add-label NAME` and view again.
 
    ```bash
    gh issue view NUMBER --json labels --jq '.labels[].name'
    ```
 
 4. Set the type as "Set the type" says.
-5. When the "Project and fields" section exists, follow it.
+5. Add the assignee with `gh issue edit NUMBER --add-assignee LOGIN` when `ace/TICKET_TRACKER.md` names one. When it has a "Project and fields" section, follow it.
 
 The ticket URL is the result. For another ticket in the same run, repeat from step 2.
 
 ## Update a ticket
 
 ```bash
-gh issue edit NUMBER --title "TITLE" --add-label agent-created --add-assignee <ASSIGNEE> --body "$(cat <<'EOF'
+gh issue edit NUMBER --title "TITLE" --body "$(cat <<'EOF'
 BODY
 EOF
 )"
 ```
 
-Keep the other labels. Add `--add-label risk:high` when Risk is `High`, and `--remove-label risk:high` when it is `Low`. Then set the type, and follow the "Project and fields" section when it exists.
+Keep the other labels. Add `--add-label risk:high` when Risk is `High`, and `--remove-label risk:high` when it is `Low`. Then set the type, and follow the "Project and fields" section of `ace/TICKET_TRACKER.md` when it exists.
 
 ## Set the type
 
@@ -82,39 +82,6 @@ gh api --method PATCH "/repos/OWNER/REPO/issues/NUMBER" -f type=TYPE
 ```
 
 Issue types exist only in repositories owned by an organization. If the call fails, keep the ticket and go on without a type.
-
-## Project and fields
-
-Optional. `ace-setup` keeps this section only when the user wants Priority and Size as fields in a GitHub project. Without it, tickets carry no Priority or Size.
-
-Priority field id `<PRIORITY_FIELD_ID>`. Size field id `<SIZE_FIELD_ID>`. Both are org issue fields of `<ORG>`. Project: `<PROJECT_OWNER>` project `<PROJECT_NUMBER>`.
-
-Set Priority and Size, when the caller supplied them:
-
-```bash
-gh api --method POST "/repos/OWNER/REPO/issues/NUMBER/issue-field-values" \
-  --input - <<'EOF'
-{"issue_field_values":[{"field_id":<PRIORITY_FIELD_ID>,"value":"High"},{"field_id":<SIZE_FIELD_ID>,"value":"M"}]}
-EOF
-```
-
-Replace both `value` strings. Use POST, which keeps the other fields.
-
-If the field post returns 422, load the ids and post once more. Keep the ticket either way.
-
-```bash
-gh api "/orgs/<ORG>/issue-fields" \
-  -H "X-GitHub-Api-Version: 2026-03-10" \
-  --jq '.[] | select(.name=="Priority" or .name=="Size") | {id, name}'
-```
-
-Add the ticket to the project:
-
-```bash
-gh project item-add <PROJECT_NUMBER> --owner <PROJECT_OWNER> --url TICKET_URL
-```
-
-If this fails, keep the ticket.
 
 ## Sub-tickets and blocking
 

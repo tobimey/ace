@@ -10,26 +10,113 @@
       "type": "string",
       "description": "Path or URL of this schema, so your editor checks the file and explains each key."
     },
+    "autonomy": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "default": "medium",
+      "description": "How much agents do without a person, in one setting. It sets who_sets_ready and review.fixes. A key you set yourself wins over it.",
+      "enumDescriptions": [
+        "A person sets every ticket ready, and the review fixes nothing: who_sets_ready person, review.fixes none.",
+        "A person sets every ticket ready, and the review fixes what has one clearly correct fix: who_sets_ready person, review.fixes simple-only.",
+        "Tickets from a plan a person approved go ready on their own, and the review also picks a fix when several are reasonable: who_sets_ready planning-agents, review.fixes all."
+      ]
+    },
+    "ticket_tracker": {
+      "type": "string",
+      "enum": ["none", "github-issues", "custom"],
+      "default": "none",
+      "description": "Where tickets live. A built-in tracker needs no ace/TICKET_TRACKER.md. That file, when it exists, replaces single sections of the built-in tracker.",
+      "enumDescriptions": [
+        "No ticket tracker. Skills write a ticket into the reply instead of opening it.",
+        "GitHub Issues, through the gh CLI. Ace ships how to read, open, and update tickets.",
+        "Another tracker, such as Linear or Jira. ace/TICKET_TRACKER.md says how to use it."
+      ]
+    },
+    "who_starts_runs": {
+      "type": "string",
+      "enum": ["person", "github-actions", "custom"],
+      "default": "person",
+      "description": "What starts an agent run, besides a person typing. The workflows themselves are files in .github/workflows/, which ace-setup ci writes.",
+      "enumDescriptions": [
+        "A person starts every run, and ace-mode names the next step.",
+        "GitHub Actions start reviews, ace-work-ticket, and audits, through labels and schedules. Ace ships the hand-offs.",
+        "Another runner, such as a cloud agent on a schedule. ace/CYCLE.md says what it does."
+      ]
+    },
     "who_sets_ready": {
       "type": "string",
       "enum": ["person", "planning-agents", "any-agent"],
       "default": "person",
-      "description": "Who moves a new ticket from needs-dev to ready. A ready ticket is one an agent may build, such as ace-work-ticket on a schedule. A ticket that ace-work-ticket sends back to needs-dev always waits for a person.",
+      "description": "Who moves a new ticket from needs-dev to ready. Without this key, autonomy sets it. A ready ticket is one an agent may build, such as ace-work-ticket on a schedule. A ticket that ace-work-ticket sends back to needs-dev always waits for a person.",
       "enumDescriptions": [
         "Only a person. Every ticket an agent opens stays in needs-dev until a person reads it and sets it ready.",
         "The planning skills, ace-grill and ace-to-ticket, set the tickets they write ready, because a person settled and approved that plan with them. Tickets from ace-audit still wait for a person.",
         "Every skill that opens a ticket sets it ready, ace-audit included. Nobody reads a ticket before an agent builds it."
       ]
     },
-    "review_fixes": {
-      "type": "string",
-      "enum": ["apply", "suggest"],
-      "default": "apply",
-      "description": "What ace-validate-standards and ace-review do with a fix that needs no decision.",
-      "enumDescriptions": [
-        "Make the fix. On a pull request, commit it to the branch. On a local diff, leave it uncommitted.",
-        "Change no file. Write each fix as a finding with its best fix, and let a person or the implementing agent make it."
-      ]
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "When a review starts, how many agents run it, and which findings it fixes on its own. ace-review runs three checks: spec (does the change do what its ticket asked), standards (the coding standards), and code (logic, security, performance, and architecture).",
+      "default": {
+        "runs": ["after-implementing"],
+        "agents": "one-for-all-checks",
+        "fixes": "simple-only",
+        "fix_severities": ["blocker", "should-fix", "nit"]
+      },
+      "properties": {
+        "runs": {
+          "type": "array",
+          "uniqueItems": true,
+          "default": ["after-implementing"],
+          "description": "When a review starts without a person asking. A person can always ask for one, in chat or with the label ace:review on a pull request. An empty list means a review runs only when a person asks.",
+          "items": {
+            "type": "string",
+            "enum": ["after-implementing", "pull-request-opened", "pull-request-pushed"],
+            "enumDescriptions": [
+              "ace-mode reviews the local diff right after it implements a change, before any pull request. The review runs with the model that implemented the change.",
+              "The review workflow reviews a pull request when it opens. Needs the GitHub recipe from ace-setup ci. Pick this to review with a different model than the one that implemented the change.",
+              "The review workflow reviews a pull request again on every push to it. Needs the GitHub recipe from ace-setup ci."
+            ]
+          }
+        },
+        "agents": {
+          "type": "string",
+          "enum": ["one-for-all-checks", "one-per-check"],
+          "default": "one-for-all-checks",
+          "description": "How many agents run the checks of one review. Fixes are always made by one agent, so edits never collide.",
+          "enumDescriptions": [
+            "One agent runs the spec, standards, and code checks one after another.",
+            "Each check runs in its own fresh sub-agent, so one check's reading does not sway the next. Costs more. A harness that cannot start sub-agents runs the checks in one agent and says so."
+          ]
+        },
+        "fixes": {
+          "type": "string",
+          "enum": ["none", "simple-only", "all"],
+          "default": "simple-only",
+          "description": "Which findings the review fixes itself. Without this key, autonomy sets it. On a pull request it commits the fixes. On a local diff it leaves them uncommitted.",
+          "enumDescriptions": [
+            "Change no file. Every fix is written as a finding with its best fix, for a person or the implementing agent.",
+            "Fix a finding when one edit is clearly correct and a teammate would not have to choose.",
+            "Also fix a finding with several reasonable fixes, with the one the reviewer judges best. A fix that changes a product decision, a public contract, or stored data, and every spec and architecture finding, stays a finding."
+          ]
+        },
+        "fix_severities": {
+          "type": "array",
+          "uniqueItems": true,
+          "default": ["blocker", "should-fix", "nit"],
+          "description": "Only findings with one of these severities get fixed. The rest are written as findings. With fixes set to none, this does nothing.",
+          "items": {
+            "type": "string",
+            "enum": ["blocker", "should-fix", "nit"],
+            "enumDescriptions": [
+              "You would block the merge.",
+              "You would ask a teammate to change it.",
+              "Small, concrete, and worth the author's time."
+            ]
+          }
+        }
+      }
     },
     "write_adrs": {
       "type": "boolean",

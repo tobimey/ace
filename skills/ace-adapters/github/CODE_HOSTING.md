@@ -1,19 +1,22 @@
-# Code hosting
+# Code hosting: GitHub
 
-Code lives on GitHub. Every ace skill that reads a diff, opens a pull request, comments on one, or reads the tickets a pull request closes follows this file.
+The built-in code host for GitHub. Ace uses it when `git remote get-url origin` points at github.com and `gh auth status` succeeds. A section in the project's `ace/CODE_HOSTING.md` replaces the section here with the same job, so a project overrides only what it does differently, such as its pull request rules.
+
+- `REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
+- `DEFAULT_BRANCH` is `git symbolic-ref --short refs/remotes/origin/HEAD` without the `origin/` prefix, else `main`, else `master`.
 
 ## Get the diff
 
 The diff a review job reads. Use the first that applies:
 
 1. The caller passed a diff. Use it.
-2. The caller passed a pull request. Run `gh pr diff NUMBER --repo <REPO>`.
+2. The caller passed a pull request. Run `gh pr diff NUMBER --repo REPO`.
 3. The caller passed a base ref. Run `git diff REF`.
 4. Otherwise, the current branch and uncommitted work against the default branch:
 
    ```bash
    git status --short
-   git diff "$(git merge-base HEAD origin/<DEFAULT_BRANCH> 2>/dev/null || git merge-base HEAD <DEFAULT_BRANCH>)"
+   git diff "$(git merge-base HEAD origin/DEFAULT_BRANCH 2>/dev/null || git merge-base HEAD DEFAULT_BRANCH)"
    ```
 
    Read untracked files that `git status --short` lists.
@@ -28,21 +31,20 @@ Checkout a branch (if on the default branch), commit if needed, push, open a pul
 - Draft unless the user says otherwise (ready, publish, not draft).
 - Pull request title and commit title use conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `perf:`, `test:`.
 - Commit message is the title line only.
-- Pull request body is `<PR_TEMPLATE_PATH>`. Read that file and fill exactly its sections. <PR_TEMPLATE_RULES>
+- Pull request body: the pull request template under `.github/`, such as `.github/pull_request_template.md`. Read it and fill exactly its sections. With no template, write the sections What changed and How it was verified.
 - Read the diff and describe only what changed.
 - Push with a plain push and let every hook run.
-- If already on a non-default branch, stay on it. If on `<DEFAULT_BRANCH>`, create a short kebab-case branch from it first.
-- Add labels, including `agent-created`, only when the caller asks.
+- If already on a non-default branch, stay on it. If on `DEFAULT_BRANCH`, create a short kebab-case branch from it first.
+- Add labels only when the caller asks.
 
 ### Steps
 
 1. `git status`, `git diff`, `git log` against the default branch, current branch name.
-2. If on `<DEFAULT_BRANCH>`, checkout a new branch from it.
+2. If on `DEFAULT_BRANCH`, checkout a new branch from it.
 3. If the tree is dirty, `git add` the existing changes and commit with a conventional-commit title only.
 4. `git push -u origin HEAD`
 5. `gh pr create --draft --title "TITLE" --body "$(cat <<'EOF' ... EOF)"` with the filled template. Drop `--draft` when told not to draft.
-6. If the caller asked for `agent-created`, run `gh pr edit NUMBER --add-label agent-created`.
-7. Reply with both URLs, nothing more:
+6. Reply with both URLs, nothing more:
 
 ```
 PR: <pr-url>
@@ -54,7 +56,7 @@ Branch: <https://github.com/<owner>/<repo>/tree/<branch>>
 The pull request for a number or a branch, with its state, labels, and comments. With no number, use the current branch.
 
 ```bash
-gh pr view NUMBER_OR_BRANCH --repo <REPO> \
+gh pr view NUMBER_OR_BRANCH --repo REPO \
   --json number,url,state,isDraft,labels,headRefName,comments,commits
 ```
 
@@ -65,20 +67,20 @@ No pull request for the branch means the work has none yet.
 Post the caller's text on the pull request. Done means that text is on the pull request.
 
 ```bash
-gh pr comment NUMBER --repo <REPO> --body "$(cat <<'EOF'
+gh pr comment NUMBER --repo REPO --body "$(cat <<'EOF'
 TEXT
 EOF
 )"
 ```
 
-For an inline comment on a line, use `gh api repos/<REPO>/pulls/NUMBER/comments` with `body`, `commit_id`, `path`, `line`, and `side`.
+For an inline comment on a line, use `gh api repos/REPO/pulls/NUMBER/comments` with `body`, `commit_id`, `path`, `line`, and `side`.
 
 To replace an earlier comment, find it by the marker the caller names, then edit it. If no comment holds the marker, post a new one as above.
 
 ```bash
-gh api repos/<REPO>/issues/NUMBER/comments --paginate \
+gh api repos/REPO/issues/NUMBER/comments --paginate \
   --jq '.[] | select(.body | contains("MARKER")) | .id' | head -n 1
-gh api -X PATCH repos/<REPO>/issues/comments/ID -f body="$(cat <<'EOF'
+gh api -X PATCH repos/REPO/issues/comments/ID -f body="$(cat <<'EOF'
 TEXT
 EOF
 )"
@@ -89,7 +91,7 @@ EOF
 The tickets a pull request closes:
 
 ```bash
-gh pr view NUMBER --repo <REPO> --json closingIssuesReferences,body,headRefName,commits
+gh pr view NUMBER --repo REPO --json closingIssuesReferences,body,headRefName,commits
 ```
 
 Use `closingIssuesReferences` first. Then look for ticket references in the body, the branch name, and the commit messages, in the form the "Ticket references" section of `ace/TICKET_TRACKER.md` names. A reference to this pull request itself is not a ticket.

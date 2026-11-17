@@ -21,7 +21,7 @@ User-requested behaviour wins over a pure checklist pass. If they say X is faili
 This skill is the only prefix list.
 
 - `ace-audit` is the auditor job. Repo-wide, one domain file per domain, one pass per domain. It files tickets. It leaves the repo unchanged and opens no pull request.
-- `ace-review`, `ace-check-spec`, and `ace-validate-standards` are review jobs for the current change.
+- `ace-review` is the review job for the current change. One check file per check: spec, standards, and code.
 - `ace-` plus a verb is a cycle or shared job. A person is in the loop, or another skill calls it.
 - Skills without the `ace-` prefix are project or vendored skills. They teach a library or a tool. Keep ace pipeline facts out of them.
 

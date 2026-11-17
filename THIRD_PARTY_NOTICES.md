@@ -8,7 +8,7 @@ Source: https://github.com/mattpocock/skills
 
 Ace skills adapted from it:
 
-- `ace-retro` from `retro`
+- the retro in `ace-optimize-factory` from `retro`
 - `ace-learn` from `teach`
 - `ace-diagnose` from `diagnosing-bugs`
 - `ace-codebase-design` from `codebase-design`
@@ -51,7 +51,6 @@ Ace skills adapted from it:
 - `ace-why` from `why`
 - `ace-teach` from `teach`
 - `ace-unslop` from `unslop`
-- `ace-bro` from `bro`
 
 ```
 MIT License

@@ -12,7 +12,7 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 - `ace-adapters`
 - Every skill a playbook below names.
 
-Before you run a step, check that its skill is installed: its folder sits next to this skill's folder. If one is missing, mark the step `skip: not installed`, tell the user to install it the way they installed Ace, and go on with the next step.
+Ace installs as one set, so every skill is in a folder next to this one.
 
 ## Constraints
 
@@ -24,7 +24,7 @@ Before you run a step, check that its skill is installed: its folder sits next t
 - Playbooks are internal. Never name a playbook in a reply, and never print `Playbook: X` or a list of its steps. Say what you are doing in plain words, such as "I'll fix the bug, then review the diff."
 - Read every project fact as `ace-adapters` says. A missing `ace` folder or section is no error: its default applies. When the project has no `ace` folder, end the first reply of the session with one line that offers `ace-setup`, and go on with the task.
 - Leave every merge to a person. Ace stops at a reviewed pull request.
-- This file says what comes next. A person starts the next run, unless `ace/CYCLE.md` says a label or a schedule does.
+- This file says what comes next. A person starts the next run, unless the cycle adapter `ace/CYCLE.md` says a label or a schedule does. With `who_starts_runs` set to `github-actions`, that is the built-in GitHub cycle, as `ace-adapters` says.
 
 ## Route
 
@@ -99,13 +99,9 @@ A ticket, spec, or plan to implement, or a feature the conversation has settled.
 
 A diff, a branch, or a pull request to review.
 
-Run the three jobs one after another on the same input. Two of them can edit files, so a parallel run conflicts. On a pull request they commit their edits. On a local diff they leave them uncommitted for the user.
-
-1. `ace-check-spec`.
-2. `ace-validate-standards`.
-3. `ace-review`.
-4. Reply with the spec result, the standards edits, the review fixes and findings, and Merge Danger last.
-5. When the user asked to comment on the pull request, first push the commits from steps 2 and 3, if any, to its branch with a plain push. Then post the reply as one comment that starts with `<!-- ace-review -->`, replacing an earlier comment with that marker, as `ace/CODE_HOSTING.md` says.
+1. `ace-review` on that input. When the message asks for only some checks, such as "check it against the ticket", pass them: `spec`, `standards`, or `code`.
+2. Reply with its report.
+3. When the user asked to comment on the pull request, first push the commits `ace-review` made, if any, to its branch with a plain push. Then post the report as one comment that starts with `<!-- ace-review -->`, replacing an earlier comment with that marker, as `ace/CODE_HOSTING.md` says.
 
 ### Audit
 
@@ -117,11 +113,11 @@ Run the three jobs one after another on the same input. Two of them can edit fil
 
 Agents went wrong, or the user wants to change how agents are steered.
 
-1. A whole session to look back on, or "retro": `ace-retro`. One named misbehaviour: `ace-optimize-factory`. The agents file: `ace-agents-file`. An existing skill: `ace-skill-optimizer`. A new skill: `ace-create-skill`.
+1. A whole session to look back on, "retro", or one named misbehaviour: `ace-optimize-factory`. The agents file: `ace-agents-file`. An existing skill: `ace-skill-optimizer`. A new skill: `ace-create-skill`.
 
 ### Single job
 
-A message that names one job runs that skill alone: work the next ready ticket with `ace-work-ticket`, open a ticket with `ace-open-ticket`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, post an explainer on a pull request with `ace-explain-change`, say the last reply plainly with `ace-bro`.
+A message that names one job runs that skill alone: work the next ready ticket with `ace-work-ticket`, open a ticket with `ace-to-ticket/OPEN_TICKET.md`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, post an explainer on a pull request with `ace-explain-change`.
 
 ### Continue
 
@@ -139,7 +135,7 @@ A message that names one job runs that skill alone: work the next ready ticket w
    | Local changes, or a branch with no pull request | Review on the local diff, then `ace-open-pr` |
    | An open pull request with no `<!-- ace-review -->` comment, or commits newer than that comment | Review |
    | An open pull request with a current review | A person merges. Name its Merge Danger. |
-   | A merged pull request | Done. Offer `ace-retro` when the work went badly. |
+   | A merged pull request | Done. Offer a retro with `ace-optimize-factory` when the work went badly. |
 
 3. Say the state and the next step in two lines, in plain words. Run the matching playbook once the user agrees.
 
@@ -147,12 +143,12 @@ A message that names one job runs that skill alone: work the next ready ticket w
 
 Perf, Fix, Refactor, and Build end with these steps. Copy them into the todo list in place of "Finish the change".
 
-1. Run the Review playbook on the local diff. Skip it when the user asked to open a pull request and `ace/CYCLE.md` starts a review run once one opens.
+1. Run the Review playbook on the local diff when `review.runs` in `ace/config.json` includes `after-implementing`. A missing file or key means it does. Otherwise skip it, and say which setting skipped it.
 2. `ace-open-pr` when the user asked to ship or open a pull request. Otherwise offer it.
 
 ## Hand off
 
-When Plan, Perf, Fix, Refactor, Build, Review, or Audit ends, and `ace/CYCLE.md` has a section for that playbook, do what it says. Perf, Fix, and Refactor use the Build section. The section can set a label, move a ticket, or tell the user what a run does next.
+When Plan, Perf, Fix, Refactor, Build, Review, or Audit ends, and the cycle adapter `ace/CYCLE.md` has a section for that playbook, do what it says. Perf, Fix, and Refactor use the Build section. The section can set a label, move a ticket, or tell the user what a run does next.
 
 Otherwise end the reply with the next step from the Continue table, as one line the user can send, such as `Next: review pull request #12`. After Plan or Audit, also say which state the new tickets are in. For a ticket in needs-dev, say that a person sets it ready or starts it with `Implement TICKET`.
 

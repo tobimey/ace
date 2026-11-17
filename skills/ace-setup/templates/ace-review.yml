@@ -1,10 +1,12 @@
-# Runs the Ace Review playbook when the label `ace:review` is added to a pull request.
-# Written by ace-setup. See ace/CYCLE.md.
+# Runs ace-review on a pull request and posts the result as a comment.
+# Starts when a pull request opens or gets a push, as review.runs in ace/config.json says,
+# and whenever a person adds the label ace:review.
+# Written by ace-setup. Ace knows this workflow when who_starts_runs in ace/config.json is github-actions.
 name: ace-review
 
 on:
   pull_request:
-    types: [labeled]
+    types: [opened, synchronize, labeled]
 
 concurrency:
   group: ace-review-${{ github.event.pull_request.number }}
@@ -18,7 +20,8 @@ permissions:
 jobs:
   review:
     # Pull requests from forks get no secrets and no write access, so the review runs only for branches in this repository.
-    if: github.event.label.name == 'ace:review' && github.event.pull_request.head.repo.full_name == github.repository
+    # The review pushes its fixes with GITHUB_TOKEN. Such a push starts no workflow, so a review never starts another one.
+    if: github.event.pull_request.head.repo.full_name == github.repository && (github.event.action != 'labeled' || github.event.label.name == 'ace:review')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,4 +29,21 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
 
+      # Reads review.runs from ace/config.json. A missing file or key means ["after-implementing"],
+      # so only the label starts a review here.
+      - name: Decide whether this event starts a review
+        id: decide
+        env:
+          ACTION: ${{ github.event.action }}
+        run: |
+          runs=$(jq -c '.review.runs // ["after-implementing"]' ace/config.json 2>/dev/null || echo '["after-implementing"]')
+          case "$ACTION" in
+            labeled) run=true ;;
+            opened) run=$(echo "$runs" | jq 'index("pull-request-opened") != null') ;;
+            synchronize) run=$(echo "$runs" | jq 'index("pull-request-pushed") != null') ;;
+            *) run=false ;;
+          esac
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+
+      # The agent step runs only if: steps.decide.outputs.run == 'true'
       <AGENT_STEP>

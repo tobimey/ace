@@ -1,6 +1,6 @@
 ---
 name: ace-to-ticket
-description: Turns a spec into one ticket or several sub-tickets, based on the spec's size.
+description: Turns a spec into one ticket or several sub-tickets, based on the spec's size, and opens single tickets in the shared Ace shape.
 disable-model-invocation: true
 ---
 
@@ -8,11 +8,9 @@ disable-model-invocation: true
 
 Turn an existing spec into **ticket(s)**. **One ticket** fills the spec ticket itself. **Multiple tickets** are tracer-bullet vertical slices as **sub-tickets** of that parent, each declaring what blocks it.
 
-Read [ace-open-ticket](../ace-open-ticket/SKILL.md) before any draft. Open every new ticket with it. Follow `ace/TICKET_TRACKER.md` to read and update tickets, and to link sub-tickets and blockers.
+To open one ticket with no spec to slice, follow only [OPEN_TICKET.md](OPEN_TICKET.md).
 
-## Requires
-
-- `ace-open-ticket`
+Read [OPEN_TICKET.md](OPEN_TICKET.md) before any draft. Open every new ticket with it. Follow `ace/TICKET_TRACKER.md` to read and update tickets, and to link sub-tickets and blockers.
 
 ## Constraints (always)
 
@@ -110,30 +108,30 @@ Iterate until the user approves the breakdown.
 
 - Publish exactly one ticket.
 
-If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, with each of type, Priority, Size, and Risk the tracker records. Write its body in the shape `ace-open-ticket` defines.
+If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, with each of type, Priority, Size, and Risk the tracker records. Write its body in the shape [OPEN_TICKET.md](OPEN_TICKET.md) defines.
 
-If the spec is a plan from the conversation, open a new ticket with `ace-open-ticket`.
+If the spec is a plan from the conversation, open a new ticket with [OPEN_TICKET.md](OPEN_TICKET.md).
 
 ### 4b. Multiple tickets: publish
 
-- If the spec is a plan from the conversation, first open the parent with `ace-open-ticket`. Its Goal and Task come from the plan, and its Done when is the plan's overall acceptance checks.
+- If the spec is a plan from the conversation, first open the parent with [OPEN_TICKET.md](OPEN_TICKET.md). Its Goal and Task come from the plan, and its Done when is the plan's overall acceptance checks.
 - Use the parent from step 1, or the one you just opened, as the only parent, and leave its body as it is.
 - After create, attach each ticket as a **sub-ticket** of that parent.
 
-Open one ticket per approved ticket with `ace-open-ticket`, **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.
+Open one ticket per approved ticket with [OPEN_TICKET.md](OPEN_TICKET.md), **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.
 
 ### Ticket state (both modes)
 
-Read `who_sets_ready` in `ace/config.json`. A missing file or key means `person`.
+Read `who_sets_ready` as `ace-adapters` says. With no `ace/config.json` it is `person`.
 
 - `person`: leave every ticket in its state. A new ticket stays in needs-dev.
-- `planning-agents` or `any-agent`: a person approved this plan, so each ticket an agent can build goes to ready. In single-ticket mode that is the one ticket. In multiple-ticket mode it is each sub-ticket. The parent keeps its state, so no run builds the whole plan as one ticket. Tell `ace-open-ticket` to set each such new ticket ready. Move such an existing ticket from needs-dev to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says.
+- `planning-agents` or `any-agent`: a person approved this plan, so each ticket an agent can build goes to ready. In single-ticket mode that is the one ticket. In multiple-ticket mode it is each sub-ticket. The parent keeps its state, so no run builds the whole plan as one ticket. Tell [OPEN_TICKET.md](OPEN_TICKET.md) to set each such new ticket ready. Move such an existing ticket from needs-dev to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says.
 
 Name each ticket's state when you hand back the tickets.
 
 ### Ticket body (both modes)
 
-Pass these facts to `ace-open-ticket`.
+Pass these facts to [OPEN_TICKET.md](OPEN_TICKET.md).
 
 Who this is from is Ticket.
 

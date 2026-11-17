@@ -1,12 +1,14 @@
 ---
 name: ace-optimize-factory
-description: Fixes how future agents are steered, given a problem or misbehaviour.
+description: Fixes how future agents are steered, given a problem or misbehaviour, or runs a retro on one or more sessions to find what to fix.
 disable-model-invocation: true
 ---
 
 # Optimize factory
 
 You were given a problem or misbehaviour in how agents are steered. Find the smallest change that stops the next agent from repeating it.
+
+When the user asks for a retro, or to look back on a whole session or several, there is no named problem yet. Follow [RETRO.md](RETRO.md) first. It finds the candidates and hands each one the user picks back to the workflow below.
 
 What done looks like: a concrete edit in a skill, `ace/config.json`, `AGENTS.md`, a lint or CI check, coding standards, the glossary, or another file future agents read. Or the user chose a new architecture and you applied it.
 

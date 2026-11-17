@@ -1,6 +1,6 @@
 # Runs ace-audit, one job per domain. Each domain opens at most three tickets, labelled ace:needs-dev.
 # Starts on a schedule for every domain in the list, or by hand for one domain.
-# Written by ace-setup. See ace/CYCLE.md.
+# Written by ace-setup. Ace knows this workflow when who_starts_runs in ace/config.json is github-actions.
 name: ace-audit
 
 on:

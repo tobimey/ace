@@ -1,10 +1,6 @@
----
-name: ace-open-ticket
-description: Opens one ticket in the project's ticket tracker, with a body in the shared Ace shape.
-disable-model-invocation: true
----
-
 # Open ticket
+
+Opens one ticket in the project's ticket tracker, with a body in the shared Ace shape. `ace-to-ticket`, `ace-audit`, and `ace-mode` open every ticket with this file.
 
 Write one ticket body and open the ticket. Done means the ticket exists, its body uses the headings below in this order with no other `###` heading, and its URL is handed back. With no ticket tracker, done means the ticket is in the reply instead, as the default for "Open a ticket" in `ace-adapters` says.
 
@@ -36,7 +32,7 @@ Size is how much work it is:
 - `S`: a few lines in one file
 - `M`: inside one feature, and fits one agent session
 - `L`: crosses features, or needs more than one session
-- `XL`: too big for one ticket. Split it into sub-tickets with `ace-to-ticket`
+- `XL`: too big for one ticket. Split it into sub-tickets with [SKILL.md](SKILL.md)
 
 Risk is what breaks if the change is wrong, whatever its size:
 

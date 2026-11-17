@@ -1,6 +1,6 @@
 # Runs ace-work-ticket: it takes the next ticket labelled ace:ready and opens a pull request for it.
 # Starts on a schedule, when a ticket gets ace:ready, or by hand.
-# Written by ace-setup. See ace/CYCLE.md.
+# Written by ace-setup. Ace knows this workflow when who_starts_runs in ace/config.json is github-actions.
 name: ace-work-ticket
 
 on:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # A token other than GITHUB_TOKEN, so the pushed branch, the pull request, and its ace:review label start the other workflows.
+          # A token other than GITHUB_TOKEN, so the pushed branch and the pull request start the other workflows, such as CI and the review.
           token: ${{ secrets.ACE_GH_TOKEN }}
 
       <AGENT_STEP>
