@@ -1,6 +1,6 @@
 ---
 name: ace-mode
-description: Routes each message in an Ace project to the matching playbook and runs its Ace skills in order. Use at the start of every task, and again whenever the task changes, in any project with an `ace` folder.
+description: Routes each message to the matching playbook and runs its Ace skills in order. Use at the start of every task, and again whenever the task changes, in any project where Ace is installed, with or without an `ace` folder.
 ---
 
 # Ace mode
@@ -9,6 +9,7 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 
 ## Requires
 
+- `ace-adapters`
 - Every skill a playbook below names.
 
 Before you run a step, check that its skill is installed: its folder sits next to this skill's folder. If one is missing, mark the step `skip: not installed`, tell the user to install it the way they installed Ace, and go on with the next step.
@@ -21,7 +22,7 @@ Before you run a step, check that its skill is installed: its folder sits next t
 - A step that does not apply stays in the list as `skip: <reason>`.
 - A small edit the user fully specified, such as a typo or a line they dictated, needs no playbook. Make it and say what changed.
 - Playbooks are internal. Never name a playbook in a reply, and never print `Playbook: X` or a list of its steps. Say what you are doing in plain words, such as "I'll fix the bug, then review the diff."
-- When the project has no `ace` folder, say so once and offer `ace-setup`. Then work without the adapters.
+- Read every project fact as `ace-adapters` says. A missing `ace` folder or section is no error: its default applies. When the project has no `ace` folder, end the first reply of the session with one line that offers `ace-setup`, and go on with the task.
 - Leave every merge to a person. Ace stops at a reviewed pull request.
 - This file says what comes next. A person starts the next run, unless `ace/CYCLE.md` says a label or a schedule does.
 

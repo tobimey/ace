@@ -10,8 +10,8 @@ The new age of programming isn't … programming. It's probably not even enginee
 
 1. Install Ace into your project with `npx skills add tobimey/ace`. This works the same in every harness. To add a single skill later, use `npx skills add tobimey/ace --skill NAME`.
 2. Commit what it installed: `.agents/skills/`, `.claude/skills/`, and `skills-lock.json`. Then every teammate and every CI run uses the same Ace version, and CI needs no install step.
-3. Run `/ace-setup`. It writes the adapters and settings in `ace/` and turns on `ace-mode` in your `AGENTS.md`.
-4. Read the drafts it wrote, fix what is wrong, and start working. Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills.
+3. Start working. Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills. Ace needs no setup: it finds your checks in CI and your scripts, and works without a ticket tracker.
+4. When you want Ace to know your project better, run `/ace-setup`. It turns on `ace-mode` in your `AGENTS.md` and writes `ace/VERIFY.md` with your checks, in a few minutes. Add more when you need it, one module at a time: `/ace-setup tickets`, `/ace-setup ci`, `/ace-setup standards`, `/ace-setup hosting`, or `/ace-setup settings`.
 5. To update Ace, run `npx skills add tobimey/ace` again, then `/ace-setup`, and commit both. `ace-setup` keeps what your adapters say and adds the sections that new skills need.
 
 This README writes skill commands as `/ace-setup`. In Codex, type `$ace-setup` instead.
@@ -28,6 +28,10 @@ Ace supports Claude Code, Cursor, and Codex. The skills are plain Markdown and f
 
 Ace ships no harness plugins yet. Plugins for Claude Code, Cursor, and Codex will come later, once Ace ships more than skills, such as hooks or agents. Until then, `npx skills add` installs the skills into the project, and the project commits them.
 
+## Supported code hosts
+
+In v1, Ace supports only GitHub, for tickets, pull requests, and runs started by GitHub Actions. GitHub is the only host Ace is tested on. The adapter files can describe another host, such as GitLab or Bitbucket, or another tracker, such as Linear or Jira, but that setup is not tested and support is not guaranteed.
+
 Ace is also agnostic to the model you use if it is good enough. It also doesn't matter what type of project you are working on.
 
 ## Skill categories
@@ -42,10 +46,10 @@ Ace groups its skills into these categories. Every skill has its own folder in `
 That is called the `ace cycle`. It's the core software cycle that drives the software development process. On top of these, Ace provides a few more skills:
 
 - router: `ace-mode` picks the playbook for each message and runs its skills in order. It and `ace-unslop` are the only skills the agent sees on its own. Every other skill is hidden from the agent: `ace-mode` and other skills load it by path, and you run it as a slash command.
-- setup: `ace-setup` writes the adapters.
+- setup: `ace-setup` writes the adapters, with a quick setup first and one module at a time after that.
 - audit: `ace-audit` audits the whole codebase for the domains you pick: security, logic, performance, architecture, and health. `/ace-audit security` runs one domain, `/ace-audit` asks which and recommends all five. Each domain runs as its own pass and files at most three tickets by default, which feed into stage 2. It usually runs on a schedule.
 - understand: `ace-explain` explains how code works, why it is built that way, or both for a change, and `ace-learn` teaches a topic over several sessions. `ace-explain-change` writes an explainer for a pull request, with a code walkthrough and a quiz, and posts it there. Run it by name, or add it to the CI step that runs your reviews.
-- shared: skills that other skills load, never run on their own. `ace-checks` holds the logic, security, performance, and architecture rules that both `ace-review` and `ace-audit` use. `ace-codebase-design` holds the deep-module vocabulary those rules and any design work use.
+- shared: skills that other skills load, never run on their own. `ace-adapters` says how skills read the adapters and what they use when one is missing. `ace-checks` holds the logic, security, performance, and architecture rules that both `ace-review` and `ace-audit` use. `ace-codebase-design` holds the deep-module vocabulary those rules and any design work use.
 - tone: `/ace-bro` restates the last reply without jargon, and `ace-unslop` keeps the agent's writing clean and easy to follow.
 
 ## Local vs Cloud 
@@ -62,7 +66,7 @@ The cycle is a loop. It starts with an idea that forms into a plan. The plan get
 
 Ace is generic. It's suitable for all sorts of software projects in whatever language. What matters is adapting it to project and team needs.
 
-The skills are built in a way that they listen to your needs. These adapters live in `ace/` in your project, and `ace-setup` creates them:
+The skills are built in a way that they listen to your needs. These adapters live in `ace/` in your project. Each one is optional: without it, Ace uses a default, and `ace-setup` writes it when you want your own:
 
 - `CODING_STANDARDS.md` is used in stages 2 and 3 to check that the code is written in a way that is consistent with your coding standards.
 - `VERIFY.md` says how to prove a change works: the checks CI runs, how to start the app, and how to try each kind of change. `ace-verify` follows it in stage 2, and the review jobs run its checks in stage 3.
@@ -70,7 +74,7 @@ The skills are built in a way that they listen to your needs. These adapters liv
 - `CODE_HOSTING.md` says how to open a pull request, comment on it, and find the tickets it closes, e.g. on GitHub, GitLab, Bitbucket, etc.
 - `CYCLE.md` is optional. By default a person starts every run and `ace-mode` names the next step, so there is no file. You add it when something else starts runs. `ace-setup` ships a GitHub recipe, where the label `ace:review` starts a review in GitHub Actions, a schedule runs `ace-work-ticket`, and another schedule runs `ace-audit`. For another runner, such as a cloud agent with a schedule, you write the triggers here and the skills stay the same.
 
-The adapters are yours. `ace-setup` writes a first draft, and from then on you change them as the project needs. Ace skills depend only on a few sections, listed in [skills/ace-setup/ADAPTERS.md](skills/ace-setup/ADAPTERS.md). Keep those, under any heading, and the rest of each file is free. When a skill misses one, it says which, and a skill that edits files offers to add it. Running `ace-setup` again adds every missing section at once.
+The adapters are yours. `ace-setup` writes a first draft, and from then on you change them as the project needs. Ace skills depend only on a few sections, listed with their defaults in [skills/ace-adapters/ADAPTERS.md](skills/ace-adapters/ADAPTERS.md). Keep those, under any heading, and the rest of each file is free. When a file or a section is missing, the skill uses its default and says so in one line. For example, with no `VERIFY.md` it runs the checks your CI runs, and with no ticket tracker it writes a ticket into the reply. The first time `ace-verify` runs without `VERIFY.md`, it writes one from what it found. Running `ace-setup` again adds every missing section to the adapters you have.
 
 In a monorepo, `ace-setup` detects the workspace and gives each package with its own checks or app a small `ace/` folder with its own `VERIFY.md`, plus a `CODING_STANDARDS.md` if the package has its own rules. The root files list those package files, and the package files add to the root ones. The glossary, ticket tracker and code hosting exist only once, at the root.
 
@@ -80,7 +84,7 @@ Your root `AGENTS.md` (or `CLAUDE.md`) stays where it is, because harnesses load
 
 ## Settings
 
-Adapters say how your project does a job. Settings say how your factory behaves: how much agents do on their own, and which optional features are on. They live in `ace/config.json`, which `ace-setup` writes with every setting at its default:
+Adapters say how your project does a job. Settings say how your factory behaves: how much agents do on their own, and which optional features are on. They live in `ace/config.json`, which `/ace-setup settings` writes with every setting at its default. Without the file, every setting has its default:
 
 ```json
 {

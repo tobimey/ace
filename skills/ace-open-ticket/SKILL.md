@@ -6,11 +6,11 @@ disable-model-invocation: true
 
 # Open ticket
 
-Write one ticket body and open the ticket. Done means the ticket exists, its body uses the headings below in this order with no other `###` heading, and its URL is handed back.
+Write one ticket body and open the ticket. Done means the ticket exists, its body uses the headings below in this order with no other `###` heading, and its URL is handed back. With no ticket tracker, done means the ticket is in the reply instead, as the default for "Open a ticket" in `ace-adapters` says.
 
 ## Constraints
 
-- Open the ticket only as the "Open a ticket" section of `ace/TICKET_TRACKER.md` says. That section is the only way to open it.
+- Open the ticket only as the "Open a ticket" section of `ace/TICKET_TRACKER.md`, or its default, says. That section is the only way to open it.
 - Check the adapter sections before you write the body.
 - Send type, Priority, Size, and Risk to the ticket tracker as its "Open a ticket" section says, outside the body. When that section records no Priority or Size, leave them out. The body never holds them.
 - Use only the `###` headings below.

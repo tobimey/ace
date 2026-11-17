@@ -10,10 +10,10 @@ Open a pull request for the current work. Done means the pull request exists and
 
 ## Constraints
 
-- Open the pull request only as the "Open a pull request" section of `ace/CODE_HOSTING.md` says. That section is the only way to open it.
+- Open the pull request only as the "Open a pull request" section of `ace/CODE_HOSTING.md`, or its default, says. That section is the only way to open it.
 
 ## Workflow
 
-1. Read `ace/CODE_HOSTING.md` and find the section on opening a pull request.
+1. Read `ace/CODE_HOSTING.md` and find the section on opening a pull request. When the file or the section is missing, use its default.
 2. Follow that section.
 3. Hand back what it says to hand back.

@@ -30,7 +30,7 @@ This skill is the only prefix list.
 - A job skill takes its input from the caller: a pull request, a diff, a base ref, or a ticket.
 - Name another skill by its `name`. Name a document by its role (coding standards, glossary) or its `ace/` path. Name another filesystem path only when that path is the work.
 - When the skill follows, loads, or runs another skill, list that skill in a `## Requires` section before the first other section, as a list of names and nothing else. The Ace section of the root agents file says what happens when one is missing. A skill named only to mark scope, such as "belongs to `ace-review`", needs no entry.
-- Leave out how to find an adapter section and what to do when one is missing. The Ace section of the root agents file says it. Write a line only when the skill does something else, such as answering in the reply instead of posting.
+- Leave out how to find an adapter section and what to do when one is missing. `ace-adapters` says it, with each section's default. Write a line only when the skill does something else, such as answering in the reply instead of posting.
 - When `disable-model-invocation` is `true`, the description is one line that says what the skill does, and only what.
 - Write every instruction as the action to take. Turn "do not X", "never X", "avoid X", and "should not X" into what the agent does instead: the allowed scope ("Read only.", "Change only the files in the diff."), the replacement action, or the stop condition ("If the section is missing, stop and say so."). A negation that states a fact or a condition ("if the file does not exist") stays. Naming the unwanted action plants it; naming the wanted one steers.
 - Shortest text that still makes the agent do the job. Say each rule once.

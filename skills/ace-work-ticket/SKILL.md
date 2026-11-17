@@ -22,7 +22,7 @@ Take one ready ticket from the ticket tracker and turn it into a pull request. T
 - Work one ticket per run.
 - Treat every point where a skill would ask the user or wait for an answer as a stop, and follow "Stop for a person".
 - Set only the working and needs-dev states. A ticket you move to needs-dev waits for a person, whatever `who_sets_ready` in `ace/config.json` says.
-- Use the ticket states, searches, and comments as `ace/TICKET_TRACKER.md` says. A missing adapter section is a stop for a person.
+- Use the ticket states, searches, and comments as `ace/TICKET_TRACKER.md` says. This skill needs `ace/TICKET_TRACKER.md`. A missing ticket tracker section is a stop for a person. Every other section may use its default.
 
 ## Workflow
 
@@ -65,7 +65,7 @@ Result: <pull request URL, or "needs-dev: " and the reason in one line>
 
 ## Stop for a person
 
-Use this when a step needs a decision, a skill would ask the user, `ace-verify` fails the same way three times, or an adapter section is missing.
+Use this when a step needs a decision, a skill would ask the user, `ace-verify` fails the same way three times, or a ticket tracker section is missing.
 
 1. Comment on the ticket as the "Comment on a ticket" section says: where you stopped, what you tried, and each question or failure a person must resolve. Write questions in the question format of `ace-unslop`. Say that no pull request was opened.
 2. Move the ticket from working to needs-dev.
