@@ -12,8 +12,6 @@ Review the diff for logic bugs, security holes, performance costs, and architect
 
 - `ace-checks`
 
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
-
 ## Constraints
 
 - Edit only files this change touches.
@@ -21,7 +19,6 @@ Before you start, check that each skill above is installed: its folder sits next
 - Flag only logic, security, performance, and architecture. Coding standards, naming, and code smells belong to `ace-validate-standards`. Spec match belongs to `ace-check-spec`.
 - Ignore generated and vendored code, and any path the coding standards mark as out of scope.
 - A finding needs a concrete failure mode or cost on a plausible path in this diff, or a simpler or deeper design this diff could have used. Leave out hypotheticals, pre-existing issues the diff does not make worse, unverified dependency advisories, and accepted risks.
-- Find each adapter section by its job. Its heading may differ from the one named here. If a file or a section is missing, name it and say what it must hold. Offer to add it, and go on once the user agrees. With nobody to ask, or when the user declines, stop.
 
 ## Workflow
 
@@ -42,7 +39,7 @@ Stop if the diff is empty and there is no untracked work. Also read call sites t
 
 ## 2. Scan
 
-Load `ace-checks` and read its Logic, Security, Performance, and Architecture files. In the diff and the call sites it affects, find what each file's Find section lists. Follow the Framework behavior section of the Performance file. File a finding under the domain its Belongs elsewhere section names.
+Load [ace-checks](../ace-checks/SKILL.md) and read its Logic, Security, Performance, and Architecture files. In the diff and the call sites it affects, find what each file's Find section lists. Follow the Framework behavior section of the Performance file. File a finding under the domain its Belongs elsewhere section names.
 
 For architecture, flag the concrete better shape, and propose a redesign only for files this diff changes.
 

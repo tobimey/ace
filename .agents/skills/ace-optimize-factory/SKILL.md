@@ -15,8 +15,6 @@ What done looks like: a concrete edit in a skill, `AGENTS.md`, a lint or CI chec
 - `ace-skill-optimizer`
 - `ace-unslop`
 
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
-
 ## Constraints
 
 - Change files that steer agents. Touch product code only when that is the only way to steer the next agent.

@@ -28,7 +28,8 @@
 - Follow the prefix rules in `ace-skill-optimizer`. That list is the only prefix list.
 - Generic: no project, stack, framework, database, command, path, or trust boundary of one project. Those live in `ace/` files.
 - Name another skill by its `name`, not by a file path. Name a document by its role unless that path is the work.
-- Every skill the body follows, loads, or runs is listed in a `## Requires` section with the install check from `ace-skill-optimizer`
+- Every skill the body follows, loads, or runs is listed by name in a `## Requires` section, with no install check
+- No generic rule for finding an adapter section or handling a missing one. Only a fallback the skill does differently
 - Shortest text that still works. Say each rule once. 500 lines is a ceiling, not a target
 - Most rules have no example. Add one only when the instruction is easy to get wrong without it. Flag a missing example only on such a rule. Skip trivia a capable model already knows
 - One term per concept. Pick one of "endpoint" / "route" / "path" for the same thing and use it everywhere
@@ -66,10 +67,11 @@ Offer **one default** tool or path, plus one alternative for the exception. A me
 
 ## Frontmatter
 
-- `disable-model-invocation: true` when the skill should run only via `/name`
+- `disable-model-invocation: true` by default. `ace-mode` and other skills load the skill by path
+- No `user-invocable`. Only Claude Code reads it. `disable-model-invocation` covers Claude Code and Cursor, and `agents/openai.yaml` covers Codex
 - With `disable-model-invocation: true`, add `agents/openai.yaml` next to `SKILL.md` containing `policy:` / `allow_implicit_invocation: false`, so Codex keeps it manual too. Remove that file when the field is removed
-- Link a skill that has `disable-model-invocation: true` by relative path, e.g. `[ace-how](../ace-how/SKILL.md)`. The agent cannot load it by name
-- Omit that field when the agent should self-trigger from the description
+- Link a skill that has `disable-model-invocation: true` by relative path, e.g. `[ace-explain](../ace-explain/SKILL.md)`. The agent cannot load it by name
+- Omit that field only for a skill that applies to every task, such as `ace-mode` or `ace-unslop`
 - `name` must match the parent folder
 
 ## Fix on sight

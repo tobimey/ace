@@ -12,8 +12,6 @@ Implement the plan, spec, or ticket the caller gives. Done means each behavior t
 
 - `ace-verify`
 
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
-
 ## Approach
 
 Aim for ambitious ideas, simple systems, and software that feels obvious.
@@ -45,5 +43,5 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
    3. Clean up while the tests stay green.
 
    Skip the test when the behavior has no logic to test, such as layout, config, or wiring, or when the "Checks" section of `ace/VERIFY.md`, and of the package verify file it lists for the touched path, has no test command. Name each skipped test in the report.
-4. Follow `ace-verify`. Fix and repeat until it passes.
+4. Follow [ace-verify](../ace-verify/SKILL.md). Fix and repeat until it passes.
 5. Report what changed, which tests you added or skipped, what was left out on purpose, and the `ace-verify` report.

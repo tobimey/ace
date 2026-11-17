@@ -6,14 +6,13 @@ Tickets live in GitHub Issues. Every ace skill that reads, searches, opens, or u
 
 - Labels: `agent-created` and `ace:needs-dev`, plus `risk:high` when Risk is `High`.
 - Assignee: `<ASSIGNEE>`.
-- Project: `<PROJECT_OWNER>` project `<PROJECT_NUMBER>`.
-- Priority field id `<PRIORITY_FIELD_ID>`. Size field id `<SIZE_FIELD_ID>`. Both are org issue fields of `<ORG>`.
+- Priority and Size: not recorded, unless the "Project and fields" section below exists.
 
 ## Constraints
 
 - Open tickets in this tracker only.
 - Pass a ticket body with `--body` and a heredoc. Keep it out of files in the repo.
-- Set Priority and Size only as fields. Set Risk only as the `risk:high` label.
+- Set Risk only as the `risk:high` label. Set Priority and Size only as the "Project and fields" section says, and leave them out when it does not exist.
 - Keep at most one ticket state label on a ticket.
 - Keep a ticket once it is created, even when a later step fails.
 - Set type with the API after create.
@@ -36,7 +35,7 @@ gh search issues --repo "OWNER/REPO" --match body --limit 30 --json number,title
 
 ## Open a ticket
 
-The caller supplies title, body, type, Priority, Size, and Risk.
+The caller supplies title, body, type, and Risk, and may supply Priority and Size.
 
 1. Once per run, ensure the labels. Create each one this prints as missing with `gh label create NAME`.
 
@@ -60,8 +59,8 @@ The caller supplies title, body, type, Priority, Size, and Risk.
    gh issue view NUMBER --json labels --jq '.labels[].name'
    ```
 
-4. Set type, Priority, and Size.
-5. Add to the project.
+4. Set the type as "Set the type" says.
+5. When the "Project and fields" section exists, follow it.
 
 The ticket URL is the result. For another ticket in the same run, repeat from step 2.
 
@@ -74,20 +73,32 @@ EOF
 )"
 ```
 
-Keep the other labels. Add `--add-label risk:high` when Risk is `High`, and `--remove-label risk:high` when it is `Low`. Then set type, Priority, and Size, and add to the project.
+Keep the other labels. Add `--add-label risk:high` when Risk is `High`, and `--remove-label risk:high` when it is `Low`. Then set the type, and follow the "Project and fields" section when it exists.
 
-## Set type, Priority, and Size
+## Set the type
 
 ```bash
 gh api --method PATCH "/repos/OWNER/REPO/issues/NUMBER" -f type=TYPE
+```
 
+Issue types exist only in repositories owned by an organization. If the call fails, keep the ticket and go on without a type.
+
+## Project and fields
+
+Optional. `ace-setup` keeps this section only when the user wants Priority and Size as fields in a GitHub project. Without it, tickets carry no Priority or Size.
+
+Priority field id `<PRIORITY_FIELD_ID>`. Size field id `<SIZE_FIELD_ID>`. Both are org issue fields of `<ORG>`. Project: `<PROJECT_OWNER>` project `<PROJECT_NUMBER>`.
+
+Set Priority and Size, when the caller supplied them:
+
+```bash
 gh api --method POST "/repos/OWNER/REPO/issues/NUMBER/issue-field-values" \
   --input - <<'EOF'
 {"issue_field_values":[{"field_id":<PRIORITY_FIELD_ID>,"value":"High"},{"field_id":<SIZE_FIELD_ID>,"value":"M"}]}
 EOF
 ```
 
-Replace `TYPE` and both `value` strings. Use POST, which keeps the other fields.
+Replace both `value` strings. Use POST, which keeps the other fields.
 
 If the field post returns 422, load the ids and post once more. Keep the ticket either way.
 
@@ -97,7 +108,7 @@ gh api "/orgs/<ORG>/issue-fields" \
   --jq '.[] | select(.name=="Priority" or .name=="Size") | {id, name}'
 ```
 
-## Add to the project
+Add the ticket to the project:
 
 ```bash
 gh project item-add <PROJECT_NUMBER> --owner <PROJECT_OWNER> --url TICKET_URL

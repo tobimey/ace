@@ -13,8 +13,6 @@ Interview the user until you reach a shared understanding. Record resolved terms
 - `ace-unslop`
 - `ace-to-ticket`
 
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
-
 ## Constraints
 
 - Write to the glossary: its section in the root agents file, and `ace/GLOSSARY.md` when it exists. Write to tickets only through `ace-to-ticket`.
@@ -48,7 +46,7 @@ The interview is done when the frontier is empty: every branch of the design tre
 ## Close
 
 1. Summarize the settled plan: each decision and its answer, and the terms you added to the glossary.
-2. When a ticket is known, or the user chose a new one, run `ace-to-ticket` with the settled plan as the spec. A known ticket is the spec ticket, and `ace-to-ticket` rewrites its body. When the caller says to keep one ticket, tell `ace-to-ticket` to use single-ticket mode.
+2. When a ticket is known, or the user chose a new one, run [ace-to-ticket](../ace-to-ticket/SKILL.md) with the settled plan as the spec. A known ticket is the spec ticket, and `ace-to-ticket` rewrites its body. When the caller says to keep one ticket, tell `ace-to-ticket` to use single-ticket mode.
 3. Stop. Hand back the ticket URLs, or say that the plan stays in the chat.
 
 ## Docs

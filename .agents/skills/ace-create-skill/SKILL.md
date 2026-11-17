@@ -13,8 +13,6 @@ Write a new skill that does one job, loads when it should, and spends as little 
 - `ace-skill-optimizer`
 - `ace-unslop`
 
-Before you start, check that each skill above is installed: its folder sits next to this skill's folder. If one is missing, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.
-
 ## Constraints
 
 - Create one skill. To change an existing skill, use `ace-skill-optimizer`.
@@ -54,7 +52,7 @@ When the new skill needs a step another skill already does, call that skill. Wri
 ### 3. Design
 
 - **Name**: follow the prefix rules. The folder name matches `name`.
-- **Invocation**: set `disable-model-invocation: true` for a job a person starts by name, and add `agents/openai.yaml` with `policy:` / `allow_implicit_invocation: false`. Omit the field when the agent should load the skill from its description.
+- **Invocation**: set `disable-model-invocation: true`, and add `agents/openai.yaml` with `policy:` / `allow_implicit_invocation: false`. `ace-mode` and other skills load it by path. Omit `disable-model-invocation` only for a skill that applies to every task, such as `ace-mode` or `ace-unslop`.
 - **Freedom**: match it to how fragile the step is. Judgement work gets the goal and the rules. A fragile sequence gets exact commands. A deterministic step, such as validate, parse, count, or call an API, gets a script in `scripts/` that prints its result.
 - **Project facts**: point to the `ace/` file and the section that holds them, and find the section by its job. When an Ace skill needs a section no adapter has, add it to the adapter contract and the matching template in `ace-setup`.
 - **Other skills**: list each skill the new one follows, loads, or runs in its Requires section, as Authoring says.
