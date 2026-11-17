@@ -12,10 +12,6 @@ What done looks like: the requested behaviour is an instruction the agent must f
 
 User-requested behaviour wins over a pure checklist pass. If they say X is failing or missing, the job is to make X work, then still pass [CHECKLIST.md](CHECKLIST.md).
 
-## Requires
-
-- `ace-unslop`
-
 ## Authoring
 
 This skill is the only prefix list.
@@ -77,7 +73,7 @@ Before any edit, state:
 
 If any of those is unclear, **stop and ask**, and edit only after the answers.
 
-Ask with the harness's question tool when it has one. Otherwise ask in chat, in the question format of `ace-unslop`.
+Ask with the harness's question tool when it has one. Otherwise ask in chat, in the question format of `ace-mode`.
 
 Look up filesystem facts yourself. Ask only for decisions: purpose, key functionality, what "working" means for the complaint, trigger phrases.
 

@@ -1,6 +1,6 @@
 ---
 name: ace-audit
-description: Audits the whole repository for one or more domains (security, logic, performance, architecture, health) and files a capped number of tickets per domain, or none.
+description: Audits the whole repository for one or more domains (security, logic, performance, architecture, health, and each custom check in ace/checks/) and files a capped number of tickets per domain, or none.
 disable-model-invocation: true
 ---
 
@@ -23,6 +23,7 @@ Each domain file sets what its pass finds, drops, keeps, and files:
 - [Performance](PERFORMANCE.md): High or Critical performance costs.
 - [Architecture](ARCHITECTURE.md): shallow modules and leaking seams that make change costly.
 - [Health](HEALTH.md): coding-standards breaks later editors are likely to copy.
+- [Custom](CUSTOM.md): one domain for each custom check in `ace/checks/`, named after its file, such as `accessibility` for `ace/checks/ACCESSIBILITY.md`. Its domain file is CUSTOM.md together with that file.
 
 ## Constraints
 
@@ -34,11 +35,11 @@ Each domain file sets what its pass finds, drops, keeps, and files:
 
 ## Pick the domains
 
-Run the domains the caller names, such as `security` or `security performance`. "Full audit" or "audit everything" names all five.
+Run the domains the caller names, such as `security` or `security performance`. "Full audit" or "audit everything" names all five built-in domains and every custom check.
 
-When the caller names none, ask which to run, and recommend all five. With nobody to ask, run all five.
+When the caller names none, ask which to run, and recommend all of them. With nobody to ask, run all of them.
 
-Run the picked domains in this order: security, logic, performance, architecture, health. A later pass skips what an earlier pass filed, so the more severe domain claims a shared root cause first.
+Run the picked domains in this order: security, logic, performance, architecture, health, then the custom checks by file name. A later pass skips what an earlier pass filed, so the more severe domain claims a shared root cause first.
 
 ## Run each pass
 

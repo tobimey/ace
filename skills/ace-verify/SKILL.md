@@ -16,6 +16,7 @@ Prove the current change works. Done means every command in the "Checks" section
 - Make a failing check or test pass by fixing the code. Keep every check, test, and hook as strict as you found it, and let hooks run.
 - A failure that also happens without this change is pre-existing. Report it and leave it as it is.
 - Stop every process you started.
+- Keep screenshots out of the repository.
 
 ## Workflow
 
@@ -42,6 +43,8 @@ Start the app as the "Run the app" section says. For each behavior from step 1, 
 
 When no line of the "Check behavior" section matches a behavior, or a step of the "Run the app" or "Check behavior" section fails because the file is wrong, such as a wrong port or start order, find a way that works with the tools this environment has, such as browser automation, `curl`, or the CLI. Try the behavior that way and note the way for step 5.
 
+When you try a behavior in a browser, save a screenshot of what you saw to a temp folder outside the repository, such as one from `mktemp -d`, and note its path for the report.
+
 When the change has no runtime behavior (docs, comments, types only), write that and skip this step. When a behavior cannot be tried here, write exactly what is missing, such as a login or a service, and the line the verify file needs once it is there. List it under Not verified.
 
 ## 4. Fix and repeat
@@ -61,7 +64,7 @@ Checks:
 - `command`: pass or fail
 
 Behavior:
-- What you did, and what you saw.
+- What you did, and what you saw. For a behavior tried in a browser, the screenshot path.
 
 Verify file:
 - `path`: the line added or fixed, or "none"

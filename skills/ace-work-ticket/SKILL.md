@@ -15,7 +15,6 @@ Take one ready ticket from the ticket tracker and turn it into a pull request. T
 ## Requires
 
 - `ace-mode`
-- `ace-unslop`
 
 ## Constraints
 
@@ -67,7 +66,7 @@ Result: <pull request URL, or "needs-dev: " and the reason in one line>
 
 Use this when a step needs a decision, a skill would ask the user, `ace-verify` fails the same way three times, or a ticket tracker section is missing.
 
-1. Comment on the ticket as the "Comment on a ticket" section says: where you stopped, what you tried, and each question or failure a person must resolve. Write questions in the question format of `ace-unslop`. Say that no pull request was opened.
+1. Comment on the ticket as the "Comment on a ticket" section says: where you stopped, what you tried, and each question or failure a person must resolve. Write questions in the question format of `ace-mode`. Say that no pull request was opened.
 2. Move the ticket from working to needs-dev.
 3. Leave the files as they are, and report.
 

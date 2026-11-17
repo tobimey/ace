@@ -50,7 +50,7 @@ Ace skills adapted from it:
 - `ace-how` from `how`
 - `ace-why` from `why`
 - `ace-teach` from `teach`
-- `ace-unslop` from `unslop`
+- the flaky-check rule and the bot-comment triage in `ace-babysit-pr` from the `babysit` playbook of `poteto-mode`
 
 ```
 MIT License

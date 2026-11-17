@@ -8,6 +8,20 @@ The core idea is to combine the best of multiple skill systems like pstack, matt
 
 Currently many things are not clear. Read the `./README.md` file for more information.
 
+## The competition
+
+When I say "the competition", I mean these skill systems:
+
+| Name | By | Source |
+|---|---|---|
+| pstack | Lauren Tan | https://github.com/backnotprop/pstack (mirror of https://cursor.com/marketplace/cursor/pstack) |
+| mattpocock/skills | Matt Pocock | https://github.com/mattpocock/skills |
+| gstack | Garry Tan | https://github.com/garrytan/gstack |
+| tstack | Theo Browne (t3dotgg) | https://github.com/t3dotgg/tstack |
+| Superpowers | Jesse Vincent (obra) | https://github.com/obra/superpowers |
+
+Ace adapts skills from pstack and mattpocock/skills (see `THIRD_PARTY_NOTICES.md`). It does not build on the others. When I ask how Ace compares, or what the competition does better, read their skills at the source and compare them with `skills/`.
+
 ## Building Ace with Ace
 
 This repository is the source code of Ace, and it also uses Ace to build itself. Keep the two apart:

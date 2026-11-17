@@ -57,7 +57,7 @@
     "review": {
       "type": "object",
       "additionalProperties": false,
-      "description": "When a review starts, how many agents run it, and which findings it fixes on its own. ace-review runs three checks: spec (does the change do what its ticket asked), standards (the coding standards), and code (logic, security, performance, and architecture).",
+      "description": "When a review starts, how many agents run it, and which findings it fixes on its own. ace-review runs three checks: spec (does the change do what its ticket asked), standards (the coding standards), and code (logic, security, performance, and architecture), plus each custom check in ace/checks/.",
       "default": {
         "runs": ["after-implementing"],
         "agents": "one-for-all-checks",

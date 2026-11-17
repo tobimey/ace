@@ -44,6 +44,22 @@ Review and audit jobs read it in full.
 | Trust boundaries | The parties the project trusts, or that there are none | None. No party is trusted. |
 | Rules, tests, and smells | Free content | The rules, tests, and smells in that template |
 
+## `ace/checks/`
+
+Optional. One file per custom check, such as `ace/checks/ACCESSIBILITY.md`, for an area the project wants checked with its own severity. Single rules belong in `ace/CODING_STANDARDS.md`. `ace-review` runs each file as its own check through its [CUSTOM.md](../ace-review/CUSTOM.md), and `ace-audit` as its own domain through its [CUSTOM.md](../ace-audit/CUSTOM.md). The check's name is the file name in lower case, without `.md`. Pick a name no built-in check or audit domain uses, such as `security` or `code`.
+
+| Section | What it holds | Default |
+|---|---|---|
+| Find | What counts as a finding | Required |
+| Drop | What to leave out even when found | Required |
+| Severity | What makes a finding Critical, High, Medium, or Low | Required |
+| Before scanning | What to read first | Nothing |
+| Belongs elsewhere | What another check owns | Coding standards go to Standards, and logic, security, performance, and architecture go to Code. |
+| Bar | Which findings an audit files | Only Critical and High |
+| Ticket | How an audit ticket looks | Title starts with the check's name, type `Chore` |
+
+**Default.** No folder, no custom checks. Only the root has one, also in a monorepo. `ace-setup` ships [templates/CHECK.md](../ace-setup/templates/CHECK.md) to copy.
+
 ## `ace/VERIFY.md`
 
 | Section | What it holds | Used by | Default |
@@ -81,13 +97,29 @@ The ticket states:
 
 | Section | What it holds | Used by | Default |
 |---|---|---|---|
-| Get the diff | How to get the change to review, from a diff, a pull request, a base ref, or the current branch | `ace-verify`, `ace-review`, `ace-explain-change` | That section of [github/CODE_HOSTING.md](github/CODE_HOSTING.md), without the pull request case, which needs GitHub. |
+| Get the diff | How to get the change to review, from a diff, a pull request, a base ref, or the current branch | `ace-verify`, `ace-review`, `ace-explain` | That section of [github/CODE_HOSTING.md](github/CODE_HOSTING.md), without the pull request case, which needs GitHub. |
 | Open a pull request | How to branch, commit, push, and open a pull request, and what to hand back | `ace-open-pr` | None. Stop and offer `ace-setup hosting`. |
 | Linked tickets | How to find the tickets a pull request closes, using the tracker's ticket references | `ace-review`, `ace-explain` | Skip |
-| Find a pull request | How to find the pull request for a number or a branch, with its state, labels, and comments | `ace-mode` | There is no pull request. |
-| Comment on a pull request | How to post a comment on a pull request, and how to find an earlier comment by a marker and edit it | `ace-explain-change`, `ace-mode`. The root agents file also points agents here | The comment goes in the reply. |
+| Find a pull request | How to find the pull request for a number or a branch, with its state, labels, and comments, and how to list the current user's open pull requests | `ace-mode`, `ace-babysit-pr` | There is no pull request. |
+| Comment on a pull request | How to post a comment on a pull request, and how to find an earlier comment by a marker and edit it | `ace-explain`, `ace-mode`, `ace-babysit-pr`. The root agents file also points agents here | The comment goes in the reply. |
+| Pull request state | The failing and running checks, unresolved review threads, reviews, new comments, and merge state of a pull request, with a verdict: action, waiting, ready, merged, or closed | `ace-babysit-pr` | None. Stop and offer `ace-setup hosting`. |
+| Check logs | How to read the log of a failing check, and how to run it once more | `ace-babysit-pr` | None. Name the failing check and its link, and fix from the checks in `ace/VERIFY.md` run locally. |
+| Reply to a review thread | How to reply inside a review thread and resolve it | `ace-babysit-pr` | The reply goes in the report. |
 
 **Provider.** [github/CODE_HOSTING.md](github/CODE_HOSTING.md) when the code is on GitHub. It needs no setting and fills every section above. So the defaults in the table apply only to code on another host with no `ace/CODE_HOSTING.md`.
+
+## `ace/PRODUCT.md`
+
+Optional. Who the product is for and where it is going, so each run of `ace-grill` ranks directions against the same goal.
+
+| Section | What it holds | Used by |
+|---|---|---|
+| Users | Who the product is for | `ace-grill` |
+| Goal | The one outcome "better" means right now | `ace-grill` |
+| Non-goals | What the project leaves alone, even when it would help | `ace-grill` |
+| Directions | The direction picked for each scope, with the date it was picked | `ace-grill`, which replaces a scope's line after each pick |
+
+**Default.** No file. `ace-grill` asks for Users, Goal, and Non-goals in its anchor round, no direction is picked yet, and it creates the file from [templates/PRODUCT.md](../ace-setup/templates/PRODUCT.md) once the user picks one.
 
 ## `ace/config.json`
 

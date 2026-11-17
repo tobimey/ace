@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Review
 
-Review the diff with up to three checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed when the caller passed a pull request, and the report ends with Merge Danger.
+Review the diff with its checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed when the caller passed a pull request, and the report ends with Merge Danger.
 
 ## Requires
 
@@ -19,8 +19,9 @@ Each check file says what to find and drop, and how to rate a finding:
 - [Spec](SPEC.md): does the change do what its linked ticket asked.
 - [Standards](STANDARDS.md): coding-standards breaks.
 - [Code](CODE.md): logic bugs, security holes, performance costs, and architecture.
+- [Custom](CUSTOM.md): one check for each custom check in `ace/checks/`, named after its file, such as `accessibility` for `ace/checks/ACCESSIBILITY.md`. Its check file is CUSTOM.md together with that file.
 
-Run the checks the caller names, such as `spec` or `standards code`. With none named, run all three.
+Run the checks the caller names, such as `spec` or `standards accessibility`. With none named, run them all.
 
 ## Settings
 
@@ -121,7 +122,7 @@ Each finding has:
   - `blocker` is 🔴. You would block the merge.
   - `should-fix` is 🟡. You would ask a teammate to change it.
   - `nit` is 🔵. Concrete and worth the author's time.
-- **Category**: `spec`, `standards`, `logic`, `security`, `performance`, or `architecture`.
+- **Category**: `spec`, `standards`, `logic`, `security`, `performance`, `architecture`, or the name of a custom check.
 - **Fix type**:
   - `one-correct-fix`: one edit is correct, and a teammate would not have to choose.
   - `several-fixes`: two or more fixes are reasonable.

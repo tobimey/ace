@@ -19,6 +19,7 @@ A skill names an adapter by its path in `ace/`. That name means the adapter, not
 | `ace/TICKET_TRACKER.md` | [github/TICKET_TRACKER.md](github/TICKET_TRACKER.md), when `ticket_tracker` is `github-issues` |
 | `ace/CODE_HOSTING.md` | [github/CODE_HOSTING.md](github/CODE_HOSTING.md), when the code is on GitHub, as [ADAPTERS.md](ADAPTERS.md) defines it |
 | `ace/CYCLE.md` | [github/CYCLE.md](github/CYCLE.md), when `who_starts_runs` is `github-actions` |
+| `ace/PRODUCT.md` | None |
 
 A provider ships with Ace and holds no project values, so the project never copies or updates it. The project writes its own file in `ace/` only for a tool Ace has no provider for, such as Linear or GitLab, or to change one section of a provider.
 
@@ -60,4 +61,4 @@ Name each default you used once in the reply, in one line, such as `No ace/VERIF
 
 ## Writing adapters
 
-Only `ace-setup` creates an adapter file, with one exception: `ace-verify` creates a missing `ace/VERIFY.md` from what it found and tried, as its step 5 says. Every other skill leaves a missing adapter missing and uses the provider or the default.
+Only `ace-setup` creates an adapter file, with two exceptions: `ace-verify` creates a missing `ace/VERIFY.md` from what it found and tried, as its step 5 says, and `ace-grill` creates a missing `ace/PRODUCT.md` once the user picks a direction, as step 6 of its `DIRECTION.md` says. Every other skill leaves a missing adapter missing and uses the provider or the default.

@@ -6,13 +6,22 @@ Ace is an adaptable, agentic skills framework.
 
 The new age of programming isn't … programming. It's probably not even engineering. Writing code is not just cheap; for many workflows it is largely delegated to agents. With Ace, the role shifts: less direct code authorship, more engineering of the factory and the inputs that the factory receives.
 
+## Why Ace
+
+Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and adds what they leave out:
+
+- One router. You say what you want, and `ace-mode` picks the skills and their order. You need no skill names.
+- Adapters. Ace reads your checks, ticket tracker, and code host from small files in `ace/`, and works on defaults before you write any.
+- A review that fixes. `ace-review` checks a change against its ticket, your coding standards, and its code, fixes what your settings allow, and rates its Merge Danger: how hard it is to undo, and how much it can break.
+- Runs with no person. With GitHub Actions, Ace turns ready tickets into reviewed pull requests and audits the repo on a schedule. A person merges.
+
 ## Get started
 
 1. Install Ace into your project with `npx skills add tobimey/ace`. This works the same in every harness. Ace installs as one set: its skills load each other, so install all of them.
 2. Commit what it installed: `.agents/skills/`, `.claude/skills/`, and `skills-lock.json`. Then every teammate and every CI run uses the same Ace version, and CI needs no install step.
 3. Start working. Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills. Ace needs no setup: it finds your checks in CI and your scripts, and works without a ticket tracker.
 4. When you want Ace to know your project better, run `/ace-setup`. It turns on `ace-mode` in your `AGENTS.md` and writes `ace/VERIFY.md` with your checks, in a few minutes. Add more when you need it, one module at a time: `/ace-setup tickets`, `/ace-setup ci`, `/ace-setup standards`, `/ace-setup hosting`, or `/ace-setup settings`.
-5. To update Ace, run `npx skills add tobimey/ace` again and commit. Your `ace/` files hold only your project's facts, and the GitHub providers update with Ace, so they need no change. Run `/ace-setup` once after updating from a version that copied the GitHub templates into `ace/`. It offers to shrink those files to what you changed.
+5. To update Ace, run `npx skills add tobimey/ace` again and commit. Your `ace/` files hold only your project's facts, and the GitHub providers update with Ace, so they need no change.
 
 This README writes skill commands as `/ace-setup`. In Codex, type `$ace-setup` instead.
 
@@ -38,19 +47,19 @@ Ace is also agnostic to the model you use if it is good enough. It also doesn't 
 
 Ace groups its skills into these categories. Every skill has its own folder in `skills/`, such as `skills/ace-review/`.
 
-- Stage 1, plan: `ace-grill` interviews you until a plan is settled and writes it into a ticket. `ace-to-ticket` turns a plan or spec into one ticket or several sub-tickets, and opens every ticket in the shared Ace shape.
+- Stage 1, plan: `ace-grill` settles what to build. It starts where your message leaves off. With no direction yet ("how can I make this better"), it offers a few directions ranked against your goal and stops once you pick one, so the question ends in a decision instead of a growing list of ideas. For a change you propose, it first says whether it makes sense: do it, do it differently, or leave it. Then it interviews you until the plan is settled and writes it into a ticket. `ace-to-ticket` turns a plan or spec into one ticket or several sub-tickets, and opens every ticket in the shared Ace shape.
 - Stage 2, implement: `ace-diagnose` finds and proves the root cause of a bug, `ace-implement` builds the plan test-first, `ace-verify` proves it works, and `ace-open-pr` opens the pull request. `ace-work-ticket` runs this stage with no person: it takes the next ready ticket, builds it, and opens a reviewed pull request, usually on a schedule.
-- Stage 3, review: `ace-review` runs three checks on the change: spec (does it do what the ticket asked), standards (your coding standards), and code (logic, security, performance, and architecture). It fixes what the `review` settings allow, writes the rest as findings, and rates the Merge Danger. On a pull request it commits its fixes. On a local diff it leaves them uncommitted, and you commit.
+- Stage 3, review: `ace-review` runs three checks on the change: spec (does it do what the ticket asked), standards (your coding standards), and code (logic, security, performance, and architecture), plus each custom check you add in `ace/checks/`. It fixes what the `review` settings allow, writes the rest as findings, and rates the Merge Danger. On a pull request it commits its fixes. On a local diff it leaves them uncommitted, and you commit.
+- Between review and merge: `ace-babysit-pr` does the work open pull requests still need. It fixes failing checks, retries a flaky check once, merges the base branch in to resolve conflicts, and answers review comments from people and bots: it fixes what `review.fixes` allows, proves a false claim wrong, and names scope creep as a follow-up. It never merges. Run it once, or in watch mode until each pull request is ready or needs a person.
 - Stage 4, optimize: skills that improve the agentic system so it works better next time. `ace-optimize-factory` runs a retro on a session or fixes one named misbehaviour, `ace-agents-file` edits the agents file, and `ace-skill-optimizer` and `ace-create-skill` edit and create skills.
 
 That is called the `ace cycle`. It's the core software cycle that drives the software development process. On top of these, Ace provides a few more skills:
 
-- router: `ace-mode` picks the playbook for each message and runs its skills in order. It and `ace-unslop` are the only skills the agent sees on its own. Every other skill is hidden from the agent: `ace-mode` and other skills load it by path, and you run it as a slash command.
+- router: `ace-mode` picks the playbook for each message and runs its skills in order. It is the only skill the agent sees on its own. Every other skill is hidden from the agent: `ace-mode` and other skills load it by path, and you run it as a slash command.
 - setup: `ace-setup` writes the adapters, with a quick setup first and one module at a time after that.
-- audit: `ace-audit` audits the whole codebase for the domains you pick: security, logic, performance, architecture, and health. `/ace-audit security` runs one domain, `/ace-audit` asks which and recommends all five. Each domain runs as its own pass and files at most three tickets by default, which feed into stage 2. It usually runs on a schedule.
-- understand: `ace-explain` explains how code works, why it is built that way, or both for a change, and `ace-learn` teaches a topic over several sessions. `ace-explain-change` writes an explainer for a pull request, with a code walkthrough and a quiz, and posts it there. Run it by name, or add it to the CI step that runs your reviews.
+- audit: `ace-audit` audits the whole codebase for the domains you pick: security, logic, performance, architecture, health, and each custom check you add in `ace/checks/`. `/ace-audit security` runs one domain, `/ace-audit` asks which and recommends all of them. Each domain runs as its own pass and files at most three tickets by default, which feed into stage 2. It usually runs on a schedule.
+- understand: `ace-explain` explains how code works, why it is built that way, or both for a change, and `ace-learn` teaches a topic over several sessions. Asked for an explainer, `ace-explain` writes one for a pull request, with a code walkthrough and a quiz, and posts it there. Ask for it by name, or add it to the CI step that runs your reviews.
 - shared: skills that other skills load, never run on their own. `ace-adapters` says how skills read the adapters and what they use when one is missing. `ace-checks` holds the logic, security, performance, and architecture rules that both `ace-review` and `ace-audit` use. `ace-codebase-design` holds the deep-module vocabulary those rules and any design work use.
-- tone: `ace-unslop` keeps the agent's writing clean and easy to follow.
 
 ## Local vs Cloud 
 
@@ -64,14 +73,18 @@ The cycle is a loop. It starts with an idea that forms into a plan. The plan get
 
 ## Adapters
 
+The sections from here on are reference. You need them once you change how Ace works in your project.
+
 Ace is generic. It's suitable for all sorts of software projects in whatever language. What matters is adapting it to project and team needs.
 
 The skills are built in a way that they listen to your needs. These adapters live in `ace/` in your project. Each one is optional: without it, Ace uses a default, and `ace-setup` writes it when you want your own:
 
 - `CODING_STANDARDS.md` is used in stages 2 and 3 to check that the code is written in a way that is consistent with your coding standards.
 - `VERIFY.md` says how to prove a change works: the checks CI runs, how to start the app, and how to try each kind of change. `ace-verify` follows it in stage 2, and `ace-review` runs its checks in stage 3.
+- `checks/` holds your own checks, one file each, such as `checks/ACCESSIBILITY.md` with what to find, what to drop, and how severe a finding is. `ace-review` runs each one as its own check, and `ace-audit` as its own domain. Copy [skills/ace-setup/templates/CHECK.md](skills/ace-setup/templates/CHECK.md) to start one. Single rules stay in `CODING_STANDARDS.md`.
 - `TICKET_TRACKER.md` says how to read, search, open, and update tickets, e.g. in Linear or Jira. It also says how the tracker shows the three ticket states. Every ticket an agent opens starts in `needs-dev`. A person reads it and sets it `ready`, unless the settings let the agent do it. `ace-work-ticket` claims a ready ticket and sets it `working`, or sends it back to `needs-dev` with a question when it gets stuck. For GitHub Issues you need no file: set `"ticket_tracker": "github-issues"`, and the states are the labels `ace:needs-dev`, `ace:ready`, and `ace:working`.
 - `CODE_HOSTING.md` says how to open a pull request, comment on it, and find the tickets it closes, e.g. on GitLab or Bitbucket. On GitHub you need no file.
+- `PRODUCT.md` says who the product is for, the goal "better" means right now, what it leaves alone, and the direction picked for each part. `ace-grill` ranks directions against it, and writes it the first time you pick one.
 - `CYCLE.md` says what starts runs besides a person, such as a cloud agent on a schedule. By default a person starts every run and `ace-mode` names the next step. For GitHub Actions you need no file: set `"who_starts_runs": "github-actions"`, and `/ace-setup ci` writes the workflows. GitHub Actions then reviews a pull request as `review.runs` says, or when you add the label `ace:review`, a schedule runs `ace-work-ticket`, and another schedule runs `ace-audit`.
 
 ### Built-in providers
@@ -144,8 +157,8 @@ The `$schema` line points at the schema in the installed Ace, so your editor che
 Ace builds on ideas and skills from these projects:
 
 - [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT). the retro in `ace-optimize-factory` is adapted from his `retro` skill, `ace-learn` from his `teach` skill, `ace-diagnose` from his `diagnosing-bugs` skill, `ace-codebase-design` from his `codebase-design` skill, the architecture domain of `ace-audit` follows his `improve-codebase-architecture` survey, and `ace-grill` and `ace-to-ticket` follow his grilling and ticket-slicing workflows.
-- [pstack](https://cursor.com/marketplace/cursor/pstack) by Lauren Tan (MIT, [mirror](https://github.com/backnotprop/pstack)). `ace-mode` and the playbook-style skills take after its approach. `ace-explain` is adapted from its `how`, `why`, and `teach` skills, and `ace-unslop` is adapted from its `unslop` skill.
-- [explain-diff](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524) by Geoffrey Litt. `ace-explain-change` follows its idea of explaining a change with background, intuition, a code walkthrough, and a quiz.
+- [pstack](https://cursor.com/marketplace/cursor/pstack) by Lauren Tan (MIT, [mirror](https://github.com/backnotprop/pstack)). `ace-mode` and the playbook-style skills take after its approach. `ace-explain` is adapted from its `how`, `why`, and `teach` skills.
+- [explain-diff](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524) by Geoffrey Litt. The explainer in `ace-explain` follows its idea of explaining a change with background, intuition, a code walkthrough, and a quiz.
 
 The license notices of these projects are in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 

@@ -62,6 +62,56 @@ gh pr view NUMBER_OR_BRANCH --repo REPO \
 
 No pull request for the branch means the work has none yet.
 
+To list the open pull requests of the current user, newest first:
+
+```bash
+gh pr list --repo REPO --author @me --state open \
+  --json number,url,title,headRefName,isDraft,updatedAt
+```
+
+## Pull request state
+
+The checks, unresolved review threads, reviews, new comments, and merge state of one pull request, with a verdict. Run [pr-state.sh](pr-state.sh):
+
+```bash
+pr-state.sh NUMBER --repo REPO
+pr-state.sh NUMBER --repo REPO --wait 600
+```
+
+It prints JSON. `verdict` is `ACTION`, `WAITING`, `READY`, `MERGED`, or `CLOSED`, and `reasons` says why. `--wait` polls while the verdict is `WAITING`, up to that many seconds. A review or comment counts as new when it is newer than the head commit.
+
+## Check logs
+
+Read a failing check from `failing_checks` in the pull request state. With a `run_id`, it is a GitHub Actions run:
+
+```bash
+gh run view RUN_ID --repo REPO --log-failed > "$TMPDIR/ci.log"
+grep -n -iE 'error|fail|panic|exception|assert' "$TMPDIR/ci.log" | head -n 50
+```
+
+Then read the lines around each hit. Without a `run_id`, the check is an outside service: open its `link`.
+
+To run the failed jobs of a run once more:
+
+```bash
+gh run rerun RUN_ID --repo REPO --failed
+```
+
+## Reply to a review thread
+
+Reply inside a review thread, then resolve it. Write the reply to a file first, so comment text stays out of the shell:
+
+```bash
+gh api graphql -F threadId=THREAD_ID -F body=@reply.md -f query='
+mutation($threadId: ID!, $body: String!) {
+  addPullRequestReviewThreadReply(input: {pullRequestReviewThreadId: $threadId, body: $body}) { comment { url } }
+}'
+gh api graphql -F threadId=THREAD_ID -f query='
+mutation($threadId: ID!) { resolveReviewThread(input: {threadId: $threadId}) { thread { isResolved } } }'
+```
+
+A review body or a plain pull request comment has no thread. Answer it with one comment as "Comment on a pull request" says, quoting the line you answer.
+
 ## Comment on a pull request
 
 Post the caller's text on the pull request. Done means that text is on the pull request.

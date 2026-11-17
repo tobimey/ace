@@ -1,6 +1,6 @@
 ---
 name: ace-explain
-description: Explains how a part of the codebase works, why it is built that way, or both, for a question, a change, or the agent's own work.
+description: Explains how a part of the codebase works, why it is built that way, or both, for a question, a change, or the agent's own work. Also writes an explainer for a change, with a walkthrough and a quiz, and posts it on the pull request.
 disable-model-invocation: true
 ---
 
@@ -10,14 +10,12 @@ Answer a question about the code: how it works now, why it is built that way, or
 
 Agents write most of the code in an Ace project. The user still has to review it, debug it, and decide where it goes next. This skill closes the gap between what the agent built and what the user understands.
 
-## Requires
-
-- `ace-unslop`
+When the caller asks for an explainer of a change, or to post one on a pull request, follow [Explainer](EXPLAINER.md) instead of the steps below.
 
 ## Constraints
 
 - Read only. The one exception is the glossary change in step 6, and only once the user agrees.
-- Write through `ace-unslop` and use the glossary terms.
+- Use the glossary terms.
 - Back each claim with a source: `path:line` for how, a commit, pull request, ticket, or doc for why. Mark what no source confirms as a guess or an inference. These hedges are findings, so keep them in the reply.
 - Explain, then stop and let the user answer. Leave out quizzes, "pause" markers, requests to repeat it back, and "the tricky part" flags.
 - Start with the point itself. Leave out framing labels such as "key insight", "TL;DR", or "at its core".
