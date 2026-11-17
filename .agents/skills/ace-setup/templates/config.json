@@ -1,7 +1,13 @@
 {
   "$schema": "<SCHEMA>",
-  "who_sets_ready": "person",
-  "review_fixes": "apply",
+  "autonomy": "medium",
+  "ticket_tracker": "none",
+  "who_starts_runs": "person",
+  "review": {
+    "runs": ["after-implementing"],
+    "agents": "one-for-all-checks",
+    "fix_severities": ["blocker", "should-fix", "nit"]
+  },
   "write_adrs": false,
   "max_tickets_per_audit_domain": 3
 }

@@ -42,6 +42,6 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
    2. Write the least code that makes it pass.
    3. Clean up while the tests stay green.
 
-   Skip the test when the behavior has no logic to test, such as layout, config, or wiring, or when the "Checks" section of `ace/VERIFY.md`, and of the package verify file it lists for the touched path, has no test command. Name each skipped test in the report.
+   Skip the test when the behavior has no logic to test, such as layout, config, or wiring, or when the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the touched path, has no test command. Name each skipped test in the report.
 4. Follow [ace-verify](../ace-verify/SKILL.md). Fix and repeat until it passes.
 5. Report what changed, which tests you added or skipped, what was left out on purpose, and the `ace-verify` report.

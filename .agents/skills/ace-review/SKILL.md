@@ -1,83 +1,135 @@
 ---
 name: ace-review
-description: Reviews the current change, fixes or suggests what has one correct edit, writes the rest as findings, and writes Merge Danger.
+description: Reviews the current change for spec match, coding standards, and logic, security, performance, and architecture. Fixes what the review settings allow, writes the rest as findings, and writes Merge Danger.
 disable-model-invocation: true
 ---
 
 # Review
 
-Review the diff for logic bugs, security holes, performance costs, and architecture. Done means each fix that needs no decision is made, and committed when the caller passed a pull request, every finding that needs a person is written with a severity and a best fix, and Merge Danger is written.
-
-When `review_fixes` in `ace/config.json` is `suggest`, change no file: each fix that needs no decision is written as a finding instead. A missing file or key means `apply`.
+Review the diff with up to three checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed when the caller passed a pull request, and the report ends with Merge Danger.
 
 ## Requires
 
 - `ace-checks`
 
+## Checks
+
+Each check file says what to find and drop, and how to rate a finding:
+
+- [Spec](SPEC.md): does the change do what its linked ticket asked.
+- [Standards](STANDARDS.md): coding-standards breaks.
+- [Code](CODE.md): logic bugs, security holes, performance costs, and architecture.
+
+Run the checks the caller names, such as `spec` or `standards code`. With none named, run all three.
+
+## Settings
+
+Read `review` in `ace/config.json` as `ace-adapters` says. A missing file or key uses the default in brackets. A missing `fixes` takes its value from `autonomy`.
+
+- `agents` (`one-for-all-checks`): `one-for-all-checks` runs every check yourself, one after another. `one-per-check` runs each check in a fresh sub-agent, so one check's reading does not sway the next. When your harness cannot start sub-agents, run the checks yourself and say so in one line of the report.
+- `fixes` (`simple-only`): which findings get fixed, by fix type, as step 3 says.
+- `fix_severities` (`["blocker", "should-fix", "nit"]`): only findings with one of these severities get fixed.
+
+`review.runs` says when a review starts. `ace-mode` and the review workflow read it. This skill does not.
+
 ## Constraints
 
+- Finding is read only. Only step 4 changes files.
 - Edit only files this change touches.
 - On a pull request, commit your fixes. On a local diff, leave them uncommitted. The user commits.
-- Flag only logic, security, performance, and architecture. Coding standards, naming, and code smells belong to `ace-validate-standards`. Spec match belongs to `ace-check-spec`.
 - Ignore generated and vendored code, and any path the coding standards mark as out of scope.
-- A finding needs a concrete failure mode or cost on a plausible path in this diff, or a simpler or deeper design this diff could have used. Leave out hypotheticals, pre-existing issues the diff does not make worse, unverified dependency advisories, and accepted risks.
+- A finding needs a concrete failure, cost, gap, or rule break in this diff. Leave out hypotheticals, pre-existing issues the diff does not make worse, and accepted risks.
 
 ## Workflow
 
 ```
 - [ ] 1. Get the diff
-- [ ] 2. Scan logic, security, performance, architecture
-- [ ] 3. Drop out of scope
-- [ ] 4. Fix what needs no decision
-- [ ] 5. Write what remains
-- [ ] 6. Write Merge Danger
+- [ ] 2. Find
+- [ ] 3. Pick the fixes
+- [ ] 4. Fix
+- [ ] 5. Run the checks
+- [ ] 6. Commit
+- [ ] 7. Report
 ```
 
-## 1. Get the diff
+### 1. Get the diff
 
-Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says.
+Get the diff once, as the "Get the diff" section of `ace/CODE_HOSTING.md` says. Every check reads this diff.
 
-Stop if the diff is empty and there is no untracked work. Also read call sites the change affects, not only the moved lines.
+Stop if the diff is empty and there is no untracked work. On a pull request, also stop when the working tree has uncommitted changes.
 
-## 2. Scan
+### 2. Find
 
-Load [ace-checks](../ace-checks/SKILL.md) and read its Logic, Security, Performance, and Architecture files. In the diff and the call sites it affects, find what each file's Find section lists. Follow the Framework behavior section of the Performance file. File a finding under the domain its Belongs elsewhere section names.
+Run each picked check as its file says, in the order of the list above. With `one-per-check`, give each sub-agent the diff, its check file, the Constraints above, and the Finding section below. Tell it to change no file and to return its findings, and for Spec its result line.
 
-For architecture, flag the concrete better shape, and propose a redesign only for files this diff changes.
+Merge the findings. When two findings name the same problem, keep the one in the category that owns it, as the Belongs elsewhere section of each check file says.
 
-## 3. Drop out of scope
+### 3. Pick the fixes
 
-Apply the Drop section of each `ace-checks` file. Drop anything that is only style, naming, folder placement, or "the spec didn't ask for this".
+A finding gets fixed when its severity is in `fix_severities` and its fix type allows it under `fixes`:
 
-If a logic bug's only fix is extra runtime cost, write it as a performance finding when this diff introduced the cost, and drop it otherwise.
+| Fix type | `none` | `simple-only` | `all` |
+|---|---|---|---|
+| `one-correct-fix` | finding | fixed | fixed |
+| `several-fixes` | finding | finding | fixed, with the fix you judge best |
+| `needs-a-person` | finding | finding | finding |
 
-## 4. Fix what needs no decision
+Every other finding stays a finding. When no finding gets fixed, go to step 7.
 
-Skip this step when `review_fixes` is `suggest`. Each finding goes to step 5, with the one correct edit as its best fix.
+### 4. Fix
 
-Fix a logic, security, or performance finding when one edit is the correct one and a teammate would not have to choose. Leave architecture findings. Leave a finding when two fixes are reasonable, or when the edit would change a product decision, a public contract, or a stored data shape.
+Make the picked fixes yourself, in this agent, also when the checks ran in sub-agents, so no two edits collide. A standards fix keeps behavior identical: the same control flow, return values, queries, cache keys, auth, and visible data. Note for each fix whether it came from Standards or Code.
 
-**Example (fix).** An inverted condition sends the message to the wrong user. Swap the condition.
+### 5. Run the checks
 
-**Example (leave).** The same read could move to a background job or stay on the request. Write it as a finding.
+Run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the changed paths, found as "Package folders" in [ADAPTERS.md](../ace-adapters/ADAPTERS.md) says. Run them once, after all fixes.
 
-When you change files, run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file its "Packages" section lists for the changed paths. Fix failures until they pass.
+When a command fails, revert fixes until the commands pass, Code fixes before Standards fixes. Revert one fix at a time when that keeps the fixes that pass. Each reverted fix becomes a finding, with that fix as its best fix. When a command still fails with every fix reverted, the failure is not from this review. Name the command in the report.
 
-If a fix still fails those checks, drop that fix and write it as a finding.
+### 6. Commit
 
-On a pull request, put every fix from this pass in one commit, with a conventional title, `fix:` or `perf:`, and a short reason.
+On a pull request, commit the fixes that remain, in up to two commits:
 
-## 5. Write what remains
+- Standards fixes: a conventional title, `refactor:`, and a short reason.
+- Code fixes: a conventional title, `fix:` or `perf:`, and a short reason.
 
-A fix you made is not a finding. Write a finding for what you left.
+On a local diff, leave them uncommitted.
 
-Each finding is an emoji, then **severity** and category, then one or two sentences, then **Best fix.** and the concrete change. Use exactly the emoji listed for that severity. Write each finding as plain top-level paragraphs in the shape below, outside any alert box or `>` blockquote.
+### 7. Report
 
-Rate each finding by the Severity section of its `ace-checks` file, then write that level as:
+Write the parts below in this order, as plain top-level paragraphs, outside any alert box or `>` blockquote. Prefer fewer findings.
 
-- `blocker` is 🔴. Critical, or High outside architecture. You would block the merge.
-- `should-fix` is 🟡. Medium, or High architecture. You would ask a teammate to change it.
-- `nit` is 🔵. Low. Concrete and worth the author's time.
+1. **Spec.** The result line from [SPEC.md](SPEC.md). Leave it out when Spec did not run.
+2. **Fixed.** When you fixed something, the fixed list. One bullet per fix, one clause with the path and the change only.
+
+   ```
+   Fixed:
+
+   - `path/to/file.ts`: what changed
+   ```
+
+3. **Findings.** Each finding left, in the shape the Finding section gives. When you fixed nothing and nothing is left, write `No findings.`
+4. **Merge Danger.** As its section below says.
+
+Go straight from the last finding to Merge Danger.
+
+## Finding
+
+Each finding has:
+
+- **Severity**: `blocker`, `should-fix`, or `nit`, as its check file rates it.
+  - `blocker` is 🔴. You would block the merge.
+  - `should-fix` is 🟡. You would ask a teammate to change it.
+  - `nit` is 🔵. Concrete and worth the author's time.
+- **Category**: `spec`, `standards`, `logic`, `security`, `performance`, or `architecture`.
+- **Fix type**:
+  - `one-correct-fix`: one edit is correct, and a teammate would not have to choose.
+  - `several-fixes`: two or more fixes are reasonable.
+  - `needs-a-person`: the fix changes a product decision, a public contract, or a stored data shape, or the check file says its findings always need a person.
+- **Best fix**: the concrete change.
+- **Location**: `path:line`. `path` is repo-relative. `line` is the line in the new file after this review's fixes.
+
+Write a finding left for the report as an emoji, then **severity** and category, then one or two sentences, then **Best fix.** and the change, then the location. Use exactly the emoji listed for its severity.
 
 ```
 🔴 **blocker** logic. One or two sentences.
@@ -87,25 +139,7 @@ Rate each finding by the Severity section of its `ace-checks` file, then write t
 `path/to/file.ts:42`
 ```
 
-`path` is the repo-relative path. `line` is the line in the new file after this pass's fixes. The category is `logic`, `security`, `performance`, or `architecture`. `should-fix` uses 🟡. `nit` uses 🔵.
-
-Prefer fewer findings.
-
-When you fixed something, start the output with the fixed list and nothing around it. One bullet per fix. One clause with the path and the change only.
-
-```
-Fixed:
-
-- `path/to/file.ts`: what changed
-```
-
-Then the remaining findings, if any. When you fixed something and nothing remains, that list is the output before Merge Danger.
-
-When you fixed nothing and nothing remains, write `No findings.` before Merge Danger.
-
-Go straight from the last finding to Merge Danger.
-
-## 6. Write Merge Danger
+## Merge Danger
 
 Always write this block last. It is not a finding. Return it to the caller only.
 

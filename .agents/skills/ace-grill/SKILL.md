@@ -20,7 +20,7 @@ Interview the user until you reach a shared understanding. Record resolved terms
 
 ## Ticket
 
-When `ace/TICKET_TRACKER.md` is missing, skip every ticket step and end with the summary in the chat.
+When the project has no ticket tracker, as `ace-adapters` says, skip every ticket step and end with the summary in the chat.
 
 When the conversation names a ticket, read it with its comments as `ace/TICKET_TRACKER.md` says, before the first round. Do not ask for it.
 
