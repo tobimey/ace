@@ -21,7 +21,7 @@ Take one ready ticket from the ticket tracker and turn it into a pull request. T
 
 - Work one ticket per run.
 - Treat every point where a skill would ask the user or wait for an answer as a stop, and follow "Stop for a person".
-- Set only the working and needs-dev states. A person sets ready.
+- Set only the working and needs-dev states. A ticket you move to needs-dev waits for a person, whatever `who_sets_ready` in `ace/config.json` says.
 - Use the ticket states, searches, and comments as `ace/TICKET_TRACKER.md` says. A missing adapter section is a stop for a person.
 
 ## Workflow

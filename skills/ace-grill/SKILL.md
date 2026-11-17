@@ -1,6 +1,6 @@
 ---
 name: ace-grill
-description: Interviews until the plan is settled, updates the glossary as terms resolve, and writes the settled plan into a ticket.
+description: Interviews until the plan is settled, updates the glossary as terms resolve, records architecture decisions when the project wants them, and writes the settled plan into a ticket.
 disable-model-invocation: true
 ---
 
@@ -15,8 +15,7 @@ Interview the user until you reach a shared understanding. Record resolved terms
 
 ## Constraints
 
-- Write to the glossary: its section in the root agents file, and `ace/GLOSSARY.md` when it exists. Write to tickets only through `ace-to-ticket`.
-- Never set a ticket to `ready`. A new ticket gets the tracker's default state. An existing ticket keeps its state.
+- Write to the glossary: its section in the root agents file, and `ace/GLOSSARY.md` when it exists. Write ADRs to `ace/adrs/`. Write to tickets only through `ace-to-ticket`, which also sets their state.
 - Implementing belongs to the caller.
 
 ## Ticket
@@ -46,11 +45,12 @@ The interview is done when the frontier is empty: every branch of the design tre
 ## Close
 
 1. Summarize the settled plan: each decision and its answer, and the terms you added to the glossary.
-2. When a ticket is known, or the user chose a new one, run [ace-to-ticket](../ace-to-ticket/SKILL.md) with the settled plan as the spec. A known ticket is the spec ticket, and `ace-to-ticket` rewrites its body. When the caller says to keep one ticket, tell `ace-to-ticket` to use single-ticket mode.
-3. Stop. Hand back the ticket URLs, or say that the plan stays in the chat.
+2. When `write_adrs` in `ace/config.json` is `true` (default `false`), write an ADR for each settled decision that meets the bar in [ADR.md](ADR.md). Name each new ADR in the summary.
+3. When a ticket is known, or the user chose a new one, run [ace-to-ticket](../ace-to-ticket/SKILL.md) with the settled plan as the spec. A known ticket is the spec ticket, and `ace-to-ticket` rewrites its body. When the caller says to keep one ticket, tell `ace-to-ticket` to use single-ticket mode.
+4. Stop. Hand back the ticket URLs, or say that the plan stays in the chat.
 
 ## Docs
 
-When a term is resolved, add it to the Glossary section of the root agents file right away, one term at a time, as `- **term**: what it means here. Not: other words for it.` Leave out `Not:` when no other word is in use. When `ace/GLOSSARY.md` exists, put what does not fit on one line there. Record decisions in the conversation, not in the glossary.
+When a term is resolved, add it to the Glossary section of the root agents file right away, one term at a time, as `- **term**: what it means here. Not: other words for it.` Leave out `Not:` when no other word is in use. When `ace/GLOSSARY.md` exists, put what does not fit on one line there. Record decisions in the conversation and in ADRs, not in the glossary.
 
 When the section passes about 40 terms, or one word turns out to mean different things in different parts of the project, propose creating `ace/GLOSSARY.md` for the detail. The section keeps the one-line entries and points at the file.

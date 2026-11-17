@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 You were given a problem or misbehaviour in how agents are steered. Find the smallest change that stops the next agent from repeating it.
 
-What done looks like: a concrete edit in a skill, `AGENTS.md`, a lint or CI check, coding standards, the glossary, or another file future agents read. Or the user chose a new architecture and you applied it.
+What done looks like: a concrete edit in a skill, `ace/config.json`, `AGENTS.md`, a lint or CI check, coding standards, the glossary, or another file future agents read. Or the user chose a new architecture and you applied it.
 
 ## Requires
 
@@ -19,6 +19,7 @@ What done looks like: a concrete edit in a skill, `AGENTS.md`, a lint or CI chec
 
 - Change files that steer agents. Touch product code only when that is the only way to steer the next agent.
 - Build only the fix the problem needs. Record the decision in the edited file itself.
+- When a setting in `ace/config.json` covers the misbehaviour, such as who sets a ticket ready, change that setting and edit no skill.
 - Prefer a check over a prose rule. Prefer a small edit over a new skill. Prefer a new skill over a new architecture.
 - Write each fix as the behaviour you want next time. "The agent edits generated files" becomes "Change skills in the source folder; reinstall to update the copies." Use the wording rule in [ace-skill-optimizer](../ace-skill-optimizer/SKILL.md) for every steering file you write, and run its [check-wording.sh](../ace-skill-optimizer/scripts/check-wording.sh) on each one.
 - When you edit a skill, read [ace-skill-optimizer](../ace-skill-optimizer/SKILL.md) and pass the checklist it links.

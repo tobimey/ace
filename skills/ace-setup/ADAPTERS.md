@@ -50,7 +50,7 @@ Rules, tests, and smells are free content.
 The ticket states:
 
 - **needs-dev**: a person must look at the ticket. Every ticket an agent opens starts here, and `ace-work-ticket` moves a ticket here when it stops for a person.
-- **ready**: an agent may work the ticket. Only a person sets it.
+- **ready**: an agent may work the ticket. A person sets it, or the skill that opened the ticket when `who_sets_ready` in `ace/config.json` allows it.
 - **working**: `ace-work-ticket` claimed the ticket. It stays until the pull request merges and closes it.
 
 ## `ace/CODE_HOSTING.md`
@@ -62,6 +62,21 @@ The ticket states:
 | Linked tickets | How to find the tickets a pull request closes, using the tracker's ticket references | `ace-check-spec`, `ace-explain` |
 | Find a pull request | How to find the pull request for a number or a branch, with its state, labels, and comments | `ace-mode` |
 | Comment on a pull request | How to post a comment on a pull request, and how to find an earlier comment by a marker and edit it | `ace-explain-change`, `ace-mode`. The root agents file also points agents here |
+
+## `ace/config.json`
+
+Settings, not an adapter. An adapter says how this project does a job. A setting says how much agents do on their own, and which optional features are on. [config.schema.json](config.schema.json) defines each setting, its values, and its default. Each skill that reads a setting names its default, so a missing file or setting is no error.
+
+| Setting | Used by |
+|---|---|
+| `who_sets_ready` | `ace-to-ticket`, `ace-audit`, `ace-work-ticket` |
+| `review_fixes` | `ace-review`, `ace-validate-standards` |
+| `write_adrs` | `ace-grill` |
+| `max_tickets_per_audit_domain` | `ace-audit` |
+
+## `ace/adrs/`
+
+Optional. One file per architecture decision, from `ace-grill` when `write_adrs` is `true`. `ace-explain` reads them for why questions. `ace-implement` marks one `Superseded` when a plan replaces it.
 
 ## `ace/CYCLE.md`
 

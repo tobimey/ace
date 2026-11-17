@@ -10,7 +10,7 @@ The new age of programming isn't … programming. It's probably not even enginee
 
 1. Install Ace into your project with `npx skills add tobimey/ace`. This works the same in every harness. To add a single skill later, use `npx skills add tobimey/ace --skill NAME`.
 2. Commit what it installed: `.agents/skills/`, `.claude/skills/`, and `skills-lock.json`. Then every teammate and every CI run uses the same Ace version, and CI needs no install step.
-3. Run `/ace-setup`. It writes the adapters in `ace/` and turns on `ace-mode` in your `AGENTS.md`.
+3. Run `/ace-setup`. It writes the adapters and settings in `ace/` and turns on `ace-mode` in your `AGENTS.md`.
 4. Read the drafts it wrote, fix what is wrong, and start working. Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills.
 5. To update Ace, run `npx skills add tobimey/ace` again, then `/ace-setup`, and commit both. `ace-setup` keeps what your adapters say and adds the sections that new skills need.
 
@@ -36,14 +36,14 @@ Ace groups its skills into these categories. Every skill has its own folder in `
 
 - Stage 1, plan: `ace-grill` interviews you until a plan is settled and writes it into a ticket, `ace-to-ticket` turns a plan or spec into one ticket or several sub-tickets, and `ace-open-ticket` opens a ticket in the shared Ace shape.
 - Stage 2, implement: `ace-diagnose` finds and proves the root cause of a bug, `ace-implement` builds the plan test-first, `ace-verify` proves it works, and `ace-open-pr` opens the pull request. `ace-work-ticket` runs this stage with no person: it takes the next ready ticket, builds it, and opens a reviewed pull request, usually on a schedule.
-- Stage 3, review: `ace-check-spec` checks the change against its ticket, `ace-validate-standards` fixes coding-standards breaks, and `ace-review` fixes or reports logic, security, performance, and architecture problems and rates the Merge Danger. On a pull request these jobs commit their fixes. On a local diff they leave them uncommitted, and you commit.
+- Stage 3, review: `ace-check-spec` checks the change against its ticket, `ace-validate-standards` fixes coding-standards breaks, and `ace-review` fixes or reports logic, security, performance, and architecture problems and rates the Merge Danger. On a pull request these jobs commit their fixes. On a local diff they leave them uncommitted, and you commit. With the setting `review_fixes` set to `suggest`, they change no file and write each fix as a finding.
 - Stage 4, optimize: skills that improve the agentic system so it works better next time. `ace-retro` looks back on a session, `ace-optimize-factory` fixes one misbehaviour, `ace-agents-file` edits the agents file, and `ace-skill-optimizer` and `ace-create-skill` edit and create skills.
 
 That is called the `ace cycle`. It's the core software cycle that drives the software development process. On top of these, Ace provides a few more skills:
 
 - router: `ace-mode` picks the playbook for each message and runs its skills in order. It and `ace-unslop` are the only skills the agent sees on its own. Every other skill is hidden from the agent: `ace-mode` and other skills load it by path, and you run it as a slash command.
 - setup: `ace-setup` writes the adapters.
-- audit: `ace-audit` audits the whole codebase for the domains you pick: security, logic, performance, architecture, and health. `/ace-audit security` runs one domain, `/ace-audit` asks which and recommends all five. Each domain runs as its own pass and files at most three tickets, which feed into stage 2. It usually runs on a schedule.
+- audit: `ace-audit` audits the whole codebase for the domains you pick: security, logic, performance, architecture, and health. `/ace-audit security` runs one domain, `/ace-audit` asks which and recommends all five. Each domain runs as its own pass and files at most three tickets by default, which feed into stage 2. It usually runs on a schedule.
 - understand: `ace-explain` explains how code works, why it is built that way, or both for a change, and `ace-learn` teaches a topic over several sessions. `ace-explain-change` writes an explainer for a pull request, with a code walkthrough and a quiz, and posts it there. Run it by name, or add it to the CI step that runs your reviews.
 - shared: skills that other skills load, never run on their own. `ace-checks` holds the logic, security, performance, and architecture rules that both `ace-review` and `ace-audit` use. `ace-codebase-design` holds the deep-module vocabulary those rules and any design work use.
 - tone: `/ace-bro` restates the last reply without jargon, and `ace-unslop` keeps the agent's writing clean and easy to follow.
@@ -66,7 +66,7 @@ The skills are built in a way that they listen to your needs. These adapters liv
 
 - `CODING_STANDARDS.md` is used in stages 2 and 3 to check that the code is written in a way that is consistent with your coding standards.
 - `VERIFY.md` says how to prove a change works: the checks CI runs, how to start the app, and how to try each kind of change. `ace-verify` follows it in stage 2, and the review jobs run its checks in stage 3.
-- `TICKET_TRACKER.md` says how to read, search, open, and update tickets, e.g. in GitHub Issues, Linear, Jira, etc. It also says how the tracker shows the three ticket states. Every ticket an agent opens starts in `needs-dev`. A person reads it and sets it `ready`. `ace-work-ticket` claims a ready ticket and sets it `working`, or sends it back to `needs-dev` with a question when it gets stuck. In GitHub these are the labels `ace:needs-dev`, `ace:ready`, and `ace:working`. `ace-setup` ships a template for GitHub Issues. For another tracker it writes the same sections with that tracker's MCP server, CLI, or API.
+- `TICKET_TRACKER.md` says how to read, search, open, and update tickets, e.g. in GitHub Issues, Linear, Jira, etc. It also says how the tracker shows the three ticket states. Every ticket an agent opens starts in `needs-dev`. A person reads it and sets it `ready`, unless the setting `who_sets_ready` lets the agent do it. `ace-work-ticket` claims a ready ticket and sets it `working`, or sends it back to `needs-dev` with a question when it gets stuck. In GitHub these are the labels `ace:needs-dev`, `ace:ready`, and `ace:working`. `ace-setup` ships a template for GitHub Issues. For another tracker it writes the same sections with that tracker's MCP server, CLI, or API.
 - `CODE_HOSTING.md` says how to open a pull request, comment on it, and find the tickets it closes, e.g. on GitHub, GitLab, Bitbucket, etc.
 - `CYCLE.md` is optional. By default a person starts every run and `ace-mode` names the next step, so there is no file. You add it when something else starts runs. `ace-setup` ships a GitHub recipe, where the label `ace:review` starts a review in GitHub Actions, a schedule runs `ace-work-ticket`, and another schedule runs `ace-audit`. For another runner, such as a cloud agent with a schedule, you write the triggers here and the skills stay the same.
 
@@ -77,6 +77,27 @@ In a monorepo, `ace-setup` detects the workspace and gives each package with its
 The glossary is the shared language between the human and the agent, so that nothing drifts. It is not an adapter file. It lives in a Glossary section of your root `AGENTS.md`, one line per term, because every session needs it and harnesses load that file into every session. Agents skip a lookup in a separate file more often than you'd think. `ace-grill` adds terms as a plan settles them. Once the section passes about 40 terms, or one word means different things in different parts of the project, the detail moves to `ace/GLOSSARY.md`, and `AGENTS.md` keeps the one-line entries.
 
 Your root `AGENTS.md` (or `CLAUDE.md`) stays where it is, because harnesses load it from there into every agent session. `ace-setup` adds a short section to it that turns on `ace-mode`, points at the adapters, and tells the agent to change files only when asked to, plus the Glossary section. `ace-mode` is the router: for each message it picks a playbook, such as Build, Fix, or Review, and runs the Ace skills that playbook needs, in order. You state the goal, and `ace-mode` picks the skills. If the file doesn't exist yet, `ace-setup` writes a small draft for you to iterate on. If you have an `AGENTS.md` but no `CLAUDE.md`, it also creates a `CLAUDE.md` containing only `@AGENTS.md`, so Claude Code loads the same instructions.
+
+## Settings
+
+Adapters say how your project does a job. Settings say how your factory behaves: how much agents do on their own, and which optional features are on. They live in `ace/config.json`, which `ace-setup` writes with every setting at its default:
+
+```json
+{
+  "$schema": "../.agents/skills/ace-setup/config.schema.json",
+  "who_sets_ready": "person",
+  "review_fixes": "apply",
+  "write_adrs": false,
+  "max_tickets_per_audit_domain": 3
+}
+```
+
+- `who_sets_ready`: who moves a new ticket from `needs-dev` to `ready`. `person` keeps a person between every ticket and the agent that builds it. `planning-agents` lets `ace-grill` and `ace-to-ticket` set the tickets of a plan you approved ready. `any-agent` lets `ace-audit` do it too.
+- `review_fixes`: `apply` lets the review jobs fix what needs no decision. `suggest` makes them write every fix as a finding and change no file.
+- `write_adrs`: when `true`, `ace-grill` records each hard-to-reverse decision as an ADR in `ace/adrs/`, and `ace-explain` reads them when you ask why.
+- `max_tickets_per_audit_domain`: the most tickets one audit pass files for one domain.
+
+The `$schema` line points at the schema in the installed Ace, so your editor checks the values and explains each setting. A missing file or setting uses the default. Running `ace-setup` again adds settings that a new Ace version brings.
 
 ## Credits
 

@@ -19,7 +19,7 @@ Write one ticket body and open the ticket. Done means the ticket exists, its bod
 
 ## Inputs
 
-The caller supplies the title, type, Priority, Size, Risk, the role for Who this is from, and the facts for Goal, Task, and Done when. It may also supply Rules, Parent, and Blocked by. When a required input is missing, take it from the conversation. Ask only for what the conversation does not settle.
+The caller supplies the title, type, Priority, Size, Risk, the role for Who this is from, and the facts for Goal, Task, and Done when. It may also supply Rules, Parent, and Blocked by, and say to set the ticket ready. When a required input is missing, take it from the conversation. Ask only for what the conversation does not settle.
 
 A caller may add a rule for what goes inside a section. Follow that rule. The headings stay the ones below.
 
@@ -49,6 +49,7 @@ Risk is what breaks if the change is wrong, whatever its size:
 - [ ] 1. Read the ticket tracker
 - [ ] 2. Write the body
 - [ ] 3. Open the ticket
+- [ ] 4. Set it ready, when the caller says so
 ```
 
 ## 1. Read the ticket tracker
@@ -91,4 +92,10 @@ Fold any other top-level heading into Task or Rules.
 
 ## 3. Open the ticket
 
-Open it as the "Open a ticket" section says, with the caller's title, type, Priority, Size, and Risk. Hand back the ticket URL.
+Open it as the "Open a ticket" section says, with the caller's title, type, Priority, Size, and Risk. It starts in the needs-dev state.
+
+## 4. Set it ready, when the caller says so
+
+When the caller said to set the ticket ready, move it from needs-dev to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says. Otherwise leave it in needs-dev.
+
+Hand back the ticket URL and its state.

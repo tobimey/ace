@@ -1,12 +1,14 @@
 ---
 name: ace-audit
-description: Audits the whole repository for one or more domains (security, logic, performance, architecture, health) and files at most three tickets per domain, or none.
+description: Audits the whole repository for one or more domains (security, logic, performance, architecture, health) and files a capped number of tickets per domain, or none.
 disable-model-invocation: true
 ---
 
 # Audit
 
-Audit the repository for the domains the caller names, one pass per domain, and file a ticket for each finding you keep. Done means each pass ran and filed at most three tickets. Zero is a complete pass. Three is a cap, not a quota.
+Audit the repository for the domains the caller names, one pass per domain, and file a ticket for each finding you keep. Done means each pass ran and filed at most the cap of tickets. Zero is a complete pass. The cap is not a quota.
+
+The cap is `max_tickets_per_audit_domain` in `ace/config.json`. A missing file or key means 3.
 
 ## Requires
 
@@ -48,15 +50,15 @@ Each pass follows its domain file and these steps:
 - [ ] 1. Scan
 - [ ] 2. Drop
 - [ ] 3. Check existing tickets
-- [ ] 4. Keep at most three
+- [ ] 4. Keep at most the cap
 - [ ] 5. File those
 ```
 
 1. **Scan.** Do the domain file's Before scanning section first. Then read the code. Find what its Find section lists.
 2. **Drop.** Apply its Drop section.
 3. **Check existing tickets.** For each finding, search tickets by its primary file path, as `ace/TICKET_TRACKER.md` says. Read the matches. Skip a finding when a ticket already exists with the same root cause, primary files, or shape. This includes tickets an earlier pass of this run filed.
-4. **Keep at most three.** Drop every finding that misses its Bar section. If none remain, file nothing. If one or two remain, file those and stop looking. If more than three remain, keep the three that rank highest. Break ties as the Bar section says.
-5. **File those.** Skip this step when step 4 kept none. Open one ticket per finding with [ace-open-ticket](../ace-open-ticket/SKILL.md), using its Ticket section and the defaults below. A writeup in the session does not count. Choose Size from the concrete fix and Risk from what it touches, as `ace-open-ticket` defines them.
+4. **Keep at most the cap.** Drop every finding that misses its Bar section. If none remain, file nothing. If the cap or fewer remain, file those and stop looking. If more remain, keep the ones that rank highest, up to the cap. Break ties as the Bar section says.
+5. **File those.** Skip this step when step 4 kept none. Open one ticket per finding with [ace-open-ticket](../ace-open-ticket/SKILL.md), using its Ticket section and the defaults below. A writeup in the session does not count. Choose Size from the concrete fix and Risk from what it touches, as `ace-open-ticket` defines them. When `who_sets_ready` in `ace/config.json` is `any-agent`, tell `ace-open-ticket` to set each ticket ready. Otherwise, or when the file or key is missing, it stays in needs-dev for a person.
 
 ## Ticket defaults
 

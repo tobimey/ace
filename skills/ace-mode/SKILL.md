@@ -98,13 +98,13 @@ A ticket, spec, or plan to implement, or a feature the conversation has settled.
 
 A diff, a branch, or a pull request to review.
 
-Run the three jobs one after another on the same input. Two of them edit files, so a parallel run conflicts. On a pull request they commit their edits. On a local diff they leave them uncommitted for the user.
+Run the three jobs one after another on the same input. Two of them can edit files, so a parallel run conflicts. On a pull request they commit their edits. On a local diff they leave them uncommitted for the user.
 
 1. `ace-check-spec`.
 2. `ace-validate-standards`.
 3. `ace-review`.
 4. Reply with the spec result, the standards edits, the review fixes and findings, and Merge Danger last.
-5. When the user asked to comment on the pull request, first push the commits from steps 2 and 3 to its branch with a plain push. Then post the reply as one comment that starts with `<!-- ace-review -->`, replacing an earlier comment with that marker, as `ace/CODE_HOSTING.md` says.
+5. When the user asked to comment on the pull request, first push the commits from steps 2 and 3, if any, to its branch with a plain push. Then post the reply as one comment that starts with `<!-- ace-review -->`, replacing an earlier comment with that marker, as `ace/CODE_HOSTING.md` says.
 
 ### Audit
 
@@ -153,6 +153,6 @@ Perf, Fix, Refactor, and Build end with these steps. Copy them into the todo lis
 
 When Plan, Perf, Fix, Refactor, Build, Review, or Audit ends, and `ace/CYCLE.md` has a section for that playbook, do what it says. Perf, Fix, and Refactor use the Build section. The section can set a label, move a ticket, or tell the user what a run does next.
 
-Otherwise end the reply with the next step from the Continue table, as one line the user can send, such as `Next: review pull request #12`. After Plan or Audit, also say that the new tickets are in the needs-dev state, and that a person sets one ready or starts it with `Implement TICKET`.
+Otherwise end the reply with the next step from the Continue table, as one line the user can send, such as `Next: review pull request #12`. After Plan or Audit, also say which state the new tickets are in. For a ticket in needs-dev, say that a person sets it ready or starts it with `Implement TICKET`.
 
 Understand, Prototype, Improve the factory, Continue, and Single job hand off nothing. A playbook run as a step of another hands off nothing. The outer playbook hands off.

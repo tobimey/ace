@@ -17,7 +17,8 @@ Find out why the code is the way it is, from the record, not from the code. The 
 3. Read the discussion behind each commit that matters:
    - Pull requests: follow `ace/CODE_HOSTING.md`, including its "Linked tickets" section.
    - Tickets: follow the "Read a ticket" and "Search tickets" sections of `ace/TICKET_TRACKER.md`.
-   - Docs the repo keeps, such as specs and the glossary.
+   - ADRs in `ace/adrs/`. An ADR that covers the code is the strongest stated reason.
+   - Other docs the repo keeps, such as specs and the glossary.
 4. If the trail is thin, look wider: code comments, tests named after a bug, the changelog.
 5. If the user asks whether the reason still holds, check the reason against the code and its callers now.
 
