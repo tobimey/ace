@@ -1,22 +1,29 @@
 ---
 name: ace-grill
-description: Interviews until the plan is settled, updates the glossary as terms resolve, records architecture decisions when the project wants them, and writes the settled plan into a ticket.
+description: Settles what to build before any code changes. It judges a proposed change, helps pick a direction when none is set, interviews until the plan is settled, and writes the plan into a ticket.
 disable-model-invocation: true
 ---
 
 # Ace grill
 
-Interview the user until you reach a shared understanding. Record resolved terms while you go. Done means the frontier is empty, the settled plan is summarized, and it is in a ticket, unless the user chose no ticket or the project has no ticket tracker.
+Settle what to build: **which** direction, **whether** a proposed change is worth it, and **how** to build it. Done means the How frontier is empty, the settled plan is summarized, and it is in a ticket, unless the user chose no ticket or the project has no ticket tracker. A run also ends when the user picks no direction or stops after a verdict.
 
 ## Requires
 
-- `ace-unslop`
 - `ace-to-ticket`
 
 ## Constraints
 
+- Start at the first open level. No direction picked ("how can I make X better"): follow [DIRECTION.md](DIRECTION.md). A proposed change: Whether. A settled premise, such as a ready ticket or a caller that names the open decisions: How.
+- Wait for the user at the end of each level.
 - Write to the glossary: its section in the root agents file, and `ace/GLOSSARY.md` when it exists. Write ADRs to `ace/adrs/`. Write to tickets only through `ace-to-ticket`, which also sets their state.
 - Implementing belongs to the caller.
+
+## Whether
+
+Judge the proposed change. Find the facts yourself: is the problem real and how big (measure it when you can), does the change solve it and at what cost, and what is the cheapest alternative. The verdict is do it, do it differently (name how), or leave it. Give "do it" whenever the facts support it.
+
+When the message asks for an opinion ("what do you think"), or the verdict is not "do it", write the facts in a few lines and the verdict, then ask: plan it as proposed, plan the alternative, or stop? Wait for the answer. Otherwise say "do it" in one line and go on with How.
 
 ## Ticket
 
@@ -26,13 +33,13 @@ When the conversation names a ticket, read it with its comments as `ace/TICKET_T
 
 Otherwise ask in the first round whether a ticket exists for this plan. If the user gives one, read it with its comments before the next round. Use what the ticket answers, and ask only what it leaves open.
 
-## Interview
+## How
 
 Map the plan as a design tree. Every decision branches into the decisions that hang off it.
 
 Work the tree in rounds. The frontier is every decision whose prerequisites are already settled: the questions you can ask now without guessing at answers you have not heard yet. Ask the whole frontier in one round. Number each question and give your recommended answer. Then wait for the user's answers before the next round.
 
-Write the questions in the question format of `ace-unslop`.
+Write the questions in the question format of `ace-mode`.
 
 Each round the user answers reshapes the tree. Settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a later round.
 
@@ -40,7 +47,7 @@ Finding facts is your job. When a frontier question needs a fact from the enviro
 
 When no ticket is known, the last round also asks: open a new ticket, or no ticket? Recommend a new ticket when the work is size `L` or `XL`, needs more than one context window, or should wait. Otherwise recommend no ticket.
 
-The interview is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed.
+How is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed.
 
 ## Close
 

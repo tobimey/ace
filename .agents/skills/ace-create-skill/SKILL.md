@@ -11,7 +11,6 @@ Write a new skill that does one job, loads when it should, and spends as little 
 ## Requires
 
 - `ace-skill-optimizer`
-- `ace-unslop`
 
 ## Constraints
 
@@ -41,7 +40,7 @@ Before writing anything, state:
 - **Input**: what the caller passes, such as a pull request, a diff, a ticket, or a question
 - **Done**: what is true after a run
 
-If any of these is unclear, stop and ask. Ask with the harness's question tool when it has one. Otherwise ask in chat, in the question format of `ace-unslop`. Wait for the answers.
+If any of these is unclear, stop and ask. Ask with the harness's question tool when it has one. Otherwise ask in chat, in the question format of `ace-mode`. Wait for the answers.
 
 ### 2. Check for overlap
 
@@ -52,7 +51,7 @@ When the new skill needs a step another skill already does, call that skill. Wri
 ### 3. Design
 
 - **Name**: follow the prefix rules. The folder name matches `name`.
-- **Invocation**: set `disable-model-invocation: true`, and add `agents/openai.yaml` with `policy:` / `allow_implicit_invocation: false`. `ace-mode` and other skills load it by path. Omit `disable-model-invocation` only for a skill that applies to every task, such as `ace-mode` or `ace-unslop`.
+- **Invocation**: set `disable-model-invocation: true`, and add `agents/openai.yaml` with `policy:` / `allow_implicit_invocation: false`. `ace-mode` and other skills load it by path. Omit `disable-model-invocation` only for a skill that applies to every task, such as `ace-mode`.
 - **Freedom**: match it to how fragile the step is. Judgement work gets the goal and the rules. A fragile sequence gets exact commands. A deterministic step, such as validate, parse, count, or call an API, gets a script in `scripts/` that prints its result.
 - **Project facts**: point to the `ace/` file and the section that holds them, and find the section by its job. When an Ace skill needs a section no adapter has, add it to the adapter contract in `ace-adapters`, with its default, and to the matching template in `ace-setup`.
 - **Other skills**: list each skill the new one follows, loads, or runs in its Requires section, as Authoring says.

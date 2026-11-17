@@ -15,7 +15,6 @@ What done looks like: a concrete edit in a skill, `ace/config.json`, `AGENTS.md`
 ## Requires
 
 - `ace-skill-optimizer`
-- `ace-unslop`
 
 ## Constraints
 
@@ -39,4 +38,4 @@ What done looks like: a concrete edit in a skill, `ace/config.json`, `AGENTS.md`
 
 Number each question. Give your recommended answer. Then wait. If a later question depends on this round, ask it next round.
 
-Write the questions in the question format of `ace-unslop`.
+Write the questions in the question format of `ace-mode`.

@@ -71,7 +71,7 @@ Offer **one default** tool or path, plus one alternative for the exception. A me
 - No `user-invocable`. Only Claude Code reads it. `disable-model-invocation` covers Claude Code and Cursor, and `agents/openai.yaml` covers Codex
 - With `disable-model-invocation: true`, add `agents/openai.yaml` next to `SKILL.md` containing `policy:` / `allow_implicit_invocation: false`, so Codex keeps it manual too. Remove that file when the field is removed
 - Link a skill that has `disable-model-invocation: true` by relative path, e.g. `[ace-explain](../ace-explain/SKILL.md)`. The agent cannot load it by name
-- Omit that field only for a skill that applies to every task, such as `ace-mode` or `ace-unslop`
+- Omit that field only for a skill that applies to every task, such as `ace-mode`
 - `name` must match the parent folder
 
 ## Fix on sight

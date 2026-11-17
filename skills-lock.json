@@ -12,57 +12,57 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-create-skill/SKILL.md",
-      "computedHash": "3030ef50bb522e450c64fa2c1d2d574f4060e72e25594896b1434c074af8e016",
-      "commit": "75447eba05750181f8180a20acbc446c70e7c2b1"
+      "computedHash": "d7c26beb774f5dbf911712c9032bd39308254df780d4ba2fcb389b8f7bada5c3",
+      "commit": "ba137a768027ae3d66db4f3ec99e1ca6157d6aeb"
     },
     "ace-grill": {
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-grill/SKILL.md",
-      "computedHash": "ab7419fbcd40d2dc755ecfe97c47814a7398a7ecb35be35b81367fa3be8284e2",
-      "commit": "4a4dade45c6e98409e663a55f4a8c5f2af17e6a8"
+      "computedHash": "ae77a8db4e36e5135305f8a9929ed5aa74502b731dbb68e163874e7d21bd47ff",
+      "commit": "ba137a768027ae3d66db4f3ec99e1ca6157d6aeb"
     },
     "ace-implement": {
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-implement/SKILL.md",
-      "computedHash": "a0b098929714bc9e4f66f925a6a2b2a754e4680fc6f2974d9fee33e66fa8e9db",
-      "commit": "4a4dade45c6e98409e663a55f4a8c5f2af17e6a8"
+      "computedHash": "ce3d1edce7bb9cb9231084c88429ddb07c1371ed4dde77de1e8d3a5fa91a37fc",
+      "commit": "ba137a768027ae3d66db4f3ec99e1ca6157d6aeb"
     },
     "ace-mode": {
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-mode/SKILL.md",
-      "computedHash": "0b03497a23182ba525056602db048845811ed09aa5bacb6cc2f8965add048bdc",
-      "commit": "4a4dade45c6e98409e663a55f4a8c5f2af17e6a8"
+      "computedHash": "28a1518efa5940a85c106d2d7715f26f863263c524eff095ca00387a3e3ee0f4",
+      "commit": "ba137a768027ae3d66db4f3ec99e1ca6157d6aeb"
     },
     "ace-optimize-factory": {
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-optimize-factory/SKILL.md",
-      "computedHash": "e5de6ee17262059cf4eaba7256bf0c8c3c3b1cdd791efc8b3d57e98e569e2b94",
-      "commit": "4a4dade45c6e98409e663a55f4a8c5f2af17e6a8"
+      "computedHash": "e96913d76e7fce0b8b8997d6109039768fdb00776af65e0a793b616637b98df1",
+      "commit": "ba137a768027ae3d66db4f3ec99e1ca6157d6aeb"
     },
     "ace-review": {
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-review/SKILL.md",
-      "computedHash": "6d28a15e3d96d09bc628c13271db870c3edf0d5fd4ffac5ae6a964011fe86007",
-      "commit": "4a4dade45c6e98409e663a55f4a8c5f2af17e6a8"
+      "computedHash": "3ecd7e092e370e30fe71a5493c2726f4d83f006c000608b38b34e92c72c0f543",
+      "commit": "ba137a768027ae3d66db4f3ec99e1ca6157d6aeb"
     },
     "ace-setup": {
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-setup/SKILL.md",
-      "computedHash": "1733dcd29f6c4537ee760a5d179054cabff44b2fe118ff6e55b078971e53727a",
-      "commit": "4a4dade45c6e98409e663a55f4a8c5f2af17e6a8"
+      "computedHash": "d68dc3c07370aaff0a99e537956543a50b56bb5003e19b94cba475ce315a42e4",
+      "commit": "ba137a768027ae3d66db4f3ec99e1ca6157d6aeb"
     },
     "ace-skill-optimizer": {
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-skill-optimizer/SKILL.md",
-      "computedHash": "33f18c8d71e05dcde6f16f3c72da593cf316875e167228c7877a7c008f774c07",
-      "commit": "4a4dade45c6e98409e663a55f4a8c5f2af17e6a8"
+      "computedHash": "98d78aed18274e0037358873dc2f656ac38f7582ad131caa6b20ad0bae3dc3c3",
+      "commit": "ba137a768027ae3d66db4f3ec99e1ca6157d6aeb"
     },
     "ace-to-ticket": {
       "source": "tobimey/ace",
@@ -70,13 +70,6 @@
       "skillPath": "skills/ace-to-ticket/SKILL.md",
       "computedHash": "08e2a8458c42e57fe8cfbf5f2111cdee1c93be8c01accd2f3fa8b9abe72b67a5",
       "commit": "4a4dade45c6e98409e663a55f4a8c5f2af17e6a8"
-    },
-    "ace-unslop": {
-      "source": "tobimey/ace",
-      "sourceType": "github",
-      "skillPath": "skills/ace-unslop/SKILL.md",
-      "computedHash": "fb29fc542576a12c3794b18cd4b55414bfc79b298da49da80a201a0d0dcb6d48",
-      "commit": "5f28dce67d14a40793daf8fca642ff0e8e375aa2"
     }
   }
 }

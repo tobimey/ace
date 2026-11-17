@@ -1,5 +1,5 @@
 # Runs ace-audit, one job per domain. Each domain opens at most three tickets, labelled ace:needs-dev.
-# Starts on a schedule for every domain in the list, or by hand for one domain.
+# Starts on a schedule for every domain in the list plus each custom check in ace/checks/, or by hand for one domain.
 # Written by ace-setup. Ace knows this workflow when who_starts_runs in ace/config.json is github-actions.
 name: ace-audit
 
@@ -9,22 +9,48 @@ on:
   workflow_dispatch:
     inputs:
       domain:
-        description: The domain to audit
-        type: choice
-        options: [security, logic, performance, architecture, health]
+        description: "The domain to audit: security, logic, performance, architecture, health, or the name of a custom check in ace/checks/"
+        type: string
+        required: true
 
 permissions:
   contents: read
   issues: write
 
 jobs:
+  domains:
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.list.outputs.list }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Reads ace/checks/ at run time, so a custom check added after setup is audited too.
+      - name: List the domains
+        id: list
+        env:
+          EVENT: ${{ github.event_name }}
+          DOMAIN: ${{ inputs.domain }}
+        run: |
+          if [ "$EVENT" = workflow_dispatch ]; then
+            case "$DOMAIN" in
+              ""|*[!a-z0-9_-]*) echo "::error::A domain is lower case letters, digits, '-', or '_'."; exit 1 ;;
+            esac
+            list=$(jq -cn --arg d "$DOMAIN" '[$d]')
+          else
+            custom=$(find ace/checks -maxdepth 1 -name '*.md' 2>/dev/null | xargs -r -n1 basename | sed 's/\.md$//' | tr '[:upper:]' '[:lower:]' | sort | jq -R . | jq -cs .)
+            list=$(jq -cn --argjson built_in '<DOMAINS>' --argjson custom "${custom:-[]}" '$built_in + $custom')
+          fi
+          echo "list=$list" >> "$GITHUB_OUTPUT"
+
   audit:
+    needs: domains
     strategy:
       fail-fast: false
       # One domain at a time, so each one sees the tickets the one before it opened.
       max-parallel: 1
       matrix:
-        domain: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.domain) || '<DOMAINS>') }}
+        domain: ${{ fromJSON(needs.domains.outputs.list) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

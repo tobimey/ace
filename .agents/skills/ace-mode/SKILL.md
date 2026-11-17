@@ -1,34 +1,45 @@
 ---
 name: ace-mode
-description: Routes each message to the matching playbook and runs its Ace skills in order. Use at the start of every task, and again whenever the task changes, in any project where Ace is installed, with or without an `ace` folder.
+description: Routes each message to the matching playbook and runs its Ace skills in order. Use at the start of every session in any project where Ace is installed, with or without an `ace` folder. Load it once per session; when the task changes, route again from the text already loaded.
 ---
 
 # Ace mode
 
-Ace mode is always on. For each message, pick the playbook below that matches it, run the playbook's skills in order, then hand off to the next stage of the cycle. Done means the playbook's last step ran and the hand-off is done, or the reply names the step that stopped and why.
+Ace mode is always on. For each message, pick the playbook below that matches it, run its skills in order, then hand off to the next stage of the cycle. Done means the playbook's last step ran and the hand-off is done, or the reply names the step that stopped and why.
 
 ## Requires
 
 - `ace-adapters`
-- Every skill a playbook below names.
-
-Ace installs as one set, so every skill is in a folder next to this one.
+- Every skill a playbook names. Ace installs as one set, so each is in a folder next to this one.
 
 ## Constraints
 
-- The agents file decides when to change files. A playbook step that changes files waits until the message asks for a change. Until then, run the read-only steps and propose the rest.
-- This file picks the skills and their order. Follow each skill as written. Its steps, rules, and report live in the skill.
-- Load each skill by reading `../<name>/SKILL.md` from this file's folder. Ace hides its skills from the model, so a skill loads only by path.
+- A step that changes files waits until the message asks for a change, as the agents file says. Until then, run the read-only steps and propose the rest.
+- Load a skill by reading `../<name>/SKILL.md` from this file's folder, since Ace hides its skills from the model. Follow each skill as written. This file only picks the skills and their order.
+- Read a playbook file the first time you route to it, then keep using it from context.
 - A step that does not apply stays in the list as `skip: <reason>`.
 - A small edit the user fully specified, such as a typo or a line they dictated, needs no playbook. Make it and say what changed.
-- Playbooks are internal. Never name a playbook in a reply, and never print `Playbook: X` or a list of its steps. Say what you are doing in plain words, such as "I'll fix the bug, then review the diff."
-- Read every project fact as `ace-adapters` says. A missing `ace` folder or section is no error: its default applies. When the project has no `ace` folder, end the first reply of the session with one line that offers `ace-setup`, and go on with the task.
+- Playbooks are internal. Never name one in a reply or print its steps. Say what you do in plain words, such as "I'll fix the bug, then review the diff."
+- Read every project fact as `ace-adapters` says. A missing `ace` folder or section is no error: its default applies. When the project has no `ace` folder, end the first reply of the session with one line that offers `ace-setup`.
 - Leave every merge to a person. Ace stops at a reviewed pull request.
-- This file says what comes next. A person starts the next run, unless the cycle adapter `ace/CYCLE.md` says a label or a schedule does. With `who_starts_runs` set to `github-actions`, that is the built-in GitHub cycle, as `ace-adapters` says.
+
+## Questions
+
+When asking the user to decide, number each question and give a recommended answer. Write each question in this shape, with a bold title line, then a blank line, then the body, and no markdown fence, heading, or list:
+
+**❓ Q1 - <question title>**
+
+<question body>
+A) <choice>
+B) <choice>
+
+➡️ <recommended answer>
+
+The body is a few sentences. Put each choice on its own plain line under the body; a question without choices has only the body. The recommended answer is one sentence. Define a specialist term in the same sentence that uses it.
 
 ## Route
 
-1. Match the message to one playbook. When two match, take the one listed first. When none matches, work without a playbook and use skills as their own descriptions say.
+1. Match the message to one playbook. When two match, take the one listed first. When none matches, work without a playbook and use skills as their own descriptions say. A request for an opinion, a ranking, or a comparison that proposes no change, such as "what are the worst parts of X", matches none: answer it directly and change nothing.
 2. Copy its steps into the todo list. When the harness has no todo list, track them yourself and keep them out of the reply.
 3. Run the steps. When a later message changes the task, route again.
 4. Hand off as the "Hand off" section below says.
@@ -44,31 +55,15 @@ A question about the code, with no change asked: "how does X work", "why is Y bu
 
 ### Prototype
 
-A question a quick sketch answers by running it: "prototype X", "try both layouts", "which is faster, A or B".
-
-1. Write the question and the result that settles it, in two lines.
-2. Build the smallest sketch that shows that result, on a throwaway branch or in a scratch folder. It needs no tests, review, or coding standards.
-3. Run it and look at the result. Try each option the same way.
-4. Answer with what you saw and the choice it points to. Delete the sketch, unless the user wants to keep it.
+A question a quick sketch answers by running it: "prototype X", "try both layouts", "which is faster, A or B". Steps: [PLAN.md](PLAN.md), section Prototype.
 
 ### Plan
 
-An idea or a feature whose shape is not settled.
-
-1. `ace-grill` until the design tree has no open branch. When a decision turns on something only running code shows, such as speed or how a layout feels, run the Prototype playbook for it and bring its result to that question.
-   `ace-grill` writes the settled plan into a ticket, unless the user chose no ticket.
-2. Ask one question in the question format of `ace-unslop`: implement it here now, or stop? Recommend stopping when grill opened sub-tickets, or when the work should wait. Otherwise recommend implementing here. Wait for the answer.
-3. Here: run the Build playbook with the settled plan, or with its ticket, and hand off as Build. Stop: stop.
+An idea or a feature whose design is not settled, an opinion on a change the user proposes ("should we split X? what do you think?"), or no direction yet ("how can I make X better", "what should we build next"). "What's next" about work in progress is Continue. Steps: [PLAN.md](PLAN.md), section Plan.
 
 ### Perf
 
-Something works but is too slow: a page, a query, a build, a job.
-
-1. Measure it the way the user hits it, three runs or more. Write down the command, each number, and the spread. When it is not slow, report the numbers and stop.
-2. Find what the time goes to, with a profiler or a timer around each step, and trace it to its source.
-3. `ace-implement`, with the fix for that source as the plan. Behavior stays the same.
-4. Measure again the same way. When the gain is inside the spread, revert the fix and stop. Report the numbers before and after, with the command.
-5. Finish the change.
+Something works but is too slow: a page, a query, a build, a job. Steps: [PERF.md](PERF.md).
 
 ### Fix
 
@@ -95,11 +90,17 @@ A ticket, spec, or plan to implement, or a feature the conversation has settled.
 3. `ace-implement`.
 4. Finish the change.
 
+### Babysit
+
+An open pull request with work left before merge: "babysit PR #12", "fix the CI", "address the review comments", "check my open PRs", "watch it until it is green".
+
+1. `ace-babysit-pr` with the pull requests the message names, in `watch` mode when it asks to watch.
+
 ### Review
 
 A diff, a branch, or a pull request to review.
 
-1. `ace-review` on that input. When the message asks for only some checks, such as "check it against the ticket", pass them: `spec`, `standards`, or `code`.
+1. `ace-review` on that input. When the message asks for only some checks, such as "check it against the ticket", pass them: `spec`, `standards`, `code`, or the name of a custom check in `ace/checks/`.
 2. Reply with its report.
 3. When the user asked to comment on the pull request, first push the commits `ace-review` made, if any, to its branch with a plain push. Then post the report as one comment that starts with `<!-- ace-review -->`, replacing an earlier comment with that marker, as `ace/CODE_HOSTING.md` says.
 
@@ -107,7 +108,7 @@ A diff, a branch, or a pull request to review.
 
 "Audit", or a search for bugs, security holes, performance costs, standards breaks, or shallow modules across the repo.
 
-1. `ace-audit` with the domains the message names: `security`, `logic`, `performance`, `architecture`, or `health`. A full audit names all five. With no domain named, `ace-audit` asks.
+1. `ace-audit` with the domains the message names: `security`, `logic`, `performance`, `architecture`, `health`, or the name of a custom check in `ace/checks/`. A full audit names all of them. With no domain named, `ace-audit` asks.
 
 ### Improve the factory
 
@@ -117,27 +118,11 @@ Agents went wrong, or the user wants to change how agents are steered.
 
 ### Single job
 
-A message that names one job runs that skill alone: work the next ready ticket with `ace-work-ticket`, open a ticket with `ace-to-ticket/OPEN_TICKET.md`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, post an explainer on a pull request with `ace-explain-change`.
+A message that names one job runs that skill alone: work the next ready ticket with `ace-work-ticket`, open a ticket with `ace-to-ticket/OPEN_TICKET.md`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, post an explainer on a pull request with `ace-explain/EXPLAINER.md`.
 
 ### Continue
 
-"What's next", "continue", "where are we", or a ticket or pull request named with no ask.
-
-1. Find the work: the ticket or pull request the message names. Otherwise the pull request for the current branch, found as `ace/CODE_HOSTING.md` says. Otherwise the local diff.
-2. Place it in the first row that matches:
-
-   | State | Next |
-   |---|---|
-   | An idea with open decisions, and no spec ticket | Plan |
-   | A spec ticket too big for one change, with no sub-tickets | `ace-to-ticket` with that ticket |
-   | A ticket in the needs-dev state | A person reads it and its comments, then sets it ready or closes it |
-   | A ticket with no branch and no pull request | Build |
-   | Local changes, or a branch with no pull request | Review on the local diff, then `ace-open-pr` |
-   | An open pull request with no `<!-- ace-review -->` comment, or commits newer than that comment | Review |
-   | An open pull request with a current review | A person merges. Name its Merge Danger. |
-   | A merged pull request | Done. Offer a retro with `ace-optimize-factory` when the work went badly. |
-
-3. Say the state and the next step in two lines, in plain words. Run the matching playbook once the user agrees.
+"What's next", "continue", "where are we", or a ticket or pull request named with no ask. Steps: [CONTINUE.md](CONTINUE.md), section Continue.
 
 ## Finish a change
 
@@ -148,8 +133,6 @@ Perf, Fix, Refactor, and Build end with these steps. Copy them into the todo lis
 
 ## Hand off
 
-When Plan, Perf, Fix, Refactor, Build, Review, or Audit ends, and the cycle adapter `ace/CYCLE.md` has a section for that playbook, do what it says. Perf, Fix, and Refactor use the Build section. The section can set a label, move a ticket, or tell the user what a run does next.
-
-Otherwise end the reply with the next step from the Continue table, as one line the user can send, such as `Next: review pull request #12`. After Plan or Audit, also say which state the new tickets are in. For a ticket in needs-dev, say that a person sets it ready or starts it with `Implement TICKET`.
+When Plan, Perf, Fix, Refactor, Build, Babysit, Review, or Audit ends, hand off as [CONTINUE.md](CONTINUE.md), section Hand off, says.
 
 Understand, Prototype, Improve the factory, Continue, and Single job hand off nothing. A playbook run as a step of another hands off nothing. The outer playbook hands off.

@@ -38,10 +38,10 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
 1. Read the plan and the code it touches. List each behavior the plan names. When the plan keeps behavior the same, such as a refactor or a speedup, those are the behaviors the touched code has now.
 2. Pick the smallest shape that does the job.
 3. Build it in slices. For each behavior:
-   1. Write a test for it and run it. A new or changed behavior fails. A kept behavior passes, and when it already has a test, use that test as it is.
+   1. Write a test for it and run it. A new or changed behavior fails: note the line of the red run that says why, such as the assertion message. A kept behavior passes, and when it already has a test, use that test as it is.
    2. Write the least code that makes it pass.
    3. Clean up while the tests stay green.
 
    Skip the test when the behavior has no logic to test, such as layout, config, or wiring, or when the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the touched path, has no test command. Name each skipped test in the report.
 4. Follow [ace-verify](../ace-verify/SKILL.md). Fix and repeat until it passes.
-5. Report what changed, which tests you added or skipped, what was left out on purpose, and the `ace-verify` report.
+5. Report what changed, which tests you added or skipped, what was left out on purpose, and the `ace-verify` report. For each new or changed behavior, give the test name and the line its red run printed before the code existed.

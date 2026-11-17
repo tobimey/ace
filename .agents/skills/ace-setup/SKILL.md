@@ -48,15 +48,8 @@ When the `ace` folder already holds adapters, this run brings them up to date af
 1. List the sections [ADAPTERS.md](../ace-adapters/ADAPTERS.md) names for it, and find each in the file by its job.
 2. For each section the file lacks, copy it from the adapter's template, or from the step for that adapter when the template lacks it. Fill its placeholders as that step says. For a ticket tracker or code host other than GitHub, write the section with that tool, as steps 4 and 5 say. Skip this for an adapter whose provider is selected: the provider fills what the file lacks.
 3. When you added a section to a verify file, follow "Prove it" for that file.
-4. When a root `ace/VERIFY.md` or `ace/CODING_STANDARDS.md` has a Packages section that lists package files, from an earlier Ace, delete that section. Skills now find package folders by path.
 
-An earlier Ace copied the GitHub templates into `ace/TICKET_TRACKER.md`, `ace/CODE_HOSTING.md`, and `ace/CYCLE.md`. When such a file is for GitHub Issues, GitHub, or GitHub Actions, show the user this plan and wait for a yes:
-
-1. Set the key that selects the provider in `ace/config.json`: `ticket_tracker` to `github-issues`, or `who_starts_runs` to `github-actions`. Code hosting needs no key.
-2. Compare each section with the same section of the provider in [ace-adapters/github/](../ace-adapters/github/). Keep a section only when it says something the provider does not, such as an assignee, the "Project and fields" section, or pull request rules. Delete the rest.
-3. Delete the file when no section is left.
-
-When `ace/config.json` exists, update it as step 7 says. When `ace/CYCLE.md` exists, its Runs section says `None.`, and each hand-off only tells the user the next step, it is the manual file an earlier Ace wrote. Offer to delete it, since `ace-mode` names the next step without it.
+When `ace/config.json` exists, update it as step 7 says.
 
 Run "Glossary" in step 1 and step 8 in every run. In the last reply, name each file and section you added, or say that nothing was missing.
 
@@ -93,12 +86,11 @@ If the root agents file has no Glossary section, add the one from [templates/ROO
 - `<USER>`: as above.
 - `<TERMS>`: up to five domain terms the README or docs define, one line each as `- **term**: definition. Not: other words for it.` Leave out `Not:` when no other word is in use. If no terms are defined, delete the line.
 
-If a glossary file exists, such as `ace/GLOSSARY.md` from an earlier Ace, a root `GLOSSARY.md`, or `CONTEXT.md`, show the user this plan and wait for a yes:
+If a glossary file exists, such as a root `GLOSSARY.md` or `CONTEXT.md`, show the user this plan and wait for a yes:
 
 1. Move each term's one-line definition into the Glossary section.
 2. If the file has 40 terms or fewer, one meaning per word, and nothing beyond the one-line definitions, delete it.
 3. Otherwise keep the rest as `ace/GLOSSARY.md`, without the one-line definitions, and end the Glossary section with ``More on these terms: `ace/GLOSSARY.md`.``
-4. Remove the line ``Use the terms in `ace/GLOSSARY.md`.`` from the Ace section of the root agents file.
 
 These are drafts. Tell the user to read them and iterate.
 
@@ -108,7 +100,7 @@ Create `ace/VERIFY.md` from [templates/VERIFY.md](templates/VERIFY.md) if it is 
 
 - `<CHECK_COMMANDS>`: read the CI workflow and the build tool's scripts (`package.json`, `Makefile`, and so on). List one command each for lint, typecheck, tests, and build, plus any other check CI runs. Take a check from the local scripts when CI does not run it. When CI and the local scripts run the same check differently, use CI's command. Name each kind the project has no command for.
 - `<RUN_APP>`: find the dev command, port, and environment setup in the scripts and docs. Write `None.` when nothing runs, such as a library.
-- `<CHECK_BEHAVIOR>`: one line per kind of change the project has, such as a UI page, an API endpoint, a background job, or a CLI command, with the tool this environment has for it, such as browser automation or `curl`, where to start, such as a URL, an endpoint, or a command, and what to look at.
+- `<CHECK_BEHAVIOR>`: one line per kind of change the project has, such as a UI page, an API endpoint, a background job, or a CLI command, with the tool this environment has for it, such as browser automation or `curl`, where to start, such as a URL, an endpoint, or a command, and what to look at. When the project has a frontend, one line is for a UI change: browser automation, the URL of a page, and what to look at there.
 
 Show the checks, how to run the app, and the behavior lines together, and ask once for a yes or corrections. In the same question, ask for test logins, seed data, or setup you could not find.
 
@@ -185,7 +177,7 @@ For GitHub Actions:
 
 1. Copy [templates/ace-review.yml](templates/ace-review.yml) to `.github/workflows/ace-review.yml`. Ask which harness and model run in CI. Recommend a model other than the one that implements the changes. Replace `<AGENT_STEP>` with the step that runs that harness without a person, from the harness's own CI docs. It runs only `if: steps.decide.outputs.run == 'true'`, uses the Ace skills committed in the repo and installs none, sets `GH_TOKEN: ${{ github.token }}` so the agent can push and comment, and sends this message: `Review pull request #${{ github.event.pull_request.number }} and comment on it.`
 2. When `ace-work-ticket` runs on a schedule, copy [templates/ace-work-ticket.yml](templates/ace-work-ticket.yml) to `.github/workflows/ace-work-ticket.yml`. Replace `<CRON>` with the schedule, and `<AGENT_STEP>` with the same harness step, with `GH_TOKEN: ${{ secrets.ACE_GH_TOKEN }}` and the message `Run ace-work-ticket.` Ask which model implements.
-3. When audits run on a schedule, copy [templates/ace-audit.yml](templates/ace-audit.yml) to `.github/workflows/ace-audit.yml`. Replace `<CRON>` with the schedule, `<DOMAINS>` with the domains as a JSON list in the order `ace-audit` runs them, such as `["security","logic"]`, and `<AGENT_STEP>` with the same harness step, with `GH_TOKEN: ${{ github.token }}` and the message `Run ace-audit ${{ matrix.domain }}.`
+3. When audits run on a schedule, copy [templates/ace-audit.yml](templates/ace-audit.yml) to `.github/workflows/ace-audit.yml`. Replace `<CRON>` with the schedule, `<DOMAINS>` with the built-in domains as a JSON list in the order `ace-audit` runs them, such as `["security","logic"]`, and `<AGENT_STEP>` with the same harness step, with `GH_TOKEN: ${{ github.token }}` and the message `Run ace-audit ${{ matrix.domain }}.`
 4. Check that `.agents/skills/` and `skills-lock.json` are tracked by git. If not, tell the user to commit them, since the workflows run only on committed skills.
 5. Name each secret the workflows need, and tell the user to add it to the repository: the harness's API key, and `ACE_GH_TOKEN` when `ace-work-ticket` runs. `ACE_GH_TOKEN` is a GitHub App token or a fine-grained personal access token with write access to contents, issues, and pull requests.
 6. Create the label: `gh label create ace:review --repo REPO`.
@@ -202,7 +194,7 @@ When `ace/config.json` is missing, create it from [templates/config.json](templa
 
 Keep the default for every other setting, and name it in the last reply so the user knows it exists.
 
-When `ace/config.json` exists, keep every value it has, and ask nothing. Add `ticket_tracker` and `who_starts_runs` when the file lacks them and the project uses a ticket tracker or a runner, as "Existing setup" says. Add no other missing setting, since a missing setting uses its default. An earlier Ace wrote `review_fixes`. Replace it with `review.fixes`, where `apply` becomes `simple-only` and `suggest` becomes `none`, and name the change in the last reply.
+When `ace/config.json` exists, keep every value it has, and ask nothing. Add `ticket_tracker` and `who_starts_runs` when the file lacks them and the project uses a ticket tracker or a runner, as "Existing setup" says. Add no other missing setting, since a missing setting uses its default.
 
 ## 8. Point the root agents file at them
 
@@ -212,7 +204,7 @@ Add this section to the root agents file from step 1. If it is there already, ad
 <!-- added by ace -->
 ## Ace
 
-- For every task, follow the `ace-mode` skill. It picks the Ace skills for the task and their order.
+- For every task, follow the `ace-mode` skill. It picks the Ace skills for the task and their order. When you reply without having loaded `ace-mode`, start the reply with `Ace not loaded:` and the reason.
 - Ace reads project facts from the adapters in `ace/`, finding each section by its job, so its heading may differ. A missing file or section uses its default, as the `ace-adapters` skill next to `ace-mode` says.
 - To verify a change, follow `ace/VERIFY.md`.
 - Ace settings are in `ace/config.json`. A missing file or setting uses its default, as the `ace-adapters` skill says.
@@ -226,10 +218,6 @@ Add each line below after the verify line: the ticket line when the project has 
 - To read, search, open, or update a ticket, follow the ticket tracker, as the `ace-adapters` skill says.
 - To open or comment on a pull request, follow the code hosting adapter, as the `ace-adapters` skill says.
 ```
-
-When the section holds a line from an earlier Ace that points at `ace/TICKET_TRACKER.md` or `ace/CODE_HOSTING.md` directly, replace it with the matching line above.
-
-When the section holds the line that starts ``- Ace skills find an adapter section by its job``, from an earlier Ace, replace it with the `ace-adapters` line above.
 
 In a monorepo, add this line to that section:
 
