@@ -1,12 +1,14 @@
 ---
 name: ace-validate-standards
-description: Commits behavior-identical coding-standards fixes in the current change.
+description: Makes or suggests behavior-identical coding-standards fixes in the current change.
 disable-model-invocation: true
 ---
 
 # Standards
 
-Bring the diff in line with the coding standards. Done means every safe edit is made: committed when the caller passed a pull request, left uncommitted on a local diff.
+Bring the diff in line with the coding standards. Done means every safe edit is made: committed when the caller passed a pull request, left uncommitted on a local diff. When `review_fixes` is `suggest`, done means every safe edit is written as a suggestion instead, and no file changed.
+
+`review_fixes` is in `ace/config.json`. A missing file or key means `apply`.
 
 ## Constraints
 
@@ -23,7 +25,7 @@ Bring the diff in line with the coding standards. Done means every safe edit is 
 ```
 - [ ] 1. Get the diff
 - [ ] 2. Read the standards and the diff
-- [ ] 3. Apply safe fixes, or write that none were safe
+- [ ] 3. Apply or suggest safe fixes, or write that none were safe
 ```
 
 ## 1. Get the diff
@@ -36,7 +38,10 @@ Stop if there is no diff. On a pull request, also stop if the working tree has u
 
 Read `ace/CODING_STANDARDS.md` in full, plus each package file its "Packages" section lists for the changed paths. Match the diff against those rules. Ignore generated and vendored code, and any path the coding standards mark as out of scope.
 
-## 3. Apply safe fixes, or write that none were safe
+## 3. Apply or suggest safe fixes, or write that none were safe
+
+When `review_fixes` is `suggest`, change no file. Write each safe edit as one bullet, `` `path:line`: the change ``, and stop.
+
 
 When you change files, run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file its "Packages" section lists for the changed paths. Fix failures until they pass.
 

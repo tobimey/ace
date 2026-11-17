@@ -31,7 +31,7 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
 - Look up facts in the code yourself. Ask only for decisions the plan leaves open.
 - The plan sets the tests. Give each behavior and edge case it names its own test, and test only those.
 - Test only through the public interface, so a refactor keeps tests green.
-- Past decisions in tickets, docs, or comments explain the current state. When the plan contradicts one, follow the plan, and update or delete a contradicted doc or comment in the same change.
+- Past decisions in tickets, ADRs in `ace/adrs/`, docs, or comments explain the current state. When the plan contradicts one, follow the plan, and update or delete a contradicted doc or comment in the same change. Keep a contradicted ADR: set its Status to `Superseded` and name the plan or ticket that replaced it.
 
 ## Workflow
 

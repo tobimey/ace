@@ -1,12 +1,14 @@
 ---
 name: ace-review
-description: Reviews the current change, fixes what has one correct edit, writes the rest as findings, and writes Merge Danger.
+description: Reviews the current change, fixes or suggests what has one correct edit, writes the rest as findings, and writes Merge Danger.
 disable-model-invocation: true
 ---
 
 # Review
 
 Review the diff for logic bugs, security holes, performance costs, and architecture. Done means each fix that needs no decision is made, and committed when the caller passed a pull request, every finding that needs a person is written with a severity and a best fix, and Merge Danger is written.
+
+When `review_fixes` in `ace/config.json` is `suggest`, change no file: each fix that needs no decision is written as a finding instead. A missing file or key means `apply`.
 
 ## Requires
 
@@ -50,6 +52,8 @@ Apply the Drop section of each `ace-checks` file. Drop anything that is only sty
 If a logic bug's only fix is extra runtime cost, write it as a performance finding when this diff introduced the cost, and drop it otherwise.
 
 ## 4. Fix what needs no decision
+
+Skip this step when `review_fixes` is `suggest`. Each finding goes to step 5, with the one correct edit as its best fix.
 
 Fix a logic, security, or performance finding when one edit is the correct one and a teammate would not have to choose. Leave architecture findings. Leave a finding when two fixes are reasonable, or when the edit would change a product decision, a public contract, or a stored data shape.
 

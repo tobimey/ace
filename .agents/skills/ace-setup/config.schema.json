@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/tobimey/ace/main/skills/ace-setup/config.schema.json",
+  "title": "Ace settings",
+  "description": "Settings for how Ace behaves in this project, in ace/config.json. A missing file or a missing key uses the default. Adapters say how this project does a job. These settings say how much agents do on their own, and which optional Ace features are on.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Path or URL of this schema, so your editor checks the file and explains each key."
+    },
+    "who_sets_ready": {
+      "type": "string",
+      "enum": ["person", "planning-agents", "any-agent"],
+      "default": "person",
+      "description": "Who moves a new ticket from needs-dev to ready. A ready ticket is one an agent may build, such as ace-work-ticket on a schedule. A ticket that ace-work-ticket sends back to needs-dev always waits for a person.",
+      "enumDescriptions": [
+        "Only a person. Every ticket an agent opens stays in needs-dev until a person reads it and sets it ready.",
+        "The planning skills, ace-grill and ace-to-ticket, set the tickets they write ready, because a person settled and approved that plan with them. Tickets from ace-audit still wait for a person.",
+        "Every skill that opens a ticket sets it ready, ace-audit included. Nobody reads a ticket before an agent builds it."
+      ]
+    },
+    "review_fixes": {
+      "type": "string",
+      "enum": ["apply", "suggest"],
+      "default": "apply",
+      "description": "What ace-validate-standards and ace-review do with a fix that needs no decision.",
+      "enumDescriptions": [
+        "Make the fix. On a pull request, commit it to the branch. On a local diff, leave it uncommitted.",
+        "Change no file. Write each fix as a finding with its best fix, and let a person or the implementing agent make it."
+      ]
+    },
+    "write_adrs": {
+      "type": "boolean",
+      "default": false,
+      "description": "Record architecture decisions in ace/adrs/. When true, ace-grill writes an ADR for each settled decision that is hard to reverse, surprising without its context, and the result of a real trade-off. ace-explain and ace-implement read ADRs whenever ace/adrs/ exists, whatever this says."
+    },
+    "max_tickets_per_audit_domain": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 3,
+      "description": "The most tickets one ace-audit pass files for one domain, such as security. It is a cap, not a quota: a pass that finds nothing worth filing files nothing."
+    }
+  }
+}

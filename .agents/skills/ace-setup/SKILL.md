@@ -1,6 +1,6 @@
 ---
 name: ace-setup
-description: Sets up Ace in a project by creating its adapter files, or adds what an existing setup lacks after an Ace update.
+description: Sets up Ace in a project by creating its adapter files and settings, or adds what an existing setup lacks after an Ace update.
 disable-model-invocation: true
 ---
 
@@ -14,14 +14,16 @@ Set up ace in this project. Done means the root agents file turns on `ace-mode`,
 - `ace/CODE_HOSTING.md`: how to get the diff to review, open a pull request, find or comment on one, and find the tickets a pull request closes
 - `ace/CYCLE.md`, only when the user picked a runner in step 5: what a run does when a stage ends, and what starts a run without a person
 
+Also `ace/config.json` exists with every setting [config.schema.json](config.schema.json) defines.
+
 In a monorepo, each package the user picked also has `PACKAGE/ace/VERIFY.md`, and `PACKAGE/ace/CODING_STANDARDS.md` if it has its own rules. The root `ace/VERIFY.md` and `ace/CODING_STANDARDS.md` list them.
 
 Each verify file was also followed once end to end: its checks ran, the app started, and one behavior was tried and seen working. A step that could not run is named in the last reply.
 
 ## Constraints
 
-- An `ace` folder holds only adapters. Keep `AGENTS.md` and `CLAUDE.md` at the repo root. Harnesses load them only from there.
-- Glossary, ticket tracker, and code hosting exist only at the root. Every package uses the root ones.
+- An `ace` folder holds only adapters, `config.json`, and the `adrs` folder. Keep `AGENTS.md` and `CLAUDE.md` at the repo root. Harnesses load them only from there.
+- Glossary, ticket tracker, code hosting, and settings exist only at the root. Every package uses the root ones.
 - If an adapter from the list above exists outside `ace`, such as a root `VERIFY.md`, move it there.
 - Keep what existing files say. Add only what is missing: a whole adapter, or a section [ADAPTERS.md](ADAPTERS.md) lists that an existing adapter lacks.
 - Take every value from the repo or from the user. Look it up, or ask.
@@ -37,7 +39,7 @@ When the `ace` folder already holds adapters, this run brings them up to date af
 
 Run step 5 only when the user asks to add or change a runner, such as GitHub labels or a schedule. A missing `ace/CYCLE.md` means a person starts every run. When `ace/CYCLE.md` exists, its Runs section says `None.`, and each hand-off only tells the user the next step, it is the manual file an earlier Ace wrote. Offer to delete it, since `ace-mode` names the next step without it.
 
-Run "Glossary" in step 1 and step 6 in every run. In the last reply, name each file and section you added, or say that nothing was missing.
+Run "Glossary" in step 1, step 6, and step 7 in every run. In the last reply, name each file and section you added, or say that nothing was missing.
 
 ## 0. Detect the layout
 
@@ -188,7 +190,20 @@ For GitHub labels:
 7. Name each secret the workflows need, and tell the user to add it to the repository: the harness's API key, and `ACE_GH_TOKEN` when `ace-work-ticket` runs. `ACE_GH_TOKEN` is a GitHub App token or a fine-grained personal access token with write access to contents, issues, and pull requests.
 8. Create both labels: `gh label create ace:review --repo REPO` and `gh label create ace:reviewed --repo REPO`.
 
-## 6. Point the root agents file at them
+## 6. Settings
+
+Settings say how much agents do on their own and which optional features are on. [config.schema.json](config.schema.json) defines each one, its values, and its default.
+
+When `ace/config.json` is missing, create it from [templates/config.json](templates/config.json). Replace `<SCHEMA>` with `../.agents/skills/ace-setup/config.schema.json` when that file exists, so the schema matches the installed Ace. Otherwise use the schema's `$id`. Then ask:
+
+- `who_sets_ready`: ask only when `ace-work-ticket` runs on a schedule, from step 5 or the Runs section of `ace/CYCLE.md`. Offer the three values with their meaning from the schema, and recommend `person`. When the user picks `planning-agents` or `any-agent` and a ready label starts `ace-work-ticket`, say that a ticket then goes from plan to pull request with no person in between.
+- `write_adrs`: ask whether planning should record architecture decisions in `ace/adrs/`. Recommend `false` until decisions start getting lost.
+
+Keep the default for every other setting, and name it in the last reply so the user knows it exists.
+
+When `ace/config.json` exists, keep every value it has. Add each setting the schema defines and the file lacks, with its default, and ask nothing.
+
+## 7. Point the root agents file at them
 
 Add this section to the root agents file from step 1. If it is there already, add the lines it lacks. Leave the rest of that file as it is.
 
@@ -200,6 +215,7 @@ Add this section to the root agents file from step 1. If it is there already, ad
 - To verify a change, follow `ace/VERIFY.md`.
 - To read, search, open, or update a ticket, follow `ace/TICKET_TRACKER.md`.
 - To open or comment on a pull request, follow `ace/CODE_HOSTING.md`.
+- Ace settings are in `ace/config.json`. A missing file or setting uses the default the skill names.
 - Answer a question, a report, or an idea with an answer or a proposal, and leave the files as they are. Change files only when the message asks for it, such as "do it", "implement", "fix", or "add". When unsure, propose the change and ask.
 - Ace skills find an adapter section by its job, so its heading may differ. When a skill needs a file or a section that is missing, name it and say what it must hold. A skill that edits files offers to add it and goes on once the user agrees. Any other skill stops, unless it says what to do instead. With nobody to answer, or when the user declines, stop.
 - When a skill lists a skill under Requires that is not installed, stop and tell the user to install it with `npx skills add tobimey/ace --skill NAME`.

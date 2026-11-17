@@ -1,0 +1,7 @@
+{
+  "$schema": "<SCHEMA>",
+  "who_sets_ready": "person",
+  "review_fixes": "apply",
+  "write_adrs": false,
+  "max_tickets_per_audit_domain": 3
+}

@@ -18,6 +18,7 @@ Read [ace-open-ticket](../ace-open-ticket/SKILL.md) before any draft. Open every
 
 - Leave the parent or spec ticket open.
 - Keep ticket bodies in the ticket tracker only.
+- Set ticket states only as "Ticket state" below says.
 
 Mode-specific constraints are under each mode below.
 
@@ -120,6 +121,15 @@ If the spec is a plan from the conversation, open a new ticket with `ace-open-ti
 - After create, attach each ticket as a **sub-ticket** of that parent.
 
 Open one ticket per approved ticket with `ace-open-ticket`, **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.
+
+### Ticket state (both modes)
+
+Read `who_sets_ready` in `ace/config.json`. A missing file or key means `person`.
+
+- `person`: leave every ticket in its state. A new ticket stays in needs-dev.
+- `planning-agents` or `any-agent`: a person approved this plan, so each ticket an agent can build goes to ready. In single-ticket mode that is the one ticket. In multiple-ticket mode it is each sub-ticket. The parent keeps its state, so no run builds the whole plan as one ticket. Tell `ace-open-ticket` to set each such new ticket ready. Move such an existing ticket from needs-dev to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says.
+
+Name each ticket's state when you hand back the tickets.
 
 ### Ticket body (both modes)
 
