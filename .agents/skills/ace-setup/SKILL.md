@@ -161,7 +161,7 @@ Ask whether anything other than a person starts agent runs, such as a CI job, a 
 Ask what the runner starts, and add a line to the Runs section of `ace/CYCLE.md` for each yes, with its trigger and its message:
 
 - Reviews of pull requests, once per pull request, such as when it opens, since `ace-babysit-pr` pushes too. The message is `Review pull request #NUMBER and comment on it.`
-- `ace-work-ticket`. It takes the next ticket a person set ready and opens a pull request for it. The message is `Run ace-work-ticket.` It needs a ticket tracker, so run step 4 first when the project has none. Ask for `autonomy` as step 6 says.
+- `ace-work-ticket`. It takes the next ticket a person set ready and opens a pull request for it. The message is `Run ace-work-ticket.` It needs a ticket tracker, so run step 4 first when the project has none. Tell the user the runner must start at most one run of it at a time, such as with a `concurrency` group in GitHub Actions. Ask for `autonomy` as step 6 says.
 - Audits. Ask which domains. Each one's message is `Run ace-audit DOMAIN.`, such as `Run ace-audit security.` They file tickets, so they also need step 4.
 
 Then tell the user what each run needs, and set none of it up:

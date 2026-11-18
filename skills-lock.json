@@ -19,8 +19,8 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-mode/SKILL.md",
-      "computedHash": "4cded8ee7210555391dac8df9fa4cdff57db938e3282af0969bf0d6b2c3aab54",
-      "commit": "ecf8d101a9fe2e5fa419cf1fd2dca81afd3453ee"
+      "computedHash": "7e40304dc821b7102187241a81a4290e70e2de8112f0d5efea5a7a34d088a32f",
+      "commit": "2b8df3ae868fc55348da32398ab34feada11e61d"
     },
     "ace-optimize-factory": {
       "source": "tobimey/ace",
@@ -40,8 +40,8 @@
       "source": "tobimey/ace",
       "sourceType": "github",
       "skillPath": "skills/ace-setup/SKILL.md",
-      "computedHash": "cf2a004b57dc62b91b8dd6b45d41b51b426e0220077a52d69bd9ecef21a09e1d",
-      "commit": "ecf8d101a9fe2e5fa419cf1fd2dca81afd3453ee"
+      "computedHash": "dd5483071bf909182b603c147a72d98696ebb8f164cca31f6a35ae5604c60808",
+      "commit": "2b8df3ae868fc55348da32398ab34feada11e61d"
     },
     "ace-to-ticket": {
       "source": "tobimey/ace",
