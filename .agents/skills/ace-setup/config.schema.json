@@ -45,7 +45,6 @@
     "who_sets_ready": {
       "type": "string",
       "enum": ["person", "planning-agents", "any-agent"],
-      "default": "person",
       "description": "Who moves a new ticket from needs-dev to ready. Without this key, autonomy sets it. A ready ticket is one an agent may build, such as ace-work-ticket on a schedule. A ticket that ace-work-ticket sends back to needs-dev always waits for a person.",
       "enumDescriptions": [
         "Only a person. Every ticket an agent opens stays in needs-dev until a person reads it and sets it ready.",
@@ -57,11 +56,6 @@
       "type": "object",
       "additionalProperties": false,
       "description": "How the review runs and which findings it fixes on its own. A person starts a review, or a runner does, with a model other than the one that built the change. ace-review runs three checks: spec (does the change do what its ticket asked), standards (the coding standards), and code (logic, security, performance, and architecture), plus each custom check in ace/checks/.",
-      "default": {
-        "agents": "one-for-all-checks",
-        "fixes": "simple-only",
-        "fix_severities": ["blocker", "should-fix", "nit"]
-      },
       "properties": {
         "agents": {
           "type": "string",
@@ -76,8 +70,7 @@
         "fixes": {
           "type": "string",
           "enum": ["none", "simple-only", "all"],
-          "default": "simple-only",
-          "description": "Which findings the review fixes itself. Without this key, autonomy sets it. On a pull request it commits the fixes. On a local diff it leaves them uncommitted.",
+          "description": "Which findings the review fixes itself. Without this key, autonomy sets it. On a pull request it commits the fixes and pushes them to its branch. On a local diff it leaves them uncommitted.",
           "enumDescriptions": [
             "Change no file. Every fix is written as a finding with its best fix, for a person or the implementing agent.",
             "Fix a finding when one edit is clearly correct and a teammate would not have to choose.",

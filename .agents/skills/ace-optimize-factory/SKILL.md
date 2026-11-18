@@ -1,6 +1,6 @@
 ---
 name: ace-optimize-factory
-description: Fixes how future agents are steered, given a problem or misbehaviour, or runs a retro on one or more sessions to find what to fix.
+description: Fixes how future agents are steered, given a problem or misbehaviour, runs a retro on one or more sessions to find what to fix, or checks the repo's AGENTS.md and CLAUDE.md and proposes edits.
 disable-model-invocation: true
 ---
 
@@ -10,11 +10,13 @@ You were given a problem or misbehaviour in how agents are steered. Find the sma
 
 When the user asks for a retro, or to look back on a whole session or several, there is no named problem yet. Follow [RETRO.md](RETRO.md) first. It finds the candidates and hands each one the user picks back to the workflow below.
 
+When the user asks to check or improve the agents file (`AGENTS.md`, `CLAUDE.md`) with no named problem, follow [AGENTS_FILE.md](AGENTS_FILE.md) instead of the workflow below.
+
 What done looks like: a concrete edit in a skill, `ace/config.json`, `AGENTS.md`, a lint or CI check, coding standards, the glossary, or another file future agents read. Or the user chose a new architecture and you applied it.
 
 ## Requires
 
-- `ace-skill-optimizer`
+- `ace-skill-best-practices`
 
 ## Constraints
 
@@ -22,8 +24,9 @@ What done looks like: a concrete edit in a skill, `ace/config.json`, `AGENTS.md`
 - Build only the fix the problem needs. Record the decision in the edited file itself.
 - When a setting in `ace/config.json` covers the misbehaviour, such as who sets a ticket ready, change that setting and edit no skill.
 - Prefer a check over a prose rule. Prefer a small edit over a new skill. Prefer a new skill over a new architecture.
-- Write each fix as the behaviour you want next time. "The agent edits generated files" becomes "Change skills in the source folder; reinstall to update the copies." Use the wording rule in [ace-skill-optimizer](../ace-skill-optimizer/SKILL.md) for every steering file you write, and run its [check-wording.sh](../ace-skill-optimizer/scripts/check-wording.sh) on each one.
-- When you edit a skill, read [ace-skill-optimizer](../ace-skill-optimizer/SKILL.md) and pass the checklist it links.
+- Write each fix as the behaviour you want next time. "The agent edits generated files" becomes "Change skills in the source folder; reinstall to update the copies." Use the wording rule in [ace-skill-best-practices](../ace-skill-best-practices/SKILL.md) for every steering file you write, and run its [check-wording.sh](../ace-skill-best-practices/scripts/check-wording.sh) on each one.
+- When you edit a skill, follow the Edit workflow of [ace-skill-best-practices](../ace-skill-best-practices/SKILL.md) and pass the checklist it links.
+- When you edit `AGENTS.md` or `CLAUDE.md`, follow the Rules in [AGENTS_FILE.md](AGENTS_FILE.md).
 - Look up facts yourself. Ask the user only for decisions.
 
 ## Workflow
@@ -38,4 +41,4 @@ What done looks like: a concrete edit in a skill, `ace/config.json`, `AGENTS.md`
 
 Number each question. Give your recommended answer. Then wait. If a later question depends on this round, ask it next round.
 
-Write the questions in the question format of `ace-mode`.
+Write the questions in the question format in [QUESTIONS.md](../ace-mode/QUESTIONS.md).

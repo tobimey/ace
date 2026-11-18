@@ -1,12 +1,12 @@
 ---
 name: ace-review
-description: Reviews the current change for spec match, coding standards, and logic, security, performance, and architecture. Fixes what the review settings allow, writes the rest as findings, and writes Merge Danger.
+description: Reviews the current change for spec match, coding standards, and logic, security, performance, and architecture. Fixes what the review settings allow, writes the rest as findings, and on a pull request writes Merge Danger.
 disable-model-invocation: true
 ---
 
 # Review
 
-Review the diff with its checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed when the caller passed a pull request, and the report ends with Merge Danger.
+Review the diff with its checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed and pushed to its branch when the caller passed a pull request, and on a pull request the report ends with Merge Danger.
 
 ## Requires
 
@@ -35,7 +35,8 @@ Read `review` in `ace/config.json` as `ace-adapters` says. A missing file or key
 
 - Finding is read only. Only step 4 changes files.
 - Edit only files this change touches.
-- On a pull request, commit your fixes. On a local diff, leave them uncommitted. The user commits.
+- On a pull request, work on its head branch, and commit and push your fixes there. On a local diff, leave them uncommitted. The user commits.
+- For a pull request from a fork or a branch you cannot push to, fix nothing: treat `fixes` as `none`, and say so in one line of the report.
 - Ignore generated and vendored code, and any path the coding standards mark as out of scope.
 - A finding needs a concrete failure, cost, gap, or rule break in this diff. Leave out hypotheticals, pre-existing issues the diff does not make worse, and accepted risks.
 
@@ -53,9 +54,15 @@ Read `review` in `ace/config.json` as `ace-adapters` says. A missing file or key
 
 ### 1. Get the diff
 
-Get the diff once, as the "Get the diff" section of `ace/CODE_HOSTING.md` says. Every check reads this diff.
+On a pull request, first get onto its head branch, so the files you read and fix are the ones it changes:
 
-Stop if the diff is empty and there is no untracked work. On a pull request, also stop when the working tree has uncommitted changes.
+1. When the working tree has uncommitted changes, stop and say so.
+2. Note the current branch or commit, to switch back to in step 7.
+3. Check out the head branch as "Find a pull request" in `ace/CODE_HOSTING.md` says, and pull it.
+
+Then get the diff once, as the "Get the diff" section of `ace/CODE_HOSTING.md` says. Every check reads this diff.
+
+Stop if the diff is empty and there is no untracked work.
 
 ### 2. Find
 
@@ -92,9 +99,13 @@ On a pull request, commit the fixes that remain, in up to two commits:
 - Standards fixes: a conventional title, `refactor:`, and a short reason.
 - Code fixes: a conventional title, `fix:` or `perf:`, and a short reason.
 
+Then push them to the pull request's branch with a plain push, and let every hook run.
+
 On a local diff, leave them uncommitted.
 
 ### 7. Report
+
+On a pull request, switch back to the branch or commit you noted in step 1.
 
 Write the parts below in this order, as plain top-level paragraphs, outside any alert box or `>` blockquote. Prefer fewer findings.
 
@@ -108,9 +119,7 @@ Write the parts below in this order, as plain top-level paragraphs, outside any 
    ```
 
 3. **Findings.** Each finding left, in the shape the Finding section gives. When you fixed nothing and nothing is left, write `No findings.`
-4. **Merge Danger.** As its section below says.
-
-Go straight from the last finding to Merge Danger.
+4. **Merge Danger.** On a pull request only, as its section below says. Go straight from the last finding to it.
 
 ## Finding
 
@@ -140,7 +149,7 @@ Write a finding left for the report as an emoji, then **severity** and category,
 
 ## Merge Danger
 
-Always write this block last. It is not a finding. Return it to the caller only.
+Write this block last, on a pull request only. It is not a finding. Return it to the caller only.
 
 ```
 ## Merge Danger

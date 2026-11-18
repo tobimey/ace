@@ -15,8 +15,8 @@ Place the work in the first row that matches:
 | A ticket with no branch and no pull request | Build |
 | Local changes, or a branch with no pull request | `ace-open-pr`, then Review with a model other than the one that built the change |
 | An open pull request with failing checks, merge conflicts, or review comments with no reply | Babysit |
-| An open pull request with no `<!-- ace-review -->` comment, or commits newer than that comment | Review, with a model other than the one that built the change |
-| An open pull request with a current review | A person merges. Name its Merge Danger. |
+| An open pull request with no `<!-- ace-review -->` comment | Review, with a model other than the one that built the change |
+| An open pull request with an `<!-- ace-review -->` comment | A person merges, or asks for another review. Name its Merge Danger. |
 | A merged pull request | Done. Offer a retro with `ace-optimize-factory` when the work went badly. |
 | No ticket, pull request, or local change | Plan, starting with no direction |
 
@@ -30,6 +30,6 @@ Place the work in the first row that matches:
 
 A person starts the next run, unless the cycle adapter `ace/CYCLE.md` says the user's runner does, such as through a label or a schedule.
 
-When Plan, Perf, Fix, Refactor, Build, Babysit, Review, or Audit ends, and `ace/CYCLE.md` has a section for that playbook, do what it says. Perf, Fix, Refactor, and Babysit use the Build section. The section can set a label, move a ticket, or tell the user what a run does next.
+When Plan, Perf, Fix, Refactor, Build, Babysit, Review, or Audit ends, and `ace/CYCLE.md` has a section for that playbook, do what it says. Perf, Fix, and Refactor use the Build section. Babysit uses none, so its pushes start no new review. The section can set a label, move a ticket, or tell the user what a run does next.
 
 Otherwise end the reply with the next step from the state table, as one line the user can send, such as `Next: review pull request #12`. After Plan or Audit, also say which state the new tickets are in. For a ticket in needs-dev, say that a person sets it ready or starts it with `Implement TICKET`.
