@@ -60,9 +60,9 @@ On a pull request, first get onto its head branch, so the files you read and fix
 
 1. When the working tree has uncommitted changes, stop and say so.
 2. Note the current branch or commit, to switch back to in step 7.
-3. Check out the head branch as "Find a pull request" in `ace/CODE_HOSTING.md` says, and pull it.
+3. Check out the head branch as "Find a pull request" in [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says, and pull it.
 
-Then get the diff once, as the "Get the diff" section of `ace/CODE_HOSTING.md` says. Every check reads this diff.
+Then get the diff once, as the "Get the diff" section of [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says. Every check reads this diff.
 
 Stop if the diff is empty and there is no untracked work.
 
@@ -123,7 +123,7 @@ Write the parts below in this order, as plain top-level paragraphs, outside any 
 3. **Findings.** Each finding left, in the shape the Finding section gives. When you fixed nothing and nothing is left, write `No findings.`
 4. **Merge Danger.** On a pull request only, as its section below says. Go straight from the last finding to it.
 
-When the caller asked to comment on the pull request, post the report as one comment that starts with `<!-- ace-review -->` and the model line, as [SIGN.md](../ace-adapters/SIGN.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in `ace/CODE_HOSTING.md` says.
+When the caller asked to comment on the pull request, post the report as one comment that starts with `<!-- ace-review -->` and the model line, as [SIGN.md](../ace-adapters/SIGN.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says.
 
 ## Finding
 

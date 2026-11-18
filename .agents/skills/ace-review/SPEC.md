@@ -4,7 +4,7 @@ Does the change do what its linked ticket asked.
 
 ## Find the linked ticket
 
-If the caller named a ticket, use that. When the caller passed a pull request, find its linked tickets as the "Linked tickets" section of `ace/CODE_HOSTING.md` says. Otherwise search the branch name and `git log` for a ticket reference, in the form the "Ticket references" section of `ace/TICKET_TRACKER.md` names. Read each candidate with its comments as `ace/TICKET_TRACKER.md` says. A reference to the pull request itself does not count. Use the first real ticket.
+If the caller named a ticket, use that. When the caller passed a pull request, find its linked tickets as the "Linked tickets" section of [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says. Otherwise search the branch name and `git log` for a ticket reference, in the form the "Ticket references" section of `ace/TICKET_TRACKER.md` names. Read each candidate with its comments as `ace/TICKET_TRACKER.md` says. A reference to the pull request itself does not count. Use the first real ticket.
 
 When none of those sources names a ticket, the result is `No linked ticket. Spec check skipped.` A missing ticket is not a failure.
 

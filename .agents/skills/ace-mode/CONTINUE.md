@@ -22,7 +22,7 @@ Place the work in the first row that matches:
 
 ## Continue
 
-1. Find the work: the ticket or pull request the message names. Otherwise the pull request for the current branch, found as `ace/CODE_HOSTING.md` says. Otherwise the local diff.
+1. Find the work: the ticket or pull request the message names. Otherwise the pull request for the current branch, found as [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says. Otherwise the local diff.
 2. Place it in the state table.
 3. Say the state and the next step in two lines, in plain words. Run the matching playbook once the user agrees.
 
