@@ -10,19 +10,18 @@ Set up Ace in this project. Ace works with no setup: every adapter section has a
 
 ## Pick the run
 
-- **No argument, and no `ace` folder**: the quick setup. Run steps 0, 1, 2, and 8. Done means the root agents file has the Ace section and a Glossary section, and `ace/VERIFY.md` exists with no `<PLACEHOLDER>` left and was followed once end to end.
-- **A module name**: run that module's step, then step 8. Done means the module's files exist with no `<PLACEHOLDER>` left.
+- **No argument, and no `ace` folder**: the quick setup. Run steps 0, 1, 2, and 7. Done means the root agents file has the Ace section and a Glossary section, and `ace/VERIFY.md` exists with no `<PLACEHOLDER>` left and was followed once end to end.
+- **A module name**: run that module's step, then step 7. Done means the module's files exist with no `<PLACEHOLDER>` left.
 - **No argument, and an `ace` folder**: an update after an Ace update. Follow "Existing setup".
 
 | Module | Step | Writes | Replaces the default for |
 |---|---|---|---|
 | `standards` | 3 | `ace/CODING_STANDARDS.md` | The template's rules and no trusted party |
 | `tickets` | 4 | `ticket_tracker`, the ticket state labels, and `ace/TICKET_TRACKER.md` only for a tracker with no provider or for overrides | No ticket tracker |
-| `hosting` | 5 | `ace/CODE_HOSTING.md`, only for a host with no provider or for pull request rules beyond the provider | The GitHub provider, or no pull requests off GitHub |
-| `cycle` | 6 | `who_starts_runs` and `ace/CYCLE.md`, for a runner the user set up | A person starts every run |
-| `settings` | 7 | `ace/config.json`, starting with `autonomy` | The defaults in [config.schema.json](config.schema.json) |
+| `cycle` | 5 | `who_starts_runs` and `ace/CYCLE.md`, for a runner the user set up | A person starts every run |
+| `settings` | 6 | `ace/config.json`, starting with `autonomy` | The defaults in [config.schema.json](config.schema.json) |
 
-GitHub has built-in providers for tickets and code hosting in [ace-adapters/github/](../ace-adapters/github/). A module for GitHub sets a key in `ace/config.json` and writes no adapter file.
+GitHub Issues has a built-in provider in [ace-adapters/github/](../ace-adapters/github/), so its module sets a key in `ace/config.json` and writes no adapter file. Pull requests need no setup: Ace supports them only on GitHub.
 
 Ace writes no runner config, such as a CI workflow, and asks for no tokens or secrets. The user sets up any runner, and `ace/CYCLE.md` says what it does.
 
@@ -35,7 +34,7 @@ A step that could not run is named in the last reply.
 ## Constraints
 
 - An `ace` folder holds only adapters, `config.json`, and the `adrs` folder. Keep `AGENTS.md` and `CLAUDE.md` at the repo root. Harnesses load them only from there.
-- Glossary, ticket tracker, code hosting, and settings exist only at the root. Every package uses the root ones.
+- Glossary, ticket tracker, and settings exist only at the root. Every package uses the root ones.
 - If an adapter exists outside `ace`, such as a root `VERIFY.md`, move it there.
 - Keep what existing files say. Add only what is missing: a whole adapter the run writes, or a section its contract file lists that an existing adapter lacks.
 - Write only the files of the run the user picked. A missing adapter is no error, since its defaults apply.
@@ -48,12 +47,12 @@ A step that could not run is named in the last reply.
 When the `ace` folder already holds adapters, this run brings them up to date after an Ace update. Create no adapter the user did not ask for. For each existing adapter, the package files included:
 
 1. List the sections its contract file names, and find each in the file by its job.
-2. For each section the file lacks, copy it from the adapter's template, or from the step for that adapter when the template lacks it. Fill its placeholders as that step says. For a ticket tracker or code host other than GitHub, write the section with that tool, as steps 4 and 5 say. Skip this for an adapter whose provider is selected: the provider fills what the file lacks.
+2. For each section the file lacks, copy it from the adapter's template, or from the step for that adapter when the template lacks it. Fill its placeholders as that step says. For a ticket tracker other than GitHub Issues, write the section with that tool, as step 4 says. Skip this for an adapter whose provider is selected: the provider fills what the file lacks.
 3. When you added a section to a verify file, follow "Prove it" for that file.
 
-When `ace/config.json` exists, update it as step 7 says.
+When `ace/config.json` exists, update it as step 6 says.
 
-Run "Glossary" in step 1 and step 8 in every run. In the last reply, name each file and section you added, or say that nothing was missing.
+Run "Glossary" in step 1 and step 7 in every run. In the last reply, name each file and section you added, or say that nothing was missing.
 
 ## 0. Detect the layout
 
@@ -141,7 +140,7 @@ Ask which tracker holds the tickets (GitHub Issues, Linear, Jira, ...).
 
 For GitHub Issues:
 
-1. Set `ticket_tracker` to `github-issues` in `ace/config.json`, creating the file as step 7 says when it is missing.
+1. Set `ticket_tracker` to `github-issues` in `ace/config.json`, creating the file as step 6 says when it is missing.
 2. Create the ticket state labels: `gh label create ace:needs-dev`, `gh label create ace:ready`, and `gh label create ace:working`.
 3. Ask whether new tickets get an assignee. Recommend none. On yes, offer `gh api user --jq .login`, and write `ace/TICKET_TRACKER.md` with a Defaults section that names the assignee.
 4. Ask whether tickets should go into a GitHub project with Priority and Size fields. Recommend no: tickets work without them. On yes, add the section from [templates/GITHUB_PROJECT_FIELDS.md](templates/GITHUB_PROJECT_FIELDS.md) to `ace/TICKET_TRACKER.md`, creating the file from that template when it is missing. Fill it:
@@ -150,15 +149,7 @@ For GitHub Issues:
 
 For another tracker, set `ticket_tracker` to `custom`, and write `ace/TICKET_TRACKER.md` with every section [its contract](../ace-adapters/contract/TICKET_TRACKER.md) lists. Use the tracker's MCP server when the harness has one, otherwise its CLI or API. Use [the GitHub provider](../ace-adapters/github/TICKET_TRACKER.md) as the model.
 
-## 5. Code hosting (`hosting`)
-
-Ask which host holds the code (GitHub, GitLab, Bitbucket, ...).
-
-For GitHub, Ace uses [its provider](../ace-adapters/github/CODE_HOSTING.md) with no setup. It fills the pull request template under `.github/`. Ask whether pull requests follow rules beyond that template, such as how a section is filled or which labels go on. On yes, write `ace/CODE_HOSTING.md` with an "Open a pull request" section that holds only those rules. Otherwise write nothing.
-
-For another host, write `ace/CODE_HOSTING.md` with every section [its contract](../ace-adapters/contract/CODE_HOSTING.md) lists. Use the host's MCP server when the harness has one, otherwise its CLI or API. Use [the GitHub provider](../ace-adapters/github/CODE_HOSTING.md) as the model.
-
-## 6. Cycle (`cycle`)
+## 5. Cycle (`cycle`)
 
 Ace writes no runner config. This step describes the runner the user set up, so `ace-mode` knows what starts the next run.
 
@@ -170,21 +161,21 @@ Ask whether anything other than a person starts agent runs, such as a CI job, a 
 Ask what the runner starts, and add a line to the Runs section of `ace/CYCLE.md` for each yes, with its trigger and its message:
 
 - Reviews of pull requests, once per pull request, such as when it opens, since `ace-babysit-pr` pushes too. The message is `Review pull request #NUMBER and comment on it.`
-- `ace-work-ticket`. It takes the next ticket a person set ready and opens a pull request for it. The message is `Run ace-work-ticket.` It needs a ticket tracker, so run step 4 first when the project has none. Ask for `autonomy` as step 7 says.
+- `ace-work-ticket`. It takes the next ticket a person set ready and opens a pull request for it. The message is `Run ace-work-ticket.` It needs a ticket tracker, so run step 4 first when the project has none. Ask for `autonomy` as step 6 says.
 - Audits. Ask which domains. Each one's message is `Run ace-audit DOMAIN.`, such as `Run ace-audit security.` They file tickets, so they also need step 4.
 
 Then tell the user what each run needs, and set none of it up:
 
 - The Ace skills committed to the repo. Check that `.agents/skills/`, `.claude/skills/`, and `skills-lock.json` are tracked by git, each one that exists. If not, tell the user to commit them.
-- The code host's CLI logged in where the agent runs, such as `gh` for GitHub, and the ticket tracker's when it has one. Ace reads and posts through them.
+- `gh` logged in where the agent runs, and the ticket tracker's CLI when it has one. Ace reads and posts through them.
 - Optional: `ACE_MODEL` set to the model id the run uses, so everything it posts names that model.
 - For reviews, best a model other than the one that implements the changes. `review.require_other_model` makes it a rule.
 
-## 7. Settings (`settings`)
+## 6. Settings (`settings`)
 
 Settings say how much agents do on their own and which optional features are on. [config.schema.json](config.schema.json) defines each one, its values, and its default. A missing file or setting uses the default, as `ace-adapters` says.
 
-When `ace/config.json` is missing, create it from [templates/config.json](templates/config.json). Replace `<SCHEMA>` with the path from `ace/` to `ace-setup/config.schema.json` in the installed Ace, so the schema matches the installed version: `../.agents/skills/ace-setup/config.schema.json` when that file exists, else `../.claude/skills/ace-setup/config.schema.json` when that one exists. Otherwise use the schema's `$id`. Set `ticket_tracker` and `who_starts_runs` as steps 4 and 6 found them. Then ask:
+When `ace/config.json` is missing, create it from [templates/config.json](templates/config.json). Replace `<SCHEMA>` with the path from `ace/` to `ace-setup/config.schema.json` in the installed Ace, so the schema matches the installed version: `../.agents/skills/ace-setup/config.schema.json` when that file exists, else `../.claude/skills/ace-setup/config.schema.json` when that one exists. Otherwise use the schema's `$id`. Set `ticket_tracker` and `who_starts_runs` as steps 4 and 5 found them. Then ask:
 
 - `autonomy`: offer `low`, `medium`, and `high` with their meaning from the schema, and recommend `medium`. When the user picks `high` and a ready label starts `ace-work-ticket`, say that a ticket from an approved plan then goes to a pull request with no person in between. Say that `who_sets_ready` and `review.fixes` can each be set on their own and then win over `autonomy`. Write them only when the user asks.
 - `write_adrs`: ask whether planning should record architecture decisions in `ace/adrs/`. Recommend `false` until decisions start getting lost.
@@ -193,7 +184,7 @@ Keep the default for every other setting, and name it in the last reply so the u
 
 When `ace/config.json` exists, keep every value it has, and ask nothing. Add `ticket_tracker` and `who_starts_runs` when the file lacks them and the project uses a ticket tracker or a runner, as "Existing setup" says. Add no other missing setting, since a missing setting uses its default.
 
-## 8. Point the root agents file at them
+## 7. Point the root agents file at them
 
 Add this section to the root agents file from step 1. If it is there already, add the lines it lacks. Leave the rest of that file as it is.
 
@@ -209,11 +200,11 @@ Add this section to the root agents file from step 1. If it is there already, ad
 - When a skill lists a skill under Requires whose folder is missing, tell the user to install Ace again with `npx skills add tobimey/ace`, which installs every skill.
 ```
 
-Add each line below after the verify line: the ticket line when the project has a ticket tracker, from `ticket_tracker` or `ace/TICKET_TRACKER.md`, and the pull request line when the code is on GitHub or `ace/CODE_HOSTING.md` exists:
+Add each line below after the verify line: the ticket line when the project has a ticket tracker, from `ticket_tracker` or `ace/TICKET_TRACKER.md`, and the pull request line when the code is on GitHub:
 
 ```markdown
 - To read, search, open, or update a ticket, follow the ticket tracker, as the `ace-adapters` skill says.
-- To open or comment on a pull request, follow the code hosting adapter, as the `ace-adapters` skill says.
+- To open or comment on a pull request, follow `github/PULL_REQUESTS.md` in the `ace-adapters` skill.
 ```
 
 In a monorepo, add this line to that section:

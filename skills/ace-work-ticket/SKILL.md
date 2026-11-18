@@ -48,7 +48,7 @@ A run that died, or a pull request a person closed without merging, leaves its t
 
 List the working tickets as the "Find working tickets" section says. When the ticket tracker has no such section, skip this step and name it in the report. For each ticket:
 
-1. Find the pull request from the ticket's branch, as "Find a pull request" in `ace/CODE_HOSTING.md` says. When it is open, keep the ticket as it is. It is in review.
+1. Find the pull request from the ticket's branch, as "Find a pull request" in [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says. When it is open, keep the ticket as it is. It is in review.
 2. Read the ticket with its comments, and find the latest claim comment from step 4. When it is less than 3 hours old, keep the ticket as it is. A run may still be building it. A ticket with no claim comment counts as older.
 3. Otherwise, comment on the ticket that the claim is released, and why, with the pull request's link: it merged without closing the ticket, so a person checks the ticket, or it closed without merging, or the run stopped before opening one. Start the comment with the release marker from "Markers". Add the run link from the claim comment when it has one. Then move the ticket from working to needs-dev.
 

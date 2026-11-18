@@ -25,7 +25,7 @@ The review skills judge a change. This skill explains it. A reviewer who underst
 
 ## 1. Get the diff
 
-Get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says. Stop if the diff is empty and there is no untracked work.
+Get the diff as the "Get the diff" section of [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says. Stop if the diff is empty and there is no untracked work.
 
 Read the call sites the change affects, not only the changed lines. Pick the few changes that matter most. Tests, renames, and generated code rarely are.
 
@@ -83,7 +83,7 @@ Model: <model id>
 
 ## 4. Post it
 
-When the caller passed a pull request, post the explainer as the "Comment on a pull request" section of `ace/CODE_HOSTING.md` says. If an earlier comment holds the marker `<!-- ace-explain -->`, edit that comment instead of posting a new one, as the same section says.
+When the caller passed a pull request, post the explainer as the "Comment on a pull request" section of [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says. If an earlier comment holds the marker `<!-- ace-explain -->`, edit that comment instead of posting a new one, as the same section says.
 
 Without a pull request, the explainer is the reply.
 

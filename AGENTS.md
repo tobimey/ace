@@ -63,5 +63,5 @@ Every line in a skill costs context and money on each run, so a skill must not g
 - Use the terms in `ace/GLOSSARY.md`.
 - To verify a change, follow `ace/VERIFY.md`.
 - To read, search, open, or update a ticket, follow `ace/TICKET_TRACKER.md`.
-- To open or comment on a pull request, follow `ace/CODE_HOSTING.md`.
+- To open or comment on a pull request, follow `github/PULL_REQUESTS.md` in the `ace-adapters` skill.
 - Answer a question, a report, or an idea with an answer or a proposal, and leave the files as they are. Change files only when the message asks for it, such as "do it", "implement", "fix", or "add". When unsure, propose the change and ask. 

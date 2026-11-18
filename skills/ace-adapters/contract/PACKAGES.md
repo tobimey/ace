@@ -7,4 +7,4 @@ In a monorepo, a package can have its own `ace` folder, such as `apps/web/ace/`.
 
 No file lists the package folders. A skill finds them from the paths it works on: for a diff, walk up from each changed path; for the whole repo, run `git ls-files '*/ace/VERIFY.md' '*/ace/CODING_STANDARDS.md'`.
 
-The glossary, ticket tracker, code hosting, cycle, and settings exist only at the root.
+The glossary, ticket tracker, cycle, and settings exist only at the root.

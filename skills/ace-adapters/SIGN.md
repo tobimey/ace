@@ -5,4 +5,4 @@ Everything you write to a ticket tracker or a code host starts with one line tha
 - When the text carries a marker such as `<!-- ace-review -->`, the marker comes first and the model line second, so the model line is the first visible line.
 - When you edit an earlier comment, write the line again with your own model.
 - Take the model id from the `ACE_MODEL` environment variable when it is set. Otherwise use the id your harness gives you, or its name for the model when it gives no id.
-- When a default puts the text into the reply instead, such as a comment with no code host, the reply holds the model line too.
+- When a default puts the text into the reply instead, such as a ticket with no ticket tracker, the reply holds the model line too.

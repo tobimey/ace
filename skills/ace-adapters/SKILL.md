@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Adapters
 
-An Ace skill that needs a project fact, such as the check commands or how to open a pull request, reads it from an adapter. Ace works without an `ace` folder. Every section has a default, so a project needs no setup before the first task.
+An Ace skill that needs a project fact, such as the check commands or how to open a ticket, reads it from an adapter. Ace works without an `ace` folder. Every section has a default, so a project needs no setup before the first task.
 
 ## The adapters
 
@@ -17,13 +17,14 @@ A skill names an adapter by its path in `ace/`. That name means the adapter, not
 | `ace/VERIFY.md` | [contract/VERIFY.md](contract/VERIFY.md) | None |
 | `ace/CODING_STANDARDS.md` | [contract/CODING_STANDARDS.md](contract/CODING_STANDARDS.md) | None |
 | `ace/TICKET_TRACKER.md` | [contract/TICKET_TRACKER.md](contract/TICKET_TRACKER.md) | [github/TICKET_TRACKER.md](github/TICKET_TRACKER.md), when `ticket_tracker` is `github-issues` |
-| `ace/CODE_HOSTING.md` | [contract/CODE_HOSTING.md](contract/CODE_HOSTING.md) | [github/CODE_HOSTING.md](github/CODE_HOSTING.md), when the code is on GitHub |
 | `ace/CYCLE.md` | [contract/CYCLE.md](contract/CYCLE.md) | None |
 | `ace/PRODUCT.md` | [contract/PRODUCT.md](contract/PRODUCT.md) | None |
 
 The glossary and `ace/checks/` have their own contract files in [contract/](contract/). Read only the contract file of the adapter you need.
 
-A provider ships with Ace and holds no project values, so the project never copies or updates it. The project writes its own file in `ace/` only for a tool Ace has no provider for, such as Linear or GitLab, or to change one section of a provider.
+A provider ships with Ace and holds no project values, so the project never copies or updates it. The project writes its own file in `ace/` only for a tool Ace has no provider for, such as Linear or Jira, or to change one section of a provider.
+
+Pull requests have no adapter. Ace supports them only on GitHub, as [github/PULL_REQUESTS.md](github/PULL_REQUESTS.md) says.
 
 ## Find a section
 
@@ -35,7 +36,7 @@ Take the first of these that has the section. Find a section by its job. Its hea
 
 A default of "skip" skips that step. Name the skipped step in the reply.
 
-Stop only when the default does not fit this project, such as a pull request when the code is not on GitHub. Name the section, say what it must hold, and offer the `ace-setup` module that sets it up, such as `ace-setup tickets`.
+Stop only when the default does not fit this project. Name the section, say what it must hold, and offer the `ace-setup` module that sets it up, such as `ace-setup tickets`.
 
 ## Read a setting
 

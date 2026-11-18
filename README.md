@@ -24,7 +24,7 @@ The new age of programming isn't … programming. It's probably not even enginee
 Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and adds what they leave out:
 
 - 🧭 **One router.** You say what you want, and `ace-mode` picks the skills and their order. You need no skill names.
-- 🔌 **Adapters.** Ace reads your checks, ticket tracker, and code host from small files in `ace/`, and works on defaults before you write any.
+- 🔌 **Adapters.** Ace reads your checks and ticket tracker from small files in `ace/`, and works on defaults before you write any.
 - 🛠️ **A review that fixes.** `ace-review` checks a change against its ticket, your coding standards, and its code, fixes what your settings allow, and on a pull request rates its Merge Danger: how hard it is to undo, and how much it can break.
 - 🤖 **Runs with no person.** Start Ace from any runner you set up, such as a CI job or a scheduled cloud agent, and it turns ready tickets into pull requests and audits the repo. A person merges.
 
@@ -44,8 +44,8 @@ Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and
    ```
 
    Nothing else needs setup: Ace finds your checks in CI and your scripts, and works without a ticket tracker.
-4. **Start working.** Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills. Teach Ace more when you need it, one module at a time: `/ace-setup tickets`, `/ace-setup cycle`, `/ace-setup standards`, `/ace-setup hosting`, or `/ace-setup settings`.
-5. **Update** by running `npx skills add tobimey/ace` again and committing. Your `ace/` files hold only your project's facts, and the GitHub providers update with Ace, so they need no change.
+4. **Start working.** Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills. Teach Ace more when you need it, one module at a time: `/ace-setup tickets`, `/ace-setup cycle`, `/ace-setup standards`, or `/ace-setup settings`.
+5. **Update** by running `npx skills add tobimey/ace` again and committing. Your `ace/` files hold only your project's facts, and the GitHub files update with Ace, so they need no change.
 
 > [!TIP]
 > This README writes skill commands as `/ace-setup`. In Codex, type `$ace-setup` instead.
@@ -143,11 +143,11 @@ The skills are plain Markdown and follow the Agent Skills format, so other harne
 
 Ace ships no harness plugins yet. Plugins for Claude Code, Cursor, and Codex will come later, once Ace ships more than skills, such as hooks or agents. Until then, `npx skills add` installs the skills into the project, and the project commits them.
 
-### Code hosts
+### GitHub only
 
-GitHub is the default. Ace ships built-in providers for GitHub Issues and GitHub pull requests, and GitHub is the only host tested so far. Ace is not bound to it: an adapter file in `ace/` points Ace at another host, such as GitLab or Bitbucket, or another tracker, such as Linear or Jira.
+Ace works with pull requests on GitHub only. It reads and posts through the `gh` CLI, so `gh` must be logged in wherever the agent runs, and Ace handles no tokens. Other code hosts, such as GitLab or Bitbucket, are not supported. Without GitHub, review, verify, and explain still work on your local diff, but nothing opens or reads a pull request.
 
-In v1, Ace expects the code host's CLI to be logged in wherever the agent runs, such as `gh` for GitHub. The agent reads and posts through that CLI, so Ace handles no tokens. Ace also writes no CI config: when you want runs without a person, you set up the runner.
+Tickets are not tied to GitHub: Ace ships a provider for GitHub Issues, and an adapter file in `ace/` points it at another tracker, such as Linear or Jira. Ace also writes no CI config: when you want runs without a person, you set up the runner.
 
 ### Local vs cloud
 
@@ -170,7 +170,6 @@ The skills are built in a way that they listen to your needs. These adapters liv
 | `VERIFY.md` | How to prove a change works: the checks CI runs, how to start the app, and how to try each kind of change. `ace-verify` follows it in stage 2, and `ace-review` runs its checks in stage 3. |
 | `checks/` | Your own checks, one file each, such as `checks/ACCESSIBILITY.md` with what to find, what to drop, and how severe a finding is. `ace-review` runs each one as its own check, and `ace-audit` as its own domain. Copy [skills/ace-setup/templates/CHECK.md](skills/ace-setup/templates/CHECK.md) to start one. Single rules stay in `CODING_STANDARDS.md`. |
 | `TICKET_TRACKER.md` | How to read, search, open, and update tickets, e.g. in Linear or Jira, and how the tracker shows the three ticket states (see below). For GitHub Issues you need no file: set `"ticket_tracker": "github-issues"`. |
-| `CODE_HOSTING.md` | How to open a pull request, comment on it, and find the tickets it closes, e.g. on GitLab or Bitbucket. On GitHub you need no file. |
 | `PRODUCT.md` | Who the product is for, the goal "better" means right now, what it leaves alone, and the direction picked for each part. `ace-grill` ranks directions against it, and writes it the first time you pick one. |
 | `CYCLE.md` | What starts runs besides a person, such as a CI job or a cloud agent on a schedule, and the message each run gets. By default a person starts every run and `ace-mode` names the next step. Ace writes no runner config: you set up the runner, and `/ace-setup cycle` writes this file to describe it. |
 
@@ -194,7 +193,7 @@ Everything Ace posts to a ticket tracker or a code host, such as a pull request,
 
 ### Built-in providers
 
-Ace ships the ticket tracker and code hosting for GitHub inside the skills, in [skills/ace-adapters/github/](skills/ace-adapters/github/). You pick them in `ace/config.json` instead of copying them into your project, so they hold no project values and update with Ace. When you want one part different, such as an assignee on every ticket or your own pull request rules, write just that section in your `ace/` file. It replaces the provider's section with the same job, and the provider fills the rest. For a tool without a provider, the `ace/` file holds every section.
+Ace ships GitHub Issues and GitHub pull requests inside the skills, in [skills/ace-adapters/github/](skills/ace-adapters/github/). They hold no project values and update with Ace, so you never copy them into your project. Pull requests need no setting. You pick GitHub Issues in `ace/config.json`. When you want one part different, such as an assignee on every ticket, write just that section in `ace/TICKET_TRACKER.md`. It replaces the provider's section with the same job, and the provider fills the rest. For a tracker without a provider, the file holds every section. Your own pull request rules go in your pull request template or your `AGENTS.md`.
 
 ### Your adapters, your rules
 

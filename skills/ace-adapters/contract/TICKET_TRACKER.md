@@ -2,7 +2,7 @@
 
 | Section | What it holds | Used by |
 |---|---|---|
-| Ticket references | How a ticket is written in a commit, branch name, or pull request body, such as `#123` or `ENG-123` | `ace-review`, `ace-open-pr`, `ace/CODE_HOSTING.md` |
+| Ticket references | How a ticket is written in a commit, branch name, or pull request body, such as `#123` or `ENG-123` | `ace-review`, `ace-open-pr`, [PULL_REQUESTS.md](../github/PULL_REQUESTS.md) |
 | Read a ticket | How to read a ticket with its comments | `ace-review`, `ace-grill`, `ace-to-ticket`, `ace-explain` |
 | Search tickets | How to search tickets by text | `ace-audit`, `ace-explain` |
 | Open a ticket | How to open a ticket with title, body, type, and Risk, in the needs-dev state, and where Priority and Size go when the tracker records them | `ace-to-ticket` (its `OPEN_TICKET.md`) |

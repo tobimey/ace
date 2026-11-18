@@ -31,7 +31,7 @@ Prove the current change works. Done means every command in the "Checks" section
 
 ## 1. Get the change
 
-Use the change the caller gave. Otherwise get the diff as the "Get the diff" section of `ace/CODE_HOSTING.md` says. List each behavior the change adds or alters.
+Use the change the caller gave. Otherwise get the diff as the "Get the diff" section of [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says. List each behavior the change adds or alters.
 
 ## 2. Run the checks
 

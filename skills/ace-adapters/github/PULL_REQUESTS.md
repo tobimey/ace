@@ -1,6 +1,6 @@
-# Code hosting: GitHub
+# Pull requests: GitHub
 
-The built-in code host for GitHub. Ace uses it when `git remote get-url origin` points at github.com and `gh auth status` succeeds. A section in the project's `ace/CODE_HOSTING.md` replaces the section here with the same job, so a project overrides only what it does differently, such as its pull request rules.
+How Ace gets a diff and works with pull requests. Ace supports pull requests only on GitHub: `git remote get-url origin` points at github.com and `gh auth status` succeeds. Without that, there is no pull request: "Get the diff" skips step 2, "Find a pull request" finds none, and "Linked tickets" is skipped. Every other section stops with `Pull requests need GitHub and a logged-in gh.`
 
 - `REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
 - `DEFAULT_BRANCH` is `git symbolic-ref --short refs/remotes/origin/HEAD` without the `origin/` prefix, else `main`, else `master`.
@@ -31,7 +31,7 @@ Checkout a branch (if on the default branch), commit if needed, push, open a pul
 - Draft unless the user says otherwise (ready, publish, not draft).
 - Pull request title and commit title use conventional commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `perf:`, `test:`.
 - Commit message is the title line only.
-- Pull request body: the pull request template under `.github/`, such as `.github/pull_request_template.md`. Read it and fill exactly its sections. With no template, write the sections What changed and How it was verified.
+- Pull request body: the project's pull request template, wherever GitHub looks for one, in any letter case: `git ls-files | grep -iE '^(\.github/|docs/)?pull_request_template(\.md$|/)'`. In a `PULL_REQUEST_TEMPLATE/` folder, pick the file that fits the change. Keep its headings in order, fill each section, tick only the checkboxes that are true, and drop its instruction comments. With no template, write the sections What changed and How it was verified.
 - Read the diff and describe only what changed.
 - Push with a plain push and let every hook run.
 - If already on a non-default branch, stay on it. If on `DEFAULT_BRANCH`, create a short kebab-case branch from it first.
