@@ -40,6 +40,16 @@ Rules:
 - If the installed skills and the source disagree, the source is the truth. The installed copy is just out of date.
 - This repo uses Ace only in part. For now there is no ticket tracker and no pull request review. Skip any skill step that reads, opens, or updates a ticket, or that reviews or comments on a pull request, and say that you skipped it. Review the local diff instead.
 
+### Keep skills short
+
+Every line in a skill costs context and money on each run, so a skill must not grow with every feature. When I ask for a change or a new feature in `skills/`:
+
+- Before you add text, look for text to change instead: a rule that already covers the case, a step to widen, a section to merge, an example to swap.
+- Cut what the change makes redundant, outdated, or obvious to the model.
+- Move detail that only some runs need into a separate file the skill loads on demand.
+- Add a new section only when none of the above works, and say why.
+- When you finish, report the word count of each changed skill before and after (`wc -w`). If a skill grew, say what you tried first and why it had to grow.
+
 ### Glossary 
 
 - you: the agent writing code in this project

@@ -57,7 +57,7 @@ Each pass follows its domain file and these steps:
 
 1. **Scan.** Do the domain file's Before scanning section first. Then read the code. Find what its Find section lists.
 2. **Drop.** Apply its Drop section.
-3. **Check existing tickets.** For each finding, search tickets by its primary file path, as `ace/TICKET_TRACKER.md` says. Read the matches. Skip a finding when a ticket already exists with the same root cause, primary files, or shape. This includes tickets an earlier pass of this run filed.
+3. **Check existing tickets.** For each finding, search tickets by its primary file path and by the feature or glossary term it touches, since planned tickets name no paths, as `ace/TICKET_TRACKER.md` says. Read the matches. Skip a finding when a ticket already covers its root cause, code, or shape. This includes tickets an earlier pass of this run filed.
 4. **Keep at most the cap.** Drop every finding that misses its Bar section. If none remain, file nothing. If the cap or fewer remain, file those and stop looking. If more remain, keep the ones that rank highest, up to the cap. Break ties as the Bar section says.
 5. **File those.** Skip this step when step 4 kept none. Open one ticket per finding with [OPEN_TICKET.md](../ace-to-ticket/OPEN_TICKET.md), using its Ticket section and the defaults below. A writeup in the session counts only when there is no ticket tracker, as the default for "Open a ticket" in `ace-adapters` says. Choose Size from the concrete fix and Risk from what it touches, as that file defines them. When `who_sets_ready`, read as `ace-adapters` says, is `any-agent`, tell it to set each ticket ready. Otherwise it stays in needs-dev for a person.
 

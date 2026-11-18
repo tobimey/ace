@@ -70,4 +70,4 @@ Everything you write to a ticket tracker or a code host starts with one line tha
 
 ## Writing adapters
 
-Only `ace-setup` creates an adapter file, with two exceptions: `ace-verify` creates a missing `ace/VERIFY.md` from what it found and tried, as its step 5 says, and `ace-grill` creates a missing `ace/PRODUCT.md` once the user picks a direction, as step 6 of its `DIRECTION.md` says. Every other skill leaves a missing adapter missing and uses the provider or the default.
+Only `ace-setup` creates an adapter file, with one exception: `ace-grill` creates a missing `ace/PRODUCT.md` once the user picks a direction, as step 6 of its `DIRECTION.md` says. `ace-verify` proposes a missing `ace/VERIFY.md`, or lines to add or fix, in its report, and writes them only when the user says yes. Every other skill leaves a missing adapter missing and uses the provider or the default.

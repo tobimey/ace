@@ -112,5 +112,5 @@ Drop each list that is empty.
 Use this when a step above says so, or when a skill you follow would ask the user.
 
 1. Keep the commits that pass the checks, and push them.
-2. When a person is in the session, ask each question in the question format of `ace-mode` after the report, and continue once they answer.
+2. When a person is in the session, ask each question in the question format in [QUESTIONS.md](../ace-mode/QUESTIONS.md) after the report, and continue once they answer.
 3. When nobody answers, such as a run a schedule or a label started, post the questions as one comment on the pull request that starts with `<!-- ace-babysit-questions -->` and the model line, as "Sign what you post" in `ace-adapters` says, replacing an earlier comment with that marker, as "Comment on a pull request" says.

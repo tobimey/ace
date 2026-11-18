@@ -25,7 +25,7 @@
 - One section for constraints: the scope and boundaries of the job. A heading such as "Constraints" or "Scope" counts. If that section exists, keep it.
 - Every instruction names the action to take. "Do not X", "never X", "avoid X", and "should not X" become the allowed scope, the replacement action, or a stop condition. A negation that states a fact or a condition stays. `scripts/check-wording.sh` lists the candidates
 - Call-site agnostic: a job skill's body works from any slash command, UI, parent skill, or route that loads it. When `disable-model-invocation` is omitted, discovery `when` lives in `description`
-- Follow the prefix rules in `ace-skill-optimizer`. That list is the only prefix list.
+- Follow the prefix rules in `ace-skill-best-practices`. That list is the only prefix list.
 - Generic: no project, stack, framework, database, command, path, or trust boundary of one project. Those live in `ace/` files.
 - Name another skill by its `name`, not by a file path. Name a document by its role unless that path is the work.
 - Every skill the body follows, loads, or runs is listed by name in a `## Requires` section, with no install check

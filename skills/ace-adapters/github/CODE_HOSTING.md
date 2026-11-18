@@ -62,6 +62,12 @@ gh pr view NUMBER_OR_BRANCH --repo REPO \
 
 No pull request for the branch means the work has none yet.
 
+To check out its head branch, also from a detached checkout such as a CI job:
+
+```bash
+gh pr checkout NUMBER --repo REPO
+```
+
 To list the open pull requests of the current user, newest first:
 
 ```bash

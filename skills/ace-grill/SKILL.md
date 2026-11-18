@@ -39,7 +39,7 @@ Map the plan as a design tree. Every decision branches into the decisions that h
 
 Work the tree in rounds. The frontier is every decision whose prerequisites are already settled: the questions you can ask now without guessing at answers you have not heard yet. Ask the whole frontier in one round. Number each question and give your recommended answer. Then wait for the user's answers before the next round.
 
-Write the questions in the question format of `ace-mode`.
+Write the questions in the question format in [QUESTIONS.md](../ace-mode/QUESTIONS.md).
 
 Each round the user answers reshapes the tree. Settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a later round.
 

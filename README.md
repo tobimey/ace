@@ -23,7 +23,7 @@ Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and
 
 - 🧭 **One router.** You say what you want, and `ace-mode` picks the skills and their order. You need no skill names.
 - 🔌 **Adapters.** Ace reads your checks, ticket tracker, and code host from small files in `ace/`, and works on defaults before you write any.
-- 🛠️ **A review that fixes.** `ace-review` checks a change against its ticket, your coding standards, and its code, fixes what your settings allow, and rates its Merge Danger: how hard it is to undo, and how much it can break.
+- 🛠️ **A review that fixes.** `ace-review` checks a change against its ticket, your coding standards, and its code, fixes what your settings allow, and on a pull request rates its Merge Danger: how hard it is to undo, and how much it can break.
 - 🤖 **Runs with no person.** Start Ace from any runner you set up, such as a CI job or a scheduled cloud agent, and it turns ready tickets into pull requests and audits the repo. A person merges.
 
 ## Get started
@@ -81,7 +81,7 @@ Every skill has its own folder in `skills/`, such as `skills/ace-review/`.
 
 | Skill | What it does |
 |---|---|
-| `ace-review` | Runs three checks on the change: **spec** (does it do what the ticket asked), **standards** (your coding standards), and **code** (logic, security, performance, and architecture), plus each custom check you add in `ace/checks/`. It fixes what the `review` settings allow, writes the rest as findings, and rates the Merge Danger. On a pull request it commits its fixes. On a local diff it leaves them uncommitted, and you commit. |
+| `ace-review` | Runs three checks on the change: **spec** (does it do what the ticket asked), **standards** (your coding standards), and **code** (logic, security, performance, and architecture), plus each custom check you add in `ace/checks/`. It fixes what the `review` settings allow, writes the rest as findings, and on a pull request rates the Merge Danger. On a pull request it checks out its branch, then commits and pushes its fixes there. On a local diff it leaves them uncommitted, and you commit. |
 
 ### Between review and merge
 
@@ -95,10 +95,8 @@ Skills that improve the agentic system so it works better next time.
 
 | Skill | What it does |
 |---|---|
-| `ace-optimize-factory` | Runs a retro on a session or fixes one named misbehaviour. |
-| `ace-agents-file` | Edits the agents file. |
-| `ace-skill-optimizer` | Edits skills. |
-| `ace-create-skill` | Creates skills. |
+| `ace-optimize-factory` | Runs a retro on a session, fixes one named misbehaviour, or checks the agents file. |
+| `ace-skill-best-practices` | Creates and edits skills. |
 
 ### Beyond the cycle
 
@@ -194,7 +192,7 @@ Ace ships the ticket tracker and code hosting for GitHub inside the skills, in [
 
 The adapters are yours. `ace-setup` writes a first draft of the ones you need, and from then on you change them as the project needs. Ace skills depend only on a few sections, listed with their defaults in [skills/ace-adapters/ADAPTERS.md](skills/ace-adapters/ADAPTERS.md). Keep those, under any heading, and the rest of each file is free.
 
-When a file or a section is missing, the skill uses the provider you picked, or else its default, and names the default in one line. For example, with no `VERIFY.md` it runs the checks your CI runs, and with no ticket tracker it writes a ticket into the reply. The first time `ace-verify` runs without `VERIFY.md`, it writes one from what it found.
+When a file or a section is missing, the skill uses the provider you picked, or else its default, and names the default in one line. For example, with no `VERIFY.md` it runs the checks your CI runs, and with no ticket tracker it writes a ticket into the reply. When `ace-verify` runs without `VERIFY.md`, it proposes one from what it found, and writes it when you say yes.
 
 ### Monorepos
 

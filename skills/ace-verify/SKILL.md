@@ -6,12 +6,12 @@ disable-model-invocation: true
 
 # Verify
 
-Prove the current change works. Done means every command in the "Checks" section passes, each behavior the change adds or alters was tried and seen working, the verify file holds each way to try a behavior that worked, and the report says what ran and what was seen.
+Prove the current change works. Done means every command in the "Checks" section passes, each behavior the change adds or alters was tried and seen working, and the report says what ran, what was seen, and the verify file lines to add or fix.
 
 ## Constraints
 
-- Verify as `ace/VERIFY.md` says, plus each package verify file for the paths the change touches, found as "Package folders" in [ADAPTERS.md](../ace-adapters/ADAPTERS.md) says. When those files have no way to try a behavior, or a way they give is wrong, find one that works and write it back in step 5.
-- In the verify files, change only the lines of the "Run the app" and "Check behavior" sections that step 5 names. When `ace/VERIFY.md` is missing, create it in step 5 instead.
+- Verify as `ace/VERIFY.md` says, plus each package verify file for the paths the change touches, found as "Package folders" in [ADAPTERS.md](../ace-adapters/ADAPTERS.md) says. When those files have no way to try a behavior, or a way they give is wrong, find one that works and propose it in step 5.
+- Read only for the verify files, so the change stays what the user asked for. Step 5 proposes their changes in the report. Make those changes only when the user says yes to them.
 - A passing check proves the check, not the behavior. Report behavior as working only after you have tried it.
 - Make a failing check or test pass by fixing the code. Keep every check, test, and hook as strict as you found it, and let hooks run.
 - A failure that also happens without this change is pre-existing. Report it and leave it as it is.
@@ -25,7 +25,7 @@ Prove the current change works. Done means every command in the "Checks" section
 - [ ] 2. Run the checks
 - [ ] 3. Try the behavior
 - [ ] 4. Fix and repeat
-- [ ] 5. Update the verify file
+- [ ] 5. Propose verify file changes
 - [ ] 6. Report
 ```
 
@@ -51,11 +51,13 @@ When the change has no runtime behavior (docs, comments, types only), write that
 
 On any failure, fix it and go back to step 2. When the same failure survives three fixes, stop and report it.
 
-## 5. Update the verify file
+## 5. Propose verify file changes
 
-For each way you noted in step 3, add or fix one line in the file that covers the touched path: the package verify file for a path in a package, otherwise `ace/VERIFY.md`. Write it like the lines around it: the kind of change, the tool, where to start, such as a URL, an endpoint, or a command, and what to look at. When you noted nothing, skip this step.
+For each way you noted in step 3, write one line to add or fix in the file that covers the touched path: the package verify file for a path in a package, otherwise `ace/VERIFY.md`. Write it like the lines around it: the kind of change, the tool, where to start, such as a URL, an endpoint, or a command, and what to look at. For a fix, quote the line it replaces. When you noted nothing, skip this step.
 
-When `ace/VERIFY.md` is missing, create it from [templates/VERIFY.md](../ace-setup/templates/VERIFY.md), also when you noted nothing. Fill "Checks" with the commands you ran in step 2, "Run the app" with how you started the app, or `None.`, and "Check behavior" with each way that worked in step 3. Leave package verify files to `ace-setup`. Tell the user to read the new file and fix what is wrong.
+When `ace/VERIFY.md` is missing, propose the whole file from [templates/VERIFY.md](../ace-setup/templates/VERIFY.md), also when you noted nothing: "Checks" with the commands you ran in step 2, "Run the app" with how you started the app, or `None.`, and "Check behavior" with each way that worked in step 3. Offer `ace-setup` as the other way to write it.
+
+When the user says yes, make those edits as their own change, apart from the change you verified, and tell the user to commit them on their own. When this work gets a pull request, `ace-open-pr` copies the proposal into its body, so a person finds it also after a run nobody watched.
 
 ## 6. Report
 
@@ -66,8 +68,8 @@ Checks:
 Behavior:
 - What you did, and what you saw. For a behavior tried in a browser, the screenshot path.
 
-Verify file:
-- `path`: the line added or fixed, or "none"
+Verify file, proposed:
+- `path`: the line to add, or the line to fix and its replacement, or "none"
 
 Not verified: what and why, or "none"
 ```

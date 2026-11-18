@@ -6,11 +6,12 @@ disable-model-invocation: true
 
 # Open pull request
 
-Open a pull request for the current work. Done means the pull request exists and its URL is handed back.
+Open a pull request for the current work. Done means the pull request exists, its body holds each verify file change `ace-verify` proposed for this work that the tree lacks, and its URL is handed back.
 
 ## Constraints
 
 - Open the pull request only as the "Open a pull request" section of `ace/CODE_HOSTING.md`, or its default, says. That section is the only way to open it.
+- When the `ace-verify` report of this work proposes verify file changes that the working tree does not hold yet, put them into the pull request body: in the section on how the change was verified, or else in a last section `Proposed verify file changes`. Copy each proposed line with its file path, and say that the lines are not in this pull request and a person adds them. They go into the body also when the section says to describe only what changed.
 
 ## Workflow
 
