@@ -2,7 +2,7 @@
 
 The adapters in `ace/`, and the glossary in the root agents file, belong to the project. Change them freely. Ace skills depend only on the sections below. Each section does the job named here. Its heading may differ, since skills find a section by its job. Everything else in an adapter is free.
 
-For the ticket tracker, code hosting, and cycle, Ace ships built-in providers for GitHub in [github/](github/). A provider fills every section of its adapter, and the project selects it in `ace/config.json` instead of copying it. A file in `ace/` is needed only for a tool without a provider, or to replace single sections of one.
+For the ticket tracker and code hosting, Ace ships built-in providers for GitHub in [github/](github/). A provider fills every section of its adapter, and the project selects it in `ace/config.json` instead of copying it. A file in `ace/` is needed only for a tool without a provider, or to replace single sections of one.
 
 Every section has a default. A skill uses it when neither the file nor a provider has the section, as [SKILL.md](SKILL.md) says. `ace-setup` selects a provider or writes an adapter to replace the defaults with what this project does.
 
@@ -80,6 +80,7 @@ Optional. One file per custom check, such as `ace/checks/ACCESSIBILITY.md`, for 
 | Sub-tickets and blocking | How to attach a sub-ticket to a parent and mark a blocker | `ace-to-ticket` |
 | Ticket states | How the tracker shows each ticket state: needs-dev, ready, and working | `ace-work-ticket`, the user |
 | Find ready tickets | How to list open tickets in the ready state that no open ticket blocks, in the order to work them | `ace-work-ticket` |
+| Find working tickets | How to list open tickets in the working state | `ace-work-ticket`, to release claims a dead run left |
 | Set a ticket state | How to move a ticket from one state to another, and read its state back | `ace-work-ticket` |
 | Comment on a ticket | How to post a comment on a ticket | `ace-work-ticket` |
 
@@ -91,7 +92,7 @@ The ticket states:
 
 - **needs-dev**: a person must look at the ticket. Every ticket an agent opens starts here, and `ace-work-ticket` moves a ticket here when it stops for a person.
 - **ready**: an agent may work the ticket. A person sets it, or the skill that opened the ticket when `who_sets_ready` in `ace/config.json` allows it.
-- **working**: `ace-work-ticket` claimed the ticket. It stays until the pull request merges and closes it.
+- **working**: `ace-work-ticket` claimed the ticket. It stays until the pull request merges and closes it. When no pull request is open for it after 3 hours, the next `ace-work-ticket` run moves it to needs-dev with a comment that says why.
 
 ## `ace/CODE_HOSTING.md`
 
@@ -102,7 +103,7 @@ The ticket states:
 | Linked tickets | How to find the tickets a pull request closes, using the tracker's ticket references | `ace-review`, `ace-explain` | Skip |
 | Find a pull request | How to find the pull request for a number or a branch, with its state, labels, and comments, and how to list the current user's open pull requests | `ace-mode`, `ace-babysit-pr` | There is no pull request. |
 | Comment on a pull request | How to post a comment on a pull request, and how to find an earlier comment by a marker and edit it | `ace-explain`, `ace-mode`, `ace-babysit-pr`. The root agents file also points agents here | The comment goes in the reply. |
-| Pull request state | The failing and running checks, unresolved review threads, reviews, new comments, and merge state of a pull request, with a verdict: action, waiting, ready, merged, or closed | `ace-babysit-pr` | None. Stop and offer `ace-setup hosting`. |
+| Pull request state | The failing and running checks, unresolved review threads, reviews, new comments, and merge state of a pull request, with a verdict: action, waiting, ready, merged, or closed. A review, comment, or thread that a reply marked `<!-- ace-babysit` follows is answered, and waits for a person | `ace-babysit-pr` | None. Stop and offer `ace-setup hosting`. |
 | Check logs | How to read the log of a failing check, and how to run it once more | `ace-babysit-pr` | None. Name the failing check and its link, and fix from the checks in `ace/VERIFY.md` run locally. |
 | Reply to a review thread | How to reply inside a review thread and resolve it | `ace-babysit-pr` | The reply goes in the report. |
 
@@ -129,9 +130,9 @@ Settings, not an adapter. An adapter says how this project does a job. A setting
 |---|---|
 | `autonomy` | Every skill that reads `who_sets_ready` or `review.fixes`, for their value when the key is missing |
 | `ticket_tracker` | Every skill that reads `ace/TICKET_TRACKER.md`, to pick the provider |
-| `who_starts_runs` | `ace-mode`, to pick the provider for `ace/CYCLE.md` |
+| `who_starts_runs` | `ace-setup`, which writes `ace/CYCLE.md` when it is `custom` |
 | `who_sets_ready` | `ace-to-ticket`, `ace-audit`, `ace-work-ticket` |
-| `review` | `ace-review`. `ace-mode` and the review workflow read `review.runs` |
+| `review` | `ace-review` |
 | `write_adrs` | `ace-grill` |
 | `max_tickets_per_audit_domain` | `ace-audit` |
 
@@ -141,13 +142,11 @@ Optional. One file per architecture decision, from `ace-grill` when `write_adrs`
 
 ## `ace/CYCLE.md`
 
-Optional. It matters only when something other than a person starts runs, such as a label that starts a workflow or a schedule that runs an agent.
+Optional. It matters only when something other than a person starts runs, such as a CI job that a label starts or a cloud agent on a schedule. Ace writes no runner config: the user sets up the runner, and this file tells agents what it does.
 
 | Section | What it holds | Used by |
 |---|---|---|
 | After Plan, After Build, After Review, After Audit | What the runner needs when that `ace-mode` playbook ends, such as setting a label or moving a ticket | `ace-mode` |
 | Runs | Each trigger that starts an agent run without a person, and the message that run gets, or `None.` | `ace-mode`, the user |
-
-**Provider.** [github/CYCLE.md](github/CYCLE.md) when `who_starts_runs` in `ace/config.json` is `github-actions`. Write `ace/CYCLE.md` only for another runner, such as a cloud agent on a schedule.
 
 **Default.** A person starts every run, and `ace-mode` names the next step from its Continue table.

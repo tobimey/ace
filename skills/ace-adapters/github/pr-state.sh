@@ -6,10 +6,13 @@
 # Exit 0: READY, MERGED, or CLOSED. 1: ACTION. 3: WAITING. 2: bad input.
 #
 # Verdict:
-#   ACTION   conflicts, a failing check, an unresolved review thread,
-#            requested changes, or a comment newer than the head commit
-#   WAITING  checks still running, or a required review is missing
+#   ACTION   conflicts, a failing check, an unresolved review thread whose last
+#            comment is not an Ace reply, or a review or comment newer than the
+#            last answer: the head commit or the newest Ace reply, if later
+#   WAITING  checks still running, a required review is missing, or a person
+#            must answer an Ace reply (a thread or requested changes)
 #   READY    nothing left for an agent
+# An Ace reply is a comment whose body contains "<!-- ace-babysit".
 set -euo pipefail
 
 number=""
@@ -19,7 +22,7 @@ while [ "$#" -gt 0 ]; do
   case "$1" in
     --repo) repo="$2"; shift 2 ;;
     --wait) wait_for="$2"; shift 2 ;;
-    -h|--help) sed -n '2,14p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,16p' "$0"; exit 0 ;;
     *) number="$1"; shift ;;
   esac
 done
@@ -49,20 +52,23 @@ query($owner: String!, $name: String!, $number: Int!) {
       } } } } } }
       reviewThreads(first: 100) { nodes {
         id isResolved isOutdated path line
-        comments(first: 50) { nodes { databaseId author { login } body createdAt url } }
+        comments(last: 50) { nodes { databaseId author { login } body createdAt updatedAt url } }
       } }
       reviews(last: 50) { nodes { author { login } state body submittedAt url } }
-      comments(last: 100) { nodes { author { login } body createdAt url } }
+      comments(last: 100) { nodes { author { login } body createdAt updatedAt url } }
     }
   }
 }'
 
 shape='
 def ci_bot: test("^(github-actions|vercel|netlify|codecov|dependabot|renovate)(\\[bot\\])?$");
+def ace: (.body // "") | contains("<!-- ace-babysit");
 .data.repository.pullRequest as $pr
 | ($pr.commits.nodes[0].commit) as $head
-| $head.committedDate as $since
-| $pr.author.login as $me
+| ([$head.committedDate]
+   + [$pr.comments.nodes[] | select(ace) | .updatedAt]
+   + [$pr.reviewThreads.nodes[].comments.nodes[] | select(ace) | .updatedAt]
+   | max) as $since
 | ([$head.statusCheckRollup.contexts.nodes[]? |
     if .__typename == "CheckRun" then
       { name: ((.checkSuite.workflowRun.workflow.name // "") + (if .checkSuite.workflowRun then " / " else "" end) + .name),
@@ -77,13 +83,16 @@ def ci_bot: test("^(github-actions|vercel|netlify|codecov|dependabot|renovate)(\
                 elif .state == "SUCCESS" then "PASS" else "FAIL" end),
         conclusion: .state, run_id: null, link: .targetUrl }
     end]) as $checks
-| ([$pr.reviewThreads.nodes[] | select(.isResolved | not) |
+| ([$pr.reviewThreads.nodes[] | select(.isResolved | not)]) as $open_threads
+| ([$open_threads[] | select((.comments.nodes | last) // {} | ace | not) |
     { thread_id: .id, path, line, outdated: .isOutdated,
       comments: [.comments.nodes[] | { id: .databaseId, author: .author.login, body, created_at: .createdAt, url }] }]) as $threads
-| ([$pr.reviews.nodes[] | select(.author.login != $me)
-    | select(.state == "CHANGES_REQUESTED" or ((.body // "") != "" and .submittedAt > $since))
+| ([$open_threads[] | select((.comments.nodes | last) // {} | ace)] | length) as $answered_threads
+| ([$pr.reviews.nodes[]
+    | select(.state == "CHANGES_REQUESTED" or (.body // "") != "")
+    | select(.submittedAt > $since)
     | { author: .author.login, state, body, submitted_at: .submittedAt, url }]) as $reviews
-| ([$pr.comments.nodes[] | select(.author.login != $me) | select(.author.login | ci_bot | not)
+| ([$pr.comments.nodes[] | select(ace | not) | select(.author.login | ci_bot | not)
     | select(.createdAt > $since)
     | { author: .author.login, body, created_at: .createdAt, url }]) as $comments
 | ([$checks[] | select(.state == "FAIL")]) as $failing
@@ -92,10 +101,12 @@ def ci_bot: test("^(github-actions|vercel|netlify|codecov|dependabot|renovate)(\
 | ([ (if $conflicts then "conflicts" else empty end),
      (if ($failing | length) > 0 then "failing-checks" else empty end),
      (if ($threads | length) > 0 then "review-threads" else empty end),
-     (if $pr.reviewDecision == "CHANGES_REQUESTED" then "changes-requested" else empty end),
+     (if ($reviews | length) > 0 then "new-reviews" else empty end),
      (if ($comments | length) > 0 then "new-comments" else empty end) ]) as $action
 | ([ (if ($pending | length) > 0 then "checks-running" else empty end),
      (if $pr.reviewDecision == "REVIEW_REQUIRED" then "needs-approval" else empty end),
+     (if $answered_threads > 0 then "threads-answered" else empty end),
+     (if $pr.reviewDecision == "CHANGES_REQUESTED" then "changes-requested-awaiting-reviewer" else empty end),
      (if $pr.mergeable == "UNKNOWN" then "mergeability-unknown" else empty end) ]) as $wait
 | { verdict: (if $pr.state != "OPEN" then $pr.state
                elif ($action | length) > 0 then "ACTION"
@@ -105,12 +116,13 @@ def ci_bot: test("^(github-actions|vercel|netlify|codecov|dependabot|renovate)(\
     number: $pr.number, url: $pr.url, state: $pr.state, draft: $pr.isDraft,
     from_fork: $pr.isCrossRepository,
     head: $pr.headRefName, base: $pr.baseRefName, head_sha: $pr.headRefOid,
-    head_committed_at: $since,
+    head_committed_at: $head.committedDate, answered_at: $since,
     merge_state: $pr.mergeStateStatus, mergeable: $pr.mergeable,
     review_decision: $pr.reviewDecision,
     failing_checks: $failing, pending_checks: ($pending | map(.name)),
     passing_checks: ([$checks[] | select(.state == "PASS")] | length),
-    unresolved_threads: $threads, reviews: $reviews, new_comments: $comments }'
+    unresolved_threads: $threads, answered_threads: $answered_threads,
+    reviews: $reviews, new_comments: $comments }'
 
 snapshot() {
   gh api graphql -f query="$query" -F owner="$owner" -F name="$name" -F number="$number" \

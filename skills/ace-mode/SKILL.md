@@ -14,14 +14,15 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 
 ## Constraints
 
-- A step that changes files waits until the message asks for a change, as the agents file says. Until then, run the read-only steps and propose the rest.
+- A step that changes files waits until the message asks for a change. A message asks for one when it asks in words, such as "fix", "add", or "do it", when it names a job that changes files, such as `Review pull request #12`, `Run ace-work-ticket.`, or a skill command like `/ace-review`, or when it says yes to a change you proposed. A skill then makes the changes its Done names, within the settings in `ace/config.json`, and no others. Until a message asks, run the read-only steps and propose the rest.
 - Load a skill by reading `../<name>/SKILL.md` from this file's folder, since Ace hides its skills from the model. Follow each skill as written. This file only picks the skills and their order.
 - Read a playbook file the first time you route to it, then keep using it from context.
 - A step that does not apply stays in the list as `skip: <reason>`.
 - A small edit the user fully specified, such as a typo or a line they dictated, needs no playbook. Make it and say what changed.
 - Playbooks are internal. Never name one in a reply or print its steps. Say what you do in plain words, such as "I'll fix the bug, then review the diff."
 - Read every project fact as `ace-adapters` says. A missing `ace` folder or section is no error: its default applies. When the project has no `ace` folder, end the first reply of the session with one line that offers `ace-setup`.
-- Leave every merge to a person. Ace stops at a reviewed pull request.
+- Leave every merge to a person. Ace stops at an open pull request.
+- A model never reviews a change it built. When this session built the change, the Review playbook does not run here. Say that a review needs another model, such as a new session on a different model or the user's runner, and give the line to send there. Run it here only when the user asks again after that.
 
 ## Questions
 
@@ -102,7 +103,7 @@ A diff, a branch, or a pull request to review.
 
 1. `ace-review` on that input. When the message asks for only some checks, such as "check it against the ticket", pass them: `spec`, `standards`, `code`, or the name of a custom check in `ace/checks/`.
 2. Reply with its report.
-3. When the user asked to comment on the pull request, first push the commits `ace-review` made, if any, to its branch with a plain push. Then post the report as one comment that starts with `<!-- ace-review -->`, replacing an earlier comment with that marker, as `ace/CODE_HOSTING.md` says.
+3. When the user asked to comment on the pull request, first push the commits `ace-review` made, if any, to its branch with a plain push. Then post the report as one comment that starts with `<!-- ace-review -->` and the model line, as "Sign what you post" in `ace-adapters` says, replacing an earlier comment with that marker, as `ace/CODE_HOSTING.md` says.
 
 ### Audit
 
@@ -128,8 +129,8 @@ A message that names one job runs that skill alone: work the next ready ticket w
 
 Perf, Fix, Refactor, and Build end with these steps. Copy them into the todo list in place of "Finish the change".
 
-1. Run the Review playbook on the local diff when `review.runs` in `ace/config.json` includes `after-implementing`. A missing file or key means it does. Otherwise skip it, and say which setting skipped it.
-2. `ace-open-pr` when the user asked to ship or open a pull request. Otherwise offer it.
+1. `ace-open-pr` when the user asked to ship or open a pull request. Otherwise offer it.
+2. Leave the review to another model, as the Constraints say. `ace-implement` already checked the coding standards.
 
 ## Hand off
 

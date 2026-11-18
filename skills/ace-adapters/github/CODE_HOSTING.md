@@ -78,7 +78,7 @@ pr-state.sh NUMBER --repo REPO
 pr-state.sh NUMBER --repo REPO --wait 600
 ```
 
-It prints JSON. `verdict` is `ACTION`, `WAITING`, `READY`, `MERGED`, or `CLOSED`, and `reasons` says why. `--wait` polls while the verdict is `WAITING`, up to that many seconds. A review or comment counts as new when it is newer than the head commit.
+It prints JSON. `verdict` is `ACTION`, `WAITING`, `READY`, `MERGED`, or `CLOSED`, and `reasons` says why. `--wait` polls while the verdict is `WAITING`, up to that many seconds. Ace knows what it already answered by the marker `<!-- ace-babysit` that `ace-babysit-pr` puts on every reply, not by who posted it. A review or comment counts as new when it is newer than the head commit and newer than the latest Ace reply. An open thread whose last comment is an Ace reply, and requested changes that Ace already answered, wait for a person.
 
 ## Check logs
 

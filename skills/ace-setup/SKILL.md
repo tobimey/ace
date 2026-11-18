@@ -1,6 +1,6 @@
 ---
 name: ace-setup
-description: Sets up Ace in a project with a quick setup, adds one module such as tickets or CI on request, or adds what an existing setup lacks after an Ace update.
+description: Sets up Ace in a project with a quick setup, adds one module such as tickets or the cycle on request, or adds what an existing setup lacks after an Ace update.
 disable-model-invocation: true
 ---
 
@@ -19,10 +19,12 @@ Set up Ace in this project. Ace works with no setup: every adapter section has a
 | `standards` | 3 | `ace/CODING_STANDARDS.md` | The template's rules and no trusted party |
 | `tickets` | 4 | `ticket_tracker`, the ticket state labels, and `ace/TICKET_TRACKER.md` only for a tracker with no provider or for overrides | No ticket tracker |
 | `hosting` | 5 | `ace/CODE_HOSTING.md`, only for a host with no provider or for pull request rules beyond the provider | The GitHub provider, or no pull requests off GitHub |
-| `ci` | 6 | `who_starts_runs`, workflows, labels, `review.runs`, and `ace/CYCLE.md` only for a runner with no provider | A person starts every run |
+| `cycle` | 6 | `who_starts_runs` and `ace/CYCLE.md`, for a runner the user set up | A person starts every run |
 | `settings` | 7 | `ace/config.json`, starting with `autonomy` | The defaults in [config.schema.json](config.schema.json) |
 
-GitHub has built-in providers in [ace-adapters/github/](../ace-adapters/github/). A module for GitHub sets a key in `ace/config.json` and writes no adapter file.
+GitHub has built-in providers for tickets and code hosting in [ace-adapters/github/](../ace-adapters/github/). A module for GitHub sets a key in `ace/config.json` and writes no adapter file.
+
+Ace writes no runner config, such as a CI workflow, and asks for no tokens or secrets. The user sets up any runner, and `ace/CYCLE.md` says what it does.
 
 At the end of the quick setup, list the modules in one line each, with what the user gets from it, and recommend none until the user needs one.
 
@@ -156,40 +158,35 @@ For GitHub, Ace uses [its provider](../ace-adapters/github/CODE_HOSTING.md) with
 
 For another host, write `ace/CODE_HOSTING.md` with every section [ADAPTERS.md](../ace-adapters/ADAPTERS.md) lists for code hosting. Use the host's MCP server when the harness has one, otherwise its CLI or API. Use [the GitHub provider](../ace-adapters/github/CODE_HOSTING.md) as the model.
 
-## 6. Cycle (`ci`)
+## 6. Cycle (`cycle`)
 
-Ask how work should move from one stage to the next:
+Ace writes no runner config. This step describes the runner the user set up, so `ace-mode` knows what starts the next run.
 
-- **GitHub Actions**: GitHub Actions reviews a pull request when it opens or on each push, as `review.runs` says, and when a person adds the label `ace:review`. Offer this only when the code is on GitHub. Set `who_starts_runs` to `github-actions`. Ace uses [its provider](../ace-adapters/github/CYCLE.md), so write no `ace/CYCLE.md`.
-- **Another runner**, such as a CI service or a cloud agent with a schedule: set `who_starts_runs` to `custom`, and write `ace/CYCLE.md` with the sections [ADAPTERS.md](../ace-adapters/ADAPTERS.md) lists for it, using [the GitHub provider](../ace-adapters/github/CYCLE.md) as the model. Write a hand-off only for a stage where the runner does something, such as setting a label. Ask the user for each trigger.
-- **Manual**: a person starts every run, and `ace-mode` names the next step. Leave `who_starts_runs` at `person`, write no `ace/CYCLE.md`, and skip the rest of this step.
+Ask whether anything other than a person starts agent runs, such as a CI job, a label, a schedule, or a cloud agent:
 
-Ask two more things:
+- **No**: a person starts every run, and `ace-mode` names the next step. Leave `who_starts_runs` at `person`, write no `ace/CYCLE.md`, and skip the rest of this step.
+- **Yes**: set `who_starts_runs` to `custom`, and write `ace/CYCLE.md` with the sections [ADAPTERS.md](../ace-adapters/ADAPTERS.md) lists for it. Ask the user for each trigger. Write a hand-off only for a stage where the runner needs something, such as a label that starts a review.
 
-- Does `ace-work-ticket` run on a schedule? It takes the next ticket a person set ready and opens a pull request for it. Ask how often. Its message is `Run ace-work-ticket.` It needs a ticket tracker. When the project has none, run step 4 first.
-- Do audits run on a schedule? Ask which domains and how often. Each one's message is `Run ace-audit DOMAIN.`, such as `Run ace-audit security.` They file tickets, so they also need step 4.
+Ask what the runner starts, and add a line to the Runs section of `ace/CYCLE.md` for each yes, with its trigger and its message:
 
-When `ace-work-ticket` runs on a schedule, ask for `autonomy` as step 7 says. When the runner reviews pull requests, ask for `review.runs` as step 7 says.
+- Reviews of pull requests. The message is `Review pull request #NUMBER and comment on it.`
+- `ace-work-ticket`. It takes the next ticket a person set ready and opens a pull request for it. The message is `Run ace-work-ticket.` It needs a ticket tracker, so run step 4 first when the project has none. Ask for `autonomy` as step 7 says.
+- Audits. Ask which domains. Each one's message is `Run ace-audit DOMAIN.`, such as `Run ace-audit security.` They file tickets, so they also need step 4.
 
-Set each one up on the user's runner. For another runner, add a line to the Runs section of `ace/CYCLE.md` for each yes. For GitHub Actions, the steps below do it.
+Then tell the user what each run needs, and set none of it up:
 
-For GitHub Actions:
-
-1. Copy [templates/ace-review.yml](templates/ace-review.yml) to `.github/workflows/ace-review.yml`. Ask which harness and model run in CI. Recommend a model other than the one that implements the changes. Replace `<AGENT_STEP>` with the step that runs that harness without a person, from the harness's own CI docs. It runs only `if: steps.decide.outputs.run == 'true'`, uses the Ace skills committed in the repo and installs none, sets `GH_TOKEN: ${{ github.token }}` so the agent can push and comment, and sends this message: `Review pull request #${{ github.event.pull_request.number }} and comment on it.`
-2. When `ace-work-ticket` runs on a schedule, copy [templates/ace-work-ticket.yml](templates/ace-work-ticket.yml) to `.github/workflows/ace-work-ticket.yml`. Replace `<CRON>` with the schedule, and `<AGENT_STEP>` with the same harness step, with `GH_TOKEN: ${{ secrets.ACE_GH_TOKEN }}` and the message `Run ace-work-ticket.` Ask which model implements.
-3. When audits run on a schedule, copy [templates/ace-audit.yml](templates/ace-audit.yml) to `.github/workflows/ace-audit.yml`. Replace `<CRON>` with the schedule, `<DOMAINS>` with the built-in domains as a JSON list in the order `ace-audit` runs them, such as `["security","logic"]`, and `<AGENT_STEP>` with the same harness step, with `GH_TOKEN: ${{ github.token }}` and the message `Run ace-audit ${{ matrix.domain }}.`
-4. Check that `.agents/skills/` and `skills-lock.json` are tracked by git. If not, tell the user to commit them, since the workflows run only on committed skills.
-5. Name each secret the workflows need, and tell the user to add it to the repository: the harness's API key, and `ACE_GH_TOKEN` when `ace-work-ticket` runs. `ACE_GH_TOKEN` is a GitHub App token or a fine-grained personal access token with write access to contents, issues, and pull requests.
-6. Create the label: `gh label create ace:review --repo REPO`.
+- The Ace skills committed to the repo. Check that `.agents/skills/`, `.claude/skills/`, and `skills-lock.json` are tracked by git, each one that exists. If not, tell the user to commit them.
+- The code host's CLI logged in where the agent runs, such as `gh` for GitHub, and the ticket tracker's when it has one. Ace reads and posts through them.
+- Optional: `ACE_MODEL` set to the model id the run uses, so everything it posts names that model.
+- For reviews, a model other than the one that implements the changes.
 
 ## 7. Settings (`settings`)
 
 Settings say how much agents do on their own and which optional features are on. [config.schema.json](config.schema.json) defines each one, its values, and its default. A missing file or setting uses the default, as `ace-adapters` says.
 
-When `ace/config.json` is missing, create it from [templates/config.json](templates/config.json). Replace `<SCHEMA>` with `../.agents/skills/ace-setup/config.schema.json` when that file exists, so the schema matches the installed Ace. Otherwise use the schema's `$id`. Set `ticket_tracker` and `who_starts_runs` as steps 4 and 6 found them. Then ask:
+When `ace/config.json` is missing, create it from [templates/config.json](templates/config.json). Replace `<SCHEMA>` with the path from `ace/` to `ace-setup/config.schema.json` in the installed Ace, so the schema matches the installed version: `../.agents/skills/ace-setup/config.schema.json` when that file exists, else `../.claude/skills/ace-setup/config.schema.json` when that one exists. Otherwise use the schema's `$id`. Set `ticket_tracker` and `who_starts_runs` as steps 4 and 6 found them. Then ask:
 
 - `autonomy`: offer `low`, `medium`, and `high` with their meaning from the schema, and recommend `medium`. When the user picks `high` and a ready label starts `ace-work-ticket`, say that a ticket from an approved plan then goes to a pull request with no person in between. Say that `who_sets_ready` and `review.fixes` can each be set on their own and then win over `autonomy`. Write them only when the user asks.
-- `review.runs`: ask only when step 6 set up a runner that reviews pull requests. Offer the three values with their meaning from the schema. Recommend `["pull-request-opened"]`, so a different model than the one that implemented the change reviews it, and no change gets reviewed twice.
 - `write_adrs`: ask whether planning should record architecture decisions in `ace/adrs/`. Recommend `false` until decisions start getting lost.
 
 Keep the default for every other setting, and name it in the last reply so the user knows it exists.
@@ -208,7 +205,7 @@ Add this section to the root agents file from step 1. If it is there already, ad
 - Ace reads project facts from the adapters in `ace/`, finding each section by its job, so its heading may differ. A missing file or section uses its default, as the `ace-adapters` skill next to `ace-mode` says.
 - To verify a change, follow `ace/VERIFY.md`.
 - Ace settings are in `ace/config.json`. A missing file or setting uses its default, as the `ace-adapters` skill says.
-- Answer a question, a report, or an idea with an answer or a proposal, and leave the files as they are. Change files only when the message asks for it, such as "do it", "implement", "fix", or "add". When unsure, propose the change and ask.
+- Answer a question, a report, or an idea with an answer or a proposal, and leave the files as they are. Change files only when the message asks for a change: in words, such as "do it", "implement", "fix", or "add", by naming a job that changes files, such as `Review pull request #12` or a skill command, or by saying yes to a change you proposed. A skill then makes only the changes its Done names, within the settings in `ace/config.json`. When unsure, propose the change and ask.
 - When a skill lists a skill under Requires whose folder is missing, tell the user to install Ace again with `npx skills add tobimey/ace`, which installs every skill.
 ```
 

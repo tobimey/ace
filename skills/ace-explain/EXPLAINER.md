@@ -11,7 +11,7 @@ The review skills judge a change. This skill explains it. A reviewer who underst
 - Write for a senior engineer who has never seen this part of the codebase. Explain only what this change depends on. Skip general basics they already know.
 - Use the glossary terms.
 - Keep the hedges from the [Why](WHY.md) file intact. A reason nobody wrote down stays marked as an inference.
-- Stay under 60,000 characters, since GitHub rejects longer comments. For a large change, explain the changes that matter most in full and give each of the rest one line in the Code part.
+- Stay under 60,000 characters, since code hosts cap the length of a comment, such as 65,536 on GitHub. For a large change, explain the changes that matter most in full and give each of the rest one line in the Code part.
 - When an adapter section is missing, put the explainer in the reply instead of posting it.
 
 ## Workflow
@@ -35,10 +35,12 @@ Follow [How](HOW.md) for how the changed area works and [Why](WHY.md) for why th
 
 ## 3. Write the explainer
 
-Write Markdown in the shape below. Start with the marker line exactly as shown, so a later run finds this comment.
+Write Markdown in the shape below. Start with the marker line exactly as shown, so a later run finds this comment. The model line follows it, as "Sign what you post" in `ace-adapters` says.
 
 ```
 <!-- ace-explain -->
+Model: <model id>
+
 ## Explainer: <what the change does, in a few words>
 
 <One or two sentences: what changes for whom, and the main idea of how.>

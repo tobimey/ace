@@ -118,6 +118,13 @@ Take them in that order. For each one, count its open blockers. The first ticket
 gh api "/repos/OWNER/REPO/issues/NUMBER/dependencies/blocked_by" --jq '[.[] | select(.state == "open")] | length'
 ```
 
+## Find working tickets
+
+```bash
+gh issue list --label ace:working --state open --limit 50 \
+  --json number,title --jq '.[] | "\(.number) \(.title)"'
+```
+
 ## Set a ticket state
 
 Swap the label of the old state for the label of the new one, then read the labels back:

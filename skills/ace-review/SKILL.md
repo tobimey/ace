@@ -31,8 +31,6 @@ Read `review` in `ace/config.json` as `ace-adapters` says. A missing file or key
 - `fixes` (`simple-only`): which findings get fixed, by fix type, as step 3 says.
 - `fix_severities` (`["blocker", "should-fix", "nit"]`): only findings with one of these severities get fixed.
 
-`review.runs` says when a review starts. `ace-mode` and the review workflow read it. This skill does not.
-
 ## Constraints
 
 - Finding is read only. Only step 4 changes files.
