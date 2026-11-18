@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Review
 
-Review the diff with its checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed and pushed to its branch when the caller passed a pull request, and on a pull request the report ends with Merge Danger.
+Review the diff with its checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed and pushed to its branch when the caller passed a pull request, on a pull request the report ends with Merge Danger, and the report is posted when the caller asked.
 
 ## Requires
 
@@ -27,12 +27,14 @@ Run the checks the caller names, such as `spec` or `standards accessibility`. Wi
 
 Read `review` in `ace/config.json` as `ace-adapters` says. A missing file or key uses the default in brackets. A missing `fixes` takes its value from `autonomy`.
 
+- `require_other_model` (`false`): whether a change this session built may be reviewed here, as the first constraint says.
 - `agents` (`one-for-all-checks`): `one-for-all-checks` runs every check yourself, one after another. `one-per-check` runs each check in a fresh sub-agent, so one check's reading does not sway the next. When your harness cannot start sub-agents, run the checks yourself and say so in one line of the report.
 - `fixes` (`simple-only`): which findings get fixed, by fix type, as step 3 says.
 - `fix_severities` (`["blocker", "should-fix", "nit"]`): only findings with one of these severities get fixed.
 
 ## Constraints
 
+- For a change this session built, give the line to send to another model, such as a new session on a different model or the user's runner. With `require_other_model` true, review nothing here. Otherwise review it, and start the report with that line and a tip that a different model catches more.
 - Finding is read only. Only step 4 changes files.
 - Edit only files this change touches.
 - On a pull request, work on its head branch, and commit and push your fixes there. On a local diff, leave them uncommitted. The user commits.
@@ -88,7 +90,7 @@ Make the picked fixes yourself, in this agent, also when the checks ran in sub-a
 
 ### 5. Run the checks
 
-Run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the changed paths, found as "Package folders" in [ADAPTERS.md](../ace-adapters/ADAPTERS.md) says. Run them once, after all fixes.
+Run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the changed paths, found as [PACKAGES.md](../ace-adapters/contract/PACKAGES.md) says. Run them once, after all fixes.
 
 When a command fails, revert fixes until the commands pass, Code fixes before Standards fixes. Revert one fix at a time when that keeps the fixes that pass. Each reverted fix becomes a finding, with that fix as its best fix. When a command still fails with every fix reverted, the failure is not from this review. Name the command in the report.
 
@@ -120,6 +122,8 @@ Write the parts below in this order, as plain top-level paragraphs, outside any 
 
 3. **Findings.** Each finding left, in the shape the Finding section gives. When you fixed nothing and nothing is left, write `No findings.`
 4. **Merge Danger.** On a pull request only, as its section below says. Go straight from the last finding to it.
+
+When the caller asked to comment on the pull request, post the report as one comment that starts with `<!-- ace-review -->` and the model line, as [SIGN.md](../ace-adapters/SIGN.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in `ace/CODE_HOSTING.md` says.
 
 ## Finding
 

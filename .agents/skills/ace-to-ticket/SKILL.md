@@ -64,6 +64,8 @@ Show the user:
 
 If **Size** would be `L` or `XL` or the work still will not fit one context window, **stop** before publishing. Say so and offer to switch to multiple-ticket mode.
 
+When step 1 resolved a ticket, say that its body gets the new shape and its current text moves into a comment.
+
 Wait for approval.
 
 ### 3b. Multiple tickets: explore (optional)
@@ -108,7 +110,7 @@ Iterate until the user approves the breakdown.
 
 - Publish exactly one ticket.
 
-If a ticket was resolved in step 1, **update that ticket** as the ticket tracker says, with each of type, Priority, Size, and Risk the tracker records. Write its body in the shape [OPEN_TICKET.md](OPEN_TICKET.md) defines.
+If a ticket was resolved in step 1, first post its current body as a comment that starts with `Original description:`, as "Comment on a ticket" in `ace/TICKET_TRACKER.md` says. Then **update that ticket** as the ticket tracker says, with each of type, Priority, Size, and Risk the tracker records. Write its body in the shape [OPEN_TICKET.md](OPEN_TICKET.md) defines.
 
 If the spec is a plan from the conversation, open a new ticket with [OPEN_TICKET.md](OPEN_TICKET.md).
 

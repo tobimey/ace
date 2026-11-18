@@ -26,4 +26,4 @@ The playbooks that change code. `ace-mode` routes here, and its constraints appl
 Perf, Fix, Refactor, and Build end with these steps, in place of "Finish the change".
 
 1. `ace-open-pr` when the user asked to ship or open a pull request. Otherwise offer it.
-2. Leave the review to another model, as the constraints of `ace-mode` say. `ace-implement` already checked the coding standards.
+2. Offer the review, best on another model. `ace-review` says whether it may run here. `ace-implement` already checked the coding standards.
