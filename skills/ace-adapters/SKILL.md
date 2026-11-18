@@ -12,24 +12,26 @@ An Ace skill that needs a project fact, such as the check commands or how to ope
 
 A skill names an adapter by its path in `ace/`. That name means the adapter, not only the file:
 
-| Adapter | Built-in provider, used when |
-|---|---|
-| `ace/VERIFY.md` | None |
-| `ace/CODING_STANDARDS.md` | None |
-| `ace/TICKET_TRACKER.md` | [github/TICKET_TRACKER.md](github/TICKET_TRACKER.md), when `ticket_tracker` is `github-issues` |
-| `ace/CODE_HOSTING.md` | [github/CODE_HOSTING.md](github/CODE_HOSTING.md), when the code is on GitHub, as [ADAPTERS.md](ADAPTERS.md) defines it |
-| `ace/CYCLE.md` | None |
-| `ace/PRODUCT.md` | None |
+| Adapter | Sections and defaults | Built-in provider, used when |
+|---|---|---|
+| `ace/VERIFY.md` | [contract/VERIFY.md](contract/VERIFY.md) | None |
+| `ace/CODING_STANDARDS.md` | [contract/CODING_STANDARDS.md](contract/CODING_STANDARDS.md) | None |
+| `ace/TICKET_TRACKER.md` | [contract/TICKET_TRACKER.md](contract/TICKET_TRACKER.md) | [github/TICKET_TRACKER.md](github/TICKET_TRACKER.md), when `ticket_tracker` is `github-issues` |
+| `ace/CODE_HOSTING.md` | [contract/CODE_HOSTING.md](contract/CODE_HOSTING.md) | [github/CODE_HOSTING.md](github/CODE_HOSTING.md), when the code is on GitHub |
+| `ace/CYCLE.md` | [contract/CYCLE.md](contract/CYCLE.md) | None |
+| `ace/PRODUCT.md` | [contract/PRODUCT.md](contract/PRODUCT.md) | None |
+
+The glossary and `ace/checks/` have their own contract files in [contract/](contract/). Read only the contract file of the adapter you need.
 
 A provider ships with Ace and holds no project values, so the project never copies or updates it. The project writes its own file in `ace/` only for a tool Ace has no provider for, such as Linear or GitLab, or to change one section of a provider.
 
 ## Find a section
 
-Take the first of these that has the section. Find a section by its job. Its heading may differ from the one a skill names. In step 1, the root file and the package files add up, as "Package folders" says, so a section found in any of them counts.
+Take the first of these that has the section. Find a section by its job. Its heading may differ from the one a skill names. In step 1, the root file and the package files add up, so a section found in any of them counts.
 
-1. The file in `ace/`, and the same file in each package `ace` folder that covers the touched paths, as "Package folders" in [ADAPTERS.md](ADAPTERS.md) says.
+1. The file in `ace/`, and the same file in each package `ace` folder that covers the touched paths, as [contract/PACKAGES.md](contract/PACKAGES.md) says.
 2. The adapter's built-in provider, when the table above selects it.
-3. The default in [ADAPTERS.md](ADAPTERS.md).
+3. The default in the adapter's contract file.
 
 A default of "skip" skips that step. Name the skipped step in the reply.
 
@@ -57,17 +59,12 @@ Name each default you used once in the reply, in one line, such as `No ace/VERIF
 
 ## Sign what you post
 
-Everything you write to a ticket tracker or a code host starts with one line that names the model that wrote it: `Model: <model id>`, such as `Model: claude-opus-5-5`. That covers a pull request body, a pull request comment, a reply in a review thread, an inline comment, a ticket body, and a ticket comment. It holds for every adapter, also a project's own file in `ace/`.
-
-- When the text carries a marker such as `<!-- ace-review -->`, the marker comes first and the model line second, so the model line is the first visible line.
-- When you edit an earlier comment, write the line again with your own model.
-- Take the model id from the `ACE_MODEL` environment variable when it is set. Otherwise use the id your harness gives you, or its name for the model when it gives no id.
-- When a default puts the text into the reply instead, such as a comment with no code host, the reply holds the model line too.
+Before you write anything to a ticket tracker or a code host, read [SIGN.md](SIGN.md) and start the text with the model line it gives.
 
 ## Runs with nobody to answer
 
-`ace-work-ticket` and every run a schedule or a label starts need a ticket tracker for each ticket step: a provider or an `ace/TICKET_TRACKER.md`. A default that writes a ticket, a pull request, or a comment into the reply is a stop in such a run, since nobody reads the reply. Every other default works there too. Such a run reads and posts through the code host's CLI, such as `gh` for GitHub, logged in where the agent runs.
+In a run nobody watches, such as `ace-work-ticket` or a run a schedule or a label starts, a default that writes a ticket, a pull request, or a comment into the reply is a stop.
 
 ## Writing adapters
 
-Only `ace-setup` creates an adapter file, with one exception: `ace-grill` creates a missing `ace/PRODUCT.md` once the user picks a direction, as step 6 of its `DIRECTION.md` says. `ace-verify` proposes a missing `ace/VERIFY.md`, or lines to add or fix, in its report, and writes them only when the user says yes. Every other skill leaves a missing adapter missing and uses the provider or the default.
+Only `ace-setup` writes adapter files, except where a skill says it may, as `ace-grill` does for `ace/PRODUCT.md` and `ace-verify` does for `ace/VERIFY.md` when the user says yes. Every other skill leaves a missing adapter missing.

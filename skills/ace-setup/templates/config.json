@@ -4,6 +4,7 @@
   "ticket_tracker": "none",
   "who_starts_runs": "person",
   "review": {
+    "require_other_model": false,
     "agents": "one-for-all-checks",
     "fix_severities": ["blocker", "should-fix", "nit"]
   },

@@ -68,10 +68,9 @@ Two runs can take the same ticket at the same time, and both see it in working a
 
 Check out the ticket's branch, new from the default branch. When an open pull request already comes from that branch, stop for a person. When the remote has the branch from an earlier try, push it to `<branch>-old-<UTC date and time>` so its commits stay, then delete the remote branch, so the plain push of `ace-open-pr` works.
 
-Run the Build playbook of `ace-mode` with this ticket, as if the user asked to open a pull request. It reads the ticket with its comments, implements it, checks it against the coding standards, opens the pull request, and hands off as `ace-mode` says. The review belongs to another model, such as one the runner starts on the pull request.
+Run the Build playbook of `ace-mode` with this ticket, as if the user asked to open a pull request ready for review, not a draft. It reads the ticket with its comments, implements it, checks it against the coding standards, opens the pull request, and hands off as `ace-mode` says. The review belongs to another model, such as one the runner starts on the pull request.
 
-- A person may have answered an earlier stop in the ticket's comments. Treat those answers as part of the ticket.
-- The pull request names the ticket it closes, in the form the "Ticket references" section of `ace/TICKET_TRACKER.md` gives.
+A person may have answered an earlier stop in the ticket's comments. Treat those answers as part of the ticket.
 
 The ticket stays working until the pull request merges and closes it.
 
@@ -95,7 +94,7 @@ A person answers in the ticket and sets it ready again. A later run picks it up 
 
 ## Markers
 
-Each comment this skill posts on a ticket starts with one marker line, then the model line, as "Sign what you post" in `ace-adapters` says.
+Each comment this skill posts on a ticket starts with one marker line, then the model line, as [SIGN.md](../ace-adapters/SIGN.md) says.
 
 - Claim, step 4: `<!-- ace-work-ticket:claim ID -->`, with the claim id in place of `ID`.
 - Release, step 2 and "Stop for a person": `<!-- ace-work-ticket:release -->`. A claim posted before it no longer counts.

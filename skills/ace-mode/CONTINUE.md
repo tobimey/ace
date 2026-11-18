@@ -13,10 +13,10 @@ Place the work in the first row that matches:
 | A ticket in the needs-dev state | A person reads it and its comments, then sets it ready or closes it |
 | A ticket in the working state with no open pull request | Its run stopped. The next `ace-work-ticket` run moves it to needs-dev once the claim is 3 hours old, or a person moves it now |
 | A ticket with no branch and no pull request | Build |
-| Local changes, or a branch with no pull request | `ace-open-pr`, then Review with a model other than the one that built the change |
+| Local changes, or a branch with no pull request | `ace-open-pr`, then Review, best with a model other than the one that built the change |
 | An open pull request with failing checks, merge conflicts, or review comments with no reply | Babysit |
-| An open pull request with no `<!-- ace-review -->` comment | Review, with a model other than the one that built the change |
-| An open pull request with an `<!-- ace-review -->` comment | A person merges, or asks for another review. Name its Merge Danger. |
+| An open pull request with no `<!-- ace-review -->` comment | Review, best with a model other than the one that built the change |
+| An open pull request with an `<!-- ace-review -->` comment | A person marks a draft ready, then merges, or asks for another review. Name its Merge Danger. |
 | A merged pull request | Done. Offer a retro with `ace-optimize-factory` when the work went badly. |
 | No ticket, pull request, or local change | Plan, starting with no direction |
 

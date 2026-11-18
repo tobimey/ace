@@ -1,0 +1,47 @@
+{
+  "data": {
+    "repository": {
+      "pullRequest": {
+        "number": 7,
+        "url": "https://github.com/acme/app/pull/7",
+        "state": "OPEN",
+        "isDraft": false,
+        "isCrossRepository": false,
+        "headRefName": "ace/ticket-3",
+        "baseRefName": "main",
+        "headRefOid": "abc123",
+        "mergeable": "MERGEABLE",
+        "mergeStateStatus": "CLEAN",
+        "reviewDecision": "APPROVED",
+        "author": { "login": "dev" },
+        "commits": {
+          "nodes": [
+            {
+              "commit": {
+                "committedDate": "2026-11-01T10:00:00Z",
+                "statusCheckRollup": {
+                  "contexts": {
+                    "nodes": [
+                      {
+                        "__typename": "CheckRun",
+                        "name": "test",
+                        "status": "COMPLETED",
+                        "conclusion": "SUCCESS",
+                        "detailsUrl": "https://github.com/acme/app/actions/runs/1",
+                        "isRequired": true,
+                        "checkSuite": { "workflowRun": { "databaseId": 1, "workflow": { "name": "CI" } } }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "reviewThreads": { "nodes": [] },
+        "reviews": { "nodes": [] },
+        "comments": { "nodes": [] }
+      }
+    }
+  }
+}

@@ -55,8 +55,13 @@
     "review": {
       "type": "object",
       "additionalProperties": false,
-      "description": "How the review runs and which findings it fixes on its own. A person starts a review, or a runner does, with a model other than the one that built the change. ace-review runs three checks: spec (does the change do what its ticket asked), standards (the coding standards), and code (logic, security, performance, and architecture), plus each custom check in ace/checks/.",
+      "description": "How the review runs and which findings it fixes on its own. A review is best run by a model other than the one that built the change. ace-review runs three checks: spec (does the change do what its ticket asked), standards (the coding standards), and code (logic, security, performance, and architecture), plus each custom check in ace/checks/.",
       "properties": {
+        "require_other_model": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, a session never reviews a change it built: it gives the line to send to another model, such as a new session on a different model or the user's runner. When false, it reviews the change on request and adds a one-line tip that a different model catches more."
+        },
         "agents": {
           "type": "string",
           "enum": ["one-for-all-checks", "one-per-check"],

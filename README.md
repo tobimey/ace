@@ -14,6 +14,8 @@ An adaptable, agentic skills framework for Claude Code, Cursor, and Codex.
 
 > [!WARNING]
 > This project is in active development and not ready to use. Pre-Alpha expected by 18.11.2026.
+>
+> Use Ace only in private repositories for now. Ace reads ticket comments, pull request comments, and diffs, and does not yet guard against instructions hidden in them. In a public repository anyone can write those, and a run with nobody watching, such as `ace-work-ticket`, can push code.
 
 The new age of programming isn't … programming. It's probably not even engineering. Writing code is not just cheap; for many workflows it is largely delegated to agents. With Ace, the role shifts: less direct code authorship, more engineering of the factory and the inputs that the factory receives.
 
@@ -35,8 +37,14 @@ Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and
    ```
 
 2. **Commit** what it installed: `.agents/skills/`, `.claude/skills/`, and `skills-lock.json`. Then every teammate and every CI run uses the same Ace version, and CI needs no install step.
-3. **Start working.** Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills. Ace needs no setup: it finds your checks in CI and your scripts, and works without a ticket tracker.
-4. **Teach Ace your project** when you want it to know your project better: run `/ace-setup`. It turns on `ace-mode` in your `AGENTS.md` and writes `ace/VERIFY.md` with your checks, in a few minutes. Add more when you need it, one module at a time: `/ace-setup tickets`, `/ace-setup cycle`, `/ace-setup standards`, `/ace-setup hosting`, or `/ace-setup settings`.
+3. **Turn on Ace**: run `/ace-setup`. In a few minutes it turns on `ace-mode` in your `AGENTS.md` and writes `ace/VERIFY.md` with your checks. Every other Ace skill stays hidden until `ace-mode` loads it, so turning it on is the one step you need. To do only that, paste this line into your `AGENTS.md` (or `CLAUDE.md`):
+
+   ```markdown
+   - For every task, follow the `ace-mode` skill. It picks the Ace skills for the task and their order. When you reply without having loaded `ace-mode`, start the reply with `Ace not loaded:` and the reason.
+   ```
+
+   Nothing else needs setup: Ace finds your checks in CI and your scripts, and works without a ticket tracker.
+4. **Start working.** Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills. Teach Ace more when you need it, one module at a time: `/ace-setup tickets`, `/ace-setup cycle`, `/ace-setup standards`, `/ace-setup hosting`, or `/ace-setup settings`.
 5. **Update** by running `npx skills add tobimey/ace` again and committing. Your `ace/` files hold only your project's facts, and the GitHub providers update with Ace, so they need no change.
 
 > [!TIP]
@@ -120,7 +128,7 @@ On top of the cycle, Ace provides a few more skills:
 Use a model that scores above 40 on the [Artificial Analysis Intelligence Index](https://artificialanalysis.ai/models#intelligence). Ace skills are long, multi-step instructions that call each other, and weaker models skip steps or drop rules. Above that bar, Ace works with any model and any kind of project.
 
 > [!TIP]
-> Review with a different model than the one that implemented the change. A model tends to miss the same mistakes in review that it made while writing the code.
+> Review with a different model than the one that implemented the change. A model tends to miss the same mistakes in review that it made while writing the code. Set `review.require_other_model` to make it a rule.
 
 ### Harnesses
 
@@ -190,7 +198,7 @@ Ace ships the ticket tracker and code hosting for GitHub inside the skills, in [
 
 ### Your adapters, your rules
 
-The adapters are yours. `ace-setup` writes a first draft of the ones you need, and from then on you change them as the project needs. Ace skills depend only on a few sections, listed with their defaults in [skills/ace-adapters/ADAPTERS.md](skills/ace-adapters/ADAPTERS.md). Keep those, under any heading, and the rest of each file is free.
+The adapters are yours. `ace-setup` writes a first draft of the ones you need, and from then on you change them as the project needs. Ace skills depend only on a few sections, listed with their defaults in [skills/ace-adapters/contract/](skills/ace-adapters/contract/). Keep those, under any heading, and the rest of each file is free.
 
 When a file or a section is missing, the skill uses the provider you picked, or else its default, and names the default in one line. For example, with no `VERIFY.md` it runs the checks your CI runs, and with no ticket tracker it writes a ticket into the reply. When `ace-verify` runs without `VERIFY.md`, it proposes one from what it found, and writes it when you say yes.
 
@@ -225,6 +233,7 @@ Adapters say how your project does a job. Settings say how your factory behaves:
   "ticket_tracker": "none",
   "who_starts_runs": "person",
   "review": {
+    "require_other_model": false,
     "agents": "one-for-all-checks",
     "fix_severities": ["blocker", "should-fix", "nit"]
   },
@@ -252,6 +261,7 @@ How much agents do without a person, in one setting. It sets `who_sets_ready` an
 | `ticket_tracker` | Where tickets live. `none` writes a ticket into the reply. `github-issues` uses the built-in GitHub Issues tracker. `custom` uses your `ace/TICKET_TRACKER.md`. |
 | `who_starts_runs` | What starts an agent run besides a person. `person`, or `custom` for a runner you set up, which your `ace/CYCLE.md` describes. |
 | `who_sets_ready` *(optional)* | Who moves a new ticket from `needs-dev` to `ready`. `person` keeps a person between every ticket and the agent that builds it. `planning-agents` lets `ace-grill` and `ace-to-ticket` set the tickets of a plan you approved ready. `any-agent` lets `ace-audit` do it too. |
+| `review.require_other_model` | When `true`, a session never reviews a change it built and hands the review to another model. When `false`, it reviews on request and adds a tip to use another model. |
 | `review.agents` | `one-for-all-checks` runs the spec, standards, and code checks in one agent. `one-per-check` gives each check its own fresh agent. Fixes are always made by one agent. |
 | `review.fixes` *(optional)* | `none` changes no file. `simple-only` fixes what has one clearly correct edit. `all` also picks a fix when several are reasonable. Spec and architecture findings, and fixes that change a product decision, a public contract, or stored data, always stay findings. |
 | `review.fix_severities` | Which severities get fixed, from `blocker`, `should-fix`, and `nit`. The rest stay findings. |
@@ -265,7 +275,7 @@ Planned, not built yet:
 - **Review with other models.** `ace-review` runs on the model of the session, unless the review runs in CI with a different model. It should send the review to models from other providers when the harness can reach them, and fall back to a fresh agent on the same model. For prior art, see the `council` and `sol-loop` skills in [tstack](https://github.com/t3dotgg/tstack), and the `interrogate` skill in [pstack](https://github.com/backnotprop/pstack).
 - **Runner recipes.** Example setups for running Ace with no person, such as GitHub Actions workflows that review pull requests, work ready tickets, and audit on a schedule, including how such a run gets a token for the code host instead of a logged-in CLI. Ace v1 writes no runner config.
 - **Evals.** Tests for the agent: run Ace skills on fixed tasks and check that the agent follows them, so a change to a skill shows what it fixed and what it broke.
-- **Many repos.** A company with many repos will keep one shared config, with its settings, coding standards, and tracker and host adapters, in its own repo, and point every project at it with `"extends"` in `ace/config.json`. `ace-setup` will copy it into the project, so a change to the company rules arrives as a diff you review. The plan is in [ADAPTERS.md](skills/ace-adapters/ADAPTERS.md).
+- **Many repos.** A company with many repos will keep one shared config, with its settings, coding standards, and tracker and host adapters, in its own repo, and point every project at it with `"extends"` in `ace/config.json`. `ace-setup` will copy it into the project, so a change to the company rules arrives as a diff you review.
 
 ## Credits
 

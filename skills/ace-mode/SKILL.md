@@ -21,7 +21,6 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 - Skip a step that does not apply. Mention it in the reply only when the user would expect it to run, such as a test or a review.
 - When you ask the user to decide in chat, use the format in [QUESTIONS.md](QUESTIONS.md).
 - Leave every merge to a person. Ace stops at an open pull request.
-- A model never reviews a change it built. When this session built the change, the Review playbook does not run here. Say that a review needs another model, such as a new session on a different model or the user's runner, and give the line to send there. Run it here only when the user asks again after that.
 
 ## Route
 
@@ -44,14 +43,8 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 | Refactor | A change to the shape of the code that keeps what it does: rename, extract, move, merge, simplify | [BUILD.md](BUILD.md), section Refactor |
 | Build | A ticket, spec, or plan to implement, or a feature the conversation has settled | [BUILD.md](BUILD.md), section Build |
 | Babysit | An open pull request with work left before merge: "babysit PR #12", "fix the CI", "address the review comments", "check my open PRs", "watch it until it is green" | `ace-babysit-pr` with the pull requests the message names, in `watch` mode when it asks to watch |
-| Review | A diff, a branch, or a pull request to review | The Review steps below |
+| Review | A diff, a branch, or a pull request to review | `ace-review` on that input. Pass only the checks the message asks for, such as `spec` for "check it against the ticket", and whether to comment on the pull request. Reply with its report. |
 | Audit | "Audit", or a search for bugs, security holes, performance costs, standards breaks, or shallow modules across the repo | `ace-audit` with the domains the message names: `security`, `logic`, `performance`, `architecture`, `health`, or the name of a custom check in `ace/checks/`. A full audit names all of them. With no domain named, `ace-audit` asks. |
 | Improve the factory | Agents went wrong, or the user wants to change how agents are steered | A whole session to look back on, "retro", one named misbehaviour, or the agents file: `ace-optimize-factory`. A new or existing skill: `ace-skill-best-practices`. |
 | Single job | A message that names one job | That skill alone: work the next ready ticket with `ace-work-ticket`, open a ticket with `ace-to-ticket/OPEN_TICKET.md`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, post an explainer on a pull request with `ace-explain/EXPLAINER.md` |
 | Continue | "What's next", "continue", "where are we", or a ticket or pull request named with no ask | [CONTINUE.md](CONTINUE.md), section Continue |
-
-### Review steps
-
-1. `ace-review` on that input. When the message asks for only some checks, such as "check it against the ticket", pass them: `spec`, `standards`, `code`, or the name of a custom check in `ace/checks/`.
-2. Reply with its report.
-3. When the user asked to comment on the pull request, post the report as one comment that starts with `<!-- ace-review -->` and the model line, as "Sign what you post" in `ace-adapters` says, replacing an earlier comment with that marker, as `ace/CODE_HOSTING.md` says.

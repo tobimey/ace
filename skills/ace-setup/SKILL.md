@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Ace Setup
 
-Set up Ace in this project. Ace works with no setup: every adapter section has a default, listed in [ADAPTERS.md](../ace-adapters/ADAPTERS.md). Setup replaces defaults with what this project does, one part at a time.
+Set up Ace in this project. Ace works with no setup: every adapter section has a default, in the contract files [ADAPTERS.md](../ace-adapters/ADAPTERS.md) links. Setup replaces defaults with what this project does, one part at a time.
 
 ## Pick the run
 
@@ -37,17 +37,17 @@ A step that could not run is named in the last reply.
 - An `ace` folder holds only adapters, `config.json`, and the `adrs` folder. Keep `AGENTS.md` and `CLAUDE.md` at the repo root. Harnesses load them only from there.
 - Glossary, ticket tracker, code hosting, and settings exist only at the root. Every package uses the root ones.
 - If an adapter exists outside `ace`, such as a root `VERIFY.md`, move it there.
-- Keep what existing files say. Add only what is missing: a whole adapter the run writes, or a section [ADAPTERS.md](../ace-adapters/ADAPTERS.md) lists that an existing adapter lacks.
+- Keep what existing files say. Add only what is missing: a whole adapter the run writes, or a section its contract file lists that an existing adapter lacks.
 - Write only the files of the run the user picked. A missing adapter is no error, since its defaults apply.
 - Take every value from the repo or from the user. Look it up, or ask.
-- Fill every section [ADAPTERS.md](../ace-adapters/ADAPTERS.md) lists for an adapter you write. Keep the template headings so the user can match them to that list. An adapter for a tool with a provider holds only the sections that differ from the provider.
+- Fill every section the contract file lists for an adapter you write. Keep the template headings so the user can match them to that list. An adapter for a tool with a provider holds only the sections that differ from the provider.
 - Never copy a provider into `ace/`. Ace updates it with each release.
 
 ## Existing setup
 
 When the `ace` folder already holds adapters, this run brings them up to date after an Ace update. Create no adapter the user did not ask for. For each existing adapter, the package files included:
 
-1. List the sections [ADAPTERS.md](../ace-adapters/ADAPTERS.md) names for it, and find each in the file by its job.
+1. List the sections its contract file names, and find each in the file by its job.
 2. For each section the file lacks, copy it from the adapter's template, or from the step for that adapter when the template lacks it. Fill its placeholders as that step says. For a ticket tracker or code host other than GitHub, write the section with that tool, as steps 4 and 5 say. Skip this for an adapter whose provider is selected: the provider fills what the file lacks.
 3. When you added a section to a verify file, follow "Prove it" for that file.
 
@@ -81,7 +81,7 @@ If `AGENTS.md` exists at the repo root and `CLAUDE.md` does not, create `CLAUDE.
 
 ### Glossary
 
-The glossary lives in the root agents file, so every session loads it. [ADAPTERS.md](../ace-adapters/ADAPTERS.md) describes its two tiers.
+The glossary lives in the root agents file, so every session loads it. [contract/GLOSSARY.md](../ace-adapters/contract/GLOSSARY.md) describes its two tiers.
 
 If the root agents file has no Glossary section, add the one from [templates/ROOT_AGENTS_FILE.md](templates/ROOT_AGENTS_FILE.md), marked `<!-- added by ace -->` on the line above it. If it has a glossary already, such as a list of who is who, add the lines it lacks there. Fill the placeholders:
 
@@ -148,7 +148,7 @@ For GitHub Issues:
    - `<PROJECT_OWNER>`, `<PROJECT_NUMBER>`: `gh project list --owner OWNER`, then ask which one.
    - `<ORG>`, `<PRIORITY_FIELD_ID>`, `<SIZE_FIELD_ID>`: the issue-fields lookup in that section. When the org has no Priority or Size field, delete that part of the section.
 
-For another tracker, set `ticket_tracker` to `custom`, and write `ace/TICKET_TRACKER.md` with every section [ADAPTERS.md](../ace-adapters/ADAPTERS.md) lists for the ticket tracker. Use the tracker's MCP server when the harness has one, otherwise its CLI or API. Use [the GitHub provider](../ace-adapters/github/TICKET_TRACKER.md) as the model.
+For another tracker, set `ticket_tracker` to `custom`, and write `ace/TICKET_TRACKER.md` with every section [its contract](../ace-adapters/contract/TICKET_TRACKER.md) lists. Use the tracker's MCP server when the harness has one, otherwise its CLI or API. Use [the GitHub provider](../ace-adapters/github/TICKET_TRACKER.md) as the model.
 
 ## 5. Code hosting (`hosting`)
 
@@ -156,7 +156,7 @@ Ask which host holds the code (GitHub, GitLab, Bitbucket, ...).
 
 For GitHub, Ace uses [its provider](../ace-adapters/github/CODE_HOSTING.md) with no setup. It fills the pull request template under `.github/`. Ask whether pull requests follow rules beyond that template, such as how a section is filled or which labels go on. On yes, write `ace/CODE_HOSTING.md` with an "Open a pull request" section that holds only those rules. Otherwise write nothing.
 
-For another host, write `ace/CODE_HOSTING.md` with every section [ADAPTERS.md](../ace-adapters/ADAPTERS.md) lists for code hosting. Use the host's MCP server when the harness has one, otherwise its CLI or API. Use [the GitHub provider](../ace-adapters/github/CODE_HOSTING.md) as the model.
+For another host, write `ace/CODE_HOSTING.md` with every section [its contract](../ace-adapters/contract/CODE_HOSTING.md) lists. Use the host's MCP server when the harness has one, otherwise its CLI or API. Use [the GitHub provider](../ace-adapters/github/CODE_HOSTING.md) as the model.
 
 ## 6. Cycle (`cycle`)
 
@@ -165,7 +165,7 @@ Ace writes no runner config. This step describes the runner the user set up, so 
 Ask whether anything other than a person starts agent runs, such as a CI job, a label, a schedule, or a cloud agent:
 
 - **No**: a person starts every run, and `ace-mode` names the next step. Leave `who_starts_runs` at `person`, write no `ace/CYCLE.md`, and skip the rest of this step.
-- **Yes**: set `who_starts_runs` to `custom`, and write `ace/CYCLE.md` with the sections [ADAPTERS.md](../ace-adapters/ADAPTERS.md) lists for it. Ask the user for each trigger. Write a hand-off only for a stage where the runner needs something, such as a label that starts a review.
+- **Yes**: set `who_starts_runs` to `custom`, and write `ace/CYCLE.md` with the sections [its contract](../ace-adapters/contract/CYCLE.md) lists. Ask the user for each trigger. Write a hand-off only for a stage where the runner needs something, such as a label that starts a review.
 
 Ask what the runner starts, and add a line to the Runs section of `ace/CYCLE.md` for each yes, with its trigger and its message:
 
@@ -178,7 +178,7 @@ Then tell the user what each run needs, and set none of it up:
 - The Ace skills committed to the repo. Check that `.agents/skills/`, `.claude/skills/`, and `skills-lock.json` are tracked by git, each one that exists. If not, tell the user to commit them.
 - The code host's CLI logged in where the agent runs, such as `gh` for GitHub, and the ticket tracker's when it has one. Ace reads and posts through them.
 - Optional: `ACE_MODEL` set to the model id the run uses, so everything it posts names that model.
-- For reviews, a model other than the one that implements the changes.
+- For reviews, best a model other than the one that implements the changes. `review.require_other_model` makes it a rule.
 
 ## 7. Settings (`settings`)
 
