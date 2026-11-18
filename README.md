@@ -175,7 +175,7 @@ The skills are built in a way that they listen to your needs. These adapters liv
 
 ### Ticket states
 
-Every ticket an agent opens starts in `needs-dev`. A person reads it and sets it `ready`, unless the settings let the agent do it. `ace-work-ticket` claims a ready ticket and sets it `working`, or sends it back to `needs-dev` with a question when it gets stuck. When a run dies, or a person closes its pull request without merging, the next run finds the ticket still `working` with no open pull request and sends it back to `needs-dev` with a comment that says why. On GitHub Issues, the states are the labels `ace:needs-dev`, `ace:ready`, and `ace:working`.
+Every ticket an agent opens starts in `needs-dev`. A person reads it and sets it `ready`, unless the settings let the agent do it. `ace-work-ticket` claims a ready ticket and sets it `working`, one run at a time, or sends it back to `needs-dev` with a question when it gets stuck. When a run dies, or a person closes its pull request without merging, the next run finds the ticket still `working` with no open pull request and sends it back to `needs-dev` with a comment that says why. On GitHub Issues, the states are the labels `ace:needs-dev`, `ace:ready`, and `ace:working`.
 
 ```mermaid
 stateDiagram-v2

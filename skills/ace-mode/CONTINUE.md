@@ -11,7 +11,7 @@ Place the work in the first row that matches:
 | An idea with open decisions, and no spec ticket | Plan |
 | A spec ticket too big for one change, with no sub-tickets | `ace-to-ticket` with that ticket |
 | A ticket in the needs-dev state | A person reads it and its comments, then sets it ready or closes it |
-| A ticket in the working state with no open pull request | Its run stopped. The next `ace-work-ticket` run moves it to needs-dev once the claim is 3 hours old, or a person moves it now |
+| A ticket in the working state with no open pull request | Its run stopped. The next `ace-work-ticket` run moves it to needs-dev, or a person moves it now |
 | A ticket with no branch and no pull request | Build |
 | Local changes, or a branch with no pull request | `ace-open-pr`, then Review, best with a model other than the one that built the change |
 | An open pull request with failing checks, merge conflicts, or review comments with no reply | Babysit |

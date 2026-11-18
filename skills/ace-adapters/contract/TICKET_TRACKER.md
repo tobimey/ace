@@ -22,4 +22,4 @@ The ticket states:
 
 - **needs-dev**: a person must look at the ticket. Every ticket an agent opens starts here, and `ace-work-ticket` moves a ticket here when it stops for a person.
 - **ready**: an agent may work the ticket. A person sets it, or the skill that opened the ticket when `who_sets_ready` in `ace/config.json` allows it.
-- **working**: `ace-work-ticket` claimed the ticket. It stays until the pull request merges and closes it. When no pull request is open for it after 3 hours, the next `ace-work-ticket` run moves it to needs-dev with a comment that says why.
+- **working**: `ace-work-ticket` claimed the ticket. It stays until the pull request merges and closes it. When no pull request is open for it, the next `ace-work-ticket` run moves it to needs-dev with a comment that says why.
