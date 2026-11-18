@@ -34,13 +34,12 @@
     },
     "who_starts_runs": {
       "type": "string",
-      "enum": ["person", "github-actions", "custom"],
+      "enum": ["person", "custom"],
       "default": "person",
-      "description": "What starts an agent run, besides a person typing. The workflows themselves are files in .github/workflows/, which ace-setup ci writes.",
+      "description": "What starts an agent run, besides a person typing. Ace writes no runner config: the user sets up the runner, such as a CI job or a cloud agent on a schedule, and ace-setup cycle describes it in ace/CYCLE.md.",
       "enumDescriptions": [
         "A person starts every run, and ace-mode names the next step.",
-        "GitHub Actions start reviews, ace-work-ticket, and audits, through labels and schedules. Ace ships the hand-offs.",
-        "Another runner, such as a cloud agent on a schedule. ace/CYCLE.md says what it does."
+        "The user's own runner, such as a CI job or a cloud agent on a schedule. ace/CYCLE.md says what it starts."
       ]
     },
     "who_sets_ready": {
@@ -57,29 +56,13 @@
     "review": {
       "type": "object",
       "additionalProperties": false,
-      "description": "When a review starts, how many agents run it, and which findings it fixes on its own. ace-review runs three checks: spec (does the change do what its ticket asked), standards (the coding standards), and code (logic, security, performance, and architecture), plus each custom check in ace/checks/.",
+      "description": "How the review runs and which findings it fixes on its own. A person starts a review, or a runner does, with a model other than the one that built the change. ace-review runs three checks: spec (does the change do what its ticket asked), standards (the coding standards), and code (logic, security, performance, and architecture), plus each custom check in ace/checks/.",
       "default": {
-        "runs": ["after-implementing"],
         "agents": "one-for-all-checks",
         "fixes": "simple-only",
         "fix_severities": ["blocker", "should-fix", "nit"]
       },
       "properties": {
-        "runs": {
-          "type": "array",
-          "uniqueItems": true,
-          "default": ["after-implementing"],
-          "description": "When a review starts without a person asking. A person can always ask for one, in chat or with the label ace:review on a pull request. An empty list means a review runs only when a person asks.",
-          "items": {
-            "type": "string",
-            "enum": ["after-implementing", "pull-request-opened", "pull-request-pushed"],
-            "enumDescriptions": [
-              "ace-mode reviews the local diff right after it implements a change, before any pull request. The review runs with the model that implemented the change.",
-              "The review workflow reviews a pull request when it opens. Needs the GitHub recipe from ace-setup ci. Pick this to review with a different model than the one that implemented the change.",
-              "The review workflow reviews a pull request again on every push to it. Needs the GitHub recipe from ace-setup ci."
-            ]
-          }
-        },
         "agents": {
           "type": "string",
           "enum": ["one-for-all-checks", "one-per-check"],

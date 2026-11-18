@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Implement
 
-Implement the plan, spec, or ticket the caller gives. Done means each behavior the plan names works and has a test, one that failed before the change for a new behavior and passed before it for a kept one, nothing outside the request was built, and `ace-verify` passes.
+Implement the plan, spec, or ticket the caller gives. Done means each behavior the plan names works and has a test, one that failed before the change for a new behavior and passed before it for a kept one, nothing outside the request was built, the diff follows the coding standards, and `ace-verify` passes.
 
 ## Requires
 
@@ -31,6 +31,7 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
 - Look up facts in the code yourself. Ask only for decisions the plan leaves open.
 - The plan sets the tests. Give each behavior and edge case it names its own test, and test only those.
 - Test only through the public interface, so a refactor keeps tests green.
+- Check your own change against the coding standards only. The spec, code, and custom checks of `ace-review` need a model other than the one that wrote the change, so leave them to the review.
 - Past decisions in tickets, ADRs in `ace/adrs/`, docs, or comments explain the current state. When the plan contradicts one, follow the plan, and update or delete a contradicted doc or comment in the same change. Keep a contradicted ADR: set its Status to `Superseded` and name the plan or ticket that replaced it.
 
 ## Workflow
@@ -43,5 +44,6 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
    3. Clean up while the tests stay green.
 
    Skip the test when the behavior has no logic to test, such as layout, config, or wiring, or when the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the touched path, has no test command. Name each skipped test in the report.
-4. Follow [ace-verify](../ace-verify/SKILL.md). Fix and repeat until it passes.
-5. Report what changed, which tests you added or skipped, what was left out on purpose, and the `ace-verify` report. For each new or changed behavior, give the test name and the line its red run printed before the code existed.
+4. Check the diff against the coding standards, as the Before scanning, Find, and Drop sections of the [Standards check](../ace-review/STANDARDS.md) say. Fix each finding yourself, with behavior unchanged.
+5. Follow [ace-verify](../ace-verify/SKILL.md). Fix and repeat until it passes.
+6. Report what changed, which tests you added or skipped, which coding-standards breaks you fixed, what was left out on purpose, and the `ace-verify` report. For each new or changed behavior, give the test name and the line its red run printed before the code existed.

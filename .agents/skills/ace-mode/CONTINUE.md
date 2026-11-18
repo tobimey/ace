@@ -11,10 +11,11 @@ Place the work in the first row that matches:
 | An idea with open decisions, and no spec ticket | Plan |
 | A spec ticket too big for one change, with no sub-tickets | `ace-to-ticket` with that ticket |
 | A ticket in the needs-dev state | A person reads it and its comments, then sets it ready or closes it |
+| A ticket in the working state with no open pull request | Its run stopped. The next `ace-work-ticket` run moves it to needs-dev once the claim is 3 hours old, or a person moves it now |
 | A ticket with no branch and no pull request | Build |
-| Local changes, or a branch with no pull request | Review on the local diff, then `ace-open-pr` |
+| Local changes, or a branch with no pull request | `ace-open-pr`, then Review with a model other than the one that built the change |
 | An open pull request with failing checks, merge conflicts, or review comments with no reply | Babysit |
-| An open pull request with no `<!-- ace-review -->` comment, or commits newer than that comment | Review |
+| An open pull request with no `<!-- ace-review -->` comment, or commits newer than that comment | Review, with a model other than the one that built the change |
 | An open pull request with a current review | A person merges. Name its Merge Danger. |
 | A merged pull request | Done. Offer a retro with `ace-optimize-factory` when the work went badly. |
 | No ticket, pull request, or local change | Plan, starting with no direction |
@@ -27,7 +28,7 @@ Place the work in the first row that matches:
 
 ## Hand off
 
-A person starts the next run, unless the cycle adapter `ace/CYCLE.md` says a label or a schedule does. With `who_starts_runs` set to `github-actions`, that is the built-in GitHub cycle, as `ace-adapters` says.
+A person starts the next run, unless the cycle adapter `ace/CYCLE.md` says the user's runner does, such as through a label or a schedule.
 
 When Plan, Perf, Fix, Refactor, Build, Babysit, Review, or Audit ends, and `ace/CYCLE.md` has a section for that playbook, do what it says. Perf, Fix, Refactor, and Babysit use the Build section. The section can set a label, move a ticket, or tell the user what a run does next.
 
