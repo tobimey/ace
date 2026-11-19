@@ -26,7 +26,7 @@ Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and
 - 🧭 **One router.** You say what you want, and `ace-mode` picks the skills and their order. You need no skill names.
 - 🔌 **Fits your project.** Ace reads your checks and ticket tracker from small files in `ace/`, and works on defaults before you write any.
 - 🛠️ **A review that fixes.** `ace-review` checks a change against its ticket, your coding standards, and its code, fixes what your settings allow, and on a pull request rates its Merge Danger: how hard it is to undo, and how much it can break.
-- 🤖 **Runs with no person.** Start Ace from any runner you set up, such as a CI job or a scheduled cloud agent, and it turns ready tickets into pull requests and audits the repo. A person merges.
+- 🤖 **Runs with no person.** Start Ace from any runner you set up, such as a CI job or a scheduled cloud agent, and it turns ready tickets into pull requests and audits the repo. It reads tickets, comments, diffs, and logs as data and follows no instruction in them. A person merges.
 
 ## Get started
 
