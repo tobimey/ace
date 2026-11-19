@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://raw.githubusercontent.com/tobimey/ace/main/skills/ace-setup/config.schema.json",
   "title": "Ace settings",
-  "description": "Settings for how Ace behaves in this project, in ace/config.json. A missing file or a missing key uses the default. Adapters say how this project does a job. These settings say how much agents do on their own, and which optional Ace features are on.",
+  "description": "Settings for how Ace behaves in this project, in ace/config.json. A missing file or a missing key uses the default. The files in ace/ say how this project does a job. These settings say how much agents do on their own, and which optional Ace features are on.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -14,88 +14,30 @@
       "type": "string",
       "enum": ["low", "medium", "high"],
       "default": "medium",
-      "description": "How much agents do without a person, in one setting. It sets who_sets_ready and review.fixes. A key you set yourself wins over it.",
+      "description": "How much agents do without a person: who sets a ticket ready, which findings ace-review and ace-babysit-pr fix, and what happens to a ticket ace-work-ticket rejects as already done or wrong.",
       "enumDescriptions": [
-        "A person sets every ticket ready, and the review fixes nothing: who_sets_ready person, review.fixes none.",
-        "A person sets every ticket ready, and the review fixes what has one clearly correct fix: who_sets_ready person, review.fixes simple-only.",
-        "Tickets from a plan a person approved go ready on their own, and the review also picks a fix when several are reasonable: who_sets_ready planning-agents, review.fixes all."
+        "A person sets every ticket ready, reviews fix nothing, and a rejected ticket waits for a person.",
+        "A person sets every ticket ready, reviews fix what has one clearly correct fix, and a rejected ticket waits for a person.",
+        "Tickets from a plan a person approved go ready on their own, reviews also pick a fix when several are reasonable, and ace-work-ticket closes a ticket it rejects. Tickets from ace-audit still wait for a person."
       ]
     },
     "ticket_tracker": {
       "type": "string",
-      "enum": ["none", "github-issues", "custom"],
-      "default": "none",
-      "description": "Where tickets live. A built-in tracker needs no ace/TICKET_TRACKER.md. That file, when it exists, replaces single sections of the built-in tracker.",
+      "enum": ["github-issues"],
+      "description": "A built-in ticket tracker. Without this key, Ace uses ace/TICKET_TRACKER.md when it exists, such as for Linear or Jira, and otherwise writes each ticket into the reply. With it, ace/TICKET_TRACKER.md replaces only the sections it holds.",
       "enumDescriptions": [
-        "No ticket tracker. Skills write a ticket into the reply instead of opening it.",
-        "GitHub Issues, through the gh CLI. Ace ships how to read, open, and update tickets.",
-        "Another tracker, such as Linear or Jira. ace/TICKET_TRACKER.md says how to use it."
-      ]
-    },
-    "who_starts_runs": {
-      "type": "string",
-      "enum": ["person", "custom"],
-      "default": "person",
-      "description": "What starts an agent run, besides a person typing. Ace writes no runner config: the user sets up the runner, such as a CI job or a cloud agent on a schedule, and ace-setup cycle describes it in ace/CYCLE.md.",
-      "enumDescriptions": [
-        "A person starts every run, and ace-mode names the next step.",
-        "The user's own runner, such as a CI job or a cloud agent on a schedule. ace/CYCLE.md says what it starts."
-      ]
-    },
-    "who_sets_ready": {
-      "type": "string",
-      "enum": ["person", "planning-agents", "any-agent"],
-      "description": "Who moves a new ticket from needs-dev to ready. Without this key, autonomy sets it. A ready ticket is one an agent may build, such as ace-work-ticket on a schedule. A ticket that ace-work-ticket sends back to needs-dev always waits for a person.",
-      "enumDescriptions": [
-        "Only a person. Every ticket an agent opens stays in needs-dev until a person reads it and sets it ready.",
-        "The planning skills, ace-grill and ace-to-ticket, set the tickets they write ready, because a person settled and approved that plan with them. Tickets from ace-audit still wait for a person.",
-        "Every skill that opens a ticket sets it ready, ace-audit included. Nobody reads a ticket before an agent builds it."
+        "GitHub Issues, through the gh CLI. Ace ships how to read, open, and update tickets."
       ]
     },
     "review": {
       "type": "object",
       "additionalProperties": false,
-      "description": "How the review runs and which findings it fixes on its own. A review is best run by a model other than the one that built the change. ace-review runs three checks: spec (does the change do what its ticket asked), standards (the coding standards), and code (logic, security, performance, and architecture), plus each custom check in ace/checks/.",
+      "description": "How ace-review runs. A review is best run by a model other than the one that built the change.",
       "properties": {
         "require_other_model": {
           "type": "boolean",
           "default": false,
           "description": "When true, a session never reviews a change it built: it gives the line to send to another model, such as a new session on a different model or the user's runner. When false, it reviews the change on request and adds a one-line tip that a different model catches more."
-        },
-        "agents": {
-          "type": "string",
-          "enum": ["one-for-all-checks", "one-per-check"],
-          "default": "one-for-all-checks",
-          "description": "How many agents run the checks of one review. Fixes are always made by one agent, so edits never collide.",
-          "enumDescriptions": [
-            "One agent runs the spec, standards, and code checks one after another.",
-            "Each check runs in its own fresh sub-agent, so one check's reading does not sway the next. Costs more. A harness that cannot start sub-agents runs the checks in one agent and says so."
-          ]
-        },
-        "fixes": {
-          "type": "string",
-          "enum": ["none", "simple-only", "all"],
-          "description": "Which findings the review fixes itself. Without this key, autonomy sets it. On a pull request it commits the fixes and pushes them to its branch. On a local diff it leaves them uncommitted.",
-          "enumDescriptions": [
-            "Change no file. Every fix is written as a finding with its best fix, for a person or the implementing agent.",
-            "Fix a finding when one edit is clearly correct and a teammate would not have to choose.",
-            "Also fix a finding with several reasonable fixes, with the one the reviewer judges best. A fix that changes a product decision, a public contract, or stored data, and every spec and architecture finding, stays a finding."
-          ]
-        },
-        "fix_severities": {
-          "type": "array",
-          "uniqueItems": true,
-          "default": ["blocker", "should-fix", "nit"],
-          "description": "Only findings with one of these severities get fixed. The rest are written as findings. With fixes set to none, this does nothing.",
-          "items": {
-            "type": "string",
-            "enum": ["blocker", "should-fix", "nit"],
-            "enumDescriptions": [
-              "You would block the merge.",
-              "You would ask a teammate to change it.",
-              "Small, concrete, and worth the author's time."
-            ]
-          }
         }
       }
     },
@@ -103,12 +45,6 @@
       "type": "boolean",
       "default": false,
       "description": "Record architecture decisions in ace/adrs/. When true, ace-grill writes an ADR for each settled decision that is hard to reverse, surprising without its context, and the result of a real trade-off. ace-explain and ace-implement read ADRs whenever ace/adrs/ exists, whatever this says."
-    },
-    "max_tickets_per_audit_domain": {
-      "type": "integer",
-      "minimum": 1,
-      "default": 3,
-      "description": "The most tickets one ace-audit pass files for one domain, such as security. It is a cap, not a quota: a pass that finds nothing worth filing files nothing."
     }
   }
 }

@@ -59,7 +59,7 @@ For each direction write:
 - **Size**: `S`, `M`, `L`, or `XL`, as [OPEN_TICKET.md](../ace-to-ticket/OPEN_TICKET.md) defines them.
 - **Rules out**: what picking it means the project leaves undone for now.
 
-Then ask one question: which direction? List each name and `none` as choices. Recommend one and say why in one sentence. In the same question, say what happens next: the directions not picked are parked as tickets in needs-dev, unless the user names ones to drop, and the anchor and the pick go into `ace/PRODUCT.md`. With no ticket tracker, the parked directions stay as a list in the reply.
+Then ask one question: which direction? List each name and `none` as choices. Recommend one and say why in one sentence. In the same question, say what happens next: the directions not picked are parked as tickets in needs-human, unless the user names ones to drop, and the anchor and the pick go into `ace/PRODUCT.md`. With no ticket tracker, the parked directions stay as a list in the reply.
 
 The user's answer is the go-ahead for steps 5 and 6. Wait for it.
 
@@ -81,7 +81,7 @@ For each direction the user neither picked nor dropped, search the tickets for o
 - Goal: the direction's What. Task: its Why, its Rules out, and one line that says it was parked when the user picked another direction, and is planned with `ace-grill` before anyone builds it.
 - Done when: `- [ ] A person picked this direction, and its plan is settled in tickets.`
 
-Leave each ticket in needs-dev, whatever `who_sets_ready` says. Nobody has planned it.
+Leave each ticket in needs-human, whatever `autonomy` says. Nobody has planned it.
 
 With no ticket tracker, write one line per parked direction in the reply instead: its name, What, and Size.
 

@@ -47,6 +47,6 @@ The agent working in the repo reads these files:
 
 - `AGENTS.md` / `CLAUDE.md`: pushed to the context window of any agent working in this repo. Use them incredibly sparingly, usually only for **navigation pointers** to other files.
 - `ace/CODING_STANDARDS.md`: read during review. Add **navigation pointers** to docs folders if it gets more than 1,000 lines long.
-- The Glossary section of `AGENTS.md` / `CLAUDE.md`: the shared language between the user and the agent, one line per term. Detail goes to `ace/GLOSSARY.md` once the section passes about 40 terms.
+- The Glossary section of `AGENTS.md` / `CLAUDE.md`: the shared language between the user and the agent, one line per term. Once it passes about 25 terms, it keeps only the core terms, and `ace/GLOSSARY.md` holds every term with its detail.
 - Docs: reference files, pointed to by other files. Look for existing docs before writing new ones.
 - Skills: use skills for procedures (their description goes into the agent's context window), or for user-invoked commands. Create and edit them with [ace-skill-best-practices](../ace-skill-best-practices/SKILL.md).

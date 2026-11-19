@@ -27,7 +27,7 @@ When the message asks for an opinion ("what do you think"), or the verdict is no
 
 ## Ticket
 
-When the project has no ticket tracker, as `ace-adapters` says, skip every ticket step and end with the summary in the chat.
+When the project has no ticket tracker, as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says, skip every ticket step and end with the summary in the chat.
 
 When the conversation names a ticket, read it with its comments as `ace/TICKET_TRACKER.md` says, before the first round. Do not ask for it.
 
@@ -45,7 +45,7 @@ Each round the user answers reshapes the tree. Settled decisions push the fronti
 
 Finding facts is your job. When a frontier question needs a fact from the environment (filesystem, tools, and so on), dispatch a sub-agent to find it, and ask the user only for decisions. Keep the round moving while it runs: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for the sub-agent to report. Ask the rest of the frontier now. The decisions are the user's. Put each to them and wait.
 
-The last round also lists the glossary terms you noted and asks whether to add them. When no ticket is known, it also asks: open a new ticket, or no ticket? Recommend a new ticket when the work is size `L` or `XL`, needs more than one context window, or should wait. Otherwise recommend no ticket.
+The last round also lists the glossary terms you noted and asks whether to add them, and, when `ace/GLOSSARY.md` exists, which are core. When no ticket is known, it also asks: open a new ticket, or no ticket? Recommend a new ticket when the work is size `L` or `XL`, needs more than one context window, or should wait. Otherwise recommend no ticket.
 
 How is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed.
 
@@ -59,6 +59,6 @@ How is done when the frontier is empty: every branch of the design tree visited,
 
 ## Docs
 
-When a term is resolved, note it for Close. At Close, add each noted term the user said yes to into the Glossary section of the root agents file as `- **term**: what it means here. Not: other words for it.` Leave out `Not:` when no other word is in use. When `ace/GLOSSARY.md` exists, put what does not fit on one line there. Record decisions in the conversation and in ADRs, not in the glossary.
+When a term is resolved, note it for Close. At Close, add each noted term the user said yes to as [the glossary contract](../ace-mode/shared/adapters/contract/GLOSSARY.md) says: into `ace/GLOSSARY.md` when it exists, and into the Glossary section of the root agents file when there is no `ace/GLOSSARY.md` or the user called the term core. A line there is `- **term**: what it means here. Not: other words for it.` Leave out `Not:` when no other word is in use. Record decisions in the conversation and in ADRs, not in the glossary.
 
-When the section passes about 40 terms, or one word turns out to mean different things in different parts of the project, propose creating `ace/GLOSSARY.md` for the detail. The section keeps the one-line entries and points at the file.
+When the section passes about 25 terms, or one word turns out to mean different things in different parts of the project, propose creating `ace/GLOSSARY.md` with every term, and keeping only the core terms in the section.

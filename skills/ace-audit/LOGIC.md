@@ -2,7 +2,7 @@
 
 ## Before scanning
 
-Load [ace-checks](../ace-checks/SKILL.md) and read its Logic file.
+Load [CHECKS.md](../ace-mode/shared/checks/CHECKS.md) and read its Logic file.
 
 ## Find
 

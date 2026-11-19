@@ -8,7 +8,7 @@
 
 An adaptable, agentic skills framework for Claude Code, Cursor, and Codex.
 
-[Get started](#get-started) · [The Ace cycle](#the-ace-cycle) · [Adapters](#adapters) · [Settings](#settings) · [Roadmap](#roadmap)
+[Get started](#get-started) · [The Ace cycle](#the-ace-cycle) · [Project files](#project-files) · [Settings](#settings) · [Roadmap](#roadmap)
 
 </div>
 
@@ -24,7 +24,7 @@ The new age of programming isn't … programming. It's probably not even enginee
 Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and adds what they leave out:
 
 - 🧭 **One router.** You say what you want, and `ace-mode` picks the skills and their order. You need no skill names.
-- 🔌 **Adapters.** Ace reads your checks and ticket tracker from small files in `ace/`, and works on defaults before you write any.
+- 🔌 **Fits your project.** Ace reads your checks and ticket tracker from small files in `ace/`, and works on defaults before you write any.
 - 🛠️ **A review that fixes.** `ace-review` checks a change against its ticket, your coding standards, and its code, fixes what your settings allow, and on a pull request rates its Merge Danger: how hard it is to undo, and how much it can break.
 - 🤖 **Runs with no person.** Start Ace from any runner you set up, such as a CI job or a scheduled cloud agent, and it turns ready tickets into pull requests and audits the repo. A person merges.
 
@@ -44,7 +44,7 @@ Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and
    ```
 
    Nothing else needs setup: Ace finds your checks in CI and your scripts, and works without a ticket tracker.
-4. **Start working.** Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills. Teach Ace more when you need it, one module at a time: `/ace-setup tickets`, `/ace-setup cycle`, `/ace-setup standards`, or `/ace-setup settings`.
+4. **Start working.** Say what you want, such as "fix the login redirect" or "review my changes", and `ace-mode` picks the skills. Teach Ace more when you need it, one part at a time: `/ace-setup tickets`, `/ace-setup cycle`, `/ace-setup standards`, or `/ace-setup settings`.
 5. **Update** by running `npx skills add tobimey/ace` again and committing. Your `ace/` files hold only your project's facts, and the GitHub files update with Ace, so they need no change.
 
 > [!TIP]
@@ -83,7 +83,7 @@ Every skill has its own folder in `skills/`, such as `skills/ace-review/`.
 | `ace-implement` | Builds the plan test-first. |
 | `ace-verify` | Proves it works. |
 | `ace-open-pr` | Opens the pull request. |
-| `ace-work-ticket` | Runs this stage with no person: it takes the next ready ticket, builds it, and opens a pull request, usually on a schedule. |
+| `ace-work-ticket` | Runs this stage with no person: it takes the next ready ticket, builds it, and opens a pull request, usually on a schedule. First it checks the ticket: it skips one an open pull request already covers, and rejects one whose work is already done or whose claim is wrong, with the evidence. |
 
 ### Stage 3 · Review
 
@@ -95,7 +95,7 @@ Every skill has its own folder in `skills/`, such as `skills/ace-review/`.
 
 | Skill | What it does |
 |---|---|
-| `ace-babysit-pr` | Does the work open pull requests still need. It fixes failing checks, retries a flaky check once, merges the base branch in to resolve conflicts, and answers review comments from people and bots: it fixes what `review.fixes` allows, proves a false claim wrong, and names scope creep as a follow-up. It never merges. Run it once, or in watch mode until each pull request is ready or needs a person. |
+| `ace-babysit-pr` | Does the work open pull requests still need. It fixes failing checks, retries a flaky check once, merges the base branch in to resolve conflicts, and answers review comments from people and bots: it fixes what `autonomy` allows, proves a false claim wrong, and names scope creep as a follow-up. It never merges. Run it once, or in watch mode until each pull request is ready or needs a person. |
 
 ### Stage 4 · Optimize
 
@@ -112,14 +112,12 @@ On top of the cycle, Ace provides a few more skills:
 
 | Category | Skill | What it does |
 |---|---|---|
-| Router | `ace-mode` | Picks the playbook for each message and runs its skills in order. It is the only skill the agent sees on its own. Every other skill is hidden from the agent: `ace-mode` and other skills load it by path, and you run it as a slash command. |
-| Setup | `ace-setup` | Writes the adapters, with a quick setup first and one module at a time after that. |
+| Router | `ace-mode` | Picks the playbook for each message and runs its skills in order. It is the only skill the agent sees on its own. Every other skill is hidden from the agent: `ace-mode` and other skills load it by path, and you run it as a slash command. It also holds the files other skills share: how to read `ace/`, the logic, security, performance, and architecture rules that `ace-review` and `ace-audit` use, and the deep-module vocabulary for design work. |
+| Setup | `ace-setup` | Writes the files in `ace/`, with a quick setup first and one part at a time after that. |
 | Audit | `ace-audit` | Audits the whole codebase for the domains you pick: security, logic, performance, architecture, health, and each custom check you add in `ace/checks/`. `/ace-audit security` runs one domain, `/ace-audit` asks which and recommends all of them. Each domain runs as its own pass and files at most three tickets by default, which feed into stage 2. It usually runs on a schedule. |
+| Garden | `ace-garden` | Makes one small cleanup per run, the kind an audit leaves below its bar, and you call it only when you want it. Pick a topic and a scope, such as `/ace-garden naming src/billing`: **naming** (names that hide what a thing does), **tests** (tests that cannot fail), **pass-through** (wrappers and props that only forward), **deps** (bumps outdated dependencies, keeping risky majors for a person), or any custom check in `ace/checks/`. It fixes one finding with behavior unchanged, or names up to three candidates when no fix is clean. Ask for a report to see every finding without a change. |
 | Understand | `ace-explain` | Explains how code works, why it is built that way, or both for a change. Asked for an explainer, it writes one for a pull request, with a code walkthrough and a quiz, and posts it there. Ask for it by name, or add it to the CI step that runs your reviews. |
 | Understand | `ace-learn` | Teaches a topic over several sessions. |
-| Shared | `ace-adapters` | Says how skills read the adapters and what they use when one is missing. Shared skills are loaded by other skills, never run on their own. |
-| Shared | `ace-checks` | Holds the logic, security, performance, and architecture rules that both `ace-review` and `ace-audit` use. |
-| Shared | `ace-codebase-design` | Holds the deep-module vocabulary those rules and any design work use. |
 
 ## Compatibility
 
@@ -147,7 +145,7 @@ Ace ships no harness plugins yet. Plugins for Claude Code, Cursor, and Codex wil
 
 Ace works with pull requests on GitHub only. It reads and posts through the `gh` CLI, so `gh` must be logged in wherever the agent runs, and Ace handles no tokens. Other code hosts, such as GitLab or Bitbucket, are not supported. Without GitHub, review, verify, and explain still work on your local diff, but nothing opens or reads a pull request.
 
-Tickets are not tied to GitHub: Ace ships a provider for GitHub Issues, and an adapter file in `ace/` points it at another tracker, such as Linear or Jira. Ace also writes no CI config: when you want runs without a person, you set up the runner.
+Tickets are not tied to GitHub: GitHub Issues is built in, and a file in `ace/` points Ace at another tracker, such as Linear or Jira. Ace also writes no CI config: when you want runs without a person, you set up the runner.
 
 ### Local vs cloud
 
@@ -158,48 +156,48 @@ Some things will run in the cloud, some on a local machine. The trend likely mov
 > [!NOTE]
 > The sections from here on are reference. You need them once you change how Ace works in your project.
 
-## Adapters
+## Project files
 
 Ace is generic. It's suitable for all sorts of software projects in whatever language. What matters is adapting it to project and team needs.
 
-The skills are built in a way that they listen to your needs. These adapters live in `ace/` in your project. Each one is optional: without it, Ace uses a default, and `ace-setup` writes it when you want your own.
+The files in `ace/` tell Ace how your project works. Each one is optional: without it, Ace uses a default, and `ace-setup` writes it when you want your own.
 
 | File | What it says |
 |---|---|
-| `CODING_STANDARDS.md` | Used in stages 2 and 3 to check that the code is written in a way that is consistent with your coding standards. |
-| `VERIFY.md` | How to prove a change works: the checks CI runs, how to start the app, and how to try each kind of change. `ace-verify` follows it in stage 2, and `ace-review` runs its checks in stage 3. |
-| `checks/` | Your own checks, one file each, such as `checks/ACCESSIBILITY.md` with what to find, what to drop, and how severe a finding is. `ace-review` runs each one as its own check, and `ace-audit` as its own domain. Copy [skills/ace-setup/templates/CHECK.md](skills/ace-setup/templates/CHECK.md) to start one. Single rules stay in `CODING_STANDARDS.md`. |
+| `CODING_STANDARDS.md` | Used in stages 2 and 3 to check that the code is written in a way that is consistent with your coding standards. Optional sections name the risks the team accepts, which review and audit leave out, and the packages whose major only a person bumps, for `ace-garden deps`. |
+| `VERIFY.md` | How to prove a change works: the checks CI runs, how to start the app, and how to try each kind of change, with the fastest tool made for agents, such as Vercel's `agent-browser` for a web page, before slower ones like a browser MCP or a one-off Playwright script. `ace-verify` follows it in stage 2, and `ace-review` runs its checks in stage 3. |
+| `checks/` | Your own checks, one file each, such as `checks/ACCESSIBILITY.md` with what to find, what to drop, and how severe a finding is. `ace-review` runs each one as its own check, `ace-audit` as its own domain, and `ace-garden` as a topic when you ask. Copy [skills/ace-setup/templates/CHECK.md](skills/ace-setup/templates/CHECK.md) to start one. Single rules stay in `CODING_STANDARDS.md`. |
 | `TICKET_TRACKER.md` | How to read, search, open, and update tickets, e.g. in Linear or Jira, and how the tracker shows the three ticket states (see below). For GitHub Issues you need no file: set `"ticket_tracker": "github-issues"`. |
 | `PRODUCT.md` | Who the product is for, the goal "better" means right now, what it leaves alone, and the direction picked for each part. `ace-grill` ranks directions against it, and writes it the first time you pick one. |
-| `CYCLE.md` | What starts runs besides a person, such as a CI job or a cloud agent on a schedule, and the message each run gets. By default a person starts every run and `ace-mode` names the next step. Ace writes no runner config: you set up the runner, and `/ace-setup cycle` writes this file to describe it. |
+| `CYCLE.md` | What starts runs besides a person, such as a CI job or a cloud agent on a schedule, and the message each run gets. For a runner that differs from a local run, it also says how a run finds its pull request or ticket, what it must not touch, and how it posts when `gh` there acts as a person. By default a person starts every run and `ace-mode` names the next step. Ace writes no runner config: you set up the runner, and `/ace-setup cycle` writes this file to describe it. |
 
 ### Ticket states
 
-Every ticket an agent opens starts in `needs-dev`. A person reads it and sets it `ready`, unless the settings let the agent do it. `ace-work-ticket` claims a ready ticket and sets it `working`, one run at a time, or sends it back to `needs-dev` with a question when it gets stuck. When a run dies, or a person closes its pull request without merging, the next run finds the ticket still `working` with no open pull request and sends it back to `needs-dev` with a comment that says why. On GitHub Issues, the states are the labels `ace:needs-dev`, `ace:ready`, and `ace:working`.
+Every ticket an agent opens starts in `needs-human`. A person reads it and sets it `ready`, unless `autonomy` lets the agent do it. `ace-work-ticket` claims a ready ticket and sets it `working`, one run at a time, or sends it back to `needs-human` with a question when it gets stuck. A ticket it rejects as already done or wrong goes to `needs-human`, or is closed at `high` `autonomy`. When a run dies, or a person closes its pull request without merging, the next run finds the ticket still `working` with no open pull request and sends it back to `needs-human` with a comment that says why. On GitHub Issues, the states are the labels `ace:needs-human`, `ace:ready`, and `ace:working`. A ticket with no state label is outside the agent queue, such as one a person builds.
 
 ```mermaid
 stateDiagram-v2
     direction LR
-    [*] --> needs_dev: agent opens ticket
-    needs_dev --> ready: person (or agent, per settings)
+    [*] --> needs_human: agent opens ticket
+    needs_human --> ready: person (or agent, per settings)
     ready --> working: ace-work-ticket claims it
-    working --> needs_dev: stuck, asks a question
-    working --> needs_dev: run died, or pull request closed unmerged
+    ready --> needs_human: rejected, unclear, or too big
+    ready --> [*]: rejected and closed, per settings
+    working --> needs_human: stuck, asks a question
+    working --> needs_human: run died, or pull request closed unmerged
 ```
 
 ### Model attribution
 
 Everything Ace posts to a ticket tracker or a code host, such as a pull request, a review comment, or a ticket, starts with a line that names the model that wrote it, such as `Model: claude-opus-5-5`. A runner can set it with `ACE_MODEL`.
 
-### Built-in providers
+Every ticket and pull request Ace opens also gets the label `ace-created`, also when you asked for it in chat. The label stays for good, so you can filter for Ace's work. It says who opened a ticket, while the `ace:` state labels say whose turn it is.
 
-Ace ships GitHub Issues and GitHub pull requests inside the skills, in [skills/ace-adapters/github/](skills/ace-adapters/github/). They hold no project values and update with Ace, so you never copy them into your project. Pull requests need no setting. You pick GitHub Issues in `ace/config.json`. When you want one part different, such as an assignee on every ticket, write just that section in `ace/TICKET_TRACKER.md`. It replaces the provider's section with the same job, and the provider fills the rest. For a tracker without a provider, the file holds every section. Your own pull request rules go in your pull request template or your `AGENTS.md`.
+### Your files, your rules
 
-### Your adapters, your rules
+The files are yours. `ace-setup` writes a first draft, and from then on you change them as the project needs. Ace reads only a few sections, finds each by its job under any heading, and leaves the rest of each file free. When a file or a section is missing, Ace uses its default and names it in one line: with no `VERIFY.md` it runs the checks your CI runs, and with no ticket tracker it writes the ticket into the reply.
 
-The adapters are yours. `ace-setup` writes a first draft of the ones you need, and from then on you change them as the project needs. Ace skills depend only on a few sections, listed with their defaults in [skills/ace-adapters/contract/](skills/ace-adapters/contract/). Keep those, under any heading, and the rest of each file is free.
-
-When a file or a section is missing, the skill uses the provider you picked, or else its default, and names the default in one line. For example, with no `VERIFY.md` it runs the checks your CI runs, and with no ticket tracker it writes a ticket into the reply. When `ace-verify` runs without `VERIFY.md`, it proposes one from what it found, and writes it when you say yes.
+GitHub Issues and GitHub pull requests are built in and update with Ace. To do one part differently, such as an assignee on every ticket, write only that section in `ace/TICKET_TRACKER.md`. Your own pull request rules go in your pull request template or your `AGENTS.md`.
 
 ### Monorepos
 
@@ -209,13 +207,16 @@ Nothing needs to list it: for a changed file, Ace reads the root `ace/` folder p
 
 ### Glossary
 
-The glossary is the shared language between the human and the agent, so that nothing drifts. It is not an adapter file. It lives in a Glossary section of your root `AGENTS.md`, one line per term, because every session needs it and harnesses load that file into every session. Agents skip a lookup in a separate file more often than you'd think.
+The glossary is the shared language between the human and the agent, so that nothing drifts. It has two tiers:
 
-`ace-grill` adds terms as a plan settles them. Once the section passes about 40 terms, or one word means different things in different parts of the project, the detail moves to `ace/GLOSSARY.md`, and `AGENTS.md` keeps the one-line entries.
+- **Core**: a Glossary section of your root `AGENTS.md`, one line per term, because harnesses load that file into every session. Agents skip a lookup in a separate file more often than you'd think. It holds the terms most tasks meet, and the ones whose everyday meaning misleads, up to about 25.
+- **Full**: `ace/GLOSSARY.md`, with every term and its detail, such as how terms relate, examples, and words to avoid. Agents read it when a task meets a term the core lacks.
+
+A small project needs only the core. `ace-grill` adds terms as a plan settles them. Once the core passes about 25 terms, or one word means different things in different parts of the project, it proposes the full glossary, and the core keeps the terms you pick.
 
 ### AGENTS.md
 
-Your root `AGENTS.md` (or `CLAUDE.md`) stays where it is, because harnesses load it from there into every agent session. `ace-setup` adds a short section to it that turns on `ace-mode`, points at the adapters, and tells the agent to change files only when asked to, plus the Glossary section.
+Your root `AGENTS.md` (or `CLAUDE.md`) stays where it is, because harnesses load it from there into every agent session. `ace-setup` adds a short section to it that turns on `ace-mode`, points at the files in `ace/`, and tells the agent to change files only when asked to, plus the Glossary section.
 
 `ace-mode` is the router: for each message it picks a playbook, such as Build, Fix, or Review, and runs the Ace skills that playbook needs, in order. You state the goal, and `ace-mode` picks the skills.
 
@@ -223,49 +224,28 @@ If the file doesn't exist yet, `ace-setup` writes a small draft for you to itera
 
 ## Settings
 
-Adapters say how your project does a job. Settings say how your factory behaves: how much agents do on their own, and which optional features are on. They live in `ace/config.json`, which `/ace-setup settings` writes. Without the file, every setting has its default:
+The files in `ace/` say how your project does a job. Settings say how much agents do on their own. They live in `ace/config.json`, which `/ace-setup settings` writes. A missing file or setting uses its default, so a new Ace version needs no change to the file:
 
 ```json
 {
   "$schema": "../.agents/skills/ace-setup/config.schema.json",
   "autonomy": "medium",
-  "ticket_tracker": "none",
-  "who_starts_runs": "person",
-  "review": {
-    "require_other_model": false,
-    "agents": "one-for-all-checks",
-    "fix_severities": ["blocker", "should-fix", "nit"]
-  },
-  "write_adrs": false,
-  "max_tickets_per_audit_domain": 3
+  "ticket_tracker": "github-issues",
+  "review": { "require_other_model": false },
+  "write_adrs": false
 }
 ```
 
-The `$schema` line points at the schema in the installed Ace, so your editor checks the values and explains each setting. A missing file or setting uses the default, so a new Ace version needs no change to the file.
-
-### `autonomy`
-
-How much agents do without a person, in one setting. It sets `who_sets_ready` and `review.fixes`, unless you set those yourself:
-
-| `autonomy` | `who_sets_ready` | `review.fixes` |
-|---|---|---|
-| `low` | `person` | `none` |
-| `medium` | `person` | `simple-only` |
-| `high` | `planning-agents` | `all` |
-
-### All settings
+The `$schema` line points at the schema in the installed Ace, so your editor checks the values and explains each setting.
 
 | Setting | Values and meaning |
 |---|---|
-| `ticket_tracker` | Where tickets live. `none` writes a ticket into the reply. `github-issues` uses the built-in GitHub Issues tracker. `custom` uses your `ace/TICKET_TRACKER.md`. |
-| `who_starts_runs` | What starts an agent run besides a person. `person`, or `custom` for a runner you set up, which your `ace/CYCLE.md` describes. |
-| `who_sets_ready` *(optional)* | Who moves a new ticket from `needs-dev` to `ready`. `person` keeps a person between every ticket and the agent that builds it. `planning-agents` lets `ace-grill` and `ace-to-ticket` set the tickets of a plan you approved ready. `any-agent` lets `ace-audit` do it too. |
-| `review.require_other_model` | When `true`, a session never reviews a change it built and hands the review to another model. When `false`, it reviews on request and adds a tip to use another model. |
-| `review.agents` | `one-for-all-checks` runs the spec, standards, and code checks in one agent. `one-per-check` gives each check its own fresh agent. Fixes are always made by one agent. |
-| `review.fixes` *(optional)* | `none` changes no file. `simple-only` fixes what has one clearly correct edit. `all` also picks a fix when several are reasonable. Spec and architecture findings, and fixes that change a product decision, a public contract, or stored data, always stay findings. |
-| `review.fix_severities` | Which severities get fixed, from `blocker`, `should-fix`, and `nit`. The rest stay findings. |
-| `write_adrs` | When `true`, `ace-grill` records each hard-to-reverse decision as an ADR in `ace/adrs/`, and `ace-explain` reads them when you ask why. |
-| `max_tickets_per_audit_domain` | The most tickets one audit pass files for one domain. |
+| `autonomy` | How much agents do without a person. `low`: a person sets every ticket ready, reviews fix nothing, and a ticket `ace-work-ticket` rejects as already done or wrong waits for a person. `medium` (default): reviews also fix what has one clearly correct fix. `high`: tickets from a plan you approved go ready on their own, reviews also pick a fix when several are reasonable, and `ace-work-ticket` closes a ticket it rejects. Spec and architecture findings, and fixes that change a product decision, a public contract, or stored data, always stay findings. |
+| `ticket_tracker` | `github-issues` uses the built-in GitHub Issues tracker. Leave it out for another tracker, which your `ace/TICKET_TRACKER.md` describes, or for none: Ace then writes each ticket into the reply. |
+| `review.require_other_model` | When `true`, a session never reviews a change it built and hands the review to another model. When `false` (default), it reviews on request and adds a tip to use another model. |
+| `write_adrs` | When `true`, `ace-grill` records each hard-to-reverse decision as an ADR in `ace/adrs/`, and `ace-explain` reads them when you ask why. Default `false`. |
+
+Everything else you say in the message, such as "review this with one agent per check", "audit security, up to 5 tickets", or, for a runner, `Run ace-work-ticket. Open the pull request as a draft.`
 
 ## Roadmap
 
@@ -274,13 +254,13 @@ Planned, not built yet:
 - **Review with other models.** `ace-review` runs on the model of the session, unless the review runs in CI with a different model. It should send the review to models from other providers when the harness can reach them, and fall back to a fresh agent on the same model. For prior art, see the `council` and `sol-loop` skills in [tstack](https://github.com/t3dotgg/tstack), and the `interrogate` skill in [pstack](https://github.com/backnotprop/pstack).
 - **Runner recipes.** Example setups for running Ace with no person, such as GitHub Actions workflows that review pull requests, work ready tickets, and audit on a schedule, including how such a run gets a token for the code host instead of a logged-in CLI. Ace v1 writes no runner config.
 - **Evals.** Tests for the agent: run Ace skills on fixed tasks and check that the agent follows them, so a change to a skill shows what it fixed and what it broke.
-- **Many repos.** A company with many repos will keep one shared config, with its settings, coding standards, and tracker and host adapters, in its own repo, and point every project at it with `"extends"` in `ace/config.json`. `ace-setup` will copy it into the project, so a change to the company rules arrives as a diff you review.
+- **Many repos.** A company with many repos will keep one shared config, with its settings, coding standards, and ticket tracker file, in its own repo, and point every project at it with `"extends"` in `ace/config.json`. `ace-setup` will copy it into the project, so a change to the company rules arrives as a diff you review.
 
 ## Credits
 
 Ace builds on ideas and skills from these projects:
 
-- [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT). The retro in `ace-optimize-factory` is adapted from his `retro` skill, `ace-learn` from his `teach` skill, `ace-diagnose` from his `diagnosing-bugs` skill, `ace-codebase-design` from his `codebase-design` skill, the architecture domain of `ace-audit` follows his `improve-codebase-architecture` survey, and `ace-grill` and `ace-to-ticket` follow his grilling and ticket-slicing workflows.
+- [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT). The retro in `ace-optimize-factory` is adapted from his `retro` skill, `ace-learn` from his `teach` skill, `ace-diagnose` from his `diagnosing-bugs` skill, the deep-module vocabulary in `ace-mode` from his `codebase-design` skill, the architecture domain of `ace-audit` follows his `improve-codebase-architecture` survey, and `ace-grill` and `ace-to-ticket` follow his grilling and ticket-slicing workflows.
 - [pstack](https://cursor.com/marketplace/cursor/pstack) by Lauren Tan (MIT, [mirror](https://github.com/backnotprop/pstack)). `ace-mode` and the playbook-style skills take after its approach. `ace-explain` is adapted from its `how`, `why`, and `teach` skills.
 - [explain-diff](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524) by Geoffrey Litt. The explainer in `ace-explain` follows its idea of explaining a change with background, intuition, a code walkthrough, and a quiz.
 

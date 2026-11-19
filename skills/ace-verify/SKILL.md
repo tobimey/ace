@@ -10,7 +10,7 @@ Prove the current change works. Done means every command in the "Checks" section
 
 ## Constraints
 
-- Verify as `ace/VERIFY.md` says, plus each package verify file for the paths the change touches, found as [PACKAGES.md](../ace-adapters/contract/PACKAGES.md) says. When those files have no way to try a behavior, or a way they give is wrong, find one that works and propose it in step 5.
+- Verify as `ace/VERIFY.md` says, plus each package verify file for the paths the change touches, found as [PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md) says. When those files have no way to try a behavior, or a way they give is wrong, find one that works and propose it in step 5.
 - Read only for the verify files, so the change stays what the user asked for. Step 5 proposes their changes in the report. Make those changes only when the user says yes to them.
 - A passing check proves the check, not the behavior. Report behavior as working only after you have tried it.
 - Make a failing check or test pass by fixing the code. Keep every check, test, and hook as strict as you found it, and let hooks run.
@@ -31,7 +31,7 @@ Prove the current change works. Done means every command in the "Checks" section
 
 ## 1. Get the change
 
-Use the change the caller gave. Otherwise get the diff as the "Get the diff" section of [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says. List each behavior the change adds or alters.
+Use the change the caller gave. Otherwise get the diff as the "Get the diff" section of [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) says. List each behavior the change adds or alters.
 
 ## 2. Run the checks
 
@@ -39,9 +39,9 @@ Run every command in the "Checks" section of each verify file from the constrain
 
 ## 3. Try the behavior
 
-Start the app as the "Run the app" section says. For each behavior from step 1, try it as the matching line of the "Check behavior" section says, and look at the result.
+Start the app as the "Run the app" section says. For each behavior from step 1, run the ready command of the matching line of the "Check behavior" section, try the behavior as the line says, and look at the result. When the ready command fails, install the tool as the line says.
 
-When no line of the "Check behavior" section matches a behavior, or a step of the "Run the app" or "Check behavior" section fails because the file is wrong, such as a wrong port or start order, find a way that works with the tools this environment has, such as browser automation, `curl`, or the CLI. Try the behavior that way and note the way for step 5.
+When no line matches a behavior, a line's tool cannot run here, or a step of the "Run the app" or "Check behavior" section fails because the file is wrong, such as a wrong port or start order, pick a tool as "Pick the tool" in [contract/VERIFY.md](../ace-mode/shared/adapters/contract/VERIFY.md) says. Try the behavior that way and note the way for step 5.
 
 When you try a behavior in a browser, save a screenshot of what you saw to a temp folder outside the repository, such as one from `mktemp -d`, and note its path for the report.
 
@@ -53,7 +53,7 @@ On any failure, fix it and go back to step 2. When the same failure survives thr
 
 ## 5. Propose verify file changes
 
-For each way you noted in step 3, write one line to add or fix in the file that covers the touched path: the package verify file for a path in a package, otherwise `ace/VERIFY.md`. Write it like the lines around it: the kind of change, the tool, where to start, such as a URL, an endpoint, or a command, and what to look at. For a fix, quote the line it replaces. When you noted nothing, skip this step.
+For each way you noted in step 3, write one line to add or fix in the file that covers the touched path: the package verify file for a path in a package, otherwise `ace/VERIFY.md`. Write it like the lines around it: the kind of change, the tool and its ready command, where to start, such as a URL, an endpoint, or a command, and what to look at. For a fix, quote the line it replaces. When you noted nothing, skip this step.
 
 When `ace/VERIFY.md` is missing, propose the whole file from [templates/VERIFY.md](../ace-setup/templates/VERIFY.md), also when you noted nothing: "Checks" with the commands you ran in step 2, "Run the app" with how you started the app, or `None.`, and "Check behavior" with each way that worked in step 3. Offer `ace-setup` as the other way to write it.
 

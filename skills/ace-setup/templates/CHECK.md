@@ -2,7 +2,7 @@
 
 <WHAT_IT_COVERS>
 
-`ace-review` runs this file as its own check on every change, and `ace-audit` runs it as its own domain over the whole repository. Findings use the file name as their category. Keep single rules in `ace/CODING_STANDARDS.md`.
+`ace-review` runs this file as its own check on every change, `ace-audit` runs it as its own domain over the whole repository, and `ace-garden` fixes one finding per run when asked. Findings use the file name as their category. Keep single rules in `ace/CODING_STANDARDS.md`.
 
 ## Find
 

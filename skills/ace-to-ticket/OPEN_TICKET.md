@@ -2,7 +2,7 @@
 
 Opens one ticket in the project's ticket tracker, with a body in the shared Ace shape. `ace-to-ticket`, `ace-audit`, and `ace-mode` open every ticket with this file.
 
-Write one ticket body and open the ticket. Done means the ticket exists, its body uses the headings below in this order with no other `###` heading, and its URL is handed back. With no ticket tracker, done means the ticket is in the reply instead, as the default for "Open a ticket" in `ace-adapters` says.
+Write one ticket body and open the ticket. Done means the ticket exists, its body uses the headings below in this order with no other `###` heading, and its URL is handed back. With no ticket tracker, done means the ticket is in the reply instead, as the default for "Open a ticket" in [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says.
 
 ## Constraints
 
@@ -88,10 +88,10 @@ Fold any other top-level heading into Task or Rules.
 
 ## 3. Open the ticket
 
-Open it as the "Open a ticket" section says, with the caller's title, type, Priority, Size, and Risk. It starts in the needs-dev state.
+Open it as the "Open a ticket" section says, with the caller's title, type, Priority, Size, and Risk. It starts in the needs-human state.
 
 ## 4. Set it ready, when the caller says so
 
-When the caller said to set the ticket ready, move it from needs-dev to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says. Otherwise leave it in needs-dev.
+When the caller said to set the ticket ready, move it from needs-human to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says. Otherwise leave it in needs-human.
 
 Hand back the ticket URL and its state.

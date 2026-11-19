@@ -1,6 +1,6 @@
 # Deepening
 
-How to merge a cluster of shallow modules into one deep module, given its dependencies. Uses the terms in [SKILL.md](SKILL.md).
+How to merge a cluster of shallow modules into one deep module, given its dependencies. Uses the terms in [CODEBASE_DESIGN.md](CODEBASE_DESIGN.md).
 
 ## Dependency kinds
 

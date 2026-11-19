@@ -1,12 +1,6 @@
----
-name: ace-codebase-design
-description: Shared vocabulary and principles for module design, built on deep modules, that other Ace skills load.
-disable-model-invocation: true
----
-
 # Codebase design
 
-Design deep modules: a lot of behavior behind a small interface, placed at a clean seam, tested through that interface. Callers get leverage, maintainers get locality, and tests survive refactors. This skill is a reference. Use its terms and principles wherever code is designed, reviewed, or audited for its shape.
+Design deep modules: a lot of behavior behind a small interface, placed at a clean seam, tested through that interface. Callers get leverage, maintainers get locality, and tests survive refactors. This file is a reference. Use its terms and principles wherever code is designed, reviewed, or audited for its shape.
 
 ## Constraints
 

@@ -9,14 +9,13 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 
 ## Requires
 
-- `ace-adapters`
-- Every skill a playbook names. Ace installs as one set, so each is in a folder next to this one.
+- Every skill a playbook names.
 
 ## Constraints
 
-- A step that changes files waits until the message asks for a change. A message asks for one when it asks in words, such as "fix", "add", or "do it", when it names a job that changes files, such as `Review pull request #12`, `Run ace-work-ticket.`, or a skill command like `/ace-review`, or when it says yes to a change you proposed. A skill then makes the changes its Done names, within the settings in `ace/config.json`, and no others. Until a message asks, run the read-only steps and propose the rest.
+- Change files only when the message asks: in words, such as "fix" or "do it", by naming a job that changes files, such as `Review pull request #12`, `Run ace-work-ticket.`, or `/ace-review`, or by saying yes to a change you proposed. Until then, run the read-only steps and propose the rest. A skill changes only what its Done names, within the settings in `ace/config.json`.
 - Load a skill by reading `../<name>/SKILL.md` from this file's folder, since Ace hides its skills from the model. Follow each skill as written. Read a playbook file the first time you route to it, then keep using it from context.
-- Read every project fact as `ace-adapters` says. A missing `ace` folder or section is no error: its default applies. When the project has no `ace` folder, end the first reply of the session with one line that offers `ace-setup`.
+- Read every project fact as [ADAPTERS.md](shared/adapters/ADAPTERS.md) says. When the project has no `ace` folder, end the first reply of the session with one line that offers `ace-setup`.
 - Playbooks are internal. Never name one in a reply or print its steps. Say what you do in plain words, such as "I'll fix the bug, then review the diff."
 - Skip a step that does not apply. Mention it in the reply only when the user would expect it to run, such as a test or a review.
 - When you ask the user to decide in chat, use the format in [QUESTIONS.md](QUESTIONS.md).
@@ -29,7 +28,7 @@ Ace mode is always on. For each message, pick the playbook below that matches it
    - A request for an opinion, a ranking, or a comparison that proposes no change, such as "what are the worst parts of X", matches none: answer it directly and change nothing.
 2. When the playbook has three steps or more, copy them into the todo list. When the harness has no todo list, track them yourself and keep them out of the reply.
 3. Run the steps. When a later message changes the task, route again.
-4. When Plan, Perf, Fix, Refactor, Build, Babysit, Review, or Audit ends, hand off as [CONTINUE.md](CONTINUE.md), section Hand off, says. The other playbooks hand off nothing, and neither does a playbook run as a step of another: the outer playbook hands off.
+4. When Plan, Perf, Fix, Refactor, Garden, Build, Babysit, Review, or Audit ends, hand off as [CONTINUE.md](CONTINUE.md), section Hand off, says. The other playbooks hand off nothing, and neither does a playbook run as a step of another: the outer playbook hands off.
 
 ## Playbooks
 
@@ -44,7 +43,8 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 | Build | A ticket, spec, or plan to implement, or a feature the conversation has settled | [BUILD.md](BUILD.md), section Build |
 | Babysit | An open pull request with work left before merge: "babysit PR #12", "fix the CI", "address the review comments", "check my open PRs", "watch it until it is green" | `ace-babysit-pr` with the pull requests the message names, in `watch` mode when it asks to watch |
 | Review | A diff, a branch, or a pull request to review | `ace-review` on that input. Pass only the checks the message asks for, such as `spec` for "check it against the ticket", and whether to comment on the pull request. Reply with its report. |
-| Audit | "Audit", or a search for bugs, security holes, performance costs, standards breaks, or shallow modules across the repo | `ace-audit` with the domains the message names: `security`, `logic`, `performance`, `architecture`, `health`, or the name of a custom check in `ace/checks/`. A full audit names all of them. With no domain named, `ace-audit` asks. |
+| Garden | "Garden", or one small cleanup by topic: names, tautological tests, wrappers or props that only forward, outdated dependencies, or a custom check in `ace/checks/` | [BUILD.md](BUILD.md), section Garden |
+| Audit | "Audit", or a search for bugs, security holes, performance costs, standards breaks, or shallow modules across the repo | `ace-audit` with the domains the message names |
 | Improve the factory | Agents went wrong, or the user wants to change how agents are steered | A whole session to look back on, "retro", one named misbehaviour, or the agents file: `ace-optimize-factory`. A new or existing skill: `ace-skill-best-practices`. |
 | Single job | A message that names one job | That skill alone: work the next ready ticket with `ace-work-ticket`, open a ticket with `ace-to-ticket/OPEN_TICKET.md`, open a pull request with `ace-open-pr`, verify a change with `ace-verify`, set up Ace with `ace-setup`, post an explainer on a pull request with `ace-explain/EXPLAINER.md` |
 | Continue | "What's next", "continue", "where are we", or a ticket or pull request named with no ask | [CONTINUE.md](CONTINUE.md), section Continue |

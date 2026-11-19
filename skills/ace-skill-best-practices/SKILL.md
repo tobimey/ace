@@ -20,6 +20,7 @@ A skill that writes other steering files, such as `ace-optimize-factory`, follow
 This skill is the only prefix list.
 
 - `ace-audit` is the auditor job. Repo-wide, one domain file per domain, one pass per domain. It files tickets. It leaves the repo unchanged and opens no pull request.
+- `ace-garden` is the gardener job. One topic file per topic, one scope and one fix per run. It changes code and files no ticket.
 - `ace-review` is the review job for the current change. One check file per check: spec, standards, and code.
 - `ace-` plus a verb is a cycle or shared job. A person is in the loop, or another skill calls it.
 - Skills without the `ace-` prefix are project or vendored skills. They teach a library or a tool. Keep ace pipeline facts out of them.
@@ -29,7 +30,7 @@ This skill is the only prefix list.
 - A job skill takes its input from the caller: a pull request, a diff, a base ref, or a ticket.
 - Name another skill by its `name`. Name a document by its role (coding standards, glossary) or its `ace/` path. Name another filesystem path only when that path is the work.
 - When the skill follows, loads, or runs another skill, list that skill in a `## Requires` section before the first other section, as a list of names and nothing else. The Ace section of the root agents file says what happens when one is missing. A skill named only to mark scope, such as "belongs to `ace-review`", needs no entry.
-- Leave out how to find an adapter section and what to do when one is missing. `ace-adapters` says it, with each section's default. Write a line only when the skill does something else, such as answering in the reply instead of posting.
+- Leave out how to find an adapter section and what to do when one is missing. [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says it, with each section's default. Write a line only when the skill does something else, such as answering in the reply instead of posting.
 - When `disable-model-invocation` is `true`, the description is one line that says what the skill does, and only what.
 - Write every instruction as the action to take. Turn "do not X", "never X", "avoid X", and "should not X" into what the agent does instead: the allowed scope ("Read only.", "Change only the files in the diff."), the replacement action, or the stop condition ("If the section is missing, stop and say so."). A negation that states a fact or a condition ("if the file does not exist") stays. Naming the unwanted action plants it; naming the wanted one steers.
 - Shortest text that still makes the agent do the job. Say each rule once.

@@ -11,7 +11,7 @@ Ace skills adapted from it:
 - the retro in `ace-optimize-factory` from `retro`
 - `ace-learn` from `teach`
 - `ace-diagnose` from `diagnosing-bugs`
-- `ace-codebase-design` from `codebase-design`
+- `ace-mode/shared/codebase-design/` from `codebase-design`
 - the architecture domain of `ace-audit` from `improve-codebase-architecture`
 - `ace-grill` from `grilling`
 - `ace-to-ticket` from `to-tickets`

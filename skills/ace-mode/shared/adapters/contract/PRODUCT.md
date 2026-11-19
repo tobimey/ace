@@ -9,4 +9,4 @@ Optional. Who the product is for and where it is going, so each run of `ace-gril
 | Non-goals | What the project leaves alone, even when it would help | `ace-grill` |
 | Directions | The direction picked for each scope, with the date it was picked | `ace-grill`, which replaces a scope's line after each pick |
 
-**Default.** No file. `ace-grill` asks for Users, Goal, and Non-goals in its anchor round, no direction is picked yet, and it creates the file from [templates/PRODUCT.md](../../ace-setup/templates/PRODUCT.md) once the user picks one.
+**Default.** No file. `ace-grill` asks for Users, Goal, and Non-goals in its anchor round, no direction is picked yet, and it creates the file from [templates/PRODUCT.md](../../../../ace-setup/templates/PRODUCT.md) once the user picks one.

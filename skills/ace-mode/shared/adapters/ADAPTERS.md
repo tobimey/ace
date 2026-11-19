@@ -1,12 +1,6 @@
----
-name: ace-adapters
-description: Says how an Ace skill finds a project fact in the adapters in `ace/`, in a built-in provider such as GitHub Issues, or in a default, and how it reads a setting from `ace/config.json`. ace-mode and the root agents file load it.
-disable-model-invocation: true
----
-
 # Adapters
 
-An Ace skill that needs a project fact, such as the check commands or how to open a ticket, reads it from an adapter. Ace works without an `ace` folder. Every section has a default, so a project needs no setup before the first task.
+An Ace skill reads each project fact, such as the check commands or how to open a ticket, from an adapter. Every section has a default, so a project needs no `ace` folder before the first task.
 
 ## The adapters
 
@@ -21,8 +15,6 @@ A skill names an adapter by its path in `ace/`. That name means the adapter, not
 | `ace/PRODUCT.md` | [contract/PRODUCT.md](contract/PRODUCT.md) | None |
 
 The glossary and `ace/checks/` have their own contract files in [contract/](contract/). Read only the contract file of the adapter you need.
-
-A provider ships with Ace and holds no project values, so the project never copies or updates it. The project writes its own file in `ace/` only for a tool Ace has no provider for, such as Linear or Jira, or to change one section of a provider.
 
 Pull requests have no adapter. Ace supports them only on GitHub, as [github/PULL_REQUESTS.md](github/PULL_REQUESTS.md) says.
 
@@ -40,19 +32,7 @@ Stop only when the default does not fit this project. Name the section, say what
 
 ## Read a setting
 
-Settings live in `ace/config.json`. [config.schema.json](../ace-setup/config.schema.json) defines each one. Read a setting in this order:
-
-1. The key, when the file has it.
-2. For `who_sets_ready` and `review.fixes`, the value `autonomy` sets:
-
-   | `autonomy` | `who_sets_ready` | `review.fixes` |
-   |---|---|---|
-   | `low` | `person` | `none` |
-   | `medium` | `person` | `simple-only` |
-   | `high` | `planning-agents` | `all` |
-
-   A missing `autonomy` is `medium`.
-3. The default the schema names.
+Read a setting from `ace/config.json`. A missing file or key uses the default the reading skill names, else the one in [config.schema.json](../../../ace-setup/config.schema.json). A missing `autonomy` is `medium`.
 
 ## Say which defaults ran
 
@@ -66,6 +46,8 @@ Before you write anything to a ticket tracker or a code host, read [SIGN.md](SIG
 
 In a run nobody watches, such as `ace-work-ticket` or a run a schedule or a label starts, a default that writes a ticket, a pull request, or a comment into the reply is a stop.
 
+When the message names a runner, such as `Runner: cursor-cloud.`, follow its section in `ace/CYCLE.md` for the whole run, or stop when it has none. Its Target says which pull request or ticket the message means. Each section it holds, such as "Comment on a pull request", replaces the one with that job in an adapter, a provider, or [PULL_REQUESTS.md](github/PULL_REQUESTS.md). When that fails, retry or stop. Never fall back: the replaced way may post as the wrong account.
+
 ## Writing adapters
 
-Only `ace-setup` writes adapter files, except where a skill says it may, as `ace-grill` does for `ace/PRODUCT.md` and `ace-verify` does for `ace/VERIFY.md` when the user says yes. Every other skill leaves a missing adapter missing.
+Only `ace-setup` writes adapter files, unless a skill says it may. Leave a missing adapter missing.

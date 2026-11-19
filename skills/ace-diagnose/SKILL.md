@@ -38,7 +38,7 @@ A loop is one command that drives the code path of this bug and checks the exact
 1. A failing test at whatever seam reaches the bug.
 2. An HTTP request script against the running app.
 3. A CLI call with a fixture input, diffed against a known-good output.
-4. A headless browser script that drives the UI and checks the DOM, console, or network.
+4. A browser run that drives the UI with the tool [contract/VERIFY.md](../ace-mode/shared/adapters/contract/VERIFY.md) picks, such as `agent-browser`, and checks the DOM, console, or network.
 5. A replay of a captured request, payload, or event log through the code path.
 6. A throwaway harness that runs the smallest part of the system that reaches the bug.
 7. A fuzz loop over many random inputs, when the bug is "sometimes wrong".

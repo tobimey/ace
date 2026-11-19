@@ -10,7 +10,7 @@ Review the diff with its checks, fix what the review settings allow, and write t
 
 ## Requires
 
-- `ace-checks`
+- `ace-mode`, for its [CHECKS.md](../ace-mode/shared/checks/CHECKS.md)
 
 ## Checks
 
@@ -25,12 +25,12 @@ Run the checks the caller names, such as `spec` or `standards accessibility`. Wi
 
 ## Settings
 
-Read `review` in `ace/config.json` as `ace-adapters` says. A missing file or key uses the default in brackets. A missing `fixes` takes its value from `autonomy`.
+Read `ace/config.json` as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says:
 
-- `require_other_model` (`false`): whether a change this session built may be reviewed here, as the first constraint says.
-- `agents` (`one-for-all-checks`): `one-for-all-checks` runs every check yourself, one after another. `one-per-check` runs each check in a fresh sub-agent, so one check's reading does not sway the next. When your harness cannot start sub-agents, run the checks yourself and say so in one line of the report.
-- `fixes` (`simple-only`): which findings get fixed, by fix type, as step 3 says.
-- `fix_severities` (`["blocker", "should-fix", "nit"]`): only findings with one of these severities get fixed.
+- `review.require_other_model` (`false`): whether a change this session built may be reviewed here, as the first constraint says.
+- `autonomy` (`medium`): which findings get fixed, by fix type, as step 3 says.
+
+Run every check yourself, one after another. When the caller asks for one agent per check, run each in a fresh sub-agent instead, so one check's reading does not sway the next. When your harness cannot start sub-agents, run them yourself and say so in one line of the report.
 
 ## Constraints
 
@@ -38,9 +38,9 @@ Read `review` in `ace/config.json` as `ace-adapters` says. A missing file or key
 - Finding is read only. Only step 4 changes files.
 - Edit only files this change touches.
 - On a pull request, work on its head branch, and commit and push your fixes there. On a local diff, leave them uncommitted. The user commits.
-- For a pull request from a fork or a branch you cannot push to, fix nothing: treat `fixes` as `none`, and say so in one line of the report.
+- For a pull request from a fork or a branch you cannot push to, fix nothing, as `low` autonomy does, and say so in one line of the report.
 - Ignore generated and vendored code, and any path the coding standards mark as out of scope.
-- A finding needs a concrete failure, cost, gap, or rule break in this diff. Leave out hypotheticals, pre-existing issues the diff does not make worse, and accepted risks.
+- A finding needs a concrete failure, cost, gap, or rule break in this diff. Leave out hypotheticals, pre-existing issues the diff does not make worse, and the accepted risks the coding standards list.
 
 ## Workflow
 
@@ -60,23 +60,23 @@ On a pull request, first get onto its head branch, so the files you read and fix
 
 1. When the working tree has uncommitted changes, stop and say so.
 2. Note the current branch or commit, to switch back to in step 7.
-3. Check out the head branch as "Find a pull request" in [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says, and pull it.
+3. Check out the head branch as "Find a pull request" in [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) says, and pull it.
 
-Then get the diff once, as the "Get the diff" section of [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says. Every check reads this diff.
+Then get the diff once, as the "Get the diff" section of [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) says. Every check reads this diff.
 
 Stop if the diff is empty and there is no untracked work.
 
 ### 2. Find
 
-Run each picked check as its file says, in the order of the list above. With `one-per-check`, give each sub-agent the diff, its check file, the Constraints above, and the Finding section below. Tell it to change no file and to return its findings, and for Spec its result line.
+Run each picked check as its file says, in the order of the list above. With one agent per check, give each sub-agent the diff, its check file, the Constraints above, and the Finding section below. Tell it to change no file and to return its findings, and for Spec its result line.
 
 Merge the findings. When two findings name the same problem, keep the one in the category that owns it, as the Belongs elsewhere section of each check file says.
 
 ### 3. Pick the fixes
 
-A finding gets fixed when its severity is in `fix_severities` and its fix type allows it under `fixes`:
+A finding gets fixed when its fix type allows it under `autonomy`:
 
-| Fix type | `none` | `simple-only` | `all` |
+| Fix type | `low` | `medium` | `high` |
 |---|---|---|---|
 | `one-correct-fix` | finding | fixed | fixed |
 | `several-fixes` | finding | finding | fixed, with the fix you judge best |
@@ -90,7 +90,7 @@ Make the picked fixes yourself, in this agent, also when the checks ran in sub-a
 
 ### 5. Run the checks
 
-Run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the changed paths, found as [PACKAGES.md](../ace-adapters/contract/PACKAGES.md) says. Run them once, after all fixes.
+Run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the changed paths, found as [PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md) says. Run them once, after all fixes.
 
 When a command fails, revert fixes until the commands pass, Code fixes before Standards fixes. Revert one fix at a time when that keeps the fixes that pass. Each reverted fix becomes a finding, with that fix as its best fix. When a command still fails with every fix reverted, the failure is not from this review. Name the command in the report.
 
@@ -123,7 +123,7 @@ Write the parts below in this order, as plain top-level paragraphs, outside any 
 3. **Findings.** Each finding left, in the shape the Finding section gives. When you fixed nothing and nothing is left, write `No findings.`
 4. **Merge Danger.** On a pull request only, as its section below says. Go straight from the last finding to it.
 
-When the caller asked to comment on the pull request, post the report as one comment that starts with `<!-- ace-review -->` and the model line, as [SIGN.md](../ace-adapters/SIGN.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in [PULL_REQUESTS.md](../ace-adapters/github/PULL_REQUESTS.md) says.
+When the caller asked to comment on the pull request, post the report as one comment that starts with `<!-- ace-review -->` and the model line, as [SIGN.md](../ace-mode/shared/adapters/SIGN.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in [COMMENT.md](../ace-mode/shared/adapters/github/pull-requests/COMMENT.md) says.
 
 ## Finding
 

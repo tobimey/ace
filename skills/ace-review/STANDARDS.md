@@ -4,7 +4,7 @@ Does the change follow the project's coding standards.
 
 ## Before scanning
 
-Read `ace/CODING_STANDARDS.md` in full, plus each package `CODING_STANDARDS.md` for the changed paths, found as [PACKAGES.md](../ace-adapters/contract/PACKAGES.md) says.
+Read `ace/CODING_STANDARDS.md` in full, plus each package `CODING_STANDARDS.md` for the changed paths, found as [PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md) says.
 
 ## Find
 

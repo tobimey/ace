@@ -2,7 +2,7 @@
 
 ## Before scanning
 
-Read the coding standards in full first, including Smells and every package `CODING_STANDARDS.md`, found as [PACKAGES.md](../ace-adapters/contract/PACKAGES.md) says. A package file applies only to its path.
+Read the coding standards in full first, including Smells and every package `CODING_STANDARDS.md`, found as [PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md) says. A package file applies only to its path.
 
 ## Find
 

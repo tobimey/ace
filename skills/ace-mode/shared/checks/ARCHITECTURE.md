@@ -1,6 +1,6 @@
 # Architecture
 
-A module shape that makes change costly. Use the terms of `ace-codebase-design`.
+A module shape that makes change costly. Use the terms of [CODEBASE_DESIGN.md](../codebase-design/CODEBASE_DESIGN.md).
 
 ## Find
 

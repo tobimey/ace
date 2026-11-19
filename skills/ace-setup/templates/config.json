@@ -1,13 +1,8 @@
 {
   "$schema": "<SCHEMA>",
   "autonomy": "medium",
-  "ticket_tracker": "none",
-  "who_starts_runs": "person",
   "review": {
-    "require_other_model": false,
-    "agents": "one-for-all-checks",
-    "fix_severities": ["blocker", "should-fix", "nit"]
+    "require_other_model": false
   },
-  "write_adrs": false,
-  "max_tickets_per_audit_domain": 3
+  "write_adrs": false
 }
