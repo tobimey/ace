@@ -124,10 +124,10 @@ Open one ticket per approved ticket with [OPEN_TICKET.md](OPEN_TICKET.md), **blo
 
 ### Ticket state (both modes)
 
-Read `who_sets_ready` as `ace-adapters` says. With no `ace/config.json` it is `person`.
+Read `autonomy` in `ace/config.json` as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says.
 
-- `person`: leave every ticket in its state. A new ticket stays in needs-dev.
-- `planning-agents` or `any-agent`: a person approved this plan, so each ticket an agent can build goes to ready. In single-ticket mode that is the one ticket. In multiple-ticket mode it is each sub-ticket. The parent keeps its state, so no run builds the whole plan as one ticket. Tell [OPEN_TICKET.md](OPEN_TICKET.md) to set each such new ticket ready. Move such an existing ticket from needs-dev to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says.
+- `low` or `medium`: leave every ticket in its state. A new ticket stays in needs-human.
+- `high`: a person approved this plan, so each ticket an agent can build goes to ready. In single-ticket mode that is the one ticket. In multiple-ticket mode it is each sub-ticket. The parent keeps its state, so no run builds the whole plan as one ticket. Tell [OPEN_TICKET.md](OPEN_TICKET.md) to set each such new ticket ready. Move such an existing ticket from needs-human to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says.
 
 Name each ticket's state when you hand back the tickets.
 

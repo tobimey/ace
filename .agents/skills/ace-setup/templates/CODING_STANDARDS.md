@@ -16,6 +16,10 @@ Parties the project trusts. Treat calls between them as authorized.
 
 <TRUST_BOUNDARIES>
 
+<!-- Optional sections:
+## Accepted risks   Known risks the team accepts, one line each, such as "SSRF in the webhook test action". Review and audit leave them out.
+## Dependencies   Packages whose major version only a person bumps, such as the framework, and packages to bump only after reading their changelog, such as auth or database clients. -->
+
 ## Rules
 
 - Follow the patterns the codebase already uses. A second way to do the same job needs a reason.

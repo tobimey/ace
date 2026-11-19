@@ -1,4 +1,4 @@
-# Fix, Refactor, and Build
+# Fix, Refactor, Garden, and Build
 
 The playbooks that change code. `ace-mode` routes here, and its constraints apply.
 
@@ -14,6 +14,11 @@ The playbooks that change code. `ace-mode` routes here, and its constraints appl
 2. `ace-implement`, with the refactor as the plan. Behavior stays the same.
 3. Finish the change.
 
+## Garden
+
+1. `ace-garden` with the topic and scope the message names. When it fixed nothing, reply with its report and stop.
+2. Finish the change.
+
 ## Build
 
 1. When the message names a ticket, read it with its comments as `ace/TICKET_TRACKER.md` says.
@@ -23,7 +28,7 @@ The playbooks that change code. `ace-mode` routes here, and its constraints appl
 
 ## Finish a change
 
-Perf, Fix, Refactor, and Build end with these steps, in place of "Finish the change".
+Perf, Fix, Refactor, Garden, and Build end with these steps, in place of "Finish the change".
 
 1. `ace-open-pr` when the user asked to ship or open a pull request. Otherwise offer it.
 2. Offer the review, best on another model. `ace-review` says whether it may run here. `ace-implement` already checked the coding standards.
