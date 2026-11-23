@@ -6,7 +6,9 @@ How to prove a change works in this project. Every ace skill that runs checks or
 
 Run every command below: lint, typecheck, tests, build, and any other check CI runs. A change is done only when each one passes.
 
-This project has no lint, typecheck, test, or build command, and no CI. There is nothing to run.
+```sh
+node scripts/lint-skills.mjs
+```
 
 ## Run the app
 

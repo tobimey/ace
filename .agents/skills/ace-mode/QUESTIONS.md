@@ -1,8 +1,8 @@
 # Questions
 
-The format for asking the user to decide in chat. `ace-mode` and every Ace skill that asks in chat use it.
+Format for asking the user to decide in chat, used by `ace-mode` and every Ace skill.
 
-Number each question and give a recommended answer. Write each question in this shape, with blank lines between the parts, and no markdown fence or heading:
+Ask one decision per question, numbered, with a recommendation, blank lines between parts, and no fence or heading:
 
 **❓ 1 - <question title>**
 
@@ -13,4 +13,4 @@ Number each question and give a recommended answer. Write each question in this 
 
 ➡️ <recommended answer>
 
-The body is a few sentences. Put each choice on its own bullet, since plain lines merge into one paragraph; a question without choices has only the body. The recommended answer is one sentence. Define a specialist term in the same sentence that uses it.
+Keep the body to one or two short sentences, each choice to one short bullet, and the recommendation to one sentence. Keep commands, file drafts, and long lists out of bodies: write drafts and name their paths, or show a compact list when picking. Omit choices for an open question. Define specialist terms inline.

@@ -1,6 +1,7 @@
 {
   "$schema": "<SCHEMA>",
   "autonomy": "medium",
+  "communication": "code",
   "review": {
     "require_other_model": false
   },

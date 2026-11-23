@@ -1,29 +1,28 @@
 # Agents file
 
-Check the repo's `AGENTS.md` and `CLAUDE.md` against the rules below and propose edits. Done means the user has said yes, no, or what to change, and only approved edits are made. Every fix that edits either file also follows the Rules below.
+Check the repo's `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` files (root and nested) against the rules below and propose minimal, surgical edits. Done means the user has said yes, no, or what to change for each edit, and only approved edits are made. Every fix that edits them follows the Constraints and Rules below.
 
 ## Constraints
 
-- Show the edits first. Edit only after the user approves.
-- Change only what a rule below asks for.
-- Mark every section ace adds with `<!-- added by ace -->` on the line above it.
+- Show numbered, surgical edits (exact text to add, change, or remove) first. Apply only what the user approves.
+- Keep the user's voice and structure. Touch only lines a rule below calls for; leave compliant lines as they are.
+- Prefer cutting or moving lines out over adding lines.
+- Mark every section Ace adds with `<!-- added by ace -->` on the line above it.
 
 ## Rules
 
-- Say nothing the agent can read from the code or already knows.
-- Write each instruction as the action to take. A ban ("do not X", "never X") becomes the allowed scope or the replacement action. A negation that states a fact or a condition stays.
-- Say in a few sentences what the project is and who it is for.
-- Say when to change files: only when the message asks for a change. A question, a report, or an idea gets an answer or a proposal.
-- Say how to verify a change: the exact commands to run (lint, typecheck, tests, build) and how to check the behavior works.
-- Have a short glossary of who is who:
-  - "you" is always the agent.
-  - "I", "me" is the person who wrote the file.
-  - "we", "us", "maintainers" are the people who own the project.
-  - "user" is the person using the product, not the agent's operator. Say so if it differs.
-  - The project's own terms follow in the same section, one line each. Keep them there, since every session needs them. `ace-grill` adds them.
+- **Minimal and high-signal**: Every line loads into every session. Keep only what every task in that scope needs (orientation, core glossary, edit policy, navigation pointers). Cut anything the agent can read from code or config, generic filler ("write clean code", "be careful"), dead paths or commands, and lines that contradict each other or `ace/` files.
+- **Route specifics elsewhere**: Move mechanical rules to a linter or CI check, coding and review rules to `ace/CODING_STANDARDS.md`, and procedures or long reference docs to skills or linked docs, leaving a short pointer only when every session needs it.
+- **Action wording**: Write each instruction as the action to take. A ban ("do not X", "never X") becomes the allowed scope or the replacement action. A negation that states a fact or a condition stays.
+- **Root essentials**:
+  - Project summary: a few sentences on what the project is and who it is for.
+  - When to change files: only when the message asks for a change; a question, report, or idea gets an answer or proposal.
+  - Verification: point to `ace/VERIFY.md` when it exists; otherwise list the exact check commands (lint, typecheck, tests, build) and how to check behavior.
+  - Short glossary: who is who (`you` = agent, `I`/`me` = author, `we`/`us` = maintainers, `user` = product user, if different), followed by core project terms, one line each (`ace-grill` adds them).
 
 ## Steps
 
-1. Read `AGENTS.md` and `CLAUDE.md` at the repo root. If both exist, note when one only points to the other. If neither exists, propose creating `AGENTS.md`.
-2. For each edit, show the file, the rule it serves, and the exact text to add, change, or remove. Then stop and ask the user: yes, no, or what to change.
-3. Make only the edits the user approved, as the user changed them.
+1. Find and read `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` at the repo root and in subdirectories (skipping vendored and generated folders). When several exist in a folder, note if one only points to another. If none exist at the root, propose creating `AGENTS.md`.
+2. Check referenced file paths and commands against the repo, and check for overlap or conflict with `ace/` files.
+3. Present numbered edits. For each, show the file, the rule it serves, and the exact text to add, change, remove, or move (naming the destination when moving). Stop and ask the user: yes, no, or what to change.
+4. Apply only the edits the user approved, as changed.

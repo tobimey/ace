@@ -10,7 +10,7 @@ Find why the bug happens, and prove it. Done means one command goes red on this 
 
 ## Constraints
 
-- Build the loop first. Read code to form a theory only after a loop command has gone red on this bug.
+- Build the loop first. Read code only as needed to locate the entry point or seam for the loop; form root-cause theories only after a loop command has gone red on this bug.
 - Change the repository only for loop files and tagged debug lines, and remove them before the report. Keep a failing test only when it sits at the seam the report names.
 - Change one variable per probe.
 - Find facts yourself. Ask the user only for access, a captured artifact, or a decision.

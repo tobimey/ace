@@ -26,7 +26,7 @@ Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and
 - 🧭 **One router.** You say what you want, and `ace-mode` picks the skills and their order. You need no skill names.
 - 🔌 **Fits your project.** Ace reads your checks and ticket tracker from small files in `ace/`, and works on defaults before you write any.
 - 🛠️ **A review that fixes.** `ace-review` checks a change against its ticket, your coding standards, and its code, fixes what your settings allow, and on a pull request rates its Merge Danger: how hard it is to undo, and how much it can break.
-- 🤖 **Runs with no person.** Start Ace from any runner you set up, such as a CI job or a scheduled cloud agent, and it turns ready tickets into pull requests and audits the repo. It reads tickets, comments, diffs, and logs as data and follows no instruction in them. A person merges.
+- 🤖 **Runs with no person.** Start Ace from any runner you set up, such as a CI job or a scheduled cloud agent, and it turns ready tickets into pull requests and audits the repo. A person merges. (Private repositories only for now; see the warning above.)
 
 ## Get started
 
@@ -56,7 +56,7 @@ Ace builds on skills from pstack and Matt Pocock, joins them into one cycle, and
 
 ## Skills you need to know
 
-Ace has 18 skills. You run one yourself by name, and a runner names a few more.
+Ace has 17 skills. You run one yourself by name, and a runner names a few more.
 
 | | Skills | When |
 |---|---|---|
@@ -102,7 +102,6 @@ Outside the loop:
 | `ace-audit` | Audits the whole codebase per domain: security, logic, performance, architecture, health, and your custom checks. Each domain files up to three tickets by default. `/ace-audit security` runs one domain; `/ace-audit` asks which. Usually runs on a schedule. |
 | `ace-garden` | Makes one small cleanup per run, below an audit's bar, on a topic and scope you pick, such as `/ace-garden naming src/billing`. Topics: **naming**, **tests** that cannot fail, **pass-through** wrappers, **deps** (bumps, keeping risky majors for a person), and your custom checks. It fixes one finding with behavior unchanged, or names up to three candidates when no fix is clean. Ask for a report to see findings without a change. |
 | `ace-explain` | Explains how code works and why. For a pull request it can post an explainer with a code walkthrough and a quiz; add it to the CI step that runs your reviews to get one on every pull request. |
-| `ace-learn` | Teaches a topic over several sessions. |
 
 ## Compatibility
 
@@ -158,7 +157,7 @@ stateDiagram-v2
 
 ### Model attribution
 
-Everything Ace posts, such as a pull request, a review comment, or a ticket, starts with a line naming the model that wrote it, such as `Model: claude-opus-5-5`. A runner can set it with `ACE_MODEL`. Every ticket and pull request Ace opens also gets the permanent label `ace-created`, also when you asked for it in chat, so you can filter for Ace's work. It says who opened a ticket; the `ace:` state labels say whose turn it is.
+Everything Ace posts, such as a pull request, a review comment, or a ticket, starts with a line naming the model that wrote it, such as `Model: claude-sonnet-4-6` (or `Model: unknown` when the harness exposes no id). A runner can set it with `ACE_MODEL`. Every ticket and pull request Ace opens also gets the permanent label `ace-created`, also when you asked for it in chat, so you can filter for Ace's work. It says who opened a ticket; the `ace:` state labels say whose turn it is.
 
 ### Monorepos
 
@@ -204,7 +203,7 @@ Everything else you say in the message, such as "review this with one agent per 
 
 Ace builds on ideas and skills from these projects:
 
-- [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT). The retro in `ace-optimize-factory` is adapted from his `retro` skill, `ace-learn` from his `teach` skill, `ace-diagnose` from his `diagnosing-bugs` skill, the deep-module vocabulary in `ace-mode` from his `codebase-design` skill, the architecture domain of `ace-audit` follows his `improve-codebase-architecture` survey, and `ace-grill` and `ace-to-ticket` follow his grilling and ticket-slicing workflows.
+- [mattpocock/skills](https://github.com/mattpocock/skills) by Matt Pocock (MIT). The retro in `ace-optimize-factory` is adapted from his `retro` skill, `ace-diagnose` from his `diagnosing-bugs` skill, the deep-module vocabulary in `ace-mode` from his `codebase-design` skill, the architecture domain of `ace-audit` follows his `improve-codebase-architecture` survey, and `ace-grill` and `ace-to-ticket` follow his grilling and ticket-slicing workflows.
 - [pstack](https://cursor.com/marketplace/cursor/pstack) by Lauren Tan (MIT, [mirror](https://github.com/backnotprop/pstack)). `ace-mode` and the playbook-style skills take after its approach. `ace-explain` is adapted from its `how`, `why`, and `teach` skills.
 - [explain-diff](https://gist.github.com/geoffreylitt/a29df1b5f9865506e8952488eac3d524) by Geoffrey Litt. The explainer in `ace-explain` follows its idea of explaining a change with background, intuition, a code walkthrough, and a quiz.
 
