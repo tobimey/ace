@@ -125,7 +125,7 @@ Write the parts below in this order, as plain top-level paragraphs, outside any 
 3. **Findings.** Each finding left, in the shape the Finding section gives. When you fixed nothing and nothing is left, write `No findings.`
 4. **Merge Danger.** On a pull request only, as its section below says. Go straight from the last finding to it.
 
-When the caller asked to comment on the pull request, post the report as one comment that starts with `<!-- ace-review -->` and the model line, as [SIGN.md](../ace-mode/shared/adapters/SIGN.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in [COMMENT.md](../ace-mode/shared/adapters/github/pull-requests/COMMENT.md) says.
+When the caller asked to comment on the pull request, post the report as one comment that starts with `<!-- ace-review -->` and the model line, as "Sign what you post" in [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in [COMMENT.md](../ace-mode/shared/adapters/github/pull-requests/COMMENT.md) says.
 
 ## Finding
 

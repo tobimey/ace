@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Implement
 
-Implement the plan, spec, or ticket the caller gives. Done means each behavior the plan names works and has a test, one that failed before the change for a new behavior and passed before it for a kept one, nothing outside the request was built, the diff follows the coding standards, and `ace-verify` passes.
+Implement the plan, spec, or ticket the caller gives. Done means each behavior the plan names works and has a test, nothing outside the request was built, the diff follows the coding standards, and `ace-verify` passes.
 
 ## Requires
 
@@ -39,11 +39,11 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
 1. Read the plan and the code it touches. List each behavior the plan names. When the plan keeps behavior the same, such as a refactor or a speedup, those are the behaviors the touched code has now.
 2. Pick the smallest shape that does the job.
 3. Build it in slices. For each behavior:
-   1. Write a test for it and run it. A new or changed behavior fails: note the line of the red run that says why, such as the assertion message. A kept behavior passes, and when it already has a test, use that test as it is.
+   1. Write a test for it and run it. For a bug fix or non-trivial logic, confirm it fails before changing code; for a kept behavior, confirm it passes (or reuse its existing test).
    2. Write the least code that makes it pass.
    3. Clean up while the tests stay green.
 
    Skip the test when the behavior has no logic to test, such as layout, config, or wiring, or when the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the touched path, has no test command. Name each skipped test in the report.
 4. Check the diff against the coding standards, as the Before scanning, Find, and Drop sections of the [Standards check](../ace-review/STANDARDS.md) say. Fix each finding yourself, with behavior unchanged.
 5. Follow [ace-verify](../ace-verify/SKILL.md). Fix and repeat until it passes.
-6. Report what changed, which tests you added or skipped, which coding-standards breaks you fixed, what was left out on purpose, and the `ace-verify` report. For each new or changed behavior, give the test name and the line its red run printed before the code existed.
+6. Report what changed, which tests you added or skipped, which coding-standards breaks you fixed, what was left out on purpose, and the `ace-verify` report.

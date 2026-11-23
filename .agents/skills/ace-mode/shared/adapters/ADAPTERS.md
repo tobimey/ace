@@ -40,7 +40,7 @@ Name each default you used once in the reply, in one line, such as `No ace/VERIF
 
 ## Sign what you post
 
-Before you write anything to a ticket tracker or a code host, read [SIGN.md](SIGN.md) and start the text with the model line it gives.
+Start every text written to a ticket tracker or code host (pull request, comment, review reply, ticket, or reply fallback) with `Model: <model id>`, such as `Model: claude-sonnet-4-6`. Place any HTML marker (such as `<!-- ace-review -->`) on line 1 and the model line on line 2. Refresh the line with your own model when editing a comment. Take the id from `ACE_MODEL` when set, else from your harness metadata; when neither gives an id, write `Model: unknown`.
 
 ## Runs with nobody to answer
 

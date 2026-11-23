@@ -35,7 +35,7 @@ Follow [How](HOW.md) for how the changed area works and [Why](WHY.md) for why th
 
 ## 3. Write the explainer
 
-Write Markdown in the shape below. Start with the marker line exactly as shown, so a later run finds this comment. The model line follows it, as [SIGN.md](../ace-mode/shared/adapters/SIGN.md) says.
+Write Markdown in the shape below. Start with the marker line exactly as shown, so a later run finds this comment. The model line follows it, as "Sign what you post" in [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says.
 
 ```
 <!-- ace-explain -->

@@ -31,7 +31,7 @@ The anchor is what makes one direction better than another. Read `ace/PRODUCT.md
 
 1. **Who** the scope is for.
 2. **Goal**: the one outcome "better" means now, such as more people signing up, people coming back, faster work for them, fewer support requests, or a codebase that is cheaper to build on.
-3. **Appetite**: how much work the next direction may take, such as a day, a week, or a month.
+3. **Appetite**: how much work the next direction may take, such as a small change (S), one feature (M), or a multi-ticket bet (L/XL).
 4. **Off-limits**: what the direction must leave alone, such as a part of the product, a dependency, or a kind of user.
 
 Take each recommendation from `ace/PRODUCT.md` when it has the answer, otherwise from the README, the code, and the tickets. When the file answers all of Who, Goal, and Off-limits, ask a single question instead: still true, or what changed? Add the appetite to that question.

@@ -8,10 +8,10 @@ The checks, unresolved review threads, reviews, new comments, and merge state of
 
 ```bash
 pr-state.sh NUMBER --repo REPO
-pr-state.sh NUMBER --repo REPO --wait 600
+pr-state.sh NUMBER --repo REPO --wait 90
 ```
 
-It prints JSON. `verdict` is `ACTION`, `WAITING`, `READY`, `MERGED`, or `CLOSED`, and `reasons` says why. A `READY` draft has the reason `draft`: a person marks it ready. `--wait` polls while the verdict is `WAITING`, up to that many seconds. Ace knows what it already answered by the marker `<!-- ace-babysit` that `ace-babysit-pr` puts on every reply, not by who posted it. A review or comment counts as new when it is newer than the head commit and newer than the latest Ace reply. The latest `<!-- ace-review -->` report counts as new when it holds findings and was edited after both, whoever posted it, and `review_report` describes it. An open thread whose last comment is an Ace reply, and requested changes that Ace already answered, wait for a person.
+It prints JSON. `verdict` is `ACTION`, `WAITING`, `READY`, `MERGED`, or `CLOSED`, and `reasons` says why. A `READY` draft has the reason `draft`: a person marks it ready. `--wait` polls every 15 seconds while the verdict is `WAITING`, up to 90 seconds per call (re-run the command to keep waiting without hitting shell timeouts). Ace knows what it already answered by the marker `<!-- ace-babysit` that `ace-babysit-pr` puts on every reply, not by who posted it. A review or comment counts as new when it is newer than the head commit and newer than the latest Ace reply. The latest `<!-- ace-review -->` report counts as new when it holds findings and was edited after both, whoever posted it, and `review_report` describes it. An open thread whose last comment is an Ace reply, and requested changes that Ace already answered, wait for a person.
 
 ## Check logs
 
