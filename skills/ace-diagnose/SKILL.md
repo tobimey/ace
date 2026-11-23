@@ -92,7 +92,7 @@ Then find the seam for the regression test: the public interface where a test re
 Symptom: what the user saw, as the loop shows it
 Loop: `command`, and its red output, redacted
 Repro: the smallest input or steps that still fail
-Cause: the confirmed hypothesis, its evidence, and `path:line` where the code first goes wrong
+Cause: the confirmed hypothesis, its evidence, and (when `communication` is `code`) `path:line` where the code first goes wrong
 Ruled out: each other hypothesis, and the probe that ruled it out
 Regression test: the seam, and the failing test file when you kept one. Or "no seam", and why
 Gaps: missing `ace/VERIFY.md` sections, or "none"

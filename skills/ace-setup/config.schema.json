@@ -21,6 +21,16 @@
         "Tickets from a plan a person approved go ready on their own, reviews also pick a fix when several are reasonable, and ace-work-ticket closes a ticket it rejects. Tickets from ace-audit still wait for a person."
       ]
     },
+    "communication": {
+      "type": "string",
+      "enum": ["code", "product"],
+      "default": "code",
+      "description": "How Ace talks to the user in chat replies and pull request explainers. Posted pull request review comments, commits, audit tickets, and ace/ files keep code references for agents.",
+      "enumDescriptions": [
+        "Refer to files, lines, symbols, and code as needed.",
+        "Speak in user-facing behavior, flows, and glossary terms. Omit file paths, line numbers, function or symbol names, code snippets, and raw stack traces, unless the user asks for them."
+      ]
+    },
     "ticket_tracker": {
       "type": "string",
       "enum": ["github-issues"],

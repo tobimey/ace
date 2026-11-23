@@ -29,6 +29,7 @@ Read `ace/config.json` as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md)
 
 - `review.require_other_model` (`false`): whether a change this session built may be reviewed here, as the first constraint says.
 - `autonomy` (`medium`): which findings get fixed, by fix type, as step 3 says.
+- `communication` (`code`): when `product`, describe chat findings and fixes in user-facing behavior without `path:line`. Posted pull request comments always keep `path:line` for agents.
 
 Run every check yourself, one after another. When the caller asks for one agent per check, run each in a fresh sub-agent instead, so one check's reading does not sway the next. When your harness cannot start sub-agents, run them yourself and say so in one line of the report.
 

@@ -37,7 +37,7 @@ Learning state is personal, so it lives outside the project. Default to `~/.ace/
 
 ## Sources
 
-- **The project.** For anything about the codebase, the code is the primary source. Follow the How file of [ace-explain](../ace-explain/SKILL.md) for how it works and its Why file for why. Cite `path:line`, commits, and pull requests.
+- **The project.** For anything about the codebase, the code is the primary source. Follow the How file of [ace-explain](../ace-explain/SKILL.md) for how it works and its Why file for why. Cite commits, pull requests, and (when `communication` is `code`) `path:line`.
 - **Outside the project.** Use official docs, specs, and source code of the library or tool. Prefer the version the project actually depends on. Record each one in `RESOURCES.md`.
 
 ## Steps
