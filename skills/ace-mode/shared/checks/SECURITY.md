@@ -19,6 +19,7 @@ A bug with no exposure to an outsider, or to another user or tenant, is logic.
 ## Drop
 
 - Missing authorization between parties the coding standards list as trusted. Flag it only between parties the project does not trust.
+- Unverified dependency advisories.
 - A Medium or Low finding whose only fix adds runtime cost. When a Critical or High hole has no zero-cost fix, keep it with the cheapest correct fix.
 
 ## Severity

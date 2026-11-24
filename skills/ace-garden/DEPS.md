@@ -1,6 +1,6 @@
 # Deps
 
-Outdated dependencies. One batch of bumps is the one finding of a run.
+Outdated dependencies.
 
 ## Before scanning
 

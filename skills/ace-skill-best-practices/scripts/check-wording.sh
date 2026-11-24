@@ -5,8 +5,7 @@
 # Exit 0 when nothing is found, 1 when lines are listed.
 #
 # EM DASH: replace with a period or a comma.
-# NEGATION: rewrite as the action to take. Keep the line only when the
-# negation states a fact or a condition, not an order.
+# NEGATION: rewrite as the action to take, unless it states a fact or a condition.
 
 if [ "$#" -eq 0 ]; then
   echo "usage: $0 <file-or-folder>..." >&2

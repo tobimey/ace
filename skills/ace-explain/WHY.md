@@ -4,11 +4,9 @@ Find out why the code is the way it is, from the record, not from the code. The 
 
 ## Constraints
 
-- Read only.
 - Cite each reason: commit hash, pull request, ticket, or doc, and quote the author where you can.
 - Mark every inference of your own as an inference. Present only what the record says as a stated reason.
 - "The record does not say" is a valid answer. Say it instead of filling the gap.
-- When an adapter section is missing, skip that source and name it in the output.
 
 ## Steps
 

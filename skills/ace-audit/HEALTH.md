@@ -8,8 +8,6 @@ Read the coding standards in full first, including Smells and every package `COD
 
 Behavior-identical breaks of those rules, each with a file path and the rule it breaks. A smell is a judgement call. Count it only when the better shape is obvious and the fix keeps the same behavior. An earlier rule in the coding standards wins.
 
-Logic, security, performance, and architecture findings belong to their own domains.
-
 ## Drop
 
 UI or UX judgement. It needs a person.

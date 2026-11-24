@@ -19,8 +19,6 @@ Read [OPEN_TICKET.md](OPEN_TICKET.md) before any draft. Open every new ticket wi
 - Keep ticket bodies in the ticket tracker only.
 - Set ticket states only as "Ticket state" below says.
 
-Mode-specific constraints are under each mode below.
-
 ## Process
 
 ### 1. Resolve the ticket
@@ -59,9 +57,7 @@ Show the user:
 
 - **Title**: short descriptive name
 - **What it delivers**: the end-to-end behaviour this ticket makes work
-- **Priority**: `Urgent`, `High`, `Medium`, or `Low`
-- **Size**: `S`, `M`, `L`, or `XL`
-- **Risk**: `High` or `Low`
+- **Priority**, **Size**, and **Risk**, with the values OPEN_TICKET.md gives
 
 If **Size** would be `L` or `XL` or the work still will not fit one context window, **stop** before publishing. Say so and offer to switch to multiple-ticket mode.
 
@@ -90,14 +86,7 @@ Give each ticket its **blocking edges**: other tickets that must complete before
 
 For **wide refactors**, sequence expand, then contract. First expand: add the new form beside the old so nothing breaks. Migrate call sites in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green because the old form still exists. Contract: delete the old form once no caller remains, blocked by every migrate batch. When batches cannot stay green alone, use a shared integration branch and block a final integrate-and-verify ticket; green is promised only there.
 
-Present the breakdown as a numbered list. For each ticket, show:
-
-- **Title**: short descriptive name
-- **Blocked by**: which other tickets (if any) must complete first
-- **What it delivers**: the end-to-end behaviour this ticket makes work
-- **Priority**: `Urgent`, `High`, `Medium`, or `Low`
-- **Size**: `S`, `M`, `L`, or `XL`
-- **Risk**: `High` or `Low`
+Present the breakdown as a numbered list. For each ticket, show the fields of step 3a and **Blocked by**: which other tickets (if any) must complete first.
 
 Ask the user:
 
@@ -109,41 +98,34 @@ Iterate until the user approves the breakdown.
 
 ### 4a. Single ticket: publish
 
-- Publish exactly one ticket.
-
-If a ticket was resolved in step 1, first post its current body as a comment that starts with `Original description:`, as "Comment on a ticket" in `ace/TICKET_TRACKER.md` says. Then **update that ticket** as the ticket tracker says, with each of type, Priority, Size, and Risk the tracker records. Write its body in the shape [OPEN_TICKET.md](OPEN_TICKET.md) defines.
-
-If the spec is a plan from the conversation, open a new ticket with [OPEN_TICKET.md](OPEN_TICKET.md).
+Publish exactly one ticket. If a ticket was resolved in step 1, first post its current body as a comment that starts with `Original description:`, as "Comment on a ticket" in `ace/TICKET_TRACKER.md` says. Then **update that ticket** as the ticket tracker says, with each of type, Priority, Size, and Risk the tracker records, and the body in the shape of OPEN_TICKET.md. If the spec is a plan from the conversation, open a new ticket.
 
 ### 4b. Multiple tickets: publish
 
-- If the spec is a plan from the conversation, first open the parent with [OPEN_TICKET.md](OPEN_TICKET.md). Its Goal and Task come from the plan, and its Done when is the plan's overall acceptance checks.
+- If the spec is a plan from the conversation, first open the parent. Its Goal and Task come from the plan, and its Done when is the plan's overall acceptance checks.
 - Use the parent from step 1, or the one you just opened, as the only parent, and leave its body as it is.
-- After create, attach each ticket as a **sub-ticket** of that parent.
 
-Open one ticket per approved ticket with [OPEN_TICKET.md](OPEN_TICKET.md), **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.
+Open one ticket per approved ticket, **blockers first**, so each blocking edge can name a real ticket number. After each create, attach it as a sub-ticket of the parent and set its blockers, both as the ticket tracker says.
 
 ### Ticket state (both modes)
 
 Read `autonomy` in `ace/config.json` as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says.
 
-- `low` or `medium`: leave every ticket in its state. A new ticket stays in needs-human.
-- `high`: a person approved this plan, so each ticket an agent can build goes to ready. In single-ticket mode that is the one ticket. In multiple-ticket mode it is each sub-ticket. The parent keeps its state, so no run builds the whole plan as one ticket. Tell [OPEN_TICKET.md](OPEN_TICKET.md) to set each such new ticket ready. Move such an existing ticket from needs-human to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says.
+- `low` or `medium`: leave every ticket in its state.
+- `high`: a person approved this plan, so each ticket an agent can build goes to ready. In single-ticket mode that is the one ticket. In multiple-ticket mode it is each sub-ticket. The parent keeps its state, so no run builds the whole plan as one ticket. Tell OPEN_TICKET.md to set each such new ticket ready. Move such an existing ticket from needs-human to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says.
 
 Name each ticket's state when you hand back the tickets.
 
 ### Ticket body (both modes)
 
-Pass these facts to [OPEN_TICKET.md](OPEN_TICKET.md).
+Pass these facts to OPEN_TICKET.md:
 
-Who this is from is Ticket.
-
-Goal is the end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-by-layer implementation.
-
-Task is that behaviour, enough to carry it out.
-
-Done when is the acceptance checks, one `- [ ]` per check.
-
-Blocked by is None in single-ticket mode (can start immediately), or names each blocking ticket in multiple-ticket mode.
+| Section | Holds |
+|---|---|
+| Who this is from | Ticket |
+| Goal | The end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-by-layer implementation |
+| Task | That behaviour, enough to carry it out |
+| Done when | The acceptance checks, one `- [ ]` per check |
+| Blocked by | None in single-ticket mode (can start immediately), or each blocking ticket in multiple-ticket mode |
 
 In the ticket body, describe behaviour in prose, without file paths or code snippets. They go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.

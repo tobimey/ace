@@ -1,6 +1,6 @@
 # Pull requests: GitHub, comment
 
-Ace supports pull requests only on GitHub: `git remote get-url origin` points at github.com and `gh auth status` succeeds. Without that, stop with `Pull requests need GitHub and a logged-in gh.` `REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
+Part of [PULL_REQUESTS.md](../PULL_REQUESTS.md), which says when Ace supports pull requests and defines `REPO`.
 
 ## Comment on a pull request
 

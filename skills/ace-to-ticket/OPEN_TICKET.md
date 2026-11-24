@@ -2,13 +2,12 @@
 
 Opens one ticket in the project's ticket tracker, with a body in the shared Ace shape. `ace-to-ticket`, `ace-audit`, and `ace-mode` open every ticket with this file.
 
-Write one ticket body and open the ticket. Done means the ticket exists, its body uses the headings below in this order with no other `###` heading, and its URL is handed back. With no ticket tracker, done means the ticket is in the reply instead, as the default for "Open a ticket" in [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says.
+Write one ticket body and open the ticket. Done means the ticket exists, its body uses the headings below in this order with no other `###` heading, and its URL is handed back. With no ticket tracker, done means the ticket is in the reply instead, as the default in [contract/TICKET_TRACKER.md](../ace-mode/shared/adapters/contract/TICKET_TRACKER.md) says.
 
 ## Constraints
 
-- Open the ticket only as the "Open a ticket" section of `ace/TICKET_TRACKER.md`, or its default, says. That section is the only way to open it.
-- Check the adapter sections before you write the body.
-- Send type, Priority, Size, and Risk to the ticket tracker as its "Open a ticket" section says, outside the body. When that section records no Priority or Size, leave them out. The body never holds them.
+- Open the ticket only as the "Open a ticket" section of `ace/TICKET_TRACKER.md`, or its default, says. Read that section before you write the body.
+- Send type, Priority, Size, and Risk to the ticket tracker as that section says, and leave Priority and Size out when it records none. Keep all four out of the body.
 - Use only the `###` headings below.
 - Omit Rules when there are none.
 - Omit Parent and Blocked by unless the caller supplied them. Leave the caller's text in those two sections.
@@ -21,7 +20,7 @@ A caller may add a rule for what goes inside a section. Follow that rule. The he
 
 ## Type, Priority, Size, and Risk
 
-The caller chooses these. They go to the ticket tracker, not the body.
+The caller chooses these.
 
 Type is `Bug` for a fix, `Feature` for new behavior, `Chore` when nothing a person using the product would notice changes.
 
@@ -42,17 +41,12 @@ Risk is what breaks if the change is wrong, whatever its size:
 ## Workflow
 
 ```
-- [ ] 1. Read the ticket tracker
-- [ ] 2. Write the body
-- [ ] 3. Open the ticket
-- [ ] 4. Set it ready, when the caller says so
+- [ ] 1. Write the body
+- [ ] 2. Open the ticket
+- [ ] 3. Set it ready, when the caller says so
 ```
 
-## 1. Read the ticket tracker
-
-Read `ace/TICKET_TRACKER.md` and find the section on opening a ticket.
-
-## 2. Write the body
+## 1. Write the body
 
 ```markdown
 ### Who this is from
@@ -86,11 +80,11 @@ The blocking tickets, when the caller supplied them.
 
 Fold any other top-level heading into Task or Rules.
 
-## 3. Open the ticket
+## 2. Open the ticket
 
-Open it as the "Open a ticket" section says, with the caller's title, type, Priority, Size, and Risk. It starts in the needs-human state.
+Open it with the caller's title, type, Priority, Size, and Risk.
 
-## 4. Set it ready, when the caller says so
+## 3. Set it ready, when the caller says so
 
 When the caller said to set the ticket ready, move it from needs-human to ready as the "Set a ticket state" section of `ace/TICKET_TRACKER.md` says. Otherwise leave it in needs-human.
 

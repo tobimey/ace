@@ -16,7 +16,7 @@ Settle what to build: **which** direction, **whether** a proposed change is wort
 
 - Start at the first open level. No direction picked ("how can I make X better"): follow [DIRECTION.md](DIRECTION.md). A proposed change: Whether. A settled premise, such as a ready ticket or a caller that names the open decisions: How.
 - Wait for the user at the end of each level.
-- Write to the glossary only at Close, and only the terms the user said yes to: its section in the root agents file, and `ace/GLOSSARY.md` when it exists. A run that stops before Close writes no glossary term. Write ADRs to `ace/adrs/`. Write to tickets only through `ace-to-ticket`, which also sets their state.
+- Write glossary terms only at Close, as "Docs" says. Write ADRs to `ace/adrs/`. Write to tickets only through `ace-to-ticket`, which also sets their state.
 - Implementing belongs to the caller.
 
 ## Whether
@@ -27,27 +27,23 @@ When the message asks for an opinion ("what do you think"), or the verdict is no
 
 ## Ticket
 
-When the project has no ticket tracker, as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says, skip every ticket step and end with the summary in the chat.
+With no ticket tracker per [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md), skip all ticket steps and keep the summary in chat.
 
-When the conversation names a ticket, read it with its comments as `ace/TICKET_TRACKER.md` says, before the first round. Do not ask for it.
-
-Otherwise ask in the first round whether a ticket exists for this plan. If the user gives one, read it with its comments before the next round. Use what the ticket answers, and ask only what it leaves open.
+When the conversation names a ticket, read it and its comments per `ace/TICKET_TRACKER.md` before the first round, and ask only what it leaves open. Otherwise do not interrupt round 1 to ask for a ticket; ask whether to link or open one in the final round only when the work is `L`/`XL`, needs multiple context windows, or should wait.
 
 ## How
 
-Map the plan as a design tree. Every decision branches into the decisions that hang off it.
+Map material decisions as a design tree: only decisions that materially change behavior, UX, data shape, or public contracts. For low-stakes, easily reversible details, pick sensible defaults and list them in one line instead of asking.
 
-Work the tree in rounds. The frontier is every decision whose prerequisites are already settled: the questions you can ask now without guessing at answers you have not heard yet. Ask the whole frontier in one round. Number each question and give your recommended answer. Then wait for the user's answers before the next round.
+Work the tree in rounds. The frontier is every material decision whose prerequisites are settled. Ask the whole frontier in one round using [QUESTIONS.md](../ace-mode/QUESTIONS.md), then wait. Settled answers push the frontier outward for the next round; questions depending on an open answer wait for a later round.
 
-Write the questions in the question format in [QUESTIONS.md](../ace-mode/QUESTIONS.md).
+Finding facts is your job. When a frontier question needs a fact from the codebase or tools, dispatch a sub-agent and ask the user only for decisions, keeping independent frontier questions moving while it runs.
 
-Each round the user answers reshapes the tree. Settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a later round.
+In the last round, include these only when relevant:
+- **Glossary**: only if you noted new terms, list them and ask whether to add them (and which are core when `ace/GLOSSARY.md` exists).
+- **Ticket**: only if a tracker is configured, no ticket is known, and the work is `L`/`XL`, multi-window, or waiting, ask whether to link or open a ticket (otherwise skip and keep the plan in chat).
 
-Finding facts is your job. When a frontier question needs a fact from the environment (filesystem, tools, and so on), dispatch a sub-agent to find it, and ask the user only for decisions. Keep the round moving while it runs: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for the sub-agent to report. Ask the rest of the frontier now. The decisions are the user's. Put each to them and wait.
-
-The last round also lists the glossary terms you noted and asks whether to add them, and, when `ace/GLOSSARY.md` exists, which are core. When no ticket is known, it also asks: open a new ticket, or no ticket? Recommend a new ticket when the work is size `L` or `XL`, needs more than one context window, or should wait. Otherwise recommend no ticket.
-
-How is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed.
+How is done when no material decision remains open (including zero rounds when defaults cover everything). On a fast-track request ("just build it", "go with your recommendations"), take your recommended answers for any open decisions, list them in one line, and go straight to Close.
 
 ## Close
 
@@ -59,6 +55,4 @@ How is done when the frontier is empty: every branch of the design tree visited,
 
 ## Docs
 
-When a term is resolved, note it for Close. At Close, add each noted term the user said yes to as [the glossary contract](../ace-mode/shared/adapters/contract/GLOSSARY.md) says: into `ace/GLOSSARY.md` when it exists, and into the Glossary section of the root agents file when there is no `ace/GLOSSARY.md` or the user called the term core. A line there is `- **term**: what it means here. Not: other words for it.` Leave out `Not:` when no other word is in use. Record decisions in the conversation and in ADRs, not in the glossary.
-
-When the section passes about 25 terms, or one word turns out to mean different things in different parts of the project, propose creating `ace/GLOSSARY.md` with every term, and keeping only the core terms in the section.
+When a term is resolved, note it for Close. At Close, add each noted term the user said yes to as [the glossary contract](../ace-mode/shared/adapters/contract/GLOSSARY.md) says, and propose creating `ace/GLOSSARY.md` when the contract says it is due. A run that stops before Close writes no term. Record decisions in the conversation and in ADRs, not in the glossary.

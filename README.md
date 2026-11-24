@@ -62,7 +62,7 @@ Ace has 17 skills. You run one yourself by name, and a runner names a few more.
 |---|---|---|
 | **Run once** | `/ace-setup` | Guided step-by-step setup plus optional modules, `/ace-setup full` for everything, or one module such as `/ace-setup tickets`. |
 | **Name in a runner or on request** | `/ace-help`, `/ace-work-ticket`, `/ace-audit`, `/ace-babysit-pr`, `/ace-garden` | When you want help with Ace, when a schedule or CI job should run Ace with no person, or when you want a cleanup. A runner reviews a pull request with `Review pull request #12 and comment on it.` A person can say all of these in words too. |
-| **Never name** | everything else | Say what you want, such as "plan this", "fix the bug", or "review my changes", and `ace-mode` picks the skills. |
+| **Never name** | everything else | Say what you want, such as "plan this", "fix the bug", or "review my changes", and `ace-mode` picks the skills. You can also steer the pace in plain words: "just build it" or "go with your recommendations" to skip pauses, "quick fix ..." for an obvious bug, or "... and open a PR" / "... and review it" to chain steps in one turn (verification, coding standards, and the no-merge rule always stay on). |
 
 ## The Ace cycle
 
@@ -80,9 +80,9 @@ flowchart LR
 
 | Stage | Skill | What it does |
 |---|---|---|
-| Plan | `ace-grill` | Settles what to build: ranks directions against your goal, or judges the change you propose, then interviews you until the plan is settled and writes it into a ticket. |
+| Plan | `ace-grill` | Settles what to build: ranks directions against your goal, or judges a proposed change, assumes sensible defaults for low-stakes details, interviews you only on material decisions, and writes the plan into a ticket when needed. |
 | Plan | `ace-to-ticket` | Turns a plan into one ticket or several sub-tickets. |
-| Implement | `ace-diagnose` | Finds and proves the root cause of a bug. |
+| Implement | `ace-diagnose` | Finds and proves the root cause of an unclear or intermittent bug (obvious bugs go straight to a failing regression test and fix). |
 | Implement | `ace-implement` | Builds the plan test-first. |
 | Implement | `ace-verify` | Proves it works. |
 | Implement | `ace-open-pr` | Opens the pull request. |
@@ -96,11 +96,11 @@ Outside the loop:
 
 | Skill | What it does |
 |---|---|
-| `ace-mode` | The router. Picks the skills for each message and runs them in order. It is the only skill the agent sees on its own; the others are hidden until it loads them, and you can still invoke any of them by name. |
+| `ace-mode` | The router. Picks the skills for each message, skips extra steps on straightforward tasks, and supports fast-tracking ("go with your recommendations" or "just do it"). It is the only skill the agent sees on its own; the others are hidden until it loads them, and you can still invoke any of them by name. |
 | `ace-help` | Explains how Ace works, what it can do, and what is configured in your project. Ask in words or run `/ace-help`. |
 | `ace-setup` | Guides you step by step through setting up Ace: 4 core steps first (with previews before writing), then offers the remaining modules (`tickets`, `standards`, `cycle`, `settings`) or `full`, one decision at a time. |
 | `ace-audit` | Audits the whole codebase per domain: security, logic, performance, architecture, health, and your custom checks. Each domain files up to three tickets by default. `/ace-audit security` runs one domain; `/ace-audit` asks which. Usually runs on a schedule. |
-| `ace-garden` | Makes one small cleanup per run, below an audit's bar, on a topic and scope you pick, such as `/ace-garden naming src/billing`. Topics: **naming**, **tests** that cannot fail, **pass-through** wrappers, **deps** (bumps, keeping risky majors for a person), and your custom checks. It fixes one finding with behavior unchanged, or names up to three candidates when no fix is clean. Ask for a report to see findings without a change. |
+| `ace-garden` | Makes one small cleanup per run, below an audit's bar, on a topic and scope you pick, such as `/ace-garden naming src/billing`. Topics: **naming**, **comments** (tautological, stale, or excuse comments and unjustified suppressions), **tests** that cannot fail, **pass-through** wrappers, **deps** (bumps, keeping risky majors for a person), and your custom checks. It fixes one finding with behavior unchanged, or names up to three candidates when no fix is clean. Ask for a report to see findings without a change. |
 | `ace-explain` | Explains how code works and why. For a pull request it can post an explainer with a code walkthrough and a quiz; add it to the CI step that runs your reviews to get one on every pull request. |
 
 ## Compatibility
@@ -153,7 +153,7 @@ stateDiagram-v2
     working --> [*]: pull request merges and closes it
 ```
 
-`ace-work-ticket` claims a ready ticket and sets it `working`, one run at a time. The ticket stays `working` until its pull request merges and closes it. When a run dies, or a person closes its pull request unmerged, the next run finds the ticket still `working` with no open pull request and sends it back to `needs-human` with a comment saying why. On GitHub Issues, the states are the labels `ace:needs-human`, `ace:ready`, and `ace:working`, and a ticket with high Risk also gets `risk:high`. A ticket with no state label is outside the agent queue, such as one a person builds.
+`ace-work-ticket` claims a ready ticket and sets it `working`, one run at a time. The ticket stays `working` until its pull request merges and closes it. When a run dies, or a person closes its pull request unmerged, the next run finds the ticket still `working` with no open pull request and, once the claim is 90 minutes old, sends it back to `needs-human` with a comment saying why. On GitHub Issues, the states are the labels `ace:needs-human`, `ace:ready`, and `ace:working`, and a ticket with high Risk also gets `risk:high`. A ticket with no state label is outside the agent queue, such as one a person builds.
 
 ### Model attribution
 

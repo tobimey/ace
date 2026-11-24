@@ -22,6 +22,6 @@ The ticket states:
 
 - **needs-human**: a person must look at the ticket. Every ticket an agent opens starts here, and `ace-work-ticket` moves a ticket here when it stops for a person.
 - **ready**: an agent may work the ticket. A person sets it, or, at `high` `autonomy` in `ace/config.json`, the planning skill that opened it for a plan a person approved.
-- **working**: `ace-work-ticket` claimed the ticket. It stays until the pull request merges and closes it. When no pull request is open for it, the next `ace-work-ticket` run moves it to needs-human with a comment that says why.
+- **working**: `ace-work-ticket` claimed the ticket. It stays until the pull request merges and closes it. When no pull request is open for it and its claim comment is past the grace time of 90 minutes, which leaves an overlapping run alone, the next `ace-work-ticket` run moves it to needs-human with a comment that says why.
 
 A ticket in none of these states is outside the agent queue, such as one a person builds. Who opened a ticket is no state: the mark from "Open a ticket" stays for good.

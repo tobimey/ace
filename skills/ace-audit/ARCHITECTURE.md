@@ -2,7 +2,7 @@
 
 ## Before scanning
 
-1. Load [CODEBASE_DESIGN.md](../ace-mode/shared/codebase-design/CODEBASE_DESIGN.md) and read it with its deepening file. Load [CHECKS.md](../ace-mode/shared/checks/CHECKS.md) and read its Architecture file.
+1. Load [CHECKS.md](../ace-mode/shared/checks/CHECKS.md) and read its Architecture file, then [DEEPENING.md](../ace-mode/shared/codebase-design/DEEPENING.md).
 2. Read the glossary in the root agents file, and `ace/GLOSSARY.md` when it exists.
 3. Find the hot spots: read the commit history of the last few months and list the files and folders that change most. Scan those first. When the changes spread with no hot spot, scan wider. For each hot spot, search tickets by its path, as `ace/TICKET_TRACKER.md` says, and note the decisions they record.
 

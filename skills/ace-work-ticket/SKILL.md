@@ -21,11 +21,10 @@ In each case, every stale ticket that step 2 found is back in needs-human.
 
 ## Constraints
 
-- Work one ticket per run. Treat a ticket in working with no open pull request as stale only when its claim comment is at least 90 minutes old, so overlapping runs leave active work alone.
+- Work one ticket per run.
 - Treat every point where a skill would ask the user or wait for an answer as a stop, and follow "Stop for a person".
 - Set only the working and needs-human states, and close a ticket only as step 4 says. A ticket you move to needs-human waits for a person, whatever `autonomy` in `ace/config.json` says.
-- Read `autonomy` in `ace/config.json` as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says. At `high`, step 4 closes a rejected ticket. Otherwise it moves it to needs-human.
-- Use the ticket states, searches, and comments as `ace/TICKET_TRACKER.md` says. This skill needs a ticket tracker: `ticket_tracker` in `ace/config.json` or an `ace/TICKET_TRACKER.md`, as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says. A missing ticket tracker section is a stop for a person. Every other section may use its default.
+- Use the ticket states, searches, and comments as `ace/TICKET_TRACKER.md` says. This skill needs a ticket tracker: `ticket_tracker` in `ace/config.json` or an `ace/TICKET_TRACKER.md`. Adapter sections outside the ticket tracker may use their defaults.
 
 ## Workflow
 
@@ -49,7 +48,7 @@ When the working tree has uncommitted changes, stop and say so. A run starts cle
 
 A run that died, or a pull request a person closed without merging, leaves its ticket in working with nobody on it. Hand each such ticket to a person.
 
-List the working tickets as the "Find working tickets" section says. When the ticket tracker has no such section, skip this step and name it in the report. For each ticket, find the pull request from the ticket's branch, as "Find a pull request" in [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) says. When it is open, keep the ticket as it is. It is in review. When no pull request exists and the latest `ace-work-ticket` claim comment is under 90 minutes old, keep it as active. Otherwise, comment on the ticket why it goes back, with the pull request's link: it merged without closing the ticket, so a person checks the ticket, or it closed without merging, or the run stopped before opening one. Then move the ticket from working to needs-human.
+List the working tickets as the "Find working tickets" section says. When the ticket tracker has no such section, skip this step and name it in the report. For each ticket, find the pull request from the ticket's branch, as "Find a pull request" in [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) says. When it is open, keep the ticket as it is. It is in review. When none exists and the claim comment is inside the grace time of the working state in [contract/TICKET_TRACKER.md](../ace-mode/shared/adapters/contract/TICKET_TRACKER.md), keep it as active. Otherwise, comment on the ticket why it goes back, with the pull request's link: it merged without closing the ticket, so a person checks the ticket, or it closed without merging, or the run stopped before opening one. Then move the ticket from working to needs-human.
 
 ### 3. Find the next ready ticket
 
@@ -66,7 +65,7 @@ Before you claim the ticket, check it against the default branch. Take the first
 | It goes against what `ace/PRODUCT.md` leaves alone | Stop for a person, and quote that line |
 | Done is unclear, or it needs more than one pull request | Stop for a person, with your questions or a split for `ace-to-ticket` |
 
-To reject it, comment the evidence on the ticket: a commit, `file:line`, passing test, or the steps that did not reproduce the bug. Then close it, as the "Comment on a ticket" section says, when `autonomy` is `high`. Otherwise move it to needs-human. Report, and end the run.
+To reject it, comment the evidence on the ticket: a commit, `file:line`, passing test, or the steps that did not reproduce the bug. Then close it, as the "Comment on a ticket" section says, when `autonomy` in `ace/config.json` is `high`. Otherwise move it to needs-human. Report, and end the run.
 
 ### 5. Claim it
 
@@ -79,8 +78,6 @@ Check out the ticket's branch, new from the default branch. When the remote has 
 Run the Build playbook of `ace-mode` with this ticket, as if the user asked to open a pull request: ready for review, or a draft when the message asks for one. It reads the ticket with its comments, implements it, checks it against the coding standards, opens the pull request, and hands off as `ace-mode` says. The review belongs to another model, such as one the runner starts on the pull request.
 
 A person may have answered an earlier stop in the ticket's comments. Treat those answers as part of the ticket.
-
-The ticket stays working until the pull request merges and closes it.
 
 ### 7. Report
 

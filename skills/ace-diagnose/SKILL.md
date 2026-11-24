@@ -6,17 +6,18 @@ disable-model-invocation: true
 
 # Diagnose
 
-Find why the bug happens, and prove it. Done means one command goes red on this bug, the repro is as small as it gets, one hypothesis is confirmed by a probe, everything you added for the hunt is gone, and the report names the cause and the seam for the regression test. The fix belongs to `ace-implement`.
+Find and prove the root cause of an unclear or intermittent bug. (When the cause is immediately clear from the report, error, or code, skip this skill and go straight to `ace-implement` with a failing regression test first.) Done means one command goes red, the repro is minimal, one hypothesis is confirmed by a probe, all temporary files and logs are removed, and the report names the cause and regression-test seam. The fix belongs to `ace-implement`.
 
 ## Constraints
 
-- Build the loop first. Read code only as needed to locate the entry point or seam for the loop; form root-cause theories only after a loop command has gone red on this bug.
-- Change the repository only for loop files and tagged debug lines, and remove them before the report. Keep a failing test only when it sits at the seam the report names.
+- Build the loop first; form root-cause theories only after a loop command goes red.
+- Change the repository only for loop files and tagged debug lines. Step 5 removes them.
 - Change one variable per probe.
 - Find facts yourself. Ask the user only for access, a captured artifact, or a decision.
 - Redact every secret in commands, output, and artifacts you show: write `<REDACTED>` in its place. Pass credentials through environment variables.
 - Take the test command from the "Checks" section of `ace/VERIFY.md`, how to start the app from "Run the app", and how to try a behavior from "Check behavior". When one is missing, build the loop without it and name the gap in the report.
 - Slowness with correct results is out of scope. It belongs to the Perf playbook of `ace-mode`. Tell the user it is a performance problem, not a bug, and stop.
+- On a "quick fix" request where the root cause is clear from the symptom and code, skip steps 2 to 4 and go straight to reporting the cause and seam.
 
 ## Workflow
 
@@ -88,6 +89,8 @@ Then find the seam for the regression test: the public interface where a test re
 
 ## 6. Report
 
+When called as part of a Fix run in chat, pass the cause and seam into the combined reply instead of printing this block. Otherwise print it, omitting `Ruled out` or `Gaps` when empty:
+
 ```
 Symptom: what the user saw, as the loop shows it
 Loop: `command`, and its red output, redacted
@@ -95,5 +98,5 @@ Repro: the smallest input or steps that still fail
 Cause: the confirmed hypothesis, its evidence, and (when `communication` is `code`) `path:line` where the code first goes wrong
 Ruled out: each other hypothesis, and the probe that ruled it out
 Regression test: the seam, and the failing test file when you kept one. Or "no seam", and why
-Gaps: missing `ace/VERIFY.md` sections, or "none"
+Gaps: missing `ace/VERIFY.md` sections
 ```

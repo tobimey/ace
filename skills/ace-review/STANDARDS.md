@@ -19,16 +19,7 @@ Match the diff against those rules. Each of these is a finding:
 - What the repo's linter and type checker already enforce.
 - A fix that would change behavior. A standards fix is a refactor only.
 
-## Belongs elsewhere
-
-Logic bugs, security holes, performance costs, and architecture belong to [Code](CODE.md). Spec match belongs to [Spec](SPEC.md).
-
 ## Severity
 
 - A rule break or a tautological test is `should-fix`.
 - A smell is `nit`.
-
-## Fix type
-
-- `one-correct-fix` when the refactor has one obvious shape.
-- `several-fixes` when more than one shape fits the rule.

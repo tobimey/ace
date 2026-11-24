@@ -14,9 +14,25 @@ Done means every step of the chosen run finished, every written file has no `<PL
 
 Follow these rules on every turn of setup:
 
-1. **One step at a time**: silently inspect the project first, print the step's message template with `<slots>` filled from the project, wait for the user's reply, then apply the confirmed change and advance.
-2. **Use the templates**: keep each step's exact emoji heading, `Step X of Y` counter, **Why:** (one or two short sentences), and compact bullet preview. Ask every decision in the format of [QUESTIONS.md](../ace-mode/QUESTIONS.md), one decision per turn.
-3. **Plain language**: explain what is happening and why in plain user-facing words. Keep internal Ace terms (such as "adapter", "contract", or "provider") and internal skill paths out of chat replies. Name only the project files being created or updated.
+1. **One step at a time**: silently inspect the project first, print the step card, wait for the user's reply, then apply the confirmed change and advance.
+2. **Use the step card**: print each step as this card. A guide's step heading gives the counter, emoji, and title, and its bullets give **Why**, a summary label with `·`-separated items, **Question** with its options, and **Recommend**. Keep that wording, and fill `<slots>` from the project. Ask its decision in the format of [QUESTIONS.md](../ace-mode/QUESTIONS.md), one decision per turn. Omit `of <Y>` while the total depends on an answer.
+
+   ```markdown
+   ### <emoji> Step <X> of <Y> · <Title>
+
+   **Why:** <one or two short sentences>
+
+   **<summary label>:**
+   - <one compact bullet per item>
+
+   **❓ 1 - <Question>**
+
+   - **A)** <option>
+   - **B)** <option>
+
+   ➡️ <recommendation>
+   ```
+3. **No internal jargon**: keep internal Ace terms (such as "adapter", "contract", or "provider") and internal skill paths out of chat replies. Name only the project files being created or updated.
 4. **Fast-track on request**: when the user asks to run automatically or skip confirmations, write the remaining drafts directly and show one compact final recap.
 
 ## Pick the run
@@ -37,7 +53,7 @@ Load only the sibling file(s) needed for this run:
 ## Constraints
 
 - Keep `AGENTS.md` and `CLAUDE.md` at the repo root, and place project config files in `ace/` (moving any stray root `VERIFY.md` or similar into `ace/`).
-- Keep glossary, ticket tracker, and settings at the repo root only. In a monorepo, packages with their own checks or app get `PACKAGE/ace/VERIFY.md` (and `PACKAGE/ace/CODING_STANDARDS.md` when they have package-specific rules).
+- In a monorepo, follow [contract/PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md): packages with their own checks or app get `PACKAGE/ace/VERIFY.md` (and `PACKAGE/ace/CODING_STANDARDS.md` when they have package-specific rules).
 - Preserve existing content in files; add only what is missing or confirmed.
 - Write only files for the chosen run; leave optional files absent so defaults from [contract/](../ace-mode/shared/adapters/contract/) and [config.schema.json](config.schema.json) apply.
 - Write every required section from [contract/](../ace-mode/shared/adapters/contract/) using the headings in [templates/](templates/). For a built-in provider in [github/](../ace-mode/shared/adapters/github/), write only sections that differ from the provider. Keep providers inside the Ace skill folder.
