@@ -15,7 +15,7 @@ An adaptable, agentic skills framework for Claude Code, Cursor, Codex, Antigravi
 > [!WARNING]
 > This project is in pre-alpha and not ready to use. Alpha expected around 26.11.2026.
 >
-> Use Ace only in private repositories for now. Ace reads ticket comments, pull request comments, and diffs, and does not yet guard against instructions hidden in them. In a public repository anyone can write those, and a run with nobody watching, such as `ace-work-ticket`, can push code.
+> Use Ace only in private repositories for now. While `ace-babysit-pr` and `ace-work-ticket` ignore comments from outside contributors and `ace-babysit-pr` / `ace-review` never edit control files (such as `.github/workflows/` or `AGENTS.md`), Ace still reads code diffs and does not yet run untrusted diffs in a read-only sandbox.
 
 The new age of programming isn't … programming. It's probably not even engineering. Writing code is not just cheap; for many workflows it is largely delegated to agents. With Ace, the role shifts: less direct code authorship, more engineering of the factory and the inputs that the factory receives.
 
@@ -80,7 +80,7 @@ flowchart LR
 
 | Stage | Skill | What it does |
 |---|---|---|
-| Plan | `ace-grill` | Settles what to build: ranks directions against your goal, or judges a proposed change, assumes sensible defaults for low-stakes details, interviews you only on material decisions, and writes the plan into a ticket when needed. |
+| Plan | `ace-grill` | Settles what to build: ranks directions against your goal, or judges a proposed change, assumes sensible defaults for low-stakes details, interviews you only on material decisions, and writes the plan into a ticket or (without a tracker, for work bigger than `S`) into `ace/temporary-plans/` for a fresh implement session. |
 | Plan | `ace-to-ticket` | Turns a plan into one ticket or several sub-tickets. |
 | Implement | `ace-diagnose` | Finds and proves the root cause of an unclear or intermittent bug (obvious bugs go straight to a failing regression test and fix). |
 | Implement | `ace-implement` | Builds the plan test-first. |
@@ -134,6 +134,7 @@ The files are yours: `ace-setup` writes a first draft, and you change them as th
 | `CYCLE.md` | What starts runs besides a person, such as a CI job or a scheduled cloud agent, the message each run gets, and, for a runner that differs from a local run, how it finds its pull request or ticket, what it must not touch, and how it posts when `gh` there acts as a person. Ace writes no runner config: you set up the runner. | `/ace-setup cycle` | A person starts every run, and `ace-mode` names the next step. |
 | `GLOSSARY.md` | Every project term with its detail, once the core glossary in `AGENTS.md` outgrows it. See [Glossary](#glossary). | `ace-grill` proposes it | The core glossary in `AGENTS.md`. |
 | `adrs/` | Hard-to-reverse decisions, one ADR each. `ace-implement` and `ace-explain` read them whenever the folder exists. | `ace-grill`, when `write_adrs` is on | No ADRs. |
+| `temporary-plans/` | Untracked markdown plans for work bigger than `S` when no ticket tracker is configured, so Plan and Implement run in separate sessions. `ace-implement` deletes the plan file after `ace-verify` passes. | `ace-grill` | Plans stay in chat (or tickets when a tracker is configured). |
 | `config.json` | How much agents do on their own and how they talk to you. See [Settings](#settings). | `/ace-setup settings` | The defaults in the schema. |
 
 Your own pull request rules go in your pull request template or your `AGENTS.md`.

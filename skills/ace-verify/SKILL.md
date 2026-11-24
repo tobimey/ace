@@ -6,18 +6,20 @@ disable-model-invocation: true
 
 # Verify
 
-Prove the current change works. Done means every command in the "Checks" section passes, each behavior the change adds or alters was tried and seen working, and the report says what ran, what was seen, and the verify file lines to add or fix.
+Prove the current change works. Done means every "Checks" command passes with real evidence, each added or altered behavior was tried and observed working, and the report states what ran, what was seen, and any verify file updates.
 
 ## Constraints
 
 - Verify as `ace/VERIFY.md` says, plus each package verify file for the paths the change touches, found as [PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md) says.
 - Read only for the verify files, so the change stays what the user asked for. Step 5 proposes their changes in the report.
-- A passing check proves the check, not the behavior. Report behavior as working only after you have tried it.
+- A passing check proves the check, not the behavior. Every check and behavior proof needs evidence that could have failed: an exit status with a non-zero test or check count, or concrete observed output. A check that ran zero tests fails.
 - Make a failing check or test pass by fixing the code. Keep every check, test, and hook as strict as you found it, and let hooks run.
 - A failure that also happens without this change is pre-existing. Report it and leave it as it is.
 - Stop every process you started.
 
 ## Workflow
+
+When your harness can start sub-agents, run steps 2 and 3 in one sub-agent so raw test, build, and browser logs stay out of the main context; return only the Report block (plus exact failing output on failure). When it cannot, run them yourself and trim verbose passing output.
 
 ```
 - [ ] 1. Get the change
@@ -34,11 +36,11 @@ Use the change the caller gave. Otherwise get the diff as the "Get the diff" sec
 
 ## 2. Run the checks
 
-Run every command in the "Checks" section of each verify file from the constraints. Note each result.
+Run every command in the "Checks" section of each verify file from the constraints. Record each exit status and test or check count.
 
 ## 3. Try the behavior
 
-Start the app as the "Run the app" section says. For each behavior from step 1, run the ready command of the matching line of the "Check behavior" section, try the behavior as the line says, and look at the result. When the ready command fails, install the tool as the line says.
+Start the app per "Run the app". For each behavior from step 1, run the matching "Check behavior" ready command (installing the tool if it fails), try the behavior, and observe the result.
 
 When no line matches a behavior, a line's tool cannot run here, or a step of the "Run the app" or "Check behavior" section fails because the file is wrong, such as a wrong port or start order, pick a tool as "Pick the tool" in [contract/VERIFY.md](../ace-mode/shared/adapters/contract/VERIFY.md) says. Try the behavior that way and note the way for step 5.
 
@@ -48,11 +50,11 @@ When the change has no runtime behavior (docs, comments, types only), write that
 
 ## 4. Fix and repeat
 
-On any failure, fix it and go back to step 2. When the same failure survives three fixes, stop and report it.
+On any failure, fix it and go back to step 2. Stop when the same failure survives two fixes, or after five total fix cycles without passing. Report what you tried and what fact or decision is missing.
 
 ## 5. Propose verify file changes
 
-For each way you noted in step 3, write one line to add or fix in the file that covers the touched path: the package verify file for a path in a package, otherwise `ace/VERIFY.md`. Write it like the lines around it: the kind of change, the tool and its ready command, where to start, such as a URL, an endpoint, or a command, and what to look at. For a fix, quote the line it replaces. When you noted nothing, skip this step.
+For each way noted in step 3, propose one line for the matching verify file (package verify file if inside a package, else `ace/VERIFY.md`), matching its format: change kind, tool and ready command, entry point, and what to check. Quote any replaced line. Skip when nothing was noted.
 
 When `ace/VERIFY.md` is missing, propose the whole file from [templates/VERIFY.md](../ace-setup/templates/VERIFY.md), also when you noted nothing: "Checks" with the commands you ran in step 2, "Run the app" with how you started the app, or `None.`, and "Check behavior" with each way that worked in step 3. Offer `ace-setup` as the other way to write it.
 
@@ -64,10 +66,10 @@ Omit `Verify file, proposed` and `Not verified` when empty. When called inside a
 
 ```
 Checks:
-- `command`: pass or fail
+- `command`: pass or fail, with count or output summary
 
 Behavior:
-- What you did, and what you saw. For a behavior tried in a browser, the screenshot path.
+- What you did, and the concrete output you saw. For a browser check, add the screenshot path.
 
 Verify file, proposed:
 - `path`: the line to add, or the line to fix and its replacement

@@ -7,7 +7,6 @@ How Ace gets a diff and works with pull requests. Ace supports pull requests onl
 
 This file holds the sections that read. Each other section is in its own file. Read only the one you need:
 
-- "Open a pull request": [pull-requests/OPEN.md](pull-requests/OPEN.md)
 - "Comment on a pull request" and "Reply to a review thread": [pull-requests/COMMENT.md](pull-requests/COMMENT.md)
 - "Pull request state" and "Check logs": [pull-requests/CI.md](pull-requests/CI.md)
 

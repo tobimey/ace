@@ -5,8 +5,8 @@ The playbooks that settle what to build before any code changes.
 ## Plan
 
 1. Run `ace-grill` until no material decision remains open. Stop if grill stops after a verdict or with no direction picked. When a decision turns on running code (such as speed or layout feel), run Prototype below and bring its result to that question.
-2. When the user asked to build, implement, or fast-track and grill opened no sub-tickets, go straight to step 3. Otherwise ask one question per [QUESTIONS.md](QUESTIONS.md): implement it here now, or stop? Recommend stopping when sub-tickets were opened or the work should wait; otherwise recommend implementing here. Wait for the answer.
-3. Implement: run Build in [BUILD.md](BUILD.md) with the settled plan or ticket, and hand off as Build. Stop: stop.
+2. When the user asked to build, implement, or fast-track and grill opened no sub-tickets, go straight to step 3. Otherwise ask one question per [QUESTIONS.md](QUESTIONS.md): start a fresh session to implement (recommended for work bigger than `S`, sub-tickets, or waiting work), or implement here now (recommended for `S` work)? Wait for the answer.
+3. Implement here: run Build in [BUILD.md](BUILD.md) with the settled plan or ticket, and hand off as Build. Fresh session: stop and give the command (`Implement <ticket or plan path>`).
 
 ## Prototype
 

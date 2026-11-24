@@ -47,7 +47,7 @@ Every line in a skill costs context and money on each run, so a skill must not g
 
 - Before you add text, look for text to change instead: a rule that already covers the case, a step to widen, a section to merge, an example to swap.
 - Cut what the change makes redundant, outdated, or obvious to the model.
-- Move detail that only some runs need into a separate file the skill loads on demand.
+- Prefer fewer files so agents make fewer file hops and tool turns. Move detail into a separate file only when it is large and rarely needed, not for short sections that most runs load anyway.
 - Add a new section only when none of the above works, and say why.
 - When you finish, report the word count of each changed skill before and after (`wc -w`). If a skill grew, say what you tried first and why it had to grow.
 

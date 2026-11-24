@@ -46,7 +46,7 @@ Start every text written to a ticket tracker or code host (pull request, comment
 
 In a run nobody watches, such as `ace-work-ticket` or a run a schedule or a label starts, a default that writes a ticket, a pull request, or a comment into the reply is a stop.
 
-When the message names a runner, such as `Runner: cursor-cloud.`, follow its section in `ace/CYCLE.md` for the whole run, or stop when it has none. Its Target says which pull request or ticket the message means. Each section it holds, such as "Comment on a pull request", replaces the one with that job in an adapter, a provider, or [PULL_REQUESTS.md](github/PULL_REQUESTS.md). When that fails, retry or stop. Never fall back: the replaced way may post as the wrong account.
+When the message names a runner, such as `Runner: cursor-cloud.`, follow its section in `ace/CYCLE.md` for the whole run, or stop when it has none. Its Target says which pull request or ticket the message means. Each section it holds, such as "Comment on a pull request", replaces the one with that job in an adapter, a provider, or [PULL_REQUESTS.md](github/PULL_REQUESTS.md). When that fails, retry or stop instead of falling back, since the replaced way may post as the wrong account.
 
 ## Writing adapters
 

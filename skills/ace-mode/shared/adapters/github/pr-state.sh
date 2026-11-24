@@ -58,18 +58,20 @@ query($owner: String!, $name: String!, $number: Int!) {
       } } } } } }
       reviewThreads(first: 100) { nodes {
         id isResolved isOutdated path line
-        comments(last: 50) { nodes { databaseId author { __typename login } body createdAt updatedAt url } }
+        comments(last: 50) { nodes { databaseId authorAssociation author { __typename login } body createdAt updatedAt url } }
       } }
-      reviews(last: 50) { nodes { author { __typename login } state body submittedAt url } }
-      comments(last: 100) { nodes { author { __typename login } body createdAt updatedAt url } }
+      reviews(last: 50) { nodes { authorAssociation author { __typename login } state body submittedAt url } }
+      comments(last: 100) { nodes { authorAssociation author { __typename login } body createdAt updatedAt url } }
     }
   }
 }'
 
 shape='
 def is_bot: (.author.__typename == "Bot") or ((.author.login // "") | test("\\[bot\\]$"));
-def ace: (.body // "") | contains("<!-- ace-babysit");
-def review_report: (.body // "") | contains("<!-- ace-review -->");
+def trusted_author: ((.authorAssociation // "") | IN("OWNER", "MEMBER", "COLLABORATOR"))
+  or ((.author.login // "") | test("^github-actions(\\[bot\\])?$"));
+def ace: trusted_author and ((.body // "") | contains("<!-- ace-babysit"));
+def review_report: trusted_author and ((.body // "") | contains("<!-- ace-review -->"));
 # A finding left in the report starts a line with its severity emoji, as ace-review/SKILL.md formats it.
 def has_findings: (.body // "") | test("(^|\n)(🔴|🟡|🔵) \\*\\*");
 .data.repository.pullRequest as $pr
@@ -93,20 +95,32 @@ def has_findings: (.body // "") | test("(^|\n)(🔴|🟡|🔵) \\*\\*");
         conclusion: .state, run_id: null, link: .targetUrl }
     end]) as $checks
 | ([$pr.reviewThreads.nodes[] | select(.isResolved | not)]) as $open_threads
-| ([$open_threads[] | select((.comments.nodes | last) // {} | ace | not) |
+| ([$open_threads[] | select(((.comments.nodes | last) // {}) | (ace | not) and trusted_author) |
     { thread_id: .id, path, line, outdated: .isOutdated,
-      comments: [.comments.nodes[] | { id: .databaseId, author: .author.login, body, created_at: .createdAt, url }] }]) as $threads
+      comments: [.comments.nodes[] | select(trusted_author) | { id: .databaseId, author: .author.login, body, created_at: .createdAt, url }] }]) as $threads
+| ([$open_threads[] | select(((.comments.nodes | last) // {}) | (ace | not) and (trusted_author | not))] | length) as $untrusted_threads
 | ([$open_threads[] | select((.comments.nodes | last) // {} | ace)] | length) as $answered_threads
 | ([$pr.reviews.nodes[]
     | select(.state == "CHANGES_REQUESTED" or (.body // "") != "")
     | select(.submittedAt > $since)
+    | select(trusted_author)
     | { author: .author.login, state, body, submitted_at: .submittedAt, url }]) as $reviews
+| ([$pr.reviews.nodes[]
+    | select(.state == "CHANGES_REQUESTED" or (.body // "") != "")
+    | select(.submittedAt > $since)
+    | select(trusted_author | not)] | length) as $untrusted_reviews
 | ([$pr.comments.nodes[] | select(review_report)] | sort_by(.updatedAt) | last) as $report
 | ($report != null and ($report | has_findings) and $report.updatedAt > $since) as $report_new
 | ([$pr.comments.nodes[] | select(ace | not) | select(review_report | not)
     | select(is_bot | not)
     | select(.createdAt > $since)
+    | select(trusted_author)
     | { author: (.author.login // "ghost"), body, created_at: .createdAt, url }]) as $comments
+| ([$pr.comments.nodes[] | select(ace | not) | select(review_report | not)
+    | select(is_bot | not)
+    | select(.createdAt > $since)
+    | select(trusted_author | not)] | length) as $untrusted_issue_comments
+| ($untrusted_threads + $untrusted_reviews + $untrusted_issue_comments) as $untrusted_comments
 | ([$checks[] | select(.state == "FAIL")]) as $failing
 | ([$checks[] | select(.state == "PENDING")]) as $pending
 | ($pr.mergeable == "CONFLICTING" or $pr.mergeStateStatus == "DIRTY") as $conflicts
@@ -120,7 +134,8 @@ def has_findings: (.body // "") | test("(^|\n)(🔴|🟡|🔵) \\*\\*");
      (if $pr.reviewDecision == "REVIEW_REQUIRED" then "needs-approval" else empty end),
      (if $answered_threads > 0 then "threads-answered" else empty end),
      (if $pr.reviewDecision == "CHANGES_REQUESTED" then "changes-requested-awaiting-reviewer" else empty end),
-     (if $pr.mergeable == "UNKNOWN" then "mergeability-unknown" else empty end) ]) as $wait
+     (if $pr.mergeable == "UNKNOWN" then "mergeability-unknown" else empty end),
+     (if $untrusted_comments > 0 then "untrusted-comments" else empty end) ]) as $wait
 | { verdict: (if $pr.state != "OPEN" then $pr.state
                elif ($action | length) > 0 then "ACTION"
                elif ($wait | length) > 0 then "WAITING"
@@ -139,6 +154,7 @@ def has_findings: (.body // "") | test("(^|\n)(🔴|🟡|🔵) \\*\\*");
     passing_checks: ([$checks[] | select(.state == "PASS")] | length),
     unresolved_threads: $threads, answered_threads: $answered_threads,
     reviews: $reviews, new_comments: $comments,
+    untrusted_comments: $untrusted_comments,
     review_report: (if $report then { url: $report.url, updated_at: $report.updatedAt,
                                       has_findings: ($report | has_findings), new: $report_new }
                     else null end) }'
