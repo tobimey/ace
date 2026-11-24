@@ -1,13 +1,12 @@
 # Plan and Prototype
 
-The playbooks that settle what to build before any code changes. `ace-mode` routes here, and its constraints apply.
+The playbooks that settle what to build before any code changes.
 
 ## Plan
 
-1. `ace-grill` with the message, until the design tree has no open branch. When grill stops after a verdict or with no direction picked, stop. When a decision turns on something only running code shows, such as speed or how a layout feels, run Prototype below for it and bring its result to that question.
-   `ace-grill` writes the settled plan into a ticket, unless the user chose no ticket.
-2. Ask one question in the format of [QUESTIONS.md](QUESTIONS.md): implement it here now, or stop? Recommend stopping when grill opened sub-tickets, or when the work should wait. Otherwise recommend implementing here. Wait for the answer.
-3. Here: run the Build playbook in [BUILD.md](BUILD.md) with the settled plan, or with its ticket, and hand off as Build. Stop: stop.
+1. Run `ace-grill` until no material decision remains open. Stop if grill stops after a verdict or with no direction picked. When a decision turns on running code (such as speed or layout feel), run Prototype below and bring its result to that question.
+2. When the user asked to build, implement, or fast-track and grill opened no sub-tickets, go straight to step 3. Otherwise ask one question per [QUESTIONS.md](QUESTIONS.md): implement it here now, or stop? Recommend stopping when sub-tickets were opened or the work should wait; otherwise recommend implementing here. Wait for the answer.
+3. Implement: run Build in [BUILD.md](BUILD.md) with the settled plan or ticket, and hand off as Build. Stop: stop.
 
 ## Prototype
 

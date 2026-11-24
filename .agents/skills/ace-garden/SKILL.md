@@ -1,12 +1,12 @@
 ---
 name: ace-garden
-description: Makes one small cleanup in one scope, for a topic such as naming, tautological tests, pass-through code, outdated dependencies, or a custom check in ace/checks/.
+description: Makes one small cleanup in one scope, for a topic such as naming, comments, tautological tests, pass-through code, outdated dependencies, or a custom check in ace/checks/.
 disable-model-invocation: true
 ---
 
 # Garden
 
-Make one small cleanup for the topic the caller names, in one scope, with behavior unchanged. Gardening takes the small costs an audit leaves below its bar and fixes one per run. Done means one finding is fixed and `ace-implement` passed, or no finding has a clean fix and the report names up to three candidates.
+Make one small cleanup for the topic the caller names, in one scope, with behavior unchanged. Done means one finding is fixed and `ace-implement` passed, or no finding has a clean fix and the report names up to three candidates.
 
 ## Requires
 
@@ -16,6 +16,7 @@ Make one small cleanup for the topic the caller names, in one scope, with behavi
 ## Topics
 
 - [Naming](NAMING.md): names that hide why a thing exists or what it does.
+- [Comments](COMMENTS.md): tautological, stale, or excuse comments and unjustified suppressions.
 - [Tests](TESTS.md): tests that cannot fail.
 - [Pass-through](PASS_THROUGH.md): wrappers and values that only forward.
 - [Deps](DEPS.md): outdated dependencies, bumped as one batch.
@@ -23,7 +24,7 @@ Make one small cleanup for the topic the caller names, in one scope, with behavi
 
 ## Constraints
 
-- Fix one finding per run: one cluster of names that change together, one test file, one wrapper or chain, or one batch of bumps. Leave the rest to later runs.
+- Fix one finding per run: one cluster of names, one file's comments, one test file, one wrapper or chain, or one batch of bumps. Leave the rest to later runs.
 - Change only the code the fix needs. Behavior stays the same.
 - Skip the paths the coding standards mark out of scope.
 - Start from a clean working tree. When it holds unrelated changes, stop and say so.
@@ -39,12 +40,14 @@ Make one small cleanup for the topic the caller names, in one scope, with behavi
 
 ## Report
 
+Omit empty lines (such as Candidates when none exist), and fold Checks into one short line when everything passed.
+
 ```
 Topic: <topic>, scope: <folder or files>
 Fixed: <path and what was wrong, or "nothing">
 Change: <what changed, by file>
-Candidates for later runs: <path and why, or "none">
-Checks: <the ace-implement report>
+Candidates for later runs: <path and why>
+Checks: <the ace-implement summary>
 ```
 
 A topic's Report section replaces Change.

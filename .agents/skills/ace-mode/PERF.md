@@ -1,6 +1,6 @@
 # Perf
 
-Makes something that works but is too slow faster, with numbers before and after. `ace-mode` routes here.
+Makes something that works but is too slow faster, with numbers before and after.
 
 1. Measure it the way the user hits it, three runs or more. Write down the command, each number, and the spread. When it is not slow, report the numbers and stop.
 2. Find what the time goes to, with a profiler or a timer around each step, and trace it to its source.

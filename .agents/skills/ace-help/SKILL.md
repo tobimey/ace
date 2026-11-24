@@ -6,11 +6,11 @@ disable-model-invocation: true
 
 # Ace help
 
-Answer questions about Ace and inspect the current project's Ace setup. Done means the user has a clear, grounded answer and, when relevant, the exact prompt or command to run next, with every file left unchanged.
+Answer questions about Ace and inspect the current project's Ace setup. Done means the user has a clear, grounded answer and, when relevant, the exact prompt or command to run next.
 
 ## Constraints
 
-- Read only. Leave every file unchanged, and run only read-only checks. When the user wants an action, name the exact prompt or command to run next.
+- Read only, also in the checks you run. When the user wants an action, name the exact prompt or command to run next.
 - Explain capabilities in plain words (what the user can say). Name a skill only when users run it directly (`/ace-setup`, `/ace-help`, `/ace-audit`, `/ace-garden`, `/ace-work-ticket`, `/ace-babysit-pr`) or when the user asks for all skill names. Keep internal routing details out of replies.
 - Ground specifics in the installed Ace files and the current project rather than guessing.
 - Keep scope to Ace usage, configuration, and current project setup. Point misbehaving-agent issues to `ace-optimize-factory` and work-in-progress status to asking "what's next".
@@ -32,5 +32,5 @@ Read only what the question needs, relative to this file's folder (`../`) and th
    - **Specific question** (how Ace works, a setting, an adapter, a workflow, or what is configured here): read only the matching sources from "Where facts live", run step 2 when the answer depends on the current project, then answer directly in step 3.
 2. **Inspect the project snapshot** (when needed): check `ace/`, `ace/checks/`, active values vs. defaults in `ace/config.json`, and the Ace section in the root agents file.
 3. **Answer and stop**:
-   - For **bare help**: show a short status line for this project (configured files and active settings, or that Ace is using defaults with no `ace/` folder), a compact prompt-first cheat sheet of what the user can ask Ace to do (plan, fix, build, review, babysit PRs, clean up, audit, explain, configure), 2 to 3 tailored next steps for this repo (such as `/ace-setup` when `ace/` is missing, or remaining modules like `/ace-setup tickets` and what they unlock), and ask what they need help with.
+   - For **bare help**: show a short status line for this project (configured files and active settings, or that Ace is using defaults with no `ace/` folder), a compact prompt-first cheat sheet of what the user can ask Ace to do (plan, fix, build, review, babysit PRs, clean up, audit, explain, configure) plus natural pace shortcuts ("just build it", "quick fix ...", "... and open a PR"), 2 to 3 tailored next steps for this repo (such as `/ace-setup` when `ace/` is missing, or remaining modules like `/ace-setup tickets` and what they unlock), and ask what they need help with.
    - For a **specific question**: answer concisely with exact prompts or commands, noting any relevant setting or default from this project.

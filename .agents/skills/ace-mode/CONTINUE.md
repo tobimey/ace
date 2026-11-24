@@ -1,6 +1,6 @@
 # Continue and hand off
 
-Finds where the work stands and names the next step. `ace-mode` reads this file for the Continue playbook and at the end of every playbook that hands off.
+Finds where the work stands and names the next step.
 
 ## State table
 
@@ -11,7 +11,7 @@ Place the work in the first row that matches:
 | An idea with open decisions, and no spec ticket | Plan |
 | A spec ticket too big for one change, with no sub-tickets | `ace-to-ticket` with that ticket |
 | A ticket in the needs-human state | A person reads it and its comments, then sets it ready or closes it |
-| A ticket in the working state with no open pull request | Its run stopped. The next `ace-work-ticket` run moves it to needs-human, or a person moves it now |
+| A ticket in the working state with no open pull request | Its run stopped. A later `ace-work-ticket` run moves it to needs-human, as the working state in [contract/TICKET_TRACKER.md](shared/adapters/contract/TICKET_TRACKER.md) says, or a person moves it now |
 | A ticket with no branch and no pull request | Build |
 | Local changes, or a branch with no pull request | `ace-open-pr`, then Review, best with a model other than the one that built the change |
 | An open pull request with failing checks, merge conflicts, or review comments with no reply | Babysit |
@@ -28,8 +28,6 @@ Place the work in the first row that matches:
 
 ## Hand off
 
-A person starts the next run, unless the cycle adapter `ace/CYCLE.md` says the user's runner does, such as through a label or a schedule.
-
 When `ace/CYCLE.md` has a section for the playbook that ended, do what it says. Perf, Fix, Refactor, and Garden use the Build section. Babysit uses none, so its pushes start no new review. The section can set a label, move a ticket, or tell the user what a run does next.
 
-Otherwise end the reply with the next step from the state table, as one line the user can send, such as `Next: review pull request #12`. After Plan or Audit, also say which state the new tickets are in. For a ticket in needs-human, say that a person sets it ready or starts it with `Implement TICKET`.
+Otherwise end the reply with one closing line from the state table that the user can send, such as `Next: open a PR, or review the diff (best on another model)`. Do not stack extra offers above it. After Plan or Audit, also say which state the new tickets are in. For a ticket in needs-human, say that a person sets it ready or starts it with `Implement TICKET`.

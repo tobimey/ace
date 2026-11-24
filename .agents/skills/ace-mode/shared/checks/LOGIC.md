@@ -21,7 +21,7 @@ Wrong behavior on a plausible input.
 ## Drop
 
 - Concurrency, races, and missing locks or transactions, unless the impact is severe. Severe means money charged twice, data or messages reaching the wrong user or tenant, or stored data permanently wrong. Two tasks touching the same record is not a finding.
-- A finding whose only fix adds runtime cost: extra database reads or writes, extra network, extra CPU on a request or task path, an N+1 query, or scanning more data. Keep a finding whose fix uses data already in memory. A severe race may use a transaction. For example, drop re-fetching a record on every request to work around a stale cache.
+- A finding whose only fix adds runtime cost: extra database reads or writes, extra network, extra CPU on a request or task path, an N+1 query, or scanning more data. Keep a finding whose fix uses data already in memory. A severe race may use a transaction. For example, drop re-fetching a record on every request to work around a stale cache. When the change under review introduced that cost, write it as a performance finding instead.
 
 ## Severity
 

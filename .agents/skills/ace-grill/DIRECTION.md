@@ -10,8 +10,8 @@ The whole project, or the feature, page, service, or area the message names, suc
 
 - Read only, except `ace/PRODUCT.md` and the tickets step 5 opens.
 - Settle the anchor before you offer any direction. Rank every direction against it.
-- Offer one set of three to five directions per round, and at most two rounds, plus one set after the user corrects the anchor.
-- Let the user pick. Recommend one direction, then wait. After the pick, go on with step 5 and offer no further direction.
+- Offer one set of directions per round, and at most two rounds, plus one set after the user corrects the anchor.
+- Let the user pick. After the pick, go on with step 5 and offer no further direction.
 
 ## Workflow
 
@@ -54,12 +54,12 @@ Write three to five directions. A direction is one bet on the goal and can hold 
 For each direction write:
 
 - **Name**: a few words.
-- **What**: what changes for the people in the scope, in one or two sentences.
+- **What**: what changes for the people in the scope, in one or two short sentences, or up to three short bullets when it covers several parts.
 - **Why**: how it moves the goal, with the fact from step 2 behind it.
 - **Size**: `S`, `M`, `L`, or `XL`, as [OPEN_TICKET.md](../ace-to-ticket/OPEN_TICKET.md) defines them.
 - **Rules out**: what picking it means the project leaves undone for now.
 
-Then ask one question: which direction? List each name and `none` as choices. Recommend one and say why in one sentence. In the same question, say what happens next: the directions not picked are parked as tickets in needs-human, unless the user names ones to drop, and the anchor and the pick go into `ace/PRODUCT.md`. With no ticket tracker, the parked directions stay as a list in the reply.
+Then ask one question: which direction? List each name and `none` as choices. Recommend one and say why in one sentence. In the same question, say what happens next: the directions not picked are parked as step 5 says, unless the user names ones to drop, and the anchor and the pick go into `ace/PRODUCT.md`.
 
 The user's answer is the go-ahead for steps 5 and 6. Wait for it.
 

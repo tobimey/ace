@@ -27,7 +27,7 @@ Parties the project trusts. Treat calls between them as authorized.
 - Validate input where it enters the system: requests, files, environment, third-party responses. Trust it after that.
 - Handle an error where something can be done about it. Log or surface every error you catch.
 - Delete dead code, commented-out code, and unused exports. Version control keeps the history.
-- A comment says why, not what.
+- Write comments only for external constraints or non-obvious invariants that names, types, or tests cannot express. Delete tautological, stale, and excuse comments; fix a workaround instead of excusing it.
 
 ## Tests
 

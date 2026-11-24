@@ -6,9 +6,7 @@ disable-model-invocation: true
 
 # Explain
 
-Answer a question about the code: how it works now, why it is built that way, or both. Done means the user understands it well enough to act on it, and you changed nothing.
-
-Agents write most of the code in an Ace project. The user still has to review it, debug it, and decide where it goes next. This skill closes the gap between what the agent built and what the user understands.
+Answer a question about the code: how it works now, why it is built that way, or both. Done means the user understands it well enough to act on it.
 
 When the caller asks for an explainer of a change, or to post one on a pull request, follow [Explainer](EXPLAINER.md) instead of the steps below.
 

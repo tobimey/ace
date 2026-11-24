@@ -1,6 +1,6 @@
 # Pull requests: GitHub, state and checks
 
-Ace supports pull requests only on GitHub: `git remote get-url origin` points at github.com and `gh auth status` succeeds. Without that, stop with `Pull requests need GitHub and a logged-in gh.` `REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
+Part of [PULL_REQUESTS.md](../PULL_REQUESTS.md), which says when Ace supports pull requests and defines `REPO`.
 
 ## Pull request state
 
@@ -11,7 +11,7 @@ pr-state.sh NUMBER --repo REPO
 pr-state.sh NUMBER --repo REPO --wait 90
 ```
 
-It prints JSON. `verdict` is `ACTION`, `WAITING`, `READY`, `MERGED`, or `CLOSED`, and `reasons` says why. A `READY` draft has the reason `draft`: a person marks it ready. `--wait` polls every 15 seconds while the verdict is `WAITING`, up to 90 seconds per call (re-run the command to keep waiting without hitting shell timeouts). Ace knows what it already answered by the marker `<!-- ace-babysit` that `ace-babysit-pr` puts on every reply, not by who posted it. A review or comment counts as new when it is newer than the head commit and newer than the latest Ace reply. The latest `<!-- ace-review -->` report counts as new when it holds findings and was edited after both, whoever posted it, and `review_report` describes it. An open thread whose last comment is an Ace reply, and requested changes that Ace already answered, wait for a person.
+It prints JSON. `verdict` is `ACTION`, `WAITING`, `READY`, `MERGED`, or `CLOSED`, and `reasons` says why. A `READY` draft has the reason `draft`: a person marks it ready. `--wait` polls while the verdict is `WAITING`, up to 90 seconds per call; re-run it to keep waiting. `review_report` points to the latest `<!-- ace-review -->` report. `pr-state.sh --help` says what counts as new and which Ace replies wait for a person.
 
 ## Check logs
 

@@ -8,29 +8,9 @@ Inspect the repository before writing your first message:
 2. **Step 1 facts**: check for `AGENTS.md`, `CLAUDE.md`, an existing glossary doc (`GLOSSARY.md`, `docs/CONTEXT.md`, etc.), project summary and target users from README/metadata, and up to five domain terms.
 3. **Step 2 facts**: read CI workflows and build scripts for lint, typecheck, test, build, and other CI checks; find the dev command, port, and env setup; pick behavior-check tools per [contract/VERIFY.md](../ace-mode/shared/adapters/contract/VERIFY.md).
 
-## Shared step card format
+## Step cards
 
-Use this card structure on every step (omit the `✅ Saved` banner on Step 1, and prepend `👋 **Welcome to Ace Setup**. We'll set up Ace in **4 quick steps**. Nothing is written until you say yes.` above Step 1):
-
-```markdown
-<✅ Saved `<files>` or test outcome>
-
----
-
-### <emoji> Step <X> of 4 · <Title>
-
-**Why:** <1-2 short sentences>
-
-**<Summary heading>:**
-- <compact bullets>
-
-**❓ 1 - <Question>**
-- **A)** <recommended option>
-- **B)** <second option>
-- **C)** <third option, when applicable>
-
-➡️ **A)** <1-line reason>
-```
+Print each step as the step card in [SKILL.md](SKILL.md), with `<Y>` = 4 and the recommendation `**A)** <1-line reason>`. Above Step 1, print `👋 **Welcome to Ace Setup**. We'll set up Ace in **4 quick steps**. Nothing is written until you say yes.` Above each later card, print ✅ Saved `<files>` (or the test outcome) and a `---` line.
 
 ## Step 1 of 4 · 📝 Project & Glossary
 
@@ -48,8 +28,8 @@ Use this card structure on every step (omit the `✅ Saved` banner on Step 1, an
 - **What I found:** `Checks` (lint, typecheck, test, build, other CI commands; note missing kinds), `Run app` (dev command + port, or "None (library/CLI)"), `Verify behavior` (1 line per change kind: tool, where to start, what to check), `Files` (`ace/VERIFY.md` plus `PACKAGE/ace/VERIFY.md` in a monorepo).
 - **Question:** Save these verification steps? **A)** Yes, save and continue to Step 3 · **B)** Adjust commands or setup · **C)** Skip this step.
 - **Drafting rules:**
-  - Create `ace/VERIFY.md` from [templates/VERIFY.md](templates/VERIFY.md) when missing. CI commands win over local scripts when both exist; take local scripts when CI omits a check; name missing kinds.
-  - Each `<CHECK_BEHAVIOR>` line names the tool, its ready command, its install command (leaving version pinning to the user), where to start, and what to check. Frontend projects include a UI line.
+  - Create `ace/VERIFY.md` from [templates/VERIFY.md](templates/VERIFY.md) when missing. Draft Checks as the Checks default in [contract/VERIFY.md](../ace-mode/shared/adapters/contract/VERIFY.md) says, and name missing kinds.
+  - Each `<CHECK_BEHAVIOR>` line also names the tool's install command, leaving version pinning to the user. Frontend projects include a UI line.
   - Monorepo: root `ace/VERIFY.md` holds only repo-wide checks (`# No repo-wide checks.` when none), root start command (`None.` when none), and cross-package behavior checks (`None.` when none). Each package gets `PACKAGE/ace/VERIFY.md` with root-runnable filtered commands matching CI and no duplicate root checks.
 
 ## Step 3 of 4 · ▶️ Test your checks

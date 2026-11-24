@@ -10,12 +10,12 @@ Read the file for each domain the caller names:
 
 - [Logic](LOGIC.md): wrong behavior on a plausible input.
 - [Security](SECURITY.md): a concrete exposure to an outsider, or to another user or tenant.
-- [Performance](PERFORMANCE.md): runtime cost on a real path.
+- [Performance](PERFORMANCE.md): runtime cost on a real path. Follow its Framework behavior section.
 - [Architecture](ARCHITECTURE.md): a module shape that makes change costly. Load [CODEBASE_DESIGN.md](../codebase-design/CODEBASE_DESIGN.md) before you read it.
 
 Each file has the same sections:
 
 - **Find**: what to look for.
-- **Belongs elsewhere**: what another domain owns. File it there, or leave it out when the caller does not cover that domain.
+- **Belongs elsewhere**: what another domain owns. File it under that domain when the caller's run or pass covers it, and leave it out otherwise.
 - **Drop**: what to leave out even when found.
 - **Severity**: Critical, High, Medium, or Low, and how to break ties. Rate each finding at its real severity.

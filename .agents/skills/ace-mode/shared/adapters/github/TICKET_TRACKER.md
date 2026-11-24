@@ -1,6 +1,6 @@
 # Ticket tracker: GitHub Issues
 
-The built-in ticket tracker for GitHub Issues. Ace uses it when `ticket_tracker` in `ace/config.json` is `github-issues`. A section in the project's `ace/TICKET_TRACKER.md` replaces the section with the same job here or in the files below, so a project overrides only what it does differently. `OWNER/REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
+The built-in ticket tracker for GitHub Issues. Ace uses it when `ticket_tracker` in `ace/config.json` is `github-issues`. A section in the project's `ace/TICKET_TRACKER.md` replaces the section with the same job here or in the files below, so a project overrides only what it does differently. Keep `ace-created` on every ticket that has it: it says Ace opened the ticket, not whose turn it is. `OWNER/REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
 
 This file holds the sections that read. The others are in their own files. Read only the one you need:
 

@@ -1,7 +1,5 @@
 # `ace/CODING_STANDARDS.md`
 
-Review and audit jobs read it in full.
-
 | Section | What it holds | Default |
 |---|---|---|
 | Out of scope | The paths review, audit, and standards jobs skip | The Out of scope list in [templates/CODING_STANDARDS.md](../../../../ace-setup/templates/CODING_STANDARDS.md) |

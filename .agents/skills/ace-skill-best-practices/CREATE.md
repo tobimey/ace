@@ -35,7 +35,7 @@ When the new skill needs a step another skill already does, call that skill. Wri
 ### 3. Design
 
 - **Name**: follow the prefix rules in Authoring. The folder name matches `name`.
-- **Invocation**: set `disable-model-invocation: true`, and add `agents/openai.yaml` with `policy:` / `allow_implicit_invocation: false`. `ace-mode` and other skills load it by path. Omit `disable-model-invocation` only for a skill that applies to every task, such as `ace-mode`.
+- **Invocation**: as Frontmatter in [CHECKLIST.md](CHECKLIST.md) says.
 - **Freedom**: match it to how fragile the step is. Judgement work gets the goal and the rules. A fragile sequence gets exact commands. A deterministic step, such as validate, parse, count, or call an API, gets a script in `scripts/` that prints its result.
 - **Project facts**: point to the `ace/` file and the section that holds them, and find the section by its job. When an Ace skill needs a section no adapter has, add it to that adapter's file in `ace-mode/shared/adapters/contract/`, with its default, and to the matching template in `ace-setup`.
 - **Other skills**: list each skill the new one follows, loads, or runs in its Requires section, as Authoring says.

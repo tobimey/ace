@@ -4,7 +4,6 @@ Find out how the code works now, from the code as it is. Done means a senior eng
 
 ## Constraints
 
-- Read only.
 - Cite `path:line` for each claim. Mark what you could not confirm in the code as a guess.
 - Answer how it works. Name the open why-questions at the end instead of guessing the reasons.
 

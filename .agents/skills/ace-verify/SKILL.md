@@ -10,13 +10,12 @@ Prove the current change works. Done means every command in the "Checks" section
 
 ## Constraints
 
-- Verify as `ace/VERIFY.md` says, plus each package verify file for the paths the change touches, found as [PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md) says. When those files have no way to try a behavior, or a way they give is wrong, find one that works and propose it in step 5.
-- Read only for the verify files, so the change stays what the user asked for. Step 5 proposes their changes in the report. Make those changes only when the user says yes to them.
+- Verify as `ace/VERIFY.md` says, plus each package verify file for the paths the change touches, found as [PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md) says.
+- Read only for the verify files, so the change stays what the user asked for. Step 5 proposes their changes in the report.
 - A passing check proves the check, not the behavior. Report behavior as working only after you have tried it.
 - Make a failing check or test pass by fixing the code. Keep every check, test, and hook as strict as you found it, and let hooks run.
 - A failure that also happens without this change is pre-existing. Report it and leave it as it is.
 - Stop every process you started.
-- Keep screenshots out of the repository.
 
 ## Workflow
 
@@ -61,6 +60,8 @@ When the user says yes, make those edits as their own change, apart from the cha
 
 ## 6. Report
 
+Omit `Verify file, proposed` and `Not verified` when empty. When called inside a multi-step chat run, fold this into the combined reply (one short pass line when everything passed, plus only failures, unverified items, or proposed verify-file lines).
+
 ```
 Checks:
 - `command`: pass or fail
@@ -69,7 +70,7 @@ Behavior:
 - What you did, and what you saw. For a behavior tried in a browser, the screenshot path.
 
 Verify file, proposed:
-- `path`: the line to add, or the line to fix and its replacement, or "none"
+- `path`: the line to add, or the line to fix and its replacement
 
-Not verified: what and why, or "none"
+Not verified: what and why
 ```

@@ -26,7 +26,7 @@ What done looks like: a concrete edit in a skill, `ace/config.json`, `AGENTS.md`
 - Prefer a check over a prose rule. Prefer a small edit over a new skill. Prefer a new skill over a new architecture.
 - Write each fix as the behaviour you want next time. "The agent edits generated files" becomes "Change skills in the source folder; reinstall to update the copies." Use the wording rule in [ace-skill-best-practices](../ace-skill-best-practices/SKILL.md) for every steering file you write, and run its [check-wording.sh](../ace-skill-best-practices/scripts/check-wording.sh) on each one.
 - When you edit a skill, follow the Edit workflow of [ace-skill-best-practices](../ace-skill-best-practices/SKILL.md) and pass the checklist it links.
-- When a fix edits `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md`, follow [AGENTS_FILE.md](AGENTS_FILE.md): show the exact diff and wait for user approval before editing, even when the fix is obvious.
+- When a fix edits `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md`, follow [AGENTS_FILE.md](AGENTS_FILE.md), even when the fix is obvious.
 - Look up facts yourself. Ask the user only for decisions.
 
 ## Workflow

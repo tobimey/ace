@@ -1,6 +1,6 @@
 # Ticket tracker: GitHub Issues, write
 
-Part of the built-in GitHub Issues tracker in [TICKET_TRACKER.md](../TICKET_TRACKER.md). A section in the project's `ace/TICKET_TRACKER.md` replaces the section here with the same job. `OWNER/REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
+Part of the built-in GitHub Issues tracker in [TICKET_TRACKER.md](../TICKET_TRACKER.md). Its rules and `OWNER/REPO` apply here.
 
 ## Defaults
 
@@ -13,7 +13,6 @@ Part of the built-in GitHub Issues tracker in [TICKET_TRACKER.md](../TICKET_TRAC
 - Open tickets in this tracker only.
 - Pass a ticket body with `--body` and a heredoc. Keep it out of files in the repo.
 - Set Risk only as the `risk:high` label. Set Priority and Size only as the "Project and fields" section of `ace/TICKET_TRACKER.md` says, and leave them out when it does not exist.
-- Never remove `ace-created`: it says Ace opened the ticket, not whose turn it is.
 - Keep a ticket once it is created, even when a later step fails.
 - Set type with the API after create.
 

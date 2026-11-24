@@ -1,8 +1,8 @@
 # Ticket tracker: GitHub Issues, states
 
-Part of the built-in GitHub Issues tracker in [TICKET_TRACKER.md](../TICKET_TRACKER.md). A section in the project's `ace/TICKET_TRACKER.md` replaces the section here with the same job. `OWNER/REPO` is `gh repo view --json nameWithOwner --jq .nameWithOwner`.
+Part of the built-in GitHub Issues tracker in [TICKET_TRACKER.md](../TICKET_TRACKER.md). Its rules and `OWNER/REPO` apply here.
 
-Keep at most one ticket state label on a ticket. Never remove `ace-created`: it says Ace opened the ticket, not whose turn it is.
+Keep at most one ticket state label on a ticket.
 
 ## Ticket states
 

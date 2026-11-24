@@ -65,18 +65,18 @@ Surgical. Match the skill's existing tone if it is already plain.
 Priority, in order:
 
 1. Requested behaviour (make X work)
-2. Frontmatter `name` and `description`, using the Authoring rule for `disable-model-invocation`
+2. Frontmatter `name` and `description`, per Discovery in [CHECKLIST.md](CHECKLIST.md)
 3. Apply Authoring, including the goal, the constraints section, and the wording rule
 4. One default path; one escape hatch
 5. Split oversized bodies into sibling files linked from `SKILL.md`
 6. Match freedom to fragility (heuristics vs templates vs exact scripts)
 7. Make scripts the source of truth for brittle, repeatable steps
 
-On every pass, including checklist-only, fix each line `scripts/check-wording.sh` lists. Replace an em dash with a period or a comma; an en dash or a hyphen used as a dash is not a fix. Rewrite a negation as the action to take, unless it states a fact or a condition.
+On every pass, including checklist-only, fix each line `scripts/check-wording.sh` lists, as the wording rule in Authoring and the em dash line in [CHECKLIST.md](CHECKLIST.md) say.
 
 ### 7. Re-audit
 
-Re-read what you wrote. Run `scripts/check-wording.sh <skill-folder>` again; every line it still lists is a fact or a condition. Confirm the requested change is an instruction the agent must follow, not a note. Authoring holds. The skill states the goal and what done looks like, and it has one constraints section. `SKILL.md` body under 500 lines. Description under 1024 characters, third person, what and when only. When `disable-model-invocation` is `true`, the description is one line that says what the skill does. When that field is omitted, the description answers what and when. Links one level deep.
+Re-read what you wrote and re-run step 5. Every line the wording check still lists is a fact or a condition. Confirm the requested change is an instruction the agent must follow, not a note.
 
 ### 8. Report
 
