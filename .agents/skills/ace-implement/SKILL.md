@@ -41,5 +41,5 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
 
    Skip the test when the behavior has no logic to test, such as layout, config, or wiring, or when the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the touched path, has no test command. Name each skipped test in the report.
 4. Check the diff against the coding standards, as the Before scanning, Find, and Drop sections of the [Standards check](../ace-review/STANDARDS.md) say. Fix each finding yourself, with behavior unchanged.
-5. Follow [ace-verify](../ace-verify/SKILL.md). Fix and repeat until it passes.
+5. Follow [ace-verify](../ace-verify/SKILL.md). Fix and repeat until it passes. When the plan came from `ace/temporary-plans/`, delete that plan file once verify passes.
 6. Give one short summary: what changed, plus any skipped tests, fixed coding-standards breaks, intentional omissions, or verify issues. Omit empty items instead of writing "none".

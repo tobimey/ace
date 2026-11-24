@@ -11,15 +11,17 @@ Read `ace/CODING_STANDARDS.md` in full, plus each package `CODING_STANDARDS.md` 
 Match the diff against those rules. Each of these is a finding:
 
 - A break of a rule in those files.
-- A smell those files list, when the better shape is obvious and keeps the same behavior. An earlier rule in that file wins over a later one.
-- A tautological test in this diff, one that cannot fail. The best fix deletes that test case, or drops only the incidental asserts. Production behavior stays the same.
+- A listed smell when the better shape is obvious and keeps behavior identical. Earlier rules win.
+- A tautological test that cannot fail. Best fix: delete the test or drop incidental asserts, keeping production behavior identical.
+- A weakened check: a deleted or skipped test, a lint or type suppression, or a loosened check, hook, or CI rule added to make checks pass when the ticket did not ask for it.
 
 ## Drop
 
 - What the repo's linter and type checker already enforce.
-- A fix that would change behavior. A standards fix is a refactor only.
+- A style or smell fix that would change behavior. Keep standards auto-fixes as pure refactors.
 
 ## Severity
 
+- A weakened check is `blocker`, with fix type `needs-a-person`.
 - A rule break or a tautological test is `should-fix`.
 - A smell is `nit`.

@@ -10,24 +10,24 @@
     },
     "ace-babysit-pr": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-babysit-pr/SKILL.md",
-      "computedHash": "fa883ee0bbfcc35cd45aba5033dbfc0455e9d370c0d3a39425891b22f4e195b2"
+      "computedHash": "c3252812b930474438e7f3f7e0897d7ca138d74564d23a1d7d621bc357baf15d"
     },
     "ace-diagnose": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-diagnose/SKILL.md",
-      "computedHash": "dd5f7e4e08bc5a907d31ffb3cde1c121ed5f2aa9957de5049a279a9a0f427487"
+      "computedHash": "04f69cbcc78c1ee597810053af86da26f902e15003311fe996bf8bca63373fbe"
     },
     "ace-explain": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-explain/SKILL.md",
-      "computedHash": "2d10ed6a49814c7e117df87d09e9b23f438632b713f57891df825ded5173ffd9"
+      "computedHash": "4e062c148ccb014ec4d1c3f6088d4c221d7f0aa80652c9a5cc7af9816e1d1f36"
     },
     "ace-garden": {
       "source": "tobimey/ace",
@@ -38,10 +38,10 @@
     },
     "ace-grill": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-grill/SKILL.md",
-      "computedHash": "2f0a018ad913f367e6b20edd867af3d69c80dcbdb979c1898fd8a07611ecd3f0"
+      "computedHash": "d3e8324fbf908fa5770cd8174736e0f3eaa2a839970103a9ca7e8d170629a5c4"
     },
     "ace-help": {
       "source": "tobimey/ace",
@@ -52,45 +52,45 @@
     },
     "ace-implement": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-implement/SKILL.md",
-      "computedHash": "42d71b3424aefbddc6ac04e6e031e34317fa3c476b9977f739e2dce8a7f62b0d"
+      "computedHash": "62e1bef81fd7fa7c2de6c118974acd16029535b9e55934a239d69002a53baf7d"
     },
     "ace-mode": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-mode/SKILL.md",
-      "computedHash": "0fae2c293014fcb1baa71b2253ca9c40e51a9932068fd4d5f8019dd68353f104"
+      "computedHash": "69b73abdd3547f600bf6c24b056862429cf9e8ae02635d983aa5c81b97f3c2d8"
     },
     "ace-open-pr": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-open-pr/SKILL.md",
-      "computedHash": "0632f52fa62c3230e6929184fdcb03d2b83e17ad6704a917092fa11d1e502015"
+      "computedHash": "fc8c8f8b1da4751a7248a2397d4cc4dd6f96a599f9229842ba194db6fb0b8d5b"
     },
     "ace-optimize-factory": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-optimize-factory/SKILL.md",
-      "computedHash": "67b5ed1b8f4f165be49547dc41bcbc95ba9d47ff7c717ade78283ddbc1abb680"
+      "computedHash": "5855d4c71f1f51d570f88a14f0919bcb83acb43e4f83110cdbb4303beda9785a"
     },
     "ace-review": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-review/SKILL.md",
-      "computedHash": "d3b1e7cdeb851987a185c6d82cbe780a91b619cc0273f0d2dfde0fa40ddec7d1"
+      "computedHash": "db851d1f81a3156d0fbaeb2f451dda2eb492e97d994f425e73aa24a58f078dba"
     },
     "ace-setup": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-setup/SKILL.md",
-      "computedHash": "2d19bcecfc6427306ae2171f9bd318ccc7ccc43fd8189267883b603b7bd4d999"
+      "computedHash": "7aa9122ac67f2693616444077631fef2b604fdd62c42c14b6f65e5511a9b164d"
     },
     "ace-skill-best-practices": {
       "source": "tobimey/ace",
@@ -101,24 +101,24 @@
     },
     "ace-to-ticket": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-to-ticket/SKILL.md",
-      "computedHash": "f0163846b334db66dc386a0bff9ccca463ead31b45aa8b44399636564f6e9ca0"
+      "computedHash": "a562cdbb40d0d584e5f55e38b40c3a93ba7ea7713a1969db8b9780af914a07c6"
     },
     "ace-verify": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-verify/SKILL.md",
-      "computedHash": "733b078eb9847c7af8c3ef32c41674e054a5c7c66de522154c08b86a7bd090a8"
+      "computedHash": "134a833de8172e2684538e003fba65cd20a1306a30576bd06edb30cb400614a3"
     },
     "ace-work-ticket": {
       "source": "tobimey/ace",
-      "commit": "e7c1bf216dae07dac897606940c0645966a4ec2a",
+      "commit": "e2aaecf0f5e294d401560a2f9d32dc6fb7a9b2b9",
       "sourceType": "github",
       "skillPath": "skills/ace-work-ticket/SKILL.md",
-      "computedHash": "e66e9e32fa9a3ba28c63d9d3058c8d440564bd1fbecaed9528c15a919c7e3310"
+      "computedHash": "f6ac1bf5bafa8c0e394f2604eccdcbb3a34fd235d6d614682f1e10825908d392"
     }
   }
 }

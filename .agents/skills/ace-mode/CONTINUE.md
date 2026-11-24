@@ -1,4 +1,4 @@
-# Continue and hand off
+# Continue
 
 Finds where the work stands and names the next step.
 
@@ -25,9 +25,3 @@ Place the work in the first row that matches:
 1. Find the work: the ticket or pull request the message names. Otherwise the pull request for the current branch, found as [PULL_REQUESTS.md](shared/adapters/github/PULL_REQUESTS.md) says. Otherwise the local diff.
 2. Place it in the state table.
 3. Say the state and the next step in two lines, in plain words. Run the matching playbook once the user agrees.
-
-## Hand off
-
-When `ace/CYCLE.md` has a section for the playbook that ended, do what it says. Perf, Fix, Refactor, and Garden use the Build section. Babysit uses none, so its pushes start no new review. The section can set a label, move a ticket, or tell the user what a run does next.
-
-Otherwise end the reply with one closing line from the state table that the user can send, such as `Next: open a PR, or review the diff (best on another model)`. Do not stack extra offers above it. After Plan or Audit, also say which state the new tickets are in. For a ticket in needs-human, say that a person sets it ready or starts it with `Implement TICKET`.

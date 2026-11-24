@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Ace grill
 
-Settle what to build: **which** direction, **whether** a proposed change is worth it, and **how** to build it. Done means the How frontier is empty, the settled plan is summarized, and it is in a ticket, unless the user chose no ticket or the project has no ticket tracker. A run also ends when the user picks no direction or stops after a verdict.
+Settle what to build: **which** direction, **whether** a proposed change is worth it, and **how** to build it. Done means the How frontier is empty, the settled plan is summarized, and it is in a ticket, a temporary plan in `ace/temporary-plans/`, or chat for `S` work. A run also ends when the user picks no direction or stops after a verdict.
 
 ## Requires
 
@@ -27,9 +27,9 @@ When the message asks for an opinion ("what do you think"), or the verdict is no
 
 ## Ticket
 
-With no ticket tracker per [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md), skip all ticket steps and keep the summary in chat.
+With no ticket tracker per [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md), skip all ticket steps; for work bigger than `S`, write the settled plan to `ace/temporary-plans/<slug>.md` at Close (keep `S` plans in chat).
 
-When the conversation names a ticket, read it and its comments per `ace/TICKET_TRACKER.md` before the first round, and ask only what it leaves open. Otherwise do not interrupt round 1 to ask for a ticket; ask whether to link or open one in the final round only when the work is `L`/`XL`, needs multiple context windows, or should wait.
+When the conversation names a ticket, read it and its comments per `ace/TICKET_TRACKER.md` before the first round, and ask only what it leaves open. Otherwise skip asking for a ticket in round 1, and ask whether to link or open one in the final round only when the work is `L`/`XL`, needs multiple context windows, or should wait.
 
 ## How
 
@@ -50,8 +50,8 @@ How is done when no material decision remains open (including zero rounds when d
 1. Summarize the settled plan: each decision and its answer, and the glossary terms you noted.
 2. Add each term the user said yes to into the glossary, as "Docs" says.
 3. When `write_adrs` in `ace/config.json` is `true` (default `false`), write an ADR for each settled decision that meets the bar in [ADR.md](ADR.md). Name each new ADR in the summary.
-4. When a ticket is known, or the user chose a new one, run [ace-to-ticket](../ace-to-ticket/SKILL.md) with the settled plan as the spec. A known ticket is the spec ticket, and `ace-to-ticket` rewrites its body. When the caller says to keep one ticket, tell `ace-to-ticket` to use single-ticket mode.
-5. Stop. Hand back the ticket URLs, or say that the plan stays in the chat.
+4. When a ticket is known, or the user chose a new one, run [ace-to-ticket](../ace-to-ticket/SKILL.md) with the settled plan as the spec (rewrite a known ticket; pass single-ticket mode when asked). Otherwise, when no tracker is configured and the work is bigger than `S`, write the settled plan to `ace/temporary-plans/<slug>.md` and leave it untracked.
+5. Stop. Hand back the ticket URLs, the temporary plan path (suggesting a fresh session with `Implement ace/temporary-plans/<slug>.md`), or say that the plan stays in chat.
 
 ## Docs
 

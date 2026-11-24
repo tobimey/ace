@@ -34,7 +34,7 @@ Find and prove the root cause of an unclear or intermittent bug. (When the cause
 
 This step decides the outcome. Spend most of the effort here.
 
-A loop is one command that drives the code path of this bug and checks the exact symptom the user reported. Try these, roughly in this order:
+A loop is one command that drives the bug's code path and checks the reported symptom. Try these in order:
 
 1. A failing test at whatever seam reaches the bug.
 2. An HTTP request script against the running app.
@@ -51,14 +51,14 @@ Then tighten it. Make it faster, assert on the exact symptom, and pin what varie
 
 When the bug happens only sometimes, raise the failure rate: run the trigger many times, in parallel, under load, with narrowed timing windows. Keep raising it until the loop goes red often enough to test against.
 
-The loop is done when you have run it, seen it go red, and it:
+The loop is ready once you saw it go red and it:
 
 - fails on the symptom the user described, not on a nearby failure
 - gives the same verdict every run, or a high and stable failure rate
 - runs in seconds
 - runs without a person, except the human-in-the-loop script
 
-When no loop goes red, stop. Report what you tried, and ask the user for one of these: access to an environment where the bug happens, a captured artifact such as a log, a HAR file, or a recording with timestamps, or permission to add temporary logging where it happens.
+When no loop goes red, stop, report what you tried, and ask for access to where it happens, a captured artifact (log, HAR, timestamped recording), or temporary logging there.
 
 ## 2. Shrink the repro
 
@@ -77,7 +77,7 @@ Test the hypotheses in order. Each probe checks one prediction.
 - Use a debugger or REPL when the project has one. Otherwise add logs at the boundaries that tell the hypotheses apart.
 - Tag every debug line with one unique prefix, such as `[DEBUG-a4f2]`.
 
-Done when one hypothesis is confirmed: its prediction held, and the probes ruled out the rest. When every hypothesis fails, write new ones from what the probes showed and repeat.
+Done when one hypothesis is confirmed: its prediction held, and the probes ruled out the rest. When every hypothesis fails, write new ones from what the probes showed and repeat once. When two rounds confirm nothing, stop, clean up, and report what was ruled out and what fact or access is missing.
 
 Then find the seam for the regression test: the public interface where a test reproduces the bug as it happens at the real call site. When the only possible test is too shallow to replay the bug, such as a unit test for a bug that needs two callers, there is no seam. Write that as a finding in the report.
 
