@@ -28,17 +28,17 @@ This repository is the source code of Ace, and it also uses Ace to build itself.
 
 | | Paths | What it is |
 |---|---|---|
-| **Ace source** (the product) | `skills/`, `skills/ace-setup/templates/`, `README.md` | What I build and later publish. |
+| **Ace source** (the product) | `skills/`, `skills/ace-setup/templates/`, `README.md`, `docs/` | What I build and later publish. |
 | **Installed Ace** (the tooling) | `.agents/skills/`, `.claude/skills/`, `skills-lock.json`, `ace/` | Copies and adapters this repo runs on. Generated from the source. |
 
 Rules:
 
-- When I say "Ace" ("What are the worst parts of Ace?", "improve the review skill"), I mean the Ace source. Read and judge `skills/` and `README.md`, not how this repo is set up to use Ace.
+- When I say "Ace" ("What are the worst parts of Ace?", "improve the review skill"), I mean the Ace source. Read and judge `skills/`, `README.md`, and `docs/`, not how this repo is set up to use Ace.
 - Change skills in `skills/`. Never edit `.agents/skills/` or `.claude/skills/` by hand; they get overwritten when the skills are reinstalled.
 - The files in `ace/` configure this repo only. They are not Ace templates; the templates live in `skills/ace-setup/templates/`.
 - I mean the installed Ace only when I say so explicitly, e.g. "our ace setup", "the installed skills", or a path under `.agents/` or `ace/`.
 - If the installed skills and the source disagree, the source is the truth. The installed copy is just out of date.
-- `README.md` describes what the skills do. When you change a skill's behavior, settings, files, or names, update the README text that describes it in the same change, and say what you updated. When the README and a skill disagree, the skill is the truth.
+- `README.md` and `docs/` describe what the skills do. When you change a skill's behavior, settings, files, or names, update the docs that describe it in the same change, and say what you updated. When the docs and a skill disagree, the skill is the truth.
 - This repo uses Ace only in part. For now there is no ticket tracker and no pull request review. Skip any skill step that reads, opens, or updates a ticket, or that reviews or comments on a pull request, and say that you skipped it. Review the local diff instead.
 
 ### Keep skills short

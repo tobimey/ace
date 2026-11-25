@@ -2,7 +2,7 @@
 
 The playbooks that change code.
 
-For a small, clear `S` fix or edit (one to a few files, obvious cause and shape), edit directly, check against `ace/CODING_STANDARDS.md`, run the checks in `ace/VERIFY.md`, and finish, skipping `ace-diagnose`, `ace-implement`, and `STANDARDS.md`.
+For a small, clear `S` fix or edit (one to a few files, obvious cause and shape), edit directly, check against `ace/CODING_STANDARDS.md`, run the checks in `ace/VERIFY.md`, and finish, skipping `ace-diagnose`, `ace-implement`, and `STANDARDS.md`. A bug fix still starts with a failing regression test, as Fix step 2 says.
 
 ## Perf
 

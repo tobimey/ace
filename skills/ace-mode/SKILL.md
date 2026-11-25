@@ -14,7 +14,7 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 ## Constraints
 
 - Change files only when the message asks: in words, such as "fix" or "do it", by naming a job that changes files, such as `Review pull request #12`, `Run ace-work-ticket.`, or `/ace-review`, or by saying yes to a change you proposed. Until then, run the read-only steps and propose the rest. A skill changes only what its Done names, within the settings in `ace/config.json`.
-- Load a skill from `../<name>/SKILL.md` (or `.agents/skills/<name>/SKILL.md` / `.claude/skills/<name>/SKILL.md` when the current path is unknown), since Ace hides its skills from the model, and follow it as written. Read each playbook file once, then reuse it from context.
+- Load each skill from `../<name>/SKILL.md` (or `.agents/skills/<name>/SKILL.md` / `.claude/skills/<name>/SKILL.md`), follow it as written, and read each playbook file once. If a required skill is missing, tell the user to reinstall with `npx skills add tobimey/ace`.
 - Read project facts straight from `ace/` when the file exists; load [ADAPTERS.md](shared/adapters/ADAPTERS.md) only when a needed `ace/` file is missing or in unattended `Runner:` runs. With no `ace` folder, end the session's first reply with one line offering `ace-setup`.
 - Playbooks are internal. Keep playbook names and steps out of replies. Say what you do in plain words, such as "I'll fix the bug, then review the diff."
 - Write plainly in replies, tickets, comments, commits, and files: everyday words, short sentences (one idea each), concrete actions over abstract labels ("skip extra questions on simple bugs", not "scale ceremony to complexity"), short bullets for three or more items, and no em dashes (use a period or comma).

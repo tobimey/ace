@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Open pull request
 
-Open a pull request on GitHub for the current work, following [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) for GitHub support, `REPO`, and `DEFAULT_BRANCH`. Done means the pull request exists, its body names any ticket it closes and any proposed verify file changes from `ace-verify` not in the tree, and both URLs are handed back.
+Open a pull request on GitHub for the current work, following [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) for GitHub support, `REPO`, and `DEFAULT_BRANCH`. Done means the pull request exists, its body names any ticket it closes, holds the plan from `ace/temporary-plans/` it builds, and names any proposed verify file changes from `ace-verify` not in the tree, and both URLs are handed back.
 
 ## Constraints
 
@@ -16,6 +16,7 @@ Open a pull request on GitHub for the current work, following [PULL_REQUESTS.md]
 - Describe only what the diff changes, plus:
   - **Ticket**: name the ticket it closes in the form "Ticket references" in `ace/TICKET_TRACKER.md` gives, such as `Closes #42`.
   - **Verify file proposals**: copy each proposed line with its file path from `ace-verify` that the tree lacks, noting a person adds them. Place both in the fitting template section, or add `Proposed verify file changes` at the end.
+  - **Plan**: when the work builds a plan file in `ace/temporary-plans/`, copy it into a `Plan` section at the end, so a review elsewhere can check against it, and delete the file before you commit.
 - Push with a plain push and let every hook run.
 - Label every pull request `ace-created`. Add other labels only when the caller asks.
 

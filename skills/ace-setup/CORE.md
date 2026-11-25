@@ -53,37 +53,24 @@ Show the test outcome banner (`✅ All checks passed`, `⚠️ Checks ran with n
 - **Question:** Turn Ace on and finish core setup? **A)** Yes, turn Ace on · **B)** Show me the exact lines first.
 - **On confirm:** apply "Reference: root agents section" below, then show Finish.
 
-## Finish & optional modules
+## Finish
 
-Print `🎉 **Ace is ready!**` with completed files, check status, and a short note that all files are editable drafts and `/ace-help` is available anytime.
+In `/ace-setup full`, skip this and continue into the remaining modules.
 
-When running `/ace-setup full`, skip the picker and continue straight to the remaining modules. Otherwise list the optional add-ons (`🎫 tickets`, `⚙️ settings`, `📏 standards`, `🔄 cycle`) and ask:
+Otherwise stop here and print:
 
-- **A)** Set up `tickets` next (recommended for the full Ace loop)
-- **B)** Set up all remaining add-ons (`full`)
-- **C)** Pick specific add-ons (name them)
-- **D)** Stop here and start using Ace
-
-Run any chosen module(s) immediately in this session.
+- `🎉 **Ace is ready!**` with completed files, check status, and a note that files are editable drafts.
+- **Try next:** 3 concrete prompts tailored to this repo, grounded in files, scripts, or checks found during the scan (such as planning a feature, fixing or reviewing a real area, or explaining a module).
+- One short line pointing to `/ace-help` (for a cheat sheet or guided tour) and optional add-ons via `/ace-setup <module>` (`standards`, `settings`, `tickets`, `cycle`, or `full`).
 
 ## Reference: root agents section
 
-Append this section to the root agents file (adding only missing lines if it already exists):
+Append this section to the root agents file (replacing an older `<!-- added by ace -->` `## Ace` block when updating, or adding missing lines):
 
 ```markdown
 <!-- added by ace -->
 ## Ace
 
-- For every task, follow the `ace-mode` skill. It picks the Ace skills for the task and their order. When you reply without having loaded `ace-mode`, start the reply with `Ace not loaded:` and the reason.
-- Ace reads project facts from the adapters in `ace/`, finding each section by its job, so its heading may differ. A missing file or section uses its default, as `shared/adapters/ADAPTERS.md` in the `ace-mode` skill says.
-- To verify a change, follow `ace/VERIFY.md`.
-- Ace settings are in `ace/config.json`. A missing file or setting uses its default, as that file says.
-- Answer a question, a report, or an idea with an answer or a proposal, and leave the files as they are. Change files only when the message asks for a change: in words, such as "do it", "implement", "fix", or "add", by naming a job that changes files, such as `Review pull request #12` or a skill command, or by saying yes to a change you proposed. A skill then makes only the changes its Done names, within the settings in `ace/config.json`. When unsure, propose the change and ask.
-- When a skill lists a skill under Requires whose folder is missing, tell the user to install Ace again with `npx skills add tobimey/ace`, which installs every skill.
+- For every task, follow the `ace-mode` skill. When you reply without having loaded `ace-mode`, start the reply with `Ace not loaded:` and the reason.
+- Stay read-only by default: answer questions, reports, and ideas without editing files. Change files only when the user asks for a change (in words, by naming a job or skill that edits files, or by confirming a proposal).
 ```
-
-Insert each applicable line right after the verify line:
-
-- Ticket line (when `ticket_tracker` is set or `ace/TICKET_TRACKER.md` exists): `- To read, search, open, or update a ticket, follow the ticket tracker, as \`shared/adapters/ADAPTERS.md\` in the \`ace-mode\` skill says.`
-- Pull request line (when the repo is on GitHub): `- To open or comment on a pull request, follow \`shared/adapters/github/PULL_REQUESTS.md\` in the \`ace-mode\` skill.`
-- Monorepo line (in a monorepo): `- A package's \`ace\` folder adds to the root files for every path under it.`

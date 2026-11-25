@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Ace Setup
 
-Guide the user step by step through setting up Ace in this project. Core setup turns on interactive chat and verification; optional modules unlock tickets, custom coding standards, automated runners, and settings.
+Guide the user step by step through setting up Ace in this project. Core setup turns on interactive chat and verification; optional modules customize chat & reviews (`standards`, `settings`) or add tickets & automation (`tickets`, `cycle`).
 
 Done means every step of the chosen run finished, every written file has no `<PLACEHOLDER>` left, and the user received the final summary.
 
@@ -39,20 +39,20 @@ Follow these rules on every turn of setup:
 
 Load only the sibling file(s) needed for this run:
 
-- **No argument, and no `ace` folder**: core setup. Load [CORE.md](CORE.md) and run Steps 1 to 4, ending with the optional module picker. Run any modules the user chooses in the same session.
-- **Module name(s) or `full`**: run the requested modules in table order (`full` runs [CORE.md](CORE.md) first when no `ace` folder exists, then each module not yet set up), then update the `## Ace` section in the root agents file if new lines apply.
-- **No argument, and an `ace` folder**: update after an Ace update. Load [UPDATE.md](UPDATE.md).
+- **No argument, no `ace/`**: core setup. Load [CORE.md](CORE.md) for Steps 1 to 4, then stop with tailored starter prompts.
+- **Module name(s) or `full`**: run requested modules in table order (`full` runs [CORE.md](CORE.md) first if `ace/` is missing, then remaining modules).
+- **No argument, existing `ace/`**: update after an Ace update. Load [UPDATE.md](UPDATE.md).
 
-| Module | Guide | Writes | Unlocks |
-|---|---|---|---|
-| `standards` | [STANDARDS.md](STANDARDS.md) | `ace/CODING_STANDARDS.md` | Project-tailored reviews and audits (trust boundaries, accepted risks, rules) |
-| `tickets` | [TICKETS.md](TICKETS.md) | `ticket_tracker`, labels, or `ace/TICKET_TRACKER.md` | Tickets, `ace-audit`, `ace-work-ticket`, and spec checks |
-| `cycle` | [CYCLE.md](CYCLE.md) | `ace/CYCLE.md` | Automated runners (CI, schedules, cloud agents) |
-| `settings` | [SETTINGS.md](SETTINGS.md) | `ace/config.json` | Custom `autonomy`, `communication`, `review.require_other_model`, and `write_adrs` |
+| Group | Module | Guide | Writes | Unlocks |
+|---|---|---|---|---|
+| Customize chat & reviews | `standards` | [STANDARDS.md](STANDARDS.md) | `ace/CODING_STANDARDS.md` | Project coding rules, trust boundaries, accepted risks |
+| Customize chat & reviews | `settings` | [SETTINGS.md](SETTINGS.md) | `ace/config.json` | `autonomy`, `communication`, `review.require_other_model`, `write_adrs` |
+| Tickets & automation | `tickets` | [TICKETS.md](TICKETS.md) | `ticket_tracker`, labels, or `ace/TICKET_TRACKER.md` | Tickets, `ace-audit`, `ace-work-ticket`, spec checks |
+| Tickets & automation | `cycle` | [CYCLE.md](CYCLE.md) | `ace/CYCLE.md` | Automated runners (CI, schedules, cloud agents) |
 
 ## Constraints
 
-- Keep `AGENTS.md` and `CLAUDE.md` at the repo root, and place project config files in `ace/` (moving any stray root `VERIFY.md` or similar into `ace/`).
+- Keep `AGENTS.md` and `CLAUDE.md` at the repo root, and project config in `ace/` (move any stray root `VERIFY.md` there).
 - In a monorepo, follow [contract/PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md): packages with their own checks or app get `PACKAGE/ace/VERIFY.md` (and `PACKAGE/ace/CODING_STANDARDS.md` when they have package-specific rules).
 - Preserve existing content in files; add only what is missing or confirmed.
 - Write only files for the chosen run; leave optional files absent so defaults from [contract/](../ace-mode/shared/adapters/contract/) and [config.schema.json](config.schema.json) apply.
