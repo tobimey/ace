@@ -26,6 +26,16 @@ EOF
 )"
 ```
 
+## Update the description
+
+Put the caller's block into the pull request description between `<!-- MARKER -->` and `<!-- /MARKER -->`. Replace an earlier block with that marker, else append it at the end. Keep the rest of the description as it is.
+
+```bash
+gh pr view NUMBER --repo REPO --json body --jq .body > body.md
+# edit the marked block in body.md
+gh pr edit NUMBER --repo REPO --body-file body.md
+```
+
 ## Reply to a review thread
 
 Reply inside a review thread, then resolve it. Write the reply to a file first, so comment text stays out of the shell:

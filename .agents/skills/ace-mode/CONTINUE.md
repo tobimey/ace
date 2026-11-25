@@ -16,7 +16,7 @@ Place the work in the first row that matches:
 | Local changes, or a branch with no pull request | `ace-open-pr`, then Review, best with a model other than the one that built the change |
 | An open pull request with failing checks, merge conflicts, or review comments with no reply | Babysit |
 | An open pull request with no `<!-- ace-review -->` comment | Review, best with a model other than the one that built the change |
-| An open pull request with an `<!-- ace-review -->` comment | A person marks a draft ready, then merges, or asks for another review. Name its Merge Danger. |
+| An open pull request with an `<!-- ace-review -->` comment | A person marks a draft ready, then merges, or asks for another review. Name its Merge Danger from the description. |
 | A merged pull request | Done. Offer a retro with `ace-optimize-factory` when the work went badly. |
 | No ticket, pull request, or local change | Plan, starting with no direction |
 

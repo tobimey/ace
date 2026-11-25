@@ -47,4 +47,4 @@ Inspect available MCP tools, CLIs, or APIs silently. Draft the tracker instructi
 
 ## Finish
 
-Ensure the root agents file includes the ticket line from [CORE.md](CORE.md) ("Reference: root agents section"), then print a short `🎉 Tickets ready!` summary (or continue to the next module in `full`).
+Print a short `🎉 Tickets ready!` summary (or continue to the next module in `full`).

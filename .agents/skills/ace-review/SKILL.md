@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Review
 
-Review the diff with its checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed and pushed to its branch when the caller passed a pull request, on a pull request the report ends with Merge Danger, and the report is posted when the caller asked.
+Review the diff with its checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed and pushed to its branch when the caller passed a pull request, on a pull request Merge Danger is in its description, and the report is posted when the caller asked.
 
 ## Requires
 
@@ -16,7 +16,7 @@ Review the diff with its checks, fix what the review settings allow, and write t
 
 Each check file says what to find and drop, and how to rate a finding. Each check owns its area:
 
-- [Spec](SPEC.md): does the change do what its linked ticket asked.
+- [Spec](SPEC.md): does the change do what its linked ticket or plan asked.
 - [Standards](STANDARDS.md): coding-standards breaks, naming, and code smells.
 - Code: logic bugs, security holes, performance costs, and architecture. Load [CHECKS.md](../ace-mode/shared/checks/CHECKS.md) and its four domain files, read affected call sites, apply each file's Find, Drop, and Severity sections, and propose architecture redesigns only for files this diff changes.
 - Custom: one check for each custom check in `ace/checks/`, named after its file, such as `accessibility` for `ace/checks/ACCESSIBILITY.md`. Run one pass per file. Read the file in full, and use its sections with the defaults in [contract/CHECKS.md](../ace-mode/shared/adapters/contract/CHECKS.md). Find in the diff and the call sites it affects. Also drop what the linter and type checker already enforce.
@@ -89,9 +89,9 @@ Make the picked fixes yourself, in this agent, also when the checks ran in sub-a
 
 ### 5. Run the checks
 
-Run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the changed paths, found as [PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md) says. Run them once, after all fixes.
+Run every command in the "Checks" section of `ace/VERIFY.md`, and of each package verify file for the changed paths, found as [PACKAGES.md](../ace-mode/shared/adapters/contract/PACKAGES.md) says. Run them after all fixes.
 
-When a command fails, revert fixes until the commands pass, Code fixes before Standards fixes. Revert one fix at a time when that keeps the fixes that pass. Each reverted fix becomes a finding, with that fix as its best fix. When a command still fails with every fix reverted, the failure is not from this review. Name the command in the report.
+When a command fails, revert fixes and run the commands again until they pass, Code fixes before Standards fixes. Revert one fix at a time when that keeps the fixes that pass. Each reverted fix becomes a finding, with that fix as its best fix. When a command still fails with every fix reverted, the failure is not from this review. Name the command in the report.
 
 ### 6. Commit
 
@@ -122,7 +122,7 @@ Write the parts below in this order, as plain top-level paragraphs, outside any 
 3. **Findings.** Each finding left, in the shape the Finding section gives. When you fixed nothing and nothing is left, write `No findings.`
 4. **Merge Danger.** On a pull request only, as its section below says. Go straight from the last finding to it.
 
-When the caller asked to comment on the pull request, post the report as one comment that starts with `<!-- ace-review -->` and the model line, as "Sign what you post" in [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in [COMMENT.md](../ace-mode/shared/adapters/github/pull-requests/COMMENT.md) says.
+When the caller asked to comment on the pull request, post the report without Merge Danger as one comment that starts with `<!-- ace-review -->` and the model line, as "Sign what you post" in [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in [COMMENT.md](../ace-mode/shared/adapters/github/pull-requests/COMMENT.md) says.
 
 ## Finding
 
@@ -152,7 +152,7 @@ Write a finding left for the report as an emoji, then **severity** and category,
 
 ## Merge Danger
 
-Write this block last, on a pull request only. It is not a finding. Return it to the caller only.
+On a pull request only. It is not a finding. Write this block into the pull request's description with the marker `ace-merge-danger`, as "Update the description" in [COMMENT.md](../ace-mode/shared/adapters/github/pull-requests/COMMENT.md) says, also when nobody asked for a comment. When the edit fails, say so in one line.
 
 ```
 ## Merge Danger

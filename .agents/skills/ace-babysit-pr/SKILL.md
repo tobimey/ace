@@ -78,7 +78,7 @@ One pull request at a time, in this order.
    | Its claim is false, or the code already handles it | Reply with the proof: the path and line, or the test that covers it. |
    | Fixed by an earlier commit | Reply with that commit. |
    | Asks for more than the pull request's job | Reply that it is a follow-up. |
-   | Right | Give it a fix type of `ace-review`: `one-correct-fix`, `several-fixes`, or `needs-a-person`. Fix it when the fix types table of `ace-review` fixes that type under `autonomy`. Otherwise reply with the fix you propose and ask the reviewer. |
+   | Right | Give it a fix type of `ace-review`: `one-correct-fix`, `several-fixes`, or `needs-a-person`. Fix it when the fix types table of `ace-review` fixes that type under `autonomy`. Otherwise reply with the fix you propose and ask the reviewer. An `ace-review` finding has no reviewer to answer: list it under `For a person` instead. |
    | Asks a question about intent | Answer it from the ticket, the plan, or the code. When none of them answers it, stop for a person. |
 
    A fix that touches a product decision, a public contract, stored data, a migration, auth, or billing is always `needs-a-person`. A bot that raises a point again after a reply with proof gets one reply that links the first one, and no code change.
