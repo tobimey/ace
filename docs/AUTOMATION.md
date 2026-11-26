@@ -40,7 +40,7 @@ You set up the runner (such as a GitHub Action, cron job, or cloud agent); Ace w
 
 Common runner prompts:
 
-- **PR review:** `Review pull request #12 and comment on it.`
+- **PR review:** `Review pull request #12 and comment on it.` For review stages, such as one per label, name the checks: `Review pull request #12 with the spec check and comment on it.` Each set of checks keeps its own comment.
 - **Ticket worker:** `Run ace-work-ticket.` (or `Run ace-work-ticket. Open the pull request as a draft.`). Run at most one ticket worker at a time.
 - **Scheduled audit:** `Run ace-audit security.` (or another domain: `logic`, `performance`, `architecture`, `health`, or a custom check in `ace/checks/`).
 - **PR explainer:** Add `ace-explain` to your review step to post a walkthrough and quiz on every pull request.

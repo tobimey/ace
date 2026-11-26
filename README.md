@@ -48,8 +48,8 @@ Just say what you want in chat. You do not need to memorize skill names:
 |---|---|---|
 | **Plan** | `"Plan dark mode for the settings page"` | Challenges the idea, settles key decisions with you, and writes a plan or ticket. |
 | **Build & fix** | `"Fix the login redirect loop"` or `"Implement this plan"` | Finds the root cause or reads the plan, builds test-first, and runs your checks. |
-| **Review** | `"Review my changes"` | Checks the diff against your standards and code quality, fixes obvious issues, and reports the rest. |
-| **Babysit PRs** | `"Babysit PR #12"` | Fixes failing CI, resolves conflicts, and answers review comments until the PR is ready for a person to merge. |
+| **Review** | `"Review my changes"` | Checks the diff against your standards and code quality, reports findings (asks before fixing locally; pushes obvious fixes in CI). |
+| **Babysit PRs** | `"Babysit PR #12"` | Built for CI or cloud runners (uses a temporary worktree locally). Fixes failing CI, resolves conflicts, and answers review comments until ready for a person to merge. |
 | **Clean up & audit** | `"Clean up naming in src/billing"` or `"/ace-audit security"` | Makes one focused cleanup with behavior unchanged, or audits a domain across the repo and files tickets. |
 
 You can also ask Ace to **Explain** how code or a PR works, **Improve the setup (Optimize)** when agents go wrong or you want to edit a skill, or run **`/ace-help`** (or **`/ace-help tour`**) to see what is configured and get a repo-tailored walkthrough.
@@ -70,7 +70,7 @@ Start in chat in three steps. No ticket tracker, CI config, or settings file req
 
 2. **Commit** what it installed: `.agents/skills/`, `.claude/skills/`, and `skills-lock.json`. Every teammate and CI run then shares the same Ace version with no extra install step. To update later, run the install command again and commit.
 
-3. **Run `/ace-setup`** in your coding agent. It walks you through 4 quick steps (project overview and glossary in `AGENTS.md` / `CLAUDE.md`, verification checks in `ace/VERIFY.md`, testing those checks, and turning Ace on), previewing every file before writing it, and ends with 3 tailored prompts for your repo.
+3. **Run `/ace-setup`** in your coding agent. It walks you through 4 quick steps (project overview and glossary in `AGENTS.md` / `CLAUDE.md`, verification checks in `ace/VERIFY.md`, testing those checks, and turning Ace on), previewing every file before writing it. It keeps the coding standards docs you already have, offers to delete your own skills that duplicate an Ace skill, and ends with 3 tailored prompts for your repo.
 
    <details>
    <summary>Skip setup and paste one line instead</summary>

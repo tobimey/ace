@@ -26,7 +26,7 @@ Configures `ace/config.json`, one decision per turn. All keys, values, and defau
 Resolve `<SCHEMA>`: use `../.agents/skills/ace-setup/config.schema.json` if that file exists, else `../.claude/skills/ace-setup/config.schema.json` if that exists, else the `$id` from [config.schema.json](config.schema.json). Keep any existing `ticket_tracker` value.
 
 - **Why:** Writes your preferences to `ace/config.json`. Any omitted setting uses its default automatically.
-- **Summary:** **autonomy:** `<value>` · **communication:** `<value>` · **write_adrs:** `<value>` · **Other default kept:** `review.require_other_model: false` (set to `true` later to require a different model for reviews) · **File:** `ace/config.json`
+- **Summary:** **autonomy:** `<value>` · **communication:** `<value>` · **write_adrs:** `<value>` · **Other defaults kept:** `review.require_other_model: false` (set to `true` later to require a different model for reviews), `pull_requests.max_added_lines: 1000` (the most lines one pull request may add) · **File:** `ace/config.json`
 - **Question:** Save these settings? **A)** Yes, save `ace/config.json` · **B)** Change a setting first
 - **Recommend:** **A)** You can edit `ace/config.json` anytime with schema autocomplete.
 - **On confirm:** write `ace/config.json` from [templates/config.json](templates/config.json) with the confirmed values and `<SCHEMA>`, then print a one-line `🎉 Settings saved!` (or advance to the next module in `full`).

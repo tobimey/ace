@@ -23,6 +23,7 @@ Aim for ambitious ideas, simple systems, and software that feels obvious.
 ## Constraints
 
 - Build only what the plan asks for. Name anything else you noticed in the report.
+- Fit the change in one pull request: count added lines as the size budget in [ace-open-pr](../ace-open-pr/SKILL.md) says. When the plan clearly needs more, or the diff nears the budget with work left, stop and propose where to cut.
 - Leave every change uncommitted. The user commits, or `ace-open-pr` does when the user asks for a pull request.
 - Look up facts in the code yourself. Ask only for decisions the plan leaves open.
 - The plan sets the tests. Give each behavior and edge case it names its own test, and test only those.

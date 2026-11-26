@@ -14,7 +14,7 @@ Break the work into **tracer bullet** tickets.
 
 - Each slice cuts a narrow but COMPLETE path through every layer (schema, API, UI, tests): vertical, NOT a horizontal slice of one layer
 - A completed slice is demoable or verifiable on its own
-- Each slice is sized to fit in a single fresh context window
+- Each slice is sized to fit in a single fresh context window and one pull request (see single-ticket mode in [SKILL.md](SKILL.md))
 - Any prefactoring should be done first
 
 </vertical-slice-rules>

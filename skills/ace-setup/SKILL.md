@@ -46,7 +46,7 @@ Load only the sibling file(s) needed for this run:
 | Group | Module | Guide | Writes | Unlocks |
 |---|---|---|---|---|
 | Customize chat & reviews | `standards` | [STANDARDS.md](STANDARDS.md) | `ace/CODING_STANDARDS.md` | Project coding rules, trust boundaries, accepted risks |
-| Customize chat & reviews | `settings` | [SETTINGS.md](SETTINGS.md) | `ace/config.json` | `autonomy`, `communication`, `review.require_other_model`, `write_adrs` |
+| Customize chat & reviews | `settings` | [SETTINGS.md](SETTINGS.md) | `ace/config.json` | `autonomy`, `communication`, `review.require_other_model`, `pull_requests.max_added_lines`, `write_adrs` |
 | Tickets & automation | `tickets` | [TICKETS.md](TICKETS.md) | `ticket_tracker`, labels, or `ace/TICKET_TRACKER.md` | Tickets, `ace-audit`, `ace-work-ticket`, spec checks |
 | Tickets & automation | `cycle` | [CYCLE.md](CYCLE.md) | `ace/CYCLE.md` | Automated runners (CI, schedules, cloud agents) |
 

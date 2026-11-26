@@ -5,5 +5,8 @@
   "review": {
     "require_other_model": false
   },
+  "pull_requests": {
+    "max_added_lines": 1000
+  },
   "write_adrs": false
 }

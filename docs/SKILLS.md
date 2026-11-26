@@ -20,8 +20,8 @@ flowchart LR
 |---|---|---|
 | **Plan** | `"Plan dark mode for settings"` or `"Should we split X?"` | Ranks directions or challenges a proposal, settles material decisions with you, and writes a ticket or a temporary plan in `ace/temporary-plans/`. |
 | **Build & fix** | `"Implement this plan"`, `"Fix the login redirect loop"`, or `"Refactor billing"` | Diagnoses unclear bugs, implements test-first, runs your checks in `ace/VERIFY.md`, and opens a PR when asked. |
-| **Review** | `"Review my changes"` or `"Review PR #12"` | Checks the diff against its spec, your coding standards, code quality, and custom checks in `ace/checks/`. Fixes what `autonomy` allows and reports the rest. |
-| **Babysit PRs** | `"Babysit PR #12"` or `"Watch PR #12 until green"` | Fixes failing CI, retries a flaky check once, resolves conflicts, and answers review comments until the PR is ready for a person to merge. |
+| **Review** | `"Review my changes"` or `"Review PR #12"` | Checks the diff against its spec, your coding standards, code quality, and custom checks in `ace/checks/`. Stays read-only in interactive chat (offering to apply allowed fixes locally, never pushing to a PR unless asked); pushes allowed fixes in CI runners. |
+| **Babysit PRs** | `"Babysit PR #12"` or `"Watch PR #12 until green"` | Built for CI or cloud runners (uses a temporary worktree locally). Fixes failing CI, retries a flaky check once, resolves conflicts, and answers review comments until ready for a person to merge. |
 | **Clean up & audit** | `"Clean up naming in src/billing"` or `"/ace-audit security"` | Makes one focused cleanup with behavior unchanged, or audits a domain across the repo and files tickets. |
 
 **Also available:**
@@ -67,10 +67,10 @@ Ace ships 17 skills as one set so they can load each other. `ace-mode` is the on
 | Build & fix | `ace-diagnose` | Finds and proves the root cause of an unclear or intermittent bug (obvious bugs go straight to a failing regression test and fix). |
 | Build & fix | `ace-implement` | Builds the plan test-first. |
 | Build & fix | `ace-verify` | Proves it works. |
-| Build & fix | `ace-open-pr` | Opens the pull request. |
+| Build & fix | `ace-open-pr` | Opens the pull request, or proposes a split when it adds more lines than `pull_requests.max_added_lines`. |
 | Build & fix | `ace-work-ticket` | Runs this stage with no person: takes the next ready ticket, builds it, and opens a pull request. It skips a ticket an open pull request covers, and rejects one that is already done or wrong, with the evidence. |
-| Review | `ace-review` | Checks the change against its ticket (**spec**), your coding standards (**standards**), its code (**code**), and your custom checks in `ace/checks/`. It fixes what `autonomy` allows and reports the rest. On a pull request it pushes its fixes and rates the Merge Danger; on a local diff it leaves them for you to commit. |
-| Babysit PRs | `ace-babysit-pr` | Gets open pull requests ready: fixes failing checks, retries a flaky one once, resolves conflicts, and answers review comments from people and bots: it fixes what `autonomy` allows, proves a false claim wrong, and names scope creep as a follow-up. It never merges. Run it once, or in watch mode until each pull request is ready or needs a person. |
+| Review | `ace-review` | Checks the change against its ticket (**spec**), your coding standards (**standards**), its code (**code**), and your custom checks in `ace/checks/`. In interactive chat it stays read-only unless you ask to fix (offering to apply allowed fixes on a local diff and never touching your working tree on a read-only PR review). In CI runners (or when asked to fix) it applies what `autonomy` allows, using a temporary worktree if run locally with a dirty tree, pushes fixes, and rates Merge Danger. |
+| Babysit PRs | `ace-babysit-pr` | Built for CI and cloud runners (uses a temporary worktree if run locally on a dirty tree or another branch). Gets open pull requests ready: fixes failing checks, retries a flaky one once, resolves conflicts, and answers review comments from people and bots. It never merges. Run it once, or in watch mode until each pull request is ready or needs a person. |
 | Optimize | `ace-optimize-factory` | Runs a retro on a session, fixes one named misbehaviour, or checks the agents file. |
 | Optimize | `ace-skill-best-practices` | Creates and edits skills. |
 

@@ -17,7 +17,7 @@ Core setup writes `VERIFY.md`. Add the others with `/ace-setup standards` or `/a
 | File | What it says | Setup command | Without it |
 |---|---|---|---|
 | `VERIFY.md` | How to prove a change works: the checks that must pass, how to start the app, and how to try each kind of change, with the fastest tool made for agents, such as Vercel's `agent-browser`, before slower ones like a browser MCP. `ace-verify` follows it, and `ace-review` runs its checks. | `/ace-setup` (core) | Runs the checks your CI runs, plus lint, test, or build scripts CI skips. Starts the app with your dev script. |
-| `CODING_STANDARDS.md` | Your coding rules, which review and audit check against, plus optional sections: paths to skip, parties you trust, risks the team accepts, and packages whose major only a person bumps. | `/ace-setup standards` | The rules in [the template](../skills/ace-setup/templates/CODING_STANDARDS.md). No party is trusted, no risk is accepted. |
+| `CODING_STANDARDS.md` | Your coding rules, which review and audit check against, plus optional sections: paths to skip, parties you trust, risks the team accepts, and packages whose major only a person bumps. It can instead point to standards docs you already keep, such as `docs/CODING_STANDARDS.md`; Ace then reads those. | `/ace-setup` (pointer to existing docs) or `/ace-setup standards` | The rules in [the template](../skills/ace-setup/templates/CODING_STANDARDS.md). No party is trusted, no risk is accepted. |
 | `config.json` | How much agents do on their own and how they talk to you. See [Settings](#settings). | `/ace-setup settings` | The defaults in the schema. |
 | `checks/` | Optional custom checks, one file each, such as `checks/ACCESSIBILITY.md`. Each says what to find, what to drop, and how severe a finding is. `ace-review` runs each as a check, `ace-audit` as a domain, and `ace-garden` as a topic. Single rules go in `CODING_STANDARDS.md`. | You, from [the template](../skills/ace-setup/templates/CHECK.md) | Only the built-in checks run. |
 
@@ -44,7 +44,7 @@ Ace creates and updates these files on its own as you plan and work. You can rea
 | `PRODUCT.md` | Who the product is for, the goal "better" means right now, what it leaves alone, and the direction picked for each part. `ace-grill` ranks directions against it. | `ace-grill`, the first time you pick a direction | `ace-grill` asks for the users, goal, and non-goals. |
 | `GLOSSARY.md` | Every project term with its detail, once the core glossary in `AGENTS.md` outgrows it. See [Glossary](#glossary). | `ace-grill` proposes it | The core glossary in `AGENTS.md`. |
 | `adrs/` | Hard-to-reverse decisions, one ADR each. `ace-implement` and `ace-explain` read them whenever the folder exists. | `ace-grill`, when `write_adrs` is on | No ADRs. |
-| `temporary-plans/` | Untracked markdown plans for work bigger than `S` when no ticket tracker is configured, so Plan and Implement run in separate sessions. `ace-implement` deletes the plan file after `ace-verify` passes. | `ace-grill` | Plans stay in chat (or tickets when a tracker is configured). |
+| `temporary-plans/` | Gitignored markdown plans for work bigger than `S` when no ticket tracker is configured, so Plan and Implement run in separate sessions. `ace-open-pr` copies the plan into the pull request description and deletes the file; local-only runs keep it for `ace-review` until you delete it. | `ace-grill` | Plans stay in chat (or tickets when a tracker is configured). |
 
 </details>
 
@@ -59,16 +59,18 @@ Settings in `ace/config.json` say how much agents do on their own and how they t
   "communication": "code",
   "ticket_tracker": "github-issues",
   "review": { "require_other_model": false },
+  "pull_requests": { "max_added_lines": 1000 },
   "write_adrs": false
 }
 ```
 
 | Setting | Values and meaning |
 |---|---|
-| `autonomy` | `low`: a person sets every ticket ready, reviews fix nothing, and a ticket `ace-work-ticket` rejects waits for a person. `medium` (default): reviews also fix what has one clearly correct fix. `high`: tickets from a plan you approved go ready on their own, reviews pick a fix when several are reasonable, and `ace-work-ticket` closes a ticket it rejects. Tickets from `ace-audit` still wait for a person. Spec and architecture findings, and fixes that change a product decision, a public contract, or stored data, always stay findings. |
+| `autonomy` | `low`: a person sets every ticket ready, reviews fix nothing, and a ticket `ace-work-ticket` rejects waits for a person. `medium` (default): reviews in automated runs (or when asked to fix) fix what has one clearly correct fix; interactive reviews stay read-only and offer to apply fixes locally. `high`: tickets from a plan you approved go ready on their own, automated or fix-requested reviews pick a fix when several are reasonable, and `ace-work-ticket` closes a ticket it rejects. Tickets from `ace-audit` still wait for a person. Spec and architecture findings, and fixes that change a product decision, a public contract, or stored data, always stay findings. |
 | `communication` | `code` (default): refer to files, lines, symbols, and code as needed. `product`: speak in user-facing behavior, flows, and glossary terms in chat replies and pull request explainers, omitting file paths, line numbers, symbol names, code snippets, and raw stack traces unless you ask. Posted pull request review comments, commits, audit tickets, and `ace/` files keep code references for agents. |
 | `ticket_tracker` | `github-issues` uses the built-in GitHub Issues tracker. Leave it out for another tracker, described in `ace/TICKET_TRACKER.md`, or for none. |
 | `review.require_other_model` | `true`: a session never reviews a change it built, and gives you the line to start the review on another model, such as a new session or your runner. `false` (default): it reviews on request and adds a tip to use another model. |
+| `pull_requests.max_added_lines` | The most lines one pull request may add (default `1000`). Binary files, lockfiles, snapshots, and files `.gitattributes` marks `linguist-generated` do not count. `ace-to-ticket` sizes tickets to fit, `ace-implement` stops to propose a cut when it nears the limit, and `ace-open-pr` pushes nothing past it and proposes a split, unless you say to push anyway. `0` turns it off. Ace adds no CI check: to enforce the limit for every pull request, add one in your CI. |
 | `write_adrs` | `true`: `ace-grill` records each hard-to-reverse decision as an ADR in `ace/adrs/`. Default `false`. |
 
 Everything else you say in the message, such as `"review this with one agent per check"`, `"audit security, up to 5 tickets"`, or, for a runner, `Run ace-work-ticket. Open the pull request as a draft.`

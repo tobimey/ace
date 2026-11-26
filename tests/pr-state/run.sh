@@ -43,6 +43,13 @@ check "a review report edited after the last Ace reply asks for action" ACTION r
   "$(comment reviewer "$report_with_finding" 2026-11-01T11:00:00Z 2026-11-01T13:00:00Z)" \
   "$(comment dev "$ace_reply" 2026-11-01T12:00:00Z 2026-11-01T12:00:00Z)"
 
+spec_with_finding=$'<!-- ace-review --><!-- ace-review:spec -->\nModel: test-model\n\n🔴 **blocker** spec. The ticket asks for an undo.\n\n**Best fix.** Add the undo.\n\n`src/a.ts:4`'
+standards_clean=$'<!-- ace-review --><!-- ace-review:standards -->\nModel: test-model\n\nNo findings.'
+
+check "a clean report of other checks keeps an earlier report's findings" ACTION review-findings \
+  "$(comment reviewer "$spec_with_finding" 2026-11-01T11:00:00Z 2026-11-01T11:00:00Z)" \
+  "$(comment reviewer "$standards_clean" 2026-11-01T12:00:00Z 2026-11-01T12:00:00Z)"
+
 check "a review report with no findings is ready" READY "" \
   "$(comment reviewer "$report_clean" 2026-11-01T11:00:00Z 2026-11-01T11:00:00Z)"
 
