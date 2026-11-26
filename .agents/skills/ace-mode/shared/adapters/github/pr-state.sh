@@ -10,7 +10,8 @@
 #   ACTION   conflicts, a failing check, an unresolved review thread whose last
 #            comment is not an Ace reply, or a review or comment newer than the
 #            last answer: the head commit or the newest Ace reply, if later.
-#            The latest "<!-- ace-review -->" report counts, whoever posted
+#            The latest "<!-- ace-review -->" report of each set of checks
+#            (its "<!-- ace-review:CHECKS -->" marker) counts, whoever posted
 #            it, when it holds findings and was edited after the last answer
 #   WAITING  checks still running, a required review is missing, or a person
 #            must answer an Ace reply (a thread or requested changes)
@@ -73,6 +74,7 @@ def trusted_author: ((.authorAssociation // "") | IN("OWNER", "MEMBER", "COLLABO
 def ace: trusted_author and ((.body // "") | contains("<!-- ace-babysit"));
 def review_report: trusted_author and ((.body // "") | contains("<!-- ace-review -->"));
 # A finding left in the report starts a line with its severity emoji, as ace-review/SKILL.md formats it.
+def review_scope: ((.body // "") | capture("<!-- ace-review:(?<s>[^>]*?) -->") | .s) // "";
 def has_findings: (.body // "") | test("(^|\n)(🔴|🟡|🔵) \\*\\*");
 .data.repository.pullRequest as $pr
 | ($pr.commits.nodes[0].commit) as $head
@@ -109,8 +111,9 @@ def has_findings: (.body // "") | test("(^|\n)(🔴|🟡|🔵) \\*\\*");
     | select(.state == "CHANGES_REQUESTED" or (.body // "") != "")
     | select(.submittedAt > $since)
     | select(trusted_author | not)] | length) as $untrusted_reviews
-| ([$pr.comments.nodes[] | select(review_report)] | sort_by(.updatedAt) | last) as $report
-| ($report != null and ($report | has_findings) and $report.updatedAt > $since) as $report_new
+| ([$pr.comments.nodes[] | select(review_report)] | group_by(review_scope)
+    | map(sort_by(.updatedAt) | last | . + { new: (has_findings and .updatedAt > $since) })) as $reports
+| any($reports[]; .new) as $report_new
 | ([$pr.comments.nodes[] | select(ace | not) | select(review_report | not)
     | select(is_bot | not)
     | select(.createdAt > $since)
@@ -155,9 +158,8 @@ def has_findings: (.body // "") | test("(^|\n)(🔴|🟡|🔵) \\*\\*");
     unresolved_threads: $threads, answered_threads: $answered_threads,
     reviews: $reviews, new_comments: $comments,
     untrusted_comments: $untrusted_comments,
-    review_report: (if $report then { url: $report.url, updated_at: $report.updatedAt,
-                                      has_findings: ($report | has_findings), new: $report_new }
-                    else null end) }'
+    review_reports: [$reports[] | { checks: review_scope, url, updated_at: .updatedAt,
+                                    has_findings: has_findings, new }] }'
 
 snapshot() {
   if [ -n "$from_json" ]; then

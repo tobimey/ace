@@ -5,8 +5,9 @@
 Inspect the repository before writing your first message:
 
 1. **Layout**: check for a root workspace config (`workspaces` in `package.json`, `pnpm-workspace.yaml`, `turbo.json`, `nx.json`, `lerna.json`, `rush.json`, `[workspace]` in `Cargo.toml`, `go.work`, or `include` in `settings.gradle`) and count build manifests below the root outside vendored/generated paths. With no workspace config and at most one manifest, treat it as a single repo. Otherwise treat it as a monorepo and list each workspace package with its own checks (lint, typecheck, test, build) or app (dev/start command).
-2. **Step 1 facts**: check for `AGENTS.md`, `CLAUDE.md`, an existing glossary doc (`GLOSSARY.md`, `docs/CONTEXT.md`, etc.), project summary and target users from README/metadata, and up to five domain terms.
+2. **Step 1 facts**: check for `AGENTS.md`, `CLAUDE.md`, an existing glossary doc (`GLOSSARY.md`, `docs/CONTEXT.md`, etc.), existing coding standards or accepted-risks docs (such as `docs/CODING_STANDARDS.md`, or one the agents file tells agents to follow), project summary and target users from README/metadata, and up to five domain terms.
 3. **Step 2 facts**: read CI workflows and build scripts for lint, typecheck, test, build, and other CI checks; find the dev command, port, and env setup; pick behavior-check tools per [contract/VERIFY.md](../ace-mode/shared/adapters/contract/VERIFY.md).
+4. **Step 4 facts**: list the project's own skills (in `.agents/skills/`, `.claude/skills/`, `.cursor/skills/`, not `ace-*`) whose whole job an Ace skill already does, such as planning, grilling, writing tickets, implementing, reviewing, opening or babysitting pull requests, auditing, retros, or explaining. Pair each with its Ace skill. Leave out a skill that adds project-specific work Ace lacks, such as a docs fixer or a label-moving runner, and note what it adds.
 
 ## Step cards
 
@@ -15,12 +16,13 @@ Print each step as the step card in [SKILL.md](SKILL.md), with `<Y>` = 4 and the
 ## Step 1 of 4 · 📝 Project & Glossary
 
 - **Why:** Gives every agent a short summary of your project and shared terms so it uses the right names from day one.
-- **What I found:** `Project` (2-3 sentences, or ask if missing), `Users` (or ask if missing), `Key terms` (up to 5, pointer to existing glossary doc, or "None defined yet"), `Layout` (monorepo package list only; omit in single repo), `Files` (what will be created/updated).
+- **What I found:** `Project` (2-3 sentences, or ask if missing), `Users` (or ask if missing), `Key terms` (up to 5, pointer to existing glossary doc, or "None defined yet"), `Coding standards` (existing docs Ace will follow; omit when none), `Layout` (monorepo package list only; omit in single repo), `Files` (what will be created/updated).
 - **Question:** Save this project overview? **A)** Yes, save and continue to Step 2 · **B)** Adjust something · **C)** Skip this step.
   - When only `CLAUDE.md` exists, make **A** move it to `AGENTS.md` and point `CLAUDE.md` at `@AGENTS.md`, and add a choice to keep `CLAUDE.md` as the root file. Ask for missing `<PROJECT_SUMMARY>` or `<USER>` before saving.
 - **On confirm:**
   - Create `AGENTS.md` from [templates/ROOT_AGENTS_FILE.md](templates/ROOT_AGENTS_FILE.md) when missing, and create `CLAUDE.md` containing `@AGENTS.md` when `AGENTS.md` exists without `CLAUDE.md`.
   - Add the Glossary section (with `<!-- added by ace -->` above it) when missing, or add only missing lines. Point to an existing glossary doc with ``Read `<path>` for project terms and detail.`` and drop `<TERMS>`; otherwise fill up to five terms as `- **term**: definition. Not: other words for it.` (omitting `Not:` when unused, or dropping `<TERMS>` when none exist).
+  - When existing coding standards docs were found and `ace/CODING_STANDARDS.md` is missing, create it as a pointer that keeps them where they are: a `# Coding standards` heading and one ``Read `<path>` in full.`` line per doc, naming what each holds (such as rules or accepted risks).
 
 ## Step 2 of 4 · 🧪 Checks & Verification
 
@@ -49,9 +51,9 @@ Skip to Step 4 if the user skipped Step 2.
 Show the test outcome banner (`✅ All checks passed`, `⚠️ Checks ran with notes: <1-line note>`, or `⏭️ Skipped testing`).
 
 - **Why:** Adds a short `## Ace` section to `<root agents file>` so every future session loads Ace automatically and edits files only when you ask.
-- **What will change:** `File` (`<root agents file>`, appending `## Ace` while keeping existing content), `What it enables` (automatic routing for planning, fixing, building, verifying, and reviewing).
-- **Question:** Turn Ace on and finish core setup? **A)** Yes, turn Ace on · **B)** Show me the exact lines first.
-- **On confirm:** apply "Reference: root agents section" below, then show Finish.
+- **What will change:** `File` (`<root agents file>`, appending `## Ace` while keeping existing content), `What it enables` (automatic routing for planning, fixing, building, verifying, and reviewing), `Duplicate skills` (only when the scan found some: one bullet per skill, `<skill>` → `<Ace skill>`; then the kept skills and what they add).
+- **Question:** Turn Ace on and finish core setup? **A)** Yes, turn Ace on (and delete the duplicate skills, when listed) · **B)** Show me the exact lines first · **C)** (only with duplicates) Turn Ace on, but keep some duplicates (name them).
+- **On confirm:** apply "Reference: root agents section" below. Delete each confirmed duplicate: its folder in every skills directory (symlinks included), its `skills-lock.json` entry, and the agents-file lines that route to it. List other files that still name it, without editing them. Then show Finish.
 
 ## Finish
 

@@ -17,8 +17,8 @@
       "description": "How much agents do without a person: who sets a ticket ready, which findings ace-review and ace-babysit-pr fix, and what happens to a ticket ace-work-ticket rejects as already done or wrong.",
       "enumDescriptions": [
         "A person sets every ticket ready, reviews fix nothing, and a rejected ticket waits for a person.",
-        "A person sets every ticket ready, reviews fix what has one clearly correct fix, and a rejected ticket waits for a person.",
-        "Tickets from a plan a person approved go ready on their own, reviews also pick a fix when several are reasonable, and ace-work-ticket closes a ticket it rejects. Tickets from ace-audit still wait for a person."
+        "A person sets every ticket ready, automated or fix-requested reviews fix what has one clearly correct fix (interactive reviews stay read-only and offer fixes locally), and a rejected ticket waits for a person.",
+        "Tickets from a plan a person approved go ready on their own, automated or fix-requested reviews also pick a fix when several are reasonable, and ace-work-ticket closes a ticket it rejects. Tickets from ace-audit still wait for a person."
       ]
     },
     "communication": {
@@ -48,6 +48,19 @@
           "type": "boolean",
           "default": false,
           "description": "When true, a session never reviews a change it built: it gives the line to send to another model, such as a new session on a different model or the user's runner. When false, it reviews the change on request and adds a one-line tip that a different model catches more."
+        }
+      }
+    },
+    "pull_requests": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "How big a pull request may get, so a person and ace-review can still review it.",
+      "properties": {
+        "max_added_lines": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1000,
+          "description": "The most lines one pull request may add. Binary files, lockfiles, snapshots, and files .gitattributes marks linguist-generated do not count. ace-to-ticket sizes tickets to fit, ace-implement stops to propose a cut when it nears the limit, and ace-open-pr pushes nothing past it unless the user says so. 0 turns the limit off."
         }
       }
     },

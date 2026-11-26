@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Review
 
-Review the diff with its checks, fix what the review settings allow, and write the rest as findings. Done means each picked check ran, each fix the settings allow is made or written as a finding, the commands in the "Checks" section of `ace/VERIFY.md` pass after the fixes, the fixes are committed and pushed to its branch when the caller passed a pull request, on a pull request Merge Danger is in its description, and the report is posted when the caller asked.
+Review the diff with its checks, fix what the mode and settings allow, and write the rest as findings. Done means each picked check ran, any allowed fixes were applied (or proposed in interactive chat) and pass `ace/VERIFY.md` checks, fixes on a pull request are committed and pushed, Merge Danger is in the pull request description, and the report is posted when asked.
 
 ## Requires
 
@@ -55,15 +55,12 @@ Read `ace/config.json` as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md)
 
 ### 1. Get the diff
 
-On a pull request, first get onto its head branch, so the files you read and fix are the ones it changes:
+Get the diff once, as "Get the diff" in [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) says. Every check reads this diff. Stop if it is empty and there is no untracked work.
 
-1. When the working tree has uncommitted changes, stop and say so.
-2. Note the current branch or commit, to switch back to in step 7.
-3. Check out the head branch as "Find a pull request" in [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) says, and pull it.
+On a pull request, check out its head branch only when this run will fix code (step 4) or needs full repo reads beyond the diff:
 
-Then get the diff once, as the "Get the diff" section of [PULL_REQUESTS.md](../ace-mode/shared/adapters/github/PULL_REQUESTS.md) says. Every check reads this diff.
-
-Stop if the diff is empty and there is no untracked work.
+- Already on that branch with a clean tree (such as in CI): pull and work in place.
+- Otherwise (dirty tree or another branch): fetch the head ref and add a temporary `git worktree` (such as under `mktemp -d`), work there, and remove it in step 7 so the user's workspace stays untouched.
 
 ### 2. Find
 
@@ -73,7 +70,7 @@ Merge the findings. When two findings name the same problem, keep the one in the
 
 ### 3. Pick the fixes
 
-A finding gets fixed when its fix type allows it under `autonomy`:
+In an unattended runner (or when the caller explicitly asked to fix), a finding gets fixed when its fix type allows it under `autonomy`:
 
 | Fix type | `low` | `medium` | `high` |
 |---|---|---|---|
@@ -81,11 +78,11 @@ A finding gets fixed when its fix type allows it under `autonomy`:
 | `several-fixes` | finding | finding | fixed, with the fix you judge best |
 | `needs-a-person` | finding | finding | finding |
 
-Every other finding stays a finding. When no finding gets fixed, go to step 7.
+In interactive chat without an explicit ask to fix, keep the review read only: edit and push nothing, list all findings in step 7, and for a local diff offer to apply the findings the table above allows. When no finding gets fixed, go to step 7.
 
 ### 4. Fix
 
-Make the picked fixes yourself, in this agent, also when the checks ran in sub-agents, so no two edits collide. A standards fix keeps behavior identical: the same control flow, return values, queries, cache keys, auth, and visible data. Note for each fix whether it came from Standards or Code.
+On a pull request not yet checked out, open the head branch as step 1 says before editing. Make the picked fixes yourself, in this agent, also when the checks ran in sub-agents, so no two edits collide. A standards fix keeps behavior identical: the same control flow, return values, queries, cache keys, auth, and visible data. Note for each fix whether it came from Standards or Code.
 
 ### 5. Run the checks
 
@@ -106,7 +103,7 @@ On a local diff, leave them uncommitted. The user commits.
 
 ### 7. Report
 
-On a pull request, switch back to the branch or commit you noted in step 1.
+If step 1 created a temporary worktree, remove it.
 
 Write the parts below in this order, as plain top-level paragraphs, outside any alert box or `>` blockquote. Prefer fewer findings.
 
@@ -122,7 +119,7 @@ Write the parts below in this order, as plain top-level paragraphs, outside any 
 3. **Findings.** Each finding left, in the shape the Finding section gives. When you fixed nothing and nothing is left, write `No findings.`
 4. **Merge Danger.** On a pull request only, as its section below says. Go straight from the last finding to it.
 
-When the caller asked to comment on the pull request, post the report without Merge Danger as one comment that starts with `<!-- ace-review -->` and the model line, as "Sign what you post" in [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says, replacing an earlier comment with that marker, as "Comment on a pull request" in [COMMENT.md](../ace-mode/shared/adapters/github/pull-requests/COMMENT.md) says.
+When the caller asked to comment on the pull request, post the report without Merge Danger as one comment whose line 1 is `<!-- ace-review --><!-- ace-review:CHECKS -->`, where CHECKS is the checks the caller named, such as `spec`, or `all`. The model line follows, as "Sign what you post" in [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says. Replace an earlier comment with the same `ace-review:CHECKS` marker, so each set of checks keeps its own comment, as "Comment on a pull request" in [COMMENT.md](../ace-mode/shared/adapters/github/pull-requests/COMMENT.md) says.
 
 ## Finding
 

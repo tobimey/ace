@@ -11,7 +11,7 @@ pr-state.sh NUMBER --repo REPO
 pr-state.sh NUMBER --repo REPO --wait 90
 ```
 
-It prints JSON. `verdict` is `ACTION`, `WAITING`, `READY`, `MERGED`, or `CLOSED`, and `reasons` says why. A `READY` draft has the reason `draft`: a person marks it ready. `--wait` polls while the verdict is `WAITING`, up to 90 seconds per call; re-run it to keep waiting. `review_report` points to the latest `<!-- ace-review -->` report. `pr-state.sh --help` says what counts as new and which Ace replies wait for a person.
+It prints JSON. `verdict` is `ACTION`, `WAITING`, `READY`, `MERGED`, or `CLOSED`, and `reasons` says why. A `READY` draft has the reason `draft`: a person marks it ready. `--wait` polls while the verdict is `WAITING`, up to 90 seconds per call; re-run it to keep waiting. `review_reports` lists the latest `<!-- ace-review -->` report of each set of checks. `pr-state.sh --help` says what counts as new and which Ace replies wait for a person.
 
 ## Check logs
 

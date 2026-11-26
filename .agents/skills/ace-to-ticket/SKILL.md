@@ -38,14 +38,14 @@ After you understand the spec, pick a mode. State the choice and one sentence wh
 **Use single-ticket mode** when **all** of these hold:
 
 - One cohesive end-to-end behaviour (one demoable outcome).
-- Honest **Size** is `S` or `M`, and the work fits in a **single fresh context window** for implementation.
+- Honest **Size** is `S` or `M`, and the work fits in a **single fresh context window** and one pull request within `pull_requests.max_added_lines` in `ace/config.json` (default `1000` added lines).
 - No natural tracer-bullet splits where each slice is independently valuable and demoable.
 - Not a **wide refactor** (see multiple-ticket mode).
 
 **Use multiple-ticket mode** when **any** of these hold:
 
 - The spec names multiple behaviours, phases, or milestones that should land as separate vertical slices.
-- Honest **Size** is `L` or `XL`, or the work clearly will not fit one context window.
+- Honest **Size** is `L` or `XL`, or the work clearly will not fit one context window or one pull request.
 - Dependencies between chunks mean some work must finish before other work can start (blocking edges).
 - A **wide refactor** applies: one mechanical change with blast radius across the codebase (rename column, retype shared symbol, etc.). Sequence expand → migrate batches → contract, each as its own ticket.
 
@@ -59,7 +59,7 @@ Show the user:
 - **What it delivers**: the end-to-end behaviour this ticket makes work
 - **Priority**, **Size**, and **Risk**, with the values OPEN_TICKET.md gives
 
-If **Size** would be `L` or `XL` or the work still will not fit one context window, **stop** before publishing. Say so and offer to switch to multiple-ticket mode.
+If **Size** would be `L` or `XL` or the work still will not fit one context window or one pull request, **stop** before publishing. Say so and offer to switch to multiple-ticket mode.
 
 When step 1 resolved a ticket, say that its body gets the new shape and its current text moves into a comment.
 

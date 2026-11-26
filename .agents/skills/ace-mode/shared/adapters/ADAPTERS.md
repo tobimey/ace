@@ -22,7 +22,7 @@ Pull requests have no adapter. Ace supports them only on GitHub, as [github/PULL
 
 Take the first of these that has the section. Find a section by its job. Its heading may differ from the one a skill names. In step 1, the root file and the package files add up, so a section found in any of them counts.
 
-1. The file in `ace/`, and the same file in each package `ace` folder that covers the touched paths, as [contract/PACKAGES.md](contract/PACKAGES.md) says.
+1. The file in `ace/`, and the same file in each package `ace` folder that covers the touched paths, as [contract/PACKAGES.md](contract/PACKAGES.md) says. A file that points to a project doc, such as ``Read `docs/CODING_STANDARDS.md` in full.``, includes that doc.
 2. The adapter's built-in provider, when the table above selects it.
 3. The default in the adapter's contract file.
 

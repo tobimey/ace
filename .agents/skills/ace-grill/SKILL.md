@@ -50,7 +50,7 @@ How is done when no material decision remains open (including zero rounds when d
 1. Summarize the settled plan: each decision and its answer, and the glossary terms you noted.
 2. Add each term the user said yes to into the glossary, as "Docs" says.
 3. When `write_adrs` in `ace/config.json` is `true` (default `false`), write an ADR for each settled decision that meets the bar in [ADR.md](ADR.md). Name each new ADR in the summary.
-4. When a ticket is known, or the user chose a new one, run [ace-to-ticket](../ace-to-ticket/SKILL.md) with the settled plan as the spec (rewrite a known ticket; pass single-ticket mode when asked). Otherwise, when the work is bigger than `S`, write the settled plan to `ace/temporary-plans/<slug>.md` and leave it untracked.
+4. When a ticket is known, or the user chose a new one, run [ace-to-ticket](../ace-to-ticket/SKILL.md) with the settled plan as the spec (rewrite a known ticket; pass single-ticket mode when asked). Otherwise, when the work is bigger than `S`, write the settled plan to `ace/temporary-plans/<slug>.md` and add `ace/temporary-plans/` to `.gitignore` if missing.
 5. Stop. Hand back the ticket URLs, the temporary plan path (suggesting a fresh session with `Implement ace/temporary-plans/<slug>.md`), or say that the plan stays in chat.
 
 ## Docs

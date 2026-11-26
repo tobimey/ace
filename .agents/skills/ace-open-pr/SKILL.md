@@ -17,17 +17,19 @@ Open a pull request on GitHub for the current work, following [PULL_REQUESTS.md]
   - **Ticket**: name the ticket it closes in the form "Ticket references" in `ace/TICKET_TRACKER.md` gives, such as `Closes #42`.
   - **Verify file proposals**: copy each proposed line with its file path from `ace-verify` that the tree lacks, noting a person adds them. Place both in the fitting template section, or add `Proposed verify file changes` at the end.
   - **Plan**: when the work builds a plan file in `ace/temporary-plans/`, copy it into a `Plan` section at the end, so a review elsewhere can check against it, and delete the file before you commit.
+- Stay within the size budget: `pull_requests.max_added_lines` in `ace/config.json` (default `1000`, `0` is off), read as [ADAPTERS.md](../ace-mode/shared/adapters/ADAPTERS.md) says. Count the lines the change adds against the merge base with `DEFAULT_BRANCH`, new files included. Skip binary files, lockfiles, snapshots, and paths `git check-attr linguist-generated` marks as set. Past the budget, push nothing: give the count and propose where to cut, so each part stays green alone and fits the budget, such as by behavior, by package, or expand, migrate, contract. Push past it only when the user says so in this conversation.
 - Push with a plain push and let every hook run.
 - Label every pull request `ace-created`. Add other labels only when the caller asks.
 
 ## Steps
 
 1. Check `git status`, `git diff`, `git log` against `DEFAULT_BRANCH`, and the current branch name.
-2. On `DEFAULT_BRANCH`, check out a short kebab-case branch from it. On any other branch, stay on it.
-3. If the tree is dirty, `git add` the existing changes and commit with the title line only.
-4. `git push -u origin HEAD`
-5. Create `ace-created` when `gh label list --limit 200 --json name --jq '.[].name' | grep -qx ace-created` finds none. Then run `gh pr create --draft --label ace-created --title "TITLE" --body "$(cat <<'EOF' ... EOF)"`. Drop `--draft` when the user says ready, publish, or not draft.
-6. Reply with both URLs, nothing more:
+2. Count the added lines, and stop past the size budget.
+3. On `DEFAULT_BRANCH`, check out a short kebab-case branch from it. On any other branch, stay on it.
+4. If the tree is dirty, `git add` the existing changes and commit with the title line only.
+5. `git push -u origin HEAD`
+6. Create `ace-created` when `gh label list --limit 200 --json name --jq '.[].name' | grep -qx ace-created` finds none. Then run `gh pr create --draft --label ace-created --title "TITLE" --body "$(cat <<'EOF' ... EOF)"`. Drop `--draft` when the user says ready, publish, or not draft.
+7. Reply with both URLs, nothing more:
 
 ```
 PR: <pr-url>

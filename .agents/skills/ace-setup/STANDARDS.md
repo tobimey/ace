@@ -2,6 +2,8 @@
 
 Configures `ace/CODING_STANDARDS.md` (and optional package standards in a monorepo), one decision per turn. Read [templates/CODING_STANDARDS.md](templates/CODING_STANDARDS.md) silently first. Total steps `<N>`: 4 (5 in a monorepo with package `ace/` folders).
 
+When the project keeps its standards in its own docs (a pointer in `ace/CODING_STANDARDS.md`, or docs found as Step 1 of [CORE.md](CORE.md) says), keep them there: read them, ask only for what they lack, and on save write the answers into `ace/CODING_STANDARDS.md` next to its pointer lines, which you create when missing. In Step 3, offer only the starter rules they lack.
+
 ## Step 1 of N · 🛡️ Trust boundaries
 
 - **Why:** Tells reviews and audits which users or internal services are already trusted, so Ace skips false security warnings between them.

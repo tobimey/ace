@@ -13,7 +13,7 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 
 ## Constraints
 
-- Change files only when the message asks: in words, such as "fix" or "do it", by naming a job that changes files, such as `Review pull request #12`, `Run ace-work-ticket.`, or `/ace-review`, or by saying yes to a change you proposed. Until then, run the read-only steps and propose the rest. A skill changes only what its Done names, within the settings in `ace/config.json`.
+- Change files only when the message asks: with an action verb (such as "fix", "implement", or "do it"), by naming an editing job (such as `Run ace-work-ticket.` or `/ace-garden`), or by saying yes to a proposal. A report without an action verb (such as "login is broken" or "search is slow") runs only read-only investigation and proposes the fix. A skill changes only what its Done names, within `ace/config.json`.
 - Load each skill from `../<name>/SKILL.md` (or `.agents/skills/<name>/SKILL.md` / `.claude/skills/<name>/SKILL.md`), follow it as written, and read each playbook file once. If a required skill is missing, tell the user to reinstall with `npx skills add tobimey/ace`.
 - Read project facts straight from `ace/` when the file exists; load [ADAPTERS.md](shared/adapters/ADAPTERS.md) only when a needed `ace/` file is missing or in unattended `Runner:` runs. With no `ace` folder, end the session's first reply with one line offering `ace-setup`.
 - Playbooks are internal. Keep playbook names and steps out of replies. Say what you do in plain words, such as "I'll fix the bug, then review the diff."
@@ -52,7 +52,7 @@ Ace mode is always on. For each message, pick the playbook below that matches it
 | Refactor | A change to the shape of the code that keeps what it does: rename, extract, move, merge, simplify | [BUILD.md](BUILD.md), section Refactor |
 | Build | A ticket, spec, or plan to implement, or a feature the conversation has settled | [BUILD.md](BUILD.md), section Build |
 | Babysit | An open pull request with work left before merge: "babysit PR #12", "fix the CI", "address the review comments", "check my open PRs", "watch it until it is green" | `ace-babysit-pr` with the pull requests the message names, in `watch` mode when it asks to watch |
-| Review | A diff, a branch, or a pull request to review | `ace-review` on that input. Pass only the checks the message asks for, such as `spec` for "check it against the ticket", and whether to comment on the pull request. Reply with its report. |
+| Review | A diff, a branch, or a pull request to review | `ace-review` on that input. Pass only the checks the message asks for, such as `spec`, whether to fix, and whether to comment on the pull request. Reply with its report. |
 | Garden | "Garden", or one small cleanup by topic: names, noisy comments, tautological tests, wrappers or props that only forward, outdated dependencies, or a custom check in `ace/checks/` | [BUILD.md](BUILD.md), section Garden |
 | Audit | "Audit", or a search for bugs, security holes, performance costs, standards breaks, or shallow modules across the repo | `ace-audit` with the domains the message names |
 | Improve the factory | Agents went wrong, or the user wants to change how agents are steered | A whole session to look back on, "retro", one named misbehaviour, or the agents file: `ace-optimize-factory`. A new or existing skill: `ace-skill-best-practices`. |
